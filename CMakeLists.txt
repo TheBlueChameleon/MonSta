@@ -72,10 +72,14 @@ include_directories(
 add_executable(App
     api/HostApi.hpp
     api/ILogger.hpp
+    api/Version.hpp
 
     host/main.cpp
+
     host/hostapiwrapper.hpp host/hostapiwrapper.cpp
     host/logger.hpp host/logger.cpp
+
+    host/clientwrapper.hpp host/clientwrapper.cpp
 )
 
 target_link_libraries(App
@@ -88,6 +92,9 @@ target_link_libraries(App
 # Gen 1 Engine
 
 add_library(Engine-Gen1 SHARED
+    api/HostApi.hpp
+    api/Version.hpp
+
     engine-gen1/entry.cpp
 )
 
