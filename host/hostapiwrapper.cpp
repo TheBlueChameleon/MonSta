@@ -1,3 +1,4 @@
+#include "constants.hpp"
 #include "hostapiwrapper.hpp"
 #include "logger.hpp"
 
@@ -5,6 +6,7 @@ HostApiWrapper HostApiWrapper::instance;
 
 
 HostApiWrapper::HostApiWrapper() : HostApi(
+        hostVersion,
         new Logger()
     )
 {}

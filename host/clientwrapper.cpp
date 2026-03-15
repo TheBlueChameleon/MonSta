@@ -6,8 +6,13 @@
 
 #include <spdlog/spdlog.h>
 
+#include <Version.hpp>
+
 #include "clientwrapper.hpp"
+#include "constants.hpp"
 #include "errors.hpp"
+#include "hostapiwrapper.hpp"
+#include "versionutils.hpp"
 
 #define FETCH(symbol) fetchCheckAndTransfer(&ClientWrapper::_##symbol, #symbol)
 
@@ -50,11 +55,6 @@ void ClientWrapper::loadEninge(const std::filesystem::__cxx11::path& enginePath)
     spdlog::trace("... SUCCESS!");
 }
 
-void ClientWrapper::assertVersion()
-{
-
-}
-
 void ClientWrapper::extractFunctions()
 {
     spdlog::trace("EXTRACTING FUNCTIONS ...");
@@ -65,26 +65,27 @@ void ClientWrapper::extractFunctions()
     spdlog::trace("... SUCCESS!");
 }
 
-ClientWrapper::ClientWrapper(const std::filesystem::path& enginePath)
+void ClientWrapper::assertVersionsBothSides()
 {
-    spdlog::debug("BOOTING ENGINE WRAPPER");
+    const auto clientVersion = getClientVersion();
 
-    loadEninge(enginePath);
-    assertVersion();
-    extractFunctions();
+    spdlog::trace("Client Version is {}", to_string(clientVersion));
+    spdlog::trace("Host Version is {}", to_string(hostVersion));
 
-    spdlog::debug("... DONE");
-}
-
-ClientWrapper::~ClientWrapper()
-{
-    if (handler)
+    if (clientVersion < minClientVersion)
     {
-#ifdef _WIN32
-        FreeLibrary(handler);
-#else
-        dlclose(handler);
-#endif
+        spdlog::critical("Client Version is {} but at least Version {} is required for this host.",
+                         to_string(clientVersion),
+                         to_string(hostVersion)
+                        );
+        throw CriticalAbort();
+    }
+
+    const auto connected = connectToHost(HostApiWrapper::GetInstancePtr());
+    if (!connected)
+    {
+        spdlog::critical("Client refused the connection.");
+        throw CriticalAbort();
     }
 }
 
@@ -109,12 +110,35 @@ void* ClientWrapper::findSymbol(const char* const symbolName)
     return symbol;
 }
 
+bool ClientWrapper::connectToHost(HostApi* hostApi) const
+{
+    return _connectToHost(hostApi);
+}
+
+ClientWrapper::ClientWrapper(const std::filesystem::path& enginePath)
+{
+    spdlog::debug("BOOTING ENGINE WRAPPER");
+
+    loadEninge(enginePath);
+    extractFunctions();
+    assertVersionsBothSides();
+
+    spdlog::debug("... DONE");
+}
+
+ClientWrapper::~ClientWrapper()
+{
+    if (handler)
+    {
+#ifdef _WIN32
+        FreeLibrary(handler);
+#else
+        dlclose(handler);
+#endif
+    }
+}
+
 Version ClientWrapper::getClientVersion() const
 {
     return _getClientVersion();
-}
-
-void ClientWrapper::connectToHost(HostApi* hostApi) const
-{
-
 }

@@ -3,8 +3,11 @@
 
 #include <HostApi.hpp>
 
+extern Version clientVersion;
+extern Version minimalHostVersion;
+
 extern "C" {
-    void connectToHost(HostApi*);
+    bool connectToHost(HostApi*);
 }
 
 #endif // CLIENTAPI_HPP

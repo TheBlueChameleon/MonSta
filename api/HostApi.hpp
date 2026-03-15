@@ -1,16 +1,23 @@
 #ifndef HOSTAPI_HPP
 #define HOSTAPI_HPP
 
+#include <Version.hpp>
+
 #include "ILogger.hpp"
 
 struct HostApi
 {
     protected:
-        HostApi(ILogger* const logger) :
+        HostApi(
+            Version hostVersion,
+            ILogger* const logger
+        ) :
+            hostVersion(hostVersion),
             logger(logger)
         {}
 
     public:
+        const Version hostVersion;
         ILogger* const logger;
 };
 

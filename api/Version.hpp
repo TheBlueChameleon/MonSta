@@ -1,12 +1,15 @@
 #ifndef VERSION_HPP
 #define VERSION_HPP
 
+#include <iostream>
+#include <string>
+
 struct Version
 {
-    const unsigned major;
-    const unsigned minor;
-    const unsigned patch;
-    const unsigned build;
+    const unsigned major = 0;
+    const unsigned minor = 0;
+    const unsigned patch = 0;
+    const unsigned build = 0;
 };
 
 #endif // VERSION_HPP

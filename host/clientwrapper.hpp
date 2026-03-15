@@ -16,23 +16,24 @@ class ClientWrapper
 #endif
 
         Version(*_getClientVersion)();
-        void(*_connectToHost)(HostApi* hostApi);
+        bool(*_connectToHost)(HostApi* hostApi);
 
         template<typename T>
         void fetchCheckAndTransfer(T ClientWrapper::* offset, const char* const symbol);
 
         void loadEninge(const std::filesystem::path& enginePath);
-        void assertVersion();
         void extractFunctions();
+        void assertVersionsBothSides();
+
+    protected:
+        void* findSymbol(const char* const symbolName);
+        bool connectToHost(HostApi* hostApi) const;
 
     public:
         ClientWrapper(const std::filesystem::path& enginePath);
         ~ClientWrapper();
 
-        void* findSymbol(const char* const symbolName);
-
         Version getClientVersion() const;
-        void connectToHost(HostApi* hostApi) const;
 };
 
 #endif // CLIENTWRAPPER_HPP
