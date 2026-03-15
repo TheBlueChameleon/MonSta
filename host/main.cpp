@@ -1,6 +1,7 @@
 #include <iostream>
 
-#include <HostAPI.hpp>
+#include <HostApi.hpp>
+#include "hostapiwrapper.hpp"
 #include "logger.hpp"
 
 #ifdef _WIN32
@@ -46,20 +47,15 @@ void loadAndCallSO()
     }
 
 
-    Logger logger;
-    logger.makeDefault();
-    logger.info("foo thy bar");
-
-    HostAPI hapi;
-    hapi.logger = &logger;
-
-    auto useHostLogger = reinterpret_cast<void(*)(HostAPI*)>(symbol);
-    useHostLogger(&hapi);
+    auto useHostLogger = reinterpret_cast<void(*)(HostApi*)>(symbol);
+    useHostLogger(HostApiWrapper::GetInstancePtr());
 
     dlclose(handler);
 }
 
 int main()
 {
+    HostApiWrapper::GetInstance().logger->info("foo thy bar");
+
     loadAndCallSO();
 }

@@ -70,10 +70,11 @@ include_directories(
 # Main App
 
 add_executable(App
-    api/HostAPI.hpp
+    api/HostApi.hpp
     api/ILogger.hpp
 
     host/main.cpp
+    host/hostapiwrapper.hpp host/hostapiwrapper.cpp
     host/logger.hpp host/logger.cpp
 )
 

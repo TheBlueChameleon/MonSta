@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include <HostAPI.hpp>
+#include <HostApi.hpp>
 
 extern "C" {
     void foo()
@@ -8,7 +8,7 @@ extern "C" {
         std::cout << "about to foo thy bar." << std::endl;
     }
 
-    void useHostLogger(HostAPI* api)
+    void useHostLogger(HostApi* api)
     {
         api->logger->info("thy bar has been foo'd");
     }
