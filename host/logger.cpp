@@ -43,7 +43,7 @@ void Logger::setPattern(const std::string_view& pattern)
     }
 }
 
-std::optional<std::string> Logger::getLogFile() const
+std::optional<std::filesystem::__cxx11::path> Logger::getLogFile() const
 {
     if (logfileSinkIndex == -1)
     {
@@ -55,13 +55,13 @@ std::optional<std::string> Logger::getLogFile() const
     }
 }
 
-void Logger::setLogFile(std::string_view filename)
+void Logger::setLogFile(const std::filesystem::path& filename)
 {
     std::shared_ptr<spdlog::sinks::sink> fileSink;
     try
     {
         fileSink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(
-                       filename.data(),
+                       filename.c_str(),
                        /*truncate = */true
                    );
         fileSink->set_level(static_cast<spdlog::level::level_enum>(getLogLevel()));
@@ -69,7 +69,7 @@ void Logger::setLogFile(std::string_view filename)
     }
     catch (const spdlog::spdlog_ex& ex)
     {
-        ILogger::error("Could not set log file to '{}': {}", filename.data(), ex.what());
+        ILogger::error("Could not set log file to '{}': {}", filename.c_str(), ex.what());
         return;
     }
 

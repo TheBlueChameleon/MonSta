@@ -1,6 +1,7 @@
 #ifndef ILOGGER_HPP
 #define ILOGGER_HPP
 
+#include <filesystem>
 #include <format>
 #include <memory>
 #include <optional>
@@ -30,8 +31,8 @@ struct ILogger
     virtual const std::string& getPattern() const = 0;
     virtual void setPattern(const std::string_view& pattern) = 0;
 
-    virtual std::optional<std::string> getLogFile() const = 0;
-    virtual void setLogFile(std::string_view format) = 0;
+    virtual std::optional<std::filesystem::path> getLogFile() const = 0;
+    virtual void setLogFile(const std::filesystem::path& filename) = 0;
     virtual void unsetLogFile() = 0;
 
     virtual void trace(std::string_view msg) const = 0;

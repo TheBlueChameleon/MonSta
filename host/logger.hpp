@@ -1,6 +1,7 @@
 #ifndef LOGGER_HPP
 #define LOGGER_HPP
 
+#include <filesystem>
 #include <string>
 
 #include <spdlog/spdlog.h>
@@ -12,7 +13,7 @@ class Logger : public virtual ILogger
     private:
         std::shared_ptr<spdlog::logger> logger;
         std::string pattern;
-        std::string logfile;
+        std::filesystem::path logfile;
         int logfileSinkIndex = -1;
 
     public:
@@ -25,8 +26,8 @@ class Logger : public virtual ILogger
         const std::string& getPattern() const;
         void setPattern(const std::string_view& pattern);
 
-        std::optional<std::string> getLogFile() const;
-        void setLogFile(std::string_view filename);
+        std::optional<std::filesystem::path> getLogFile() const;
+        void setLogFile(const std::filesystem::path& filename);
         void unsetLogFile();
 
         void trace(std::string_view msg) const;
