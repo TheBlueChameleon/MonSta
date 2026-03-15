@@ -3,6 +3,7 @@
 
 #include <filesystem>
 
+#include <HostApi.hpp>
 #include <Version.hpp>
 
 class ClientWrapper
@@ -15,6 +16,7 @@ class ClientWrapper
 #endif
 
         Version(*_getClientVersion)();
+        void(*_connectToHost)(HostApi* hostApi);
 
         template<typename T>
         void fetchCheckAndTransfer(T ClientWrapper::* offset, const char* const symbol);
@@ -30,6 +32,7 @@ class ClientWrapper
         void* findSymbol(const char* const symbolName);
 
         Version getClientVersion() const;
+        void connectToHost(HostApi* hostApi) const;
 };
 
 #endif // CLIENTWRAPPER_HPP

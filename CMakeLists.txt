@@ -70,11 +70,14 @@ include_directories(
 # Main App
 
 add_executable(App
+    api/Version.hpp
     api/HostApi.hpp
     api/ILogger.hpp
-    api/Version.hpp
 
     host/main.cpp
+    host/errors.hpp
+    host/constants.hpp host/constants.cpp
+    host/versionutils.hpp host/versionutils.cpp
 
     host/hostapiwrapper.hpp host/hostapiwrapper.cpp
     host/logger.hpp host/logger.cpp
@@ -89,27 +92,29 @@ target_link_libraries(App
 )
 
 # ---------------------------------------------------------------------------- #
+# Engine Base
+
+add_library(Engine-Base STATIC
+    api/Version.hpp
+    api/HostApi.hpp
+    api/ClientApi.hpp
+
+    engine-base/entry.cpp
+)
+
+target_compile_options(Engine-Base PRIVATE -fPIC)
+
+# ---------------------------------------------------------------------------- #
 # Gen 1 Engine
 
 add_library(Engine-Gen1 SHARED
-    api/HostApi.hpp
     api/Version.hpp
+    api/HostApi.hpp
 
-    engine-gen1/entry.cpp
+    engine-gen1/foo.cpp
 )
 
 target_link_libraries(Engine-Gen1 PUBLIC
-    spdlog
+    Engine-Base
 )
 
-# ---------------------------------------------------------------------------- #
-# Experimental
-
-add_executable(Playground
-    playground/main.cpp
-)
-
-target_link_libraries(Playground
-    nlohmann_json::nlohmann_json
-    nlohmann_json_schema_validator
-)

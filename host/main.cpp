@@ -13,7 +13,7 @@
 
 int main()
 {
-    HostApiWrapper::GetInstance().logger->info("foo thy bar");
+    HostApiWrapper::getLogger().makeDefault();
 
     ClientWrapper cw("./libEngine-Gen1.so");
     std::cout << cw.getClientVersion().minor << std::endl;

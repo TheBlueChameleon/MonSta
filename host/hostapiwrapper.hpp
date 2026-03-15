@@ -2,6 +2,7 @@
 #define HOSTAPIWRAPPER_HPP
 
 #include <HostApi.hpp>
+#include "logger.hpp"
 
 class HostApiWrapper : public HostApi
 {
@@ -18,6 +19,8 @@ class HostApiWrapper : public HostApi
 
         static HostApiWrapper& GetInstance();
         static HostApiWrapper* GetInstancePtr();
+
+        static Logger& getLogger();
 };
 
 #endif // HOSTAPIWRAPPER_HPP

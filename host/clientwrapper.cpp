@@ -7,6 +7,7 @@
 #include <spdlog/spdlog.h>
 
 #include "clientwrapper.hpp"
+#include "errors.hpp"
 
 #define FETCH(symbol) fetchCheckAndTransfer(&ClientWrapper::_##symbol, #symbol)
 
@@ -19,7 +20,7 @@ void ClientWrapper::fetchCheckAndTransfer(T ClientWrapper::*offset, const char* 
     if (target == nullptr)
     {
         spdlog::critical("COULD NOT EXTRACT FUNCTION {}", symbol);
-        throw 0/*CriticalAbort()*/;
+        throw CriticalAbort();
     }
     else
     {
@@ -43,7 +44,7 @@ void ClientWrapper::loadEninge(const std::filesystem::__cxx11::path& enginePath)
     {
         spdlog::critical("COULD NOT LOAD {}", enginePath.c_str());
         spdlog::critical(dlerror());
-        throw 0/*CriticalAbort()*/;
+        throw CriticalAbort();
     }
 
     spdlog::trace("... SUCCESS!");
@@ -59,6 +60,7 @@ void ClientWrapper::extractFunctions()
     spdlog::trace("EXTRACTING FUNCTIONS ...");
 
     FETCH(getClientVersion);
+    FETCH(connectToHost);
 
     spdlog::trace("... SUCCESS!");
 }
@@ -110,4 +112,9 @@ void* ClientWrapper::findSymbol(const char* const symbolName)
 Version ClientWrapper::getClientVersion() const
 {
     return _getClientVersion();
+}
+
+void ClientWrapper::connectToHost(HostApi* hostApi) const
+{
+
 }

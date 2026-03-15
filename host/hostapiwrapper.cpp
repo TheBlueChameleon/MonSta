@@ -19,6 +19,11 @@ HostApiWrapper* HostApiWrapper::GetInstancePtr()
     return &instance;
 }
 
+Logger& HostApiWrapper::getLogger()
+{
+    return *reinterpret_cast<Logger*>(HostApiWrapper::GetInstance().logger);
+}
+
 HostApiWrapper::~HostApiWrapper()
 {
     delete logger;
