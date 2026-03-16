@@ -3,7 +3,7 @@
 
 #include <Version.hpp>
 
-extern const Version hostVersion;
-extern const Version minClientVersion;
+extern const Version HOST_VERSION;
+extern const Version MIN_CLIENT_VERSION;
 
 #endif // CONSTANTS_HPP

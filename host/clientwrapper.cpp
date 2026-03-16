@@ -69,14 +69,14 @@ void ClientWrapper::assertVersionsBothSides()
 {
     const auto clientVersion = getClientVersion();
 
-    spdlog::trace("Client Version is {}", to_string(clientVersion));
-    spdlog::trace("Host Version is {}", to_string(hostVersion));
+    spdlog::trace("Client Version is {}", VersionUtils::to_string(clientVersion));
+    spdlog::trace("Host Version is {}", VersionUtils::to_string(HOST_VERSION));
 
-    if (clientVersion < minClientVersion)
+    if (clientVersion < MIN_CLIENT_VERSION)
     {
         spdlog::critical("Client Version is {} but at least Version {} is required for this host.",
-                         to_string(clientVersion),
-                         to_string(hostVersion)
+                         VersionUtils::to_string(clientVersion),
+                         VersionUtils::to_string(HOST_VERSION)
                         );
         throw CriticalAbort();
     }

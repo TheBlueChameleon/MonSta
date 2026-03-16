@@ -2,6 +2,7 @@
 
 #include <HostApi.hpp>
 #include "clientwrapper.hpp"
+#include "errors.hpp"
 #include "hostapiwrapper.hpp"
 #include "logger.hpp"
 
@@ -29,7 +30,17 @@
 
 int main()
 {
-    HostApiWrapper::getLogger().makeDefault();
+    try
+    {
+        //HostApiWrapper::getLogger().setLogFile("foo.log");
+        HostApiWrapper::getLogger().makeDefault();
 
-    ClientWrapper cw("./libEngine-Gen1.so");
+        ClientWrapper cw("./libEngine-Gen1.so");
+    }
+    catch (const CriticalAbort& e)
+    {
+        std::cerr << e.what() << std::endl;
+        return -1;
+    }
+    return 0;
 }

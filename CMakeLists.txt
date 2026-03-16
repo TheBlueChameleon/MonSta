@@ -73,6 +73,7 @@ add_executable(App
     api/Version.hpp
     api/HostApi.hpp
     api/ILogger.hpp
+    api/IVersionUtils.hpp
 
     host/main.cpp
     host/errors.hpp
@@ -98,6 +99,7 @@ add_library(Engine-Base STATIC
     api/Version.hpp
     api/HostApi.hpp
     api/ClientApi.hpp
+    api/IVersionUtils.hpp
 
     engine-base/entry.cpp
 )

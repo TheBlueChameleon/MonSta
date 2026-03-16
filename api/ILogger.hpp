@@ -45,28 +45,28 @@ struct ILogger
     template <typename... Args>
     void trace(std::format_string<Args...> fmt, Args&& ...args) const
     {
-        const auto msg = std::format(fmt, args...);
+        const auto msg = std::format(fmt, std::forward<Args>(args)...);
         this->trace(msg);
     }
 
     template <typename... Args>
     void debug(std::format_string<Args...> fmt, Args&& ...args) const
     {
-        const auto msg = std::format(fmt, args...);
+        const auto msg = std::format(fmt, std::forward<Args>(args)...);
         this->debug(msg);
     }
 
     template <typename... Args>
     void info(std::format_string<Args...> fmt, Args&& ...args) const
     {
-        const auto msg = std::format(fmt, args...);
+        const auto msg = std::format(fmt, std::forward<Args>(args)...);
         this->info(msg);
     }
 
     template <typename... Args>
     void warn(std::format_string<Args...> fmt, Args&& ...args) const
     {
-        const auto msg = std::format(fmt, args...);
+        const auto msg = std::format(fmt, std::forward<Args>(args)...);
         this->warn(msg);
     }
 
@@ -80,7 +80,7 @@ struct ILogger
     template <typename... Args>
     void critical(std::format_string<Args...> fmt, Args&& ...args) const
     {
-        const auto msg = std::format(fmt, args...);
+        const auto msg = std::format(fmt, std::forward<Args>(args)...);
         this->critical(msg);
     }
 };

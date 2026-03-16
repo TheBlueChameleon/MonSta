@@ -3,18 +3,12 @@
 #include <ClientApi.hpp>
 #include <Version.hpp>
 
-Version clientVersion(0,1,0,0);
-Version minimalHostVersion(0,1,0,0);
+Version CLIENT_VERSION(0,1,0,0);
+Version MINIMAL_HOST_VERSION(0,1,0,0);
 
 extern "C" {
     Version getClientVersion()
     {
-        return clientVersion;
+        return CLIENT_VERSION;
     }
-}
-
-// this ensures "unused" functions from the static lib are still linked into the dyLib.
-void dummyCalls()
-{
-    connectToHost(nullptr);
 }

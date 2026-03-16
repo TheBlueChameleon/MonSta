@@ -3,11 +3,17 @@
 
 #include <HostApi.hpp>
 
-extern Version clientVersion;
-extern Version minimalHostVersion;
+extern Version CLIENT_VERSION;
+extern Version MINIMAL_HOST_VERSION;
 
 extern "C" {
     bool connectToHost(HostApi*);
+}
+
+// this ensures "unused" functions from the static lib are still linked into the dyLib.
+static void dummyCalls()
+{
+    connectToHost(nullptr);
 }
 
 #endif // CLIENTAPI_HPP
