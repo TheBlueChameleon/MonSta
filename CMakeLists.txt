@@ -101,7 +101,7 @@ add_library(Engine-Base STATIC
     api/ClientApi.hpp
     api/IVersionUtils.hpp
 
-    engine-base/entry.cpp
+    engine-base/entrypoint.cpp
 )
 
 target_compile_options(Engine-Base PRIVATE -fPIC)
@@ -113,7 +113,7 @@ add_library(Engine-Gen1 SHARED
     api/Version.hpp
     api/HostApi.hpp
 
-    engine-gen1/foo.cpp
+    engine-gen1/entrypoint.cpp
 )
 
 target_link_libraries(Engine-Gen1 PUBLIC
