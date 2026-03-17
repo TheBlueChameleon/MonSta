@@ -22,6 +22,20 @@ int main(const int argc, const char* const argv[])
         HostApiWrapper::getLogger().makeDefault();
 
         const auto cliInput = parseCliInput(argc, argv);
+        switch (cliInput.mode)
+        {
+            case CliInput::OperationMode::SIMULATION:
+                break;
+            case CliInput::OperationMode::TEMPLATE:
+                break;
+            case CliInput::OperationMode::REMOTE:
+                break;
+            case CliInput::OperationMode::HELP:
+                showModeHelp(cliInput.data);
+                break;
+            case CliInput::OperationMode::INVALID:
+                throw CriticalAbort("Invalid operation mode");
+        }
 
         //HostApiWrapper::getLogger().setLogFile("foo.log");
 
