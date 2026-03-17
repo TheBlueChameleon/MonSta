@@ -9,22 +9,12 @@ namespace VersionUtils
 {
     bool equal(const Version& lhs, const Version& rhs)
     {
-        if (lhs.major != rhs.major)
-        {
-            return false;
-        }
-        if (lhs.minor!= rhs.minor)
-        {
-            return false;
-        }
-        if (lhs.patch != rhs.patch)
-        {
-            return false;
-        }
-        if (lhs.build != rhs.build)
-        {
-            return false;
-        }
+        // *INDENT-OFF*
+        if (lhs.major != rhs.major) return false;
+        if (lhs.minor != rhs.minor) return false;
+        if (lhs.patch != rhs.patch) return false;
+        if (lhs.build != rhs.build) return false;
+        // *INDENT-ON*
 
         return true;
     }
@@ -36,42 +26,19 @@ namespace VersionUtils
 
     bool lessThan(const Version& lhs, const Version& rhs)
     {
-        if (lhs.major < rhs.major)
-        {
-            return true;
-        }
-        else if (lhs.major > rhs.major)
-        {
-            return false;
-        }
+        // *INDENT-OFF*
+        if      (lhs.major < rhs.major) return true;
+        else if (lhs.major > rhs.major) return false;
 
-        if (lhs.minor < rhs.minor)
-        {
-            return true;
-        }
-        else if (lhs.minor > rhs.minor)
-        {
-            return false;
-        }
+        if      (lhs.minor < rhs.minor) return true;
+        else if (lhs.minor > rhs.minor) return false;
 
+        if      (lhs.patch < rhs.patch) return true;
+        else if (lhs.patch > rhs.patch) return false;
 
-        if (lhs.patch < rhs.patch)
-        {
-            return true;
-        }
-        else if (lhs.patch > rhs.patch)
-        {
-            return false;
-        }
-
-        if (lhs.build < rhs.build)
-        {
-            return true;
-        }
-        else if (lhs.build > rhs.build)
-        {
-            return false;
-        }
+        if      (lhs.build < rhs.build) return true;
+        else if (lhs.build > rhs.build) return false;
+        // *INDENT-ON*
 
         return false;
     }

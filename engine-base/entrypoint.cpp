@@ -46,7 +46,11 @@ bool allVersionUtilsPresent(const IVersionUtils& vu)
 
 bool hostVersionCompatible(const Version hostVersion, const IVersionUtils& vu)
 {
-    return false;
+    if (vu.lessThan(hostVersion, MINIMAL_HOST_VERSION))
+    {
+        return false;
+    }
+    return true;
 }
 
 extern "C" {

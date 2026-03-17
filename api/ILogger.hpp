@@ -85,9 +85,4 @@ struct ILogger
     }
 };
 
-constexpr auto DEFAULT_LOGGER_FILE = "MonSta.log";
-constexpr auto DEFALUT_LOGGER_NAME = "MonStaLogger";
-constexpr auto DEFAULT_LOGGER_PATTERN = "[%Y-%m-%d %H:%M:%S] [%l] %v";
-constexpr auto DEFAULT_LOGGER_LEVEL = ILogger::LogLevel::TRACE;
-
 #endif // ILOGGER_HPP

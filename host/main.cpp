@@ -1,10 +1,40 @@
 #include <iostream>
 
 #include <HostApi.hpp>
-#include "clientwrapper.hpp"
+
+#include "api/clientwrapper.hpp"
 #include "errors.hpp"
-#include "hostapiwrapper.hpp"
-#include "logger.hpp"
+#include "inputs.hpp"
+#include "api/hostapiwrapper.hpp"
+#include "api/logger.hpp"
+
+#include "cli/clihandler.hpp"
+
+Inputs getInputs()
+{
+    return Inputs();
+}
+
+int main(const int argc, const char* const argv[])
+{
+    try
+    {
+        HostApiWrapper::getLogger().makeDefault();
+
+        const auto cliInput = parseCliInput(argc, argv);
+
+        //HostApiWrapper::getLogger().setLogFile("foo.log");
+
+        ClientWrapper cw("./build-Desktop-Debug/libEngine-Gen1.so");
+    }
+    catch (const CriticalAbort& e)
+    {
+        std::cerr << e.what() << std::endl;
+        return -1;
+    }
+    return 0;
+}
+
 
 // void exportToTest_Version()
 // {
@@ -27,20 +57,3 @@
 //     std::cout << ve1 << " >  " << vl3 << ": " << (ve1 > vl3) << std::endl;
 //     std::cout << ve1 << " >  " << vl4 << ": " << (ve1 > vl4) << std::endl;
 // }
-
-int main()
-{
-    try
-    {
-        //HostApiWrapper::getLogger().setLogFile("foo.log");
-        HostApiWrapper::getLogger().makeDefault();
-
-        ClientWrapper cw("./libEngine-Gen1.so");
-    }
-    catch (const CriticalAbort& e)
-    {
-        std::cerr << e.what() << std::endl;
-        return -1;
-    }
-    return 0;
-}

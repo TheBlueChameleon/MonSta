@@ -42,4 +42,8 @@ class Logger : public virtual ILogger
         std::shared_ptr<spdlog::logger> expose();
 };
 
+constexpr auto DEFALUT_LOGGER_NAME = "MonStaLogger";
+constexpr auto DEFAULT_LOGGER_PATTERN = "[%Y-%m-%d %H:%M:%S] [%l] %v";
+constexpr auto DEFAULT_LOGGER_LEVEL = ILogger::LogLevel::TRACE;
+
 #endif // LOGGER_HPP

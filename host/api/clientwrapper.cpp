@@ -9,8 +9,8 @@
 #include <Version.hpp>
 
 #include "clientwrapper.hpp"
-#include "constants.hpp"
-#include "errors.hpp"
+#include "../constants.hpp"
+#include "../errors.hpp"
 #include "hostapiwrapper.hpp"
 #include "versionutils.hpp"
 
@@ -67,10 +67,12 @@ void ClientWrapper::extractFunctions()
 
 void ClientWrapper::assertVersionsBothSides()
 {
+    spdlog::trace("ASSERTING VERSION COMPATIBILITY ...");
+
     const auto clientVersion = getClientVersion();
 
-    spdlog::trace("Client Version is {}", VersionUtils::to_string(clientVersion));
-    spdlog::trace("Host Version is {}", VersionUtils::to_string(HOST_VERSION));
+    spdlog::trace("  ... Client Version is {}", VersionUtils::to_string(clientVersion));
+    spdlog::trace("  ... Host Version is {}", VersionUtils::to_string(HOST_VERSION));
 
     if (clientVersion < MIN_CLIENT_VERSION)
     {
@@ -82,11 +84,17 @@ void ClientWrapper::assertVersionsBothSides()
     }
 
     const auto connected = connectToHost(HostApiWrapper::GetInstancePtr());
-    if (!connected)
+    if (connected)
+    {
+        spdlog::trace("  ... Client accepted connection.");
+    }
+    else
     {
         spdlog::critical("Client refused the connection.");
         throw CriticalAbort();
     }
+
+    spdlog::trace("... SUCCESS!");
 }
 
 void* ClientWrapper::findSymbol(const char* const symbolName)

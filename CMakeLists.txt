@@ -63,6 +63,7 @@ set(JSON_BuildTests OFF CACHE INTERNAL "")
 # source file definitions
 
 include_directories(
+    "${argparse_SOURCE_DIR}/include"
     api
 )
 
@@ -74,16 +75,21 @@ add_executable(App
     api/HostApi.hpp
     api/ILogger.hpp
     api/IVersionUtils.hpp
+    api/MatchDefinitions.hpp
+
+    host/api/hostapiwrapper.hpp host/api/hostapiwrapper.cpp
+    host/api/clientwrapper.hpp host/api/clientwrapper.cpp
+    host/api/logger.hpp host/api/logger.cpp
+    host/api/versionutils.hpp host/api/versionutils.cpp
 
     host/main.cpp
     host/errors.hpp
     host/constants.hpp host/constants.cpp
-    host/versionutils.hpp host/versionutils.cpp
+    host/inputs.hpp
+    host/environmentdefinition.hpp
 
-    host/hostapiwrapper.hpp host/hostapiwrapper.cpp
-    host/logger.hpp host/logger.cpp
-
-    host/clientwrapper.hpp host/clientwrapper.cpp
+    host/cli/clihandler.hpp host/cli/clihandler.cpp
+    host/cli/cliinput.hpp
 )
 
 target_link_libraries(App
@@ -100,6 +106,7 @@ add_library(Engine-Base STATIC
     api/HostApi.hpp
     api/ClientApi.hpp
     api/IVersionUtils.hpp
+    api/MatchDefinitions.hpp
 
     engine-base/entrypoint.cpp
 )
@@ -112,6 +119,9 @@ target_compile_options(Engine-Base PRIVATE -fPIC)
 add_library(Engine-Gen1 SHARED
     api/Version.hpp
     api/HostApi.hpp
+    api/ClientApi.hpp
+    api/IVersionUtils.hpp
+    api/MatchDefinitions.hpp
 
     engine-gen1/entrypoint.cpp
 )

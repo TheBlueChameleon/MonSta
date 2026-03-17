@@ -1,0 +1,19 @@
+{
+    "environment" : {
+        "engine"      : "build-Desktop-Debug/libGen1-Engine.so",
+        "logfile"     : "run.log",
+        "loglevel"    : 0,
+        "repetitions" : 10,
+        "maxTurns"    : 100,
+        "threadCount" : 1
+    },
+
+    "matchDefinitions": {
+        "player1Team"       : "inputs/teams/usr.json",
+        "player1Strategy"   : "inputs/strategies/random.lua",
+        "player2Team"       : "inputs/teams/enemy.json",
+        "player2Strategy"   : "inputs/strategies/random.lua",
+        "pkmnDefs"          : "inputs/pkmnDefs/gen01.csv",
+        "moveDefs"          : "inputs/moveDefs/gen01.csv",
+    }
+}

@@ -1,6 +1,6 @@
 #include <functional>
 
-#include "constants.hpp"
+#include "../constants.hpp"
 #include "hostapiwrapper.hpp"
 #include "logger.hpp"
 #include "versionutils.hpp"
@@ -8,7 +8,7 @@
 HostApiWrapper HostApiWrapper::instance;
 
 HostApiWrapper::HostApiWrapper() : HostApi(
-        hostVersion,
+        HOST_VERSION,
         new Logger(),
         IVersionUtils(
             &VersionUtils::equal,
