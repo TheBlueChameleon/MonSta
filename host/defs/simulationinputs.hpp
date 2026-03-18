@@ -1,14 +1,14 @@
-#ifndef INPUTS_HPP
-#define INPUTS_HPP
+#ifndef SIMULATIONINPUTS_H
+#define SIMULATIONINPUTS_H
 
 #include <MatchDefinitions.hpp>
 
 #include "environmentdefinition.hpp"
 
-struct Inputs
+struct SimulationInputs
 {
     EnvironmentDefinition envDef;
     MatchDefinition       matchDef;
 };
 
-#endif // INPUTS_HPP
+#endif // SIMULATIONINPUTS_H

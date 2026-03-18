@@ -9,6 +9,7 @@ struct EnvironmentDefinition
 {
     std::filesystem::path engine;
     std::filesystem::path logfile;
+    std::filesystem::path output;
 
     ILogger::LogLevel loglevel;
     int repetitions;

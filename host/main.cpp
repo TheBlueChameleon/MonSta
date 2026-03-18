@@ -1,18 +1,116 @@
+#include <fstream>
 #include <iostream>
+#include <string>
+using namespace std::string_literals;
+
+#include <json.hpp>
+#include <json-schema.hpp>
 
 #include <HostApi.hpp>
 
 #include "api/clientwrapper.hpp"
-#include "errors.hpp"
-#include "inputs.hpp"
 #include "api/hostapiwrapper.hpp"
 #include "api/logger.hpp"
 
 #include "cli/clihandler.hpp"
 
-Inputs getInputs()
+#include "defs/simulationinputs.hpp"
+
+#include "constants.hpp"
+#include "errors.hpp"
+
+const nlohmann::json readJsonFile(const std::filesystem::path& source)
 {
-    return Inputs();
+    using Json = nlohmann::json;
+
+    try
+    {
+        std::ifstream hFile(source);
+        Json data = Json::parse(hFile);
+        return data;
+    }
+    catch (const Json::parse_error& err)
+    {
+        throw CriticalAbort(
+            "Error parsing JSON file '"s + source.c_str() + "'\n" +
+            err.what()
+        );
+    }
+}
+
+void validateJsonAgainstJson(const nlohmann::json& data, const nlohmann::json& schema, const std::string& origin)
+{
+    using Json = nlohmann::json;
+    using JsonValidator = nlohmann::json_schema::json_validator;
+
+    JsonValidator validator;
+    try
+    {
+        validator.set_root_schema(schema);
+    }
+    catch (const std::invalid_argument& e)
+    {
+        throw CriticalAbort(
+            "Invalid state of simulation schema:\n"s +
+            e.what()
+        );
+    }
+
+    try
+    {
+        validator.validate(data);
+    }
+    catch (const std::invalid_argument& e)
+    {
+        throw CriticalAbort(
+            "JSON data from '"s + origin + "' are invalid:\n" +
+            e.what()
+        );
+
+        std::cerr << "Validation failed, here is why: " << e.what() << "\n";
+    }
+}
+
+void handleSimulationInput(const std::filesystem::path& source)
+{
+    using Json = nlohmann::json;
+    using JsonValidator = nlohmann::json_schema::json_validator;
+
+    Json data = readJsonFile(source);
+    validateJsonAgainstJson(data, SCHEMA_SIMULATION, source.c_str());
+
+    std::cout << SCHEMA_SIMULATION << std::endl;
+}
+
+void handleTemplateInput(const std::filesystem::path& source)
+{
+
+}
+
+void handleRemoteInput(const std::string& socket)
+{
+    throw CriticalAbort("Remote System: Not Implemented yet");
+}
+
+void handleCliInput(const CliInput& cliInput)
+{
+    switch (cliInput.mode)
+    {
+        case CliInput::OperationMode::SIMULATION:
+            handleSimulationInput(cliInput.data);
+            break;
+        case CliInput::OperationMode::TEMPLATE:
+            handleTemplateInput(cliInput.data);
+            break;
+        case CliInput::OperationMode::REMOTE:
+            handleRemoteInput(cliInput.data);
+            break;
+        case CliInput::OperationMode::HELP:
+            showModeHelp(cliInput.data);
+            break;
+        case CliInput::OperationMode::INVALID:
+            throw CriticalAbort("Invalid operation mode");
+    }
 }
 
 int main(const int argc, const char* const argv[])
@@ -22,20 +120,7 @@ int main(const int argc, const char* const argv[])
         HostApiWrapper::getLogger().makeDefault();
 
         const auto cliInput = parseCliInput(argc, argv);
-        switch (cliInput.mode)
-        {
-            case CliInput::OperationMode::SIMULATION:
-                break;
-            case CliInput::OperationMode::TEMPLATE:
-                break;
-            case CliInput::OperationMode::REMOTE:
-                break;
-            case CliInput::OperationMode::HELP:
-                showModeHelp(cliInput.data);
-                break;
-            case CliInput::OperationMode::INVALID:
-                throw CriticalAbort("Invalid operation mode");
-        }
+        handleCliInput(cliInput);
 
         //HostApiWrapper::getLogger().setLogFile("foo.log");
 

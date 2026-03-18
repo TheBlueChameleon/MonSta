@@ -63,12 +63,14 @@ set(JSON_BuildTests OFF CACHE INTERNAL "")
 # source file definitions
 
 include_directories(
-    "${argparse_SOURCE_DIR}/include"
     api
+    "${json_SOURCE_DIR}/include/nlohmann"
 )
 
 # ---------------------------------------------------------------------------- #
 # Main App
+
+cmake_print_variables(json_SOURCE_DIR)
 
 add_executable(App
     api/Version.hpp
@@ -85,11 +87,17 @@ add_executable(App
     host/main.cpp
     host/errors.hpp
     host/constants.hpp host/constants.cpp
-    host/inputs.hpp
-    host/environmentdefinition.hpp
+
+    host/defs/simulationinputs.hpp
+    host/defs/environmentdefinition.hpp
 
     host/cli/clihandler.hpp host/cli/clihandler.cpp
     host/cli/cliinput.hpp
+)
+
+target_include_directories(App
+    PRIVATE "${argparse_SOURCE_DIR}/include"
+    PRIVATE "${json-schema-validator_SOURCE_DIR}/src/nlohmann"
 )
 
 target_link_libraries(App
