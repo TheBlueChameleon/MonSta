@@ -64,7 +64,19 @@ set(JSON_BuildTests OFF CACHE INTERNAL "")
 
 include_directories(
     api
-    "${json_SOURCE_DIR}/include/nlohmann"
+    "${json_SOURCE_DIR}/include/"
+)
+
+# ---------------------------------------------------------------------------- #
+# Shared
+
+set(apiHeaders
+    api/HostApi.hpp
+    api/ILogger.hpp
+    api/IVersionService.hpp
+    api/IJsonService.hpp
+    api/MatchDefinitions.hpp
+    api/Version.hpp
 )
 
 # ---------------------------------------------------------------------------- #
@@ -73,31 +85,29 @@ include_directories(
 cmake_print_variables(json_SOURCE_DIR)
 
 add_executable(App
-    api/Version.hpp
-    api/HostApi.hpp
-    api/ILogger.hpp
-    api/IVersionUtils.hpp
-    api/MatchDefinitions.hpp
+    ${apiHeaders}
 
-    host/api/hostapiwrapper.hpp host/api/hostapiwrapper.cpp
     host/api/clientwrapper.hpp host/api/clientwrapper.cpp
+    host/api/hostapiwrapper.hpp host/api/hostapiwrapper.cpp
     host/api/logger.hpp host/api/logger.cpp
-    host/api/versionutils.hpp host/api/versionutils.cpp
-
-    host/main.cpp
-    host/errors.hpp
-    host/constants.hpp host/constants.cpp
-
-    host/defs/simulationinputs.hpp
-    host/defs/environmentdefinition.hpp
+    host/api/versionservice.hpp host/api/versionservice.cpp
 
     host/cli/clihandler.hpp host/cli/clihandler.cpp
     host/cli/cliinput.hpp
+
+    host/defs/environmentdefinition.hpp
+    host/defs/simulationinputs.hpp
+
+    host/json/jsonservice.hpp host/json/jsonservice.cpp
+
+    host/constants.hpp host/constants.cpp
+    host/errors.hpp
+    host/main.cpp
 )
 
 target_include_directories(App
     PRIVATE "${argparse_SOURCE_DIR}/include"
-    PRIVATE "${json-schema-validator_SOURCE_DIR}/src/nlohmann"
+    PRIVATE "${json-schema-validator_SOURCE_DIR}/src/"
 )
 
 target_link_libraries(App
@@ -110,11 +120,7 @@ target_link_libraries(App
 # Engine Base
 
 add_library(Engine-Base STATIC
-    api/Version.hpp
-    api/HostApi.hpp
-    api/ClientApi.hpp
-    api/IVersionUtils.hpp
-    api/MatchDefinitions.hpp
+    ${apiHeaders}
 
     engine-base/entrypoint.cpp
 )
@@ -125,11 +131,7 @@ target_compile_options(Engine-Base PRIVATE -fPIC)
 # Gen 1 Engine
 
 add_library(Engine-Gen1 SHARED
-    api/Version.hpp
-    api/HostApi.hpp
-    api/ClientApi.hpp
-    api/IVersionUtils.hpp
-    api/MatchDefinitions.hpp
+    ${apiHeaders}
 
     engine-gen1/entrypoint.cpp
 )

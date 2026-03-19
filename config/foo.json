@@ -1,3 +1,6 @@
 {
-    "environment" : {"key": "value"}
+    "environment" : {
+        "engine": "value", // comment
+        "reportfile": "value"
+    }
 }

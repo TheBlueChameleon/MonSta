@@ -5,6 +5,8 @@
 
 CliInput parseCliInput(const int argc, const char* const argv[]);
 
-void showModeHelp(const std::string &data);
+void handleCliInput(const CliInput& cliInput);
+
+void showModeHelp(const std::string& data);
 
 #endif // CLIHANDLER_HPP

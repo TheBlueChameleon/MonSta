@@ -28,22 +28,22 @@ void Logger::setLogLevel(const LogLevel level)
     }
 }
 
-const std::string& Logger::getPattern() const
+const char* Logger::getPattern() const
 {
-    return this->pattern;
+    return this->pattern.c_str();
 }
 
-void Logger::setPattern(const std::string_view& pattern)
+void Logger::setPattern(const char* const pattern)
 {
     this->pattern = pattern;
 
     for (auto& sink : logger->sinks())
     {
-        sink->set_pattern(pattern.data());
+        sink->set_pattern(pattern);
     }
 }
 
-std::optional<std::filesystem::__cxx11::path> Logger::getLogFile() const
+std::optional<const char*> Logger::getLogFile() const
 {
     if (logfileSinkIndex == -1)
     {
@@ -51,17 +51,17 @@ std::optional<std::filesystem::__cxx11::path> Logger::getLogFile() const
     }
     else
     {
-        return this->logfile;
+        return this->logfile.c_str();
     }
 }
 
-void Logger::setLogFile(const std::filesystem::path& filename)
+void Logger::setLogFile(const char* const filename)
 {
     std::shared_ptr<spdlog::sinks::sink> fileSink;
     try
     {
         fileSink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(
-                       filename.c_str(),
+                       filename,
                        /*truncate = */true
                    );
         fileSink->set_level(static_cast<spdlog::level::level_enum>(getLogLevel()));
@@ -69,7 +69,7 @@ void Logger::setLogFile(const std::filesystem::path& filename)
     }
     catch (const spdlog::spdlog_ex& ex)
     {
-        ILogger::error("Could not set log file to '{}': {}", filename.c_str(), ex.what());
+        ILogger::error("Could not set log file to '{}': {}", filename, ex.what());
         return;
     }
 
@@ -98,32 +98,32 @@ void Logger::unsetLogFile()
     }
 }
 
-void Logger::trace(std::string_view msg) const
+void Logger::trace(const char* const msg) const
 {
     logger->trace(msg);
 }
 
-void Logger::debug(std::string_view msg) const
+void Logger::debug(const char* const msg) const
 {
     logger->debug(msg);
 }
 
-void Logger::info(std::string_view msg) const
+void Logger::info(const char* const msg) const
 {
     logger->info(msg);
 }
 
-void Logger::warn(std::string_view msg) const
+void Logger::warn(const char* const msg) const
 {
     logger->warn(msg);
 }
 
-void Logger::error(std::string_view msg) const
+void Logger::error(const char* const msg) const
 {
     logger->error(msg);
 }
 
-void Logger::critical(std::string_view msg) const
+void Logger::critical(const char* const msg) const
 {
     logger->critical(msg);
 }

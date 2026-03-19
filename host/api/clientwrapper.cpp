@@ -12,7 +12,7 @@
 #include "../constants.hpp"
 #include "../errors.hpp"
 #include "hostapiwrapper.hpp"
-#include "versionutils.hpp"
+#include "versionservice.hpp"
 
 #define FETCH(symbol) fetchCheckAndTransfer(&ClientWrapper::_##symbol, #symbol)
 
@@ -71,14 +71,14 @@ void ClientWrapper::assertVersionsBothSides()
 
     const auto clientVersion = getClientVersion();
 
-    spdlog::trace("  ... Client Version is {}", VersionUtils::to_string(clientVersion));
-    spdlog::trace("  ... Host Version is {}", VersionUtils::to_string(HOST_VERSION));
+    spdlog::trace("  ... Client Version is {}", VersionService::to_string(clientVersion));
+    spdlog::trace("  ... Host Version is {}", VersionService::to_string(HOST_VERSION));
 
     if (clientVersion < MIN_CLIENT_VERSION)
     {
         spdlog::critical("Client Version is {} but at least Version {} is required for this host.",
-                         VersionUtils::to_string(clientVersion),
-                         VersionUtils::to_string(HOST_VERSION)
+                         VersionService::to_string(clientVersion),
+                         VersionService::to_string(HOST_VERSION)
                         );
         throw CriticalAbort();
     }

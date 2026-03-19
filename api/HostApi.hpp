@@ -1,9 +1,10 @@
 #ifndef HOSTAPI_HPP
 #define HOSTAPI_HPP
 
-#include <IVersionUtils.hpp>
+#include <IVersionService.hpp>
 #include <Version.hpp>
 
+#include "IJsonService.hpp"
 #include "ILogger.hpp"
 
 struct HostApi
@@ -12,17 +13,22 @@ struct HostApi
         HostApi(
             const Version hostVersion,
             ILogger* const logger,
-            const IVersionUtils versionUtils
+            const IVersionService versionService,
+            const IJsonService    jsonService
         ) :
             hostVersion(hostVersion),
             logger(logger),
-            versionUtils(versionUtils)
+            versionService(versionService),
+            jsonService(jsonService)
         {}
 
     public:
         const Version hostVersion;
+
         ILogger* const logger;
-        const IVersionUtils versionUtils;
+
+        const IVersionService versionService;
+        const IJsonService    jsonService;
 };
 
 #endif // HOSTAPI_HPP

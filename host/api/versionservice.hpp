@@ -1,9 +1,9 @@
-#ifndef VERSIONUTILS_HPP
-#define VERSIONUTILS_HPP
+#ifndef VERSIONSERVICE_H
+#define VERSIONSERVICE_H
 
 #include <Version.hpp>
 
-namespace VersionUtils
+namespace VersionService
 {
     bool equal(const Version& lhs, const Version& rhs);
     bool notEqual(const Version& lhs, const Version& rhs);
@@ -25,4 +25,4 @@ bool operator>=(const Version& lhs, const Version& rhs);
 
 std::ostream& operator<<(std::ostream& os, const Version& v);
 
-#endif // VERSIONUTILS_HPP
+#endif // VERSIONSERVICE_H

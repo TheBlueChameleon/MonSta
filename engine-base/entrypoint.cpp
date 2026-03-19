@@ -6,7 +6,7 @@
 
 HostApi* hostapi;
 
-bool allVersionUtilsPresent(const IVersionUtils& vu)
+bool allVersionUtilsPresent(const IVersionService& vu)
 {
     if (vu.equal == nullptr)
     {
@@ -44,7 +44,7 @@ bool allVersionUtilsPresent(const IVersionUtils& vu)
     return true;
 }
 
-bool hostVersionCompatible(const Version hostVersion, const IVersionUtils& vu)
+bool hostVersionCompatible(const Version hostVersion, const IVersionService& vu)
 {
     if (vu.lessThan(hostVersion, MINIMAL_HOST_VERSION))
     {
@@ -63,16 +63,16 @@ extern "C" {
         }
 
         ILogger& logger = *(api->logger);
-        if (!allVersionUtilsPresent(api->versionUtils))
+        if (!allVersionUtilsPresent(api->versionService))
         {
             logger.critical("Not all VersionUtils have been initialized!");
             return false;
         }
-        if (!hostVersionCompatible(api->hostVersion, api->versionUtils))
+        if (!hostVersionCompatible(api->hostVersion, api->versionService))
         {
             logger.critical("Host Version is {} but at least Version {} is required for this host.",
-                            api->versionUtils.to_string(api->hostVersion),
-                            api->versionUtils.to_string(MINIMAL_HOST_VERSION)
+                            api->versionService.to_string(api->hostVersion),
+                            api->versionService.to_string(MINIMAL_HOST_VERSION)
                            );
             return false;
         }

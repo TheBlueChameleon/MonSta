@@ -1,12 +1,8 @@
 #ifndef ILOGGER_HPP
 #define ILOGGER_HPP
 
-#include <filesystem>
 #include <format>
-#include <memory>
 #include <optional>
-#include <string>
-#include <string_view>
 
 struct ILogger
 {
@@ -28,60 +24,60 @@ struct ILogger
     virtual LogLevel getLogLevel() const = 0;
     virtual void setLogLevel(const LogLevel level) = 0;
 
-    virtual const std::string& getPattern() const = 0;
-    virtual void setPattern(const std::string_view& pattern) = 0;
+    virtual const char* getPattern() const = 0;
+    virtual void setPattern(const char* const pattern) = 0;
 
-    virtual std::optional<std::filesystem::path> getLogFile() const = 0;
-    virtual void setLogFile(const std::filesystem::path& filename) = 0;
+    virtual std::optional<const char*> getLogFile() const = 0;
+    virtual void setLogFile(const char* const filename) = 0;
     virtual void unsetLogFile() = 0;
 
-    virtual void trace(std::string_view msg) const = 0;
-    virtual void debug(std::string_view msg) const = 0;
-    virtual void info(std::string_view msg) const = 0;
-    virtual void warn(std::string_view msg) const = 0;
-    virtual void error(std::string_view msg) const = 0;
-    virtual void critical(std::string_view msg) const = 0;
+    virtual void trace(const char* const msg) const = 0;
+    virtual void debug(const char* const msg) const = 0;
+    virtual void info(const char* const msg) const = 0;
+    virtual void warn(const char* const msg) const = 0;
+    virtual void error(const char* const msg) const = 0;
+    virtual void critical(const char* const msg) const = 0;
 
     template <typename... Args>
     void trace(std::format_string<Args...> fmt, Args&& ...args) const
     {
         const auto msg = std::format(fmt, std::forward<Args>(args)...);
-        this->trace(msg);
+        this->trace(msg.c_str());
     }
 
     template <typename... Args>
     void debug(std::format_string<Args...> fmt, Args&& ...args) const
     {
         const auto msg = std::format(fmt, std::forward<Args>(args)...);
-        this->debug(msg);
+        this->debug(msg.c_str());
     }
 
     template <typename... Args>
     void info(std::format_string<Args...> fmt, Args&& ...args) const
     {
         const auto msg = std::format(fmt, std::forward<Args>(args)...);
-        this->info(msg);
+        this->info(msg.c_str());
     }
 
     template <typename... Args>
     void warn(std::format_string<Args...> fmt, Args&& ...args) const
     {
         const auto msg = std::format(fmt, std::forward<Args>(args)...);
-        this->warn(msg);
+        this->warn(msg.c_str());
     }
 
     template <typename... Args>
     void error(std::format_string<Args...> fmt, Args&& ...args) const
     {
         const auto msg = std::format(fmt, std::forward<Args>(args)...);
-        this->error(msg);
+        this->error(msg.c_str());
     }
 
     template <typename... Args>
     void critical(std::format_string<Args...> fmt, Args&& ...args) const
     {
         const auto msg = std::format(fmt, std::forward<Args>(args)...);
-        this->critical(msg);
+        this->critical(msg.c_str());
     }
 };
 

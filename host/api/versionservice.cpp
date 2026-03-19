@@ -1,11 +1,11 @@
 #include <sstream>
 
-#include "versionutils.hpp"
+#include "versionservice.hpp"
 
 // ========================================================================== //
 // proper implementations
 
-namespace VersionUtils
+namespace VersionService
 {
     bool equal(const Version& lhs, const Version& rhs)
     {
@@ -74,7 +74,7 @@ namespace VersionUtils
 // ========================================================================== //
 // operator redirects
 
-using namespace VersionUtils;
+using namespace VersionService;
 
 bool operator==(const Version& lhs, const Version& rhs)
 {

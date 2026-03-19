@@ -3,8 +3,8 @@
 
 #include <string>
 
-#include <json.hpp>
-#include <json-schema.hpp>
+#include <nlohmann/json.hpp>
+#include <nlohmann/json-schema.hpp>
 
 #include <Version.hpp>
 
@@ -16,5 +16,7 @@ extern const std::string APP_VERSION;
 
 extern const nlohmann::json SCHEMA_SIMULATION;
 extern const nlohmann::json SCHEMA_TEMPLATE;
+
+static constexpr auto JKEY_ENVIRONMENT = "environment";
 
 #endif // CONSTANTS_HPP

@@ -1,24 +1,33 @@
 #include <functional>
 
+
+#include "../json/jsonservice.hpp"
+
 #include "../constants.hpp"
+
 #include "hostapiwrapper.hpp"
 #include "logger.hpp"
-#include "versionutils.hpp"
+#include "versionservice.hpp"
+#include "IJsonService.hpp"
 
 HostApiWrapper HostApiWrapper::instance;
 
 HostApiWrapper::HostApiWrapper() : HostApi(
         HOST_VERSION,
         new Logger(),
-        IVersionUtils(
-            &VersionUtils::equal,
-            &VersionUtils::notEqual,
-            &VersionUtils::lessThan,
-            &VersionUtils::lessOrEqual,
-            &VersionUtils::greaterThan,
-            &VersionUtils::greaterOrEqual,
-            &VersionUtils::streamInto,
-            &VersionUtils::to_string
+        IVersionService(
+            &VersionService::equal,
+            &VersionService::notEqual,
+            &VersionService::lessThan,
+            &VersionService::lessOrEqual,
+            &VersionService::greaterThan,
+            &VersionService::greaterOrEqual,
+            &VersionService::streamInto,
+            &VersionService::to_string
+        ),
+        IJsonService(
+            &readJsonFile,
+            &validateJsonAgainstJson
         )
     )
 {}

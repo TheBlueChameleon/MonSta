@@ -2,7 +2,6 @@
 #define LOGGER_HPP
 
 #include <filesystem>
-#include <string>
 
 #include <spdlog/spdlog.h>
 
@@ -23,19 +22,19 @@ class Logger : public virtual ILogger
         LogLevel getLogLevel() const;
         void setLogLevel(const LogLevel level);
 
-        const std::string& getPattern() const;
-        void setPattern(const std::string_view& pattern);
+        const char* getPattern() const;
+        void setPattern(const char* const pattern);
 
-        std::optional<std::filesystem::path> getLogFile() const;
-        void setLogFile(const std::filesystem::path& filename);
+        std::optional<const char*> getLogFile() const;
+        void setLogFile(const char* const filename);
         void unsetLogFile();
 
-        void trace(std::string_view msg) const;
-        void debug(std::string_view msg) const;
-        void info(std::string_view msg) const;
-        void warn(std::string_view msg) const;
-        void error(std::string_view msg) const;
-        void critical(std::string_view msg) const;
+        void trace(const char* const msg) const;
+        void debug(const char* const msg) const;
+        void info(const char* const msg) const;
+        void warn(const char* const msg) const;
+        void error(const char* const msg) const;
+        void critical(const char* const msg) const;
 
         // SpdLogger specifics
         void makeDefault() const;

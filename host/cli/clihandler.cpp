@@ -7,10 +7,22 @@ using namespace std::string_literals;
 #include <argparse/argparse.hpp>
 using ArgParser = argparse::ArgumentParser;
 
+#include <nlohmann/json.hpp>
+#include <nlohmann/json-schema.hpp>
+using Json = nlohmann::json;
+using JsonValidator = nlohmann::json_schema::json_validator;
+
+#include "../defs/environmentdefinition.hpp"
+
+#include "../json/jsonservice.hpp"
+
 #include "../constants.hpp"
 #include "../errors.hpp"
 
 #include "clihandler.hpp"
+
+// ========================================================================== //
+// parseCliInput
 
 void configureParser(ArgParser& parser)
 {
@@ -129,6 +141,72 @@ CliInput parseCliInput(const int argc, const char* const argv[])
 
     return readAndValidateParser(parser);
 }
+
+// ========================================================================== //
+// handleCliInput
+
+// .......................................................................... //
+// shared
+
+EnvironmentDefinition handleEnvironmentDefinition(const Json& data)
+{
+    EnvironmentDefinition result;
+
+    return result;
+}
+
+// .......................................................................... //
+// simulation
+
+void handleSimulationInput(const std::filesystem::path& source)
+{
+    Json data = readJsonFile(source);
+    validateJsonAgainstJson(data, SCHEMA_SIMULATION, source.c_str());
+    handleEnvironmentDefinition(data[JKEY_ENVIRONMENT]);
+}
+
+// .......................................................................... //
+// template
+
+void handleTemplateInput(const std::filesystem::path& source)
+{
+
+}
+
+// .......................................................................... //
+// remote
+
+void handleRemoteInput(const std::string& socket)
+{
+    throw CriticalAbort("Remote System: Not Implemented yet");
+}
+
+// .......................................................................... //
+// base
+
+void handleCliInput(const CliInput& cliInput)
+{
+    switch (cliInput.mode)
+    {
+        case CliInput::OperationMode::SIMULATION:
+            handleSimulationInput(cliInput.data);
+            break;
+        case CliInput::OperationMode::TEMPLATE:
+            handleTemplateInput(cliInput.data);
+            break;
+        case CliInput::OperationMode::REMOTE:
+            handleRemoteInput(cliInput.data);
+            break;
+        case CliInput::OperationMode::HELP:
+            showModeHelp(cliInput.data);
+            break;
+        case CliInput::OperationMode::INVALID:
+            throw CriticalAbort("Invalid operation mode");
+    }
+}
+
+// ========================================================================== //
+// showModeHelp
 
 void showModeHelp(const std::string& data)
 {

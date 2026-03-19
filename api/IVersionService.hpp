@@ -1,9 +1,9 @@
-#ifndef IVERSIONUTILS_HPP
-#define IVERSIONUTILS_HPP
+#ifndef IVERSIONSERVICE_H
+#define IVERSIONSERVICE_H
 
 #include <Version.hpp>
 
-struct IVersionUtils
+struct IVersionService
 {
     bool (*const equal)(const Version& lhs, const Version& rhs);
     bool (*const notEqual)(const Version& lhs, const Version& rhs);
@@ -15,4 +15,4 @@ struct IVersionUtils
     std::string(*const to_string)(const Version& v);
 };
 
-#endif // IVERSIONUTILS_HPP
+#endif // IVERSIONSERVICE_H
