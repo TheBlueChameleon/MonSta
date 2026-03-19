@@ -11,8 +11,9 @@ struct HostApi
 {
     protected:
         HostApi(
-            const Version hostVersion,
             ILogger* const logger,
+
+            const Version hostVersion,
             const IVersionService versionService,
             const IJsonService    jsonService
         ) :
@@ -23,10 +24,9 @@ struct HostApi
         {}
 
     public:
-        const Version hostVersion;
-
         ILogger* const logger;
 
+        const Version         hostVersion;
         const IVersionService versionService;
         const IJsonService    jsonService;
 };

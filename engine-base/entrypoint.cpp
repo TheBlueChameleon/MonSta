@@ -44,10 +44,22 @@ bool allVersionUtilsPresent(const IVersionService& vu)
     return true;
 }
 
-bool hostVersionCompatible(const Version hostVersion, const IVersionService& vu)
+bool hostVersionCompatible(const Version hostVersion, const IVersionService& vu, const HostApi* api)
 {
-    if (vu.lessThan(hostVersion, MINIMAL_HOST_VERSION))
+    if (vu.lessThan(hostVersion, MIN_HOST_VERSION))
     {
+        api->logger->critical("Host Version is {} but at least Version {} is required for this host.",
+                              api->versionService.to_string(api->hostVersion),
+                              api->versionService.to_string(MIN_HOST_VERSION)
+                             );
+        return false;
+    }
+    if (vu.greaterOrEqual(hostVersion, MAX_HOST_VERSION))
+    {
+        api->logger->critical("Host Version is {} but at least Version {} is required for this host.",
+                              api->versionService.to_string(api->hostVersion),
+                              api->versionService.to_string(MIN_HOST_VERSION)
+                             );
         return false;
     }
     return true;
@@ -61,19 +73,15 @@ extern "C" {
             std::cerr << "Logger was not initialized!" << std::endl;
             return false;
         }
-
         ILogger& logger = *(api->logger);
+
         if (!allVersionUtilsPresent(api->versionService))
         {
             logger.critical("Not all VersionUtils have been initialized!");
             return false;
         }
-        if (!hostVersionCompatible(api->hostVersion, api->versionService))
+        if (!hostVersionCompatible(api->hostVersion, api->versionService, api))
         {
-            logger.critical("Host Version is {} but at least Version {} is required for this host.",
-                            api->versionService.to_string(api->hostVersion),
-                            api->versionService.to_string(MINIMAL_HOST_VERSION)
-                           );
             return false;
         }
 

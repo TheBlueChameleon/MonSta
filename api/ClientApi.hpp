@@ -3,8 +3,9 @@
 
 #include <HostApi.hpp>
 
-extern Version CLIENT_VERSION;
-extern Version MINIMAL_HOST_VERSION;
+extern const Version CLIENT_VERSION;
+extern const Version MIN_HOST_VERSION;
+extern const Version MAX_HOST_VERSION;
 
 extern "C" {
     bool connectToHost(HostApi*);

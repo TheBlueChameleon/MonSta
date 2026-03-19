@@ -121,6 +121,7 @@ target_link_libraries(App
 
 add_library(Engine-Base STATIC
     ${apiHeaders}
+    api/ClientApi.hpp
 
     engine-base/entrypoint.cpp
 )
@@ -132,6 +133,7 @@ target_compile_options(Engine-Base PRIVATE -fPIC)
 
 add_library(Engine-Gen1 SHARED
     ${apiHeaders}
+    api/ClientApi.hpp
 
     engine-gen1/entrypoint.cpp
 )

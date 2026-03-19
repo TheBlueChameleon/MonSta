@@ -13,8 +13,8 @@
 HostApiWrapper HostApiWrapper::instance;
 
 HostApiWrapper::HostApiWrapper() : HostApi(
-        HOST_VERSION,
         new Logger(),
+        HOST_VERSION,
         IVersionService(
             &VersionService::equal,
             &VersionService::notEqual,
