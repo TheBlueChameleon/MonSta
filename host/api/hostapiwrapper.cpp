@@ -1,20 +1,27 @@
 #include <functional>
 
+#include <IJsonService.hpp>
 
 #include "../json/jsonservice.hpp"
 
 #include "../constants.hpp"
 
 #include "hostapiwrapper.hpp"
-#include "logger.hpp"
 #include "versionservice.hpp"
-#include "IJsonService.hpp"
+#include "loggerservice.hpp"
 
 HostApiWrapper HostApiWrapper::instance;
 
 HostApiWrapper::HostApiWrapper() : HostApi(
-        new Logger(),
         HOST_VERSION,
+        ILoggerService(
+            &LoggerService::trace,
+            &LoggerService::debug,
+            &LoggerService::info,
+            &LoggerService::warn,
+            &LoggerService::error,
+            &LoggerService::critical
+        ),
         IVersionService(
             &VersionService::equal,
             &VersionService::notEqual,
@@ -40,14 +47,4 @@ HostApiWrapper& HostApiWrapper::GetInstance()
 HostApiWrapper* HostApiWrapper::GetInstancePtr()
 {
     return &instance;
-}
-
-Logger& HostApiWrapper::getLogger()
-{
-    return *reinterpret_cast<Logger*>(HostApiWrapper::GetInstance().logger);
-}
-
-HostApiWrapper::~HostApiWrapper()
-{
-    delete logger;
 }

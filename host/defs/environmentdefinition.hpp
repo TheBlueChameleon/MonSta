@@ -3,7 +3,7 @@
 
 #include <filesystem>
 
-#include <ILogger.hpp>
+#include <ILoggerService.hpp>
 
 struct EnvironmentDefinition
 {
@@ -11,7 +11,7 @@ struct EnvironmentDefinition
     std::filesystem::path logfile;
     std::filesystem::path output;
 
-    ILogger::LogLevel loglevel;
+    ILoggerService::LogLevel loglevel;
     int repetitions;
     int maxTurns;
     int threadCount;

@@ -14,14 +14,12 @@ int main(const int argc, const char* const argv[])
 {
     try
     {
-        HostApiWrapper::getLogger().makeDefault();
-
         const auto cliInput = parseCliInput(argc, argv);
         handleCliInput(cliInput);
 
         //HostApiWrapper::getLogger().setLogFile("foo.log");
 
-        //ClientWrapper cw("./build-Desktop-Debug/libEngine-Gen1.so");
+        ClientWrapper cw("./build-Desktop-Debug/libEngine-Gen1.so");
     }
     catch (const CriticalAbort& e)
     {

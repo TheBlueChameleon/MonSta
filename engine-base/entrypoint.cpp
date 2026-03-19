@@ -4,9 +4,15 @@
 #include <HostApi.hpp>
 #include <ClientApi.hpp>
 
+#include "services.hpp"
+
 HostApi* hostapi;
 
-bool allVersionUtilsPresent(const IVersionService& vu)
+bool allLoggerServicesPresent(const ILoggerService& ls)
+{
+    return true;
+}
+bool allVersionServicesPresent(const IVersionService& vu)
 {
     if (vu.equal == nullptr)
     {
@@ -44,44 +50,19 @@ bool allVersionUtilsPresent(const IVersionService& vu)
     return true;
 }
 
-bool hostVersionCompatible(const Version hostVersion, const IVersionService& vu, const HostApi* api)
-{
-    if (vu.lessThan(hostVersion, MIN_HOST_VERSION))
-    {
-        api->logger->critical("Host Version is {} but at least Version {} is required for this host.",
-                              api->versionService.to_string(api->hostVersion),
-                              api->versionService.to_string(MIN_HOST_VERSION)
-                             );
-        return false;
-    }
-    if (vu.greaterOrEqual(hostVersion, MAX_HOST_VERSION))
-    {
-        api->logger->critical("Host Version is {} but at least Version {} is required for this host.",
-                              api->versionService.to_string(api->hostVersion),
-                              api->versionService.to_string(MIN_HOST_VERSION)
-                             );
-        return false;
-    }
-    return true;
-}
-
 extern "C" {
-    bool connectToHost(HostApi* api)
+    bool init(HostApi* api)
     {
-        if (api->logger == nullptr)
+        if (!allLoggerServicesPresent(api->loggerService))
         {
             std::cerr << "Logger was not initialized!" << std::endl;
             return false;
         }
-        ILogger& logger = *(api->logger);
+        loggerService = api->loggerService;
 
-        if (!allVersionUtilsPresent(api->versionService))
+        if (!allVersionServicesPresent(api->versionService))
         {
-            logger.critical("Not all VersionUtils have been initialized!");
-            return false;
-        }
-        if (!hostVersionCompatible(api->hostVersion, api->versionService, api))
-        {
+            api->loggerService.critical("Not all VersionUtils have been initialized!");
             return false;
         }
 

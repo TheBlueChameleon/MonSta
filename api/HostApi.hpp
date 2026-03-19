@@ -5,28 +5,26 @@
 #include <Version.hpp>
 
 #include "IJsonService.hpp"
-#include "ILogger.hpp"
+#include "ILoggerService.hpp"
 
 struct HostApi
 {
     protected:
         HostApi(
-            ILogger* const logger,
-
-            const Version hostVersion,
+            const Version         hostVersion,
+            const ILoggerService  loggerService,
             const IVersionService versionService,
             const IJsonService    jsonService
         ) :
             hostVersion(hostVersion),
-            logger(logger),
+            loggerService(loggerService),
             versionService(versionService),
             jsonService(jsonService)
         {}
 
     public:
-        ILogger* const logger;
-
         const Version         hostVersion;
+        const ILoggerService  loggerService;
         const IVersionService versionService;
         const IJsonService    jsonService;
 };

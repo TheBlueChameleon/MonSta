@@ -71,10 +71,11 @@ include_directories(
 # Shared
 
 set(apiHeaders
+    api/ClientApi.hpp
     api/HostApi.hpp
-    api/ILogger.hpp
-    api/IVersionService.hpp
+    api/ILoggerService.hpp
     api/IJsonService.hpp
+    api/IVersionService.hpp
     api/MatchDefinitions.hpp
     api/Version.hpp
 )
@@ -89,11 +90,12 @@ add_executable(App
 
     host/api/clientwrapper.hpp host/api/clientwrapper.cpp
     host/api/hostapiwrapper.hpp host/api/hostapiwrapper.cpp
-    host/api/logger.hpp host/api/logger.cpp
+    host/api/loggerservice.hpp host/api/loggerservice.cpp
     host/api/versionservice.hpp host/api/versionservice.cpp
 
     host/cli/clihandler.hpp host/cli/clihandler.cpp
     host/cli/cliinput.hpp
+    host/cli/logger.hpp host/cli/logger.cpp
 
     host/defs/environmentdefinition.hpp
     host/defs/simulationinputs.hpp
@@ -121,9 +123,11 @@ target_link_libraries(App
 
 add_library(Engine-Base STATIC
     ${apiHeaders}
-    api/ClientApi.hpp
+
+    engine-base/services.hpp
 
     engine-base/entrypoint.cpp
+    engine-base/loggerservice.hpp engine-base/loggerservice.cpp
 )
 
 target_compile_options(Engine-Base PRIVATE -fPIC)
@@ -133,7 +137,6 @@ target_compile_options(Engine-Base PRIVATE -fPIC)
 
 add_library(Engine-Gen1 SHARED
     ${apiHeaders}
-    api/ClientApi.hpp
 
     engine-gen1/entrypoint.cpp
 )
@@ -142,3 +145,9 @@ target_link_libraries(Engine-Gen1 PUBLIC
     Engine-Base
 )
 
+target_link_libraries(Engine-Gen1 PRIVATE
+    $<$<CXX_COMPILER_ID:MSVC>:/WHOLEARCHIVE:Engine-Base>
+    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wl,--whole-archive>
+    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:Engine-Base>
+    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wl,--no-whole-archive>
+)

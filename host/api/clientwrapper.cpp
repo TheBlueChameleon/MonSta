@@ -4,14 +4,14 @@
     #include <dlfcn.h>
 #endif
 
-#include <spdlog/spdlog.h>
-
 #include <Version.hpp>
 
-#include "clientwrapper.hpp"
 #include "../constants.hpp"
 #include "../errors.hpp"
+
+#include "clientwrapper.hpp"
 #include "hostapiwrapper.hpp"
+#include "loggerservice.hpp"
 #include "versionservice.hpp"
 
 #define FETCH(symbol) fetchCheckAndTransfer(&ClientWrapper::_##symbol, #symbol)
@@ -24,20 +24,20 @@ void ClientWrapper::fetchCheckAndTransfer(T ClientWrapper::*offset, const char* 
 
     if (target == nullptr)
     {
-        spdlog::critical("COULD NOT EXTRACT FUNCTION {}", symbol);
+        LoggerService::criticalF("COULD NOT EXTRACT FUNCTION {}", symbol);
         throw CriticalAbort();
     }
     else
     {
-        spdlog::trace("  ... EXTRACTED {}", symbol);
+        LoggerService::traceF("  ... EXTRACTED {}", symbol);
     }
 
     this->*offset =target;
 }
 
-void ClientWrapper::loadEninge(const std::filesystem::__cxx11::path& enginePath)
+void ClientWrapper::loadEngine(const std::filesystem::__cxx11::path& enginePath)
 {
-    spdlog::trace("LOADING ENGINE FROM {}", enginePath.c_str());
+    LoggerService::traceF("LOADING ENGINE FROM {}", enginePath.c_str());
 
 #ifdef _WIN32
     handler = LoadLibrary(enginePath.c_str());
@@ -47,54 +47,80 @@ void ClientWrapper::loadEninge(const std::filesystem::__cxx11::path& enginePath)
 
     if (!handler)
     {
-        spdlog::critical("COULD NOT LOAD {}", enginePath.c_str());
-        spdlog::critical(dlerror());
+        LoggerService::criticalF("COULD NOT LOAD {}", enginePath.c_str());
+        LoggerService::critical(dlerror());
         throw CriticalAbort();
     }
 
-    spdlog::trace("... SUCCESS!");
+    LoggerService::trace("... SUCCESS!");
 }
 
 void ClientWrapper::extractFunctions()
 {
-    spdlog::trace("EXTRACTING FUNCTIONS ...");
+    LoggerService::trace("EXTRACTING FUNCTIONS ...");
 
-    FETCH(getClientVersion);
-    FETCH(connectToHost);
+    FETCH(CLIENT_VERSION);
+    FETCH(init);
 
-    spdlog::trace("... SUCCESS!");
+    LoggerService::trace("... SUCCESS!");
 }
 
 void ClientWrapper::assertVersionsBothSides()
 {
-    spdlog::trace("ASSERTING VERSION COMPATIBILITY ...");
+    LoggerService::trace("ASSERTING VERSION COMPATIBILITY ...");
 
     const auto clientVersion = getClientVersion();
 
-    spdlog::trace("  ... Client Version is {}", VersionService::to_string(clientVersion));
-    spdlog::trace("  ... Host Version is {}", VersionService::to_string(HOST_VERSION));
+    LoggerService::traceF("  ... Client Version is {}", VersionService::to_string(clientVersion));
+    LoggerService::traceF("  ... Host Version is {}", VersionService::to_string(HOST_VERSION));
 
     if (clientVersion < MIN_CLIENT_VERSION)
     {
-        spdlog::critical("Client Version is {} but at least Version {} is required for this host.",
-                         VersionService::to_string(clientVersion),
-                         VersionService::to_string(HOST_VERSION)
-                        );
+        LoggerService::criticalF("Client Version is {} but at least Version {} is required for this host.",
+                                 VersionService::to_string(clientVersion),
+                                 VersionService::to_string(HOST_VERSION)
+                                );
+        throw CriticalAbort();
+    }
+    if (clientVersion > MAX_CLIENT_VERSION)
+    {
+        LoggerService::criticalF("Client Version is {} but at most Version {} is supported by this host.",
+                                 VersionService::to_string(clientVersion),
+                                 VersionService::to_string(HOST_VERSION)
+                                );
         throw CriticalAbort();
     }
 
-    const auto connected = connectToHost(HostApiWrapper::GetInstancePtr());
+    if (HOST_VERSION < getMinHostVersion())
+    {
+        LoggerService::criticalF("Host Version is {} but at least Version {} is required for this client.",
+                                 VersionService::to_string(HOST_VERSION),
+                                 VersionService::to_string(getMinHostVersion())
+                                );
+        throw CriticalAbort();
+    }
+    if (HOST_VERSION > getMaxHostVersion())
+    {
+        LoggerService::criticalF("Host Version is {} but at least Version {} is required for this client.",
+                                 VersionService::to_string(HOST_VERSION),
+                                 VersionService::to_string(getMaxHostVersion())
+                                );
+        throw CriticalAbort();
+    }
+
+
+    const auto connected = init(HostApiWrapper::GetInstancePtr());
     if (connected)
     {
-        spdlog::trace("  ... Client accepted connection.");
+        LoggerService::trace("  ... Client accepted connection.");
     }
     else
     {
-        spdlog::critical("Client refused the connection.");
+        LoggerService::critical("Client refused the connection.");
         throw CriticalAbort();
     }
 
-    spdlog::trace("... SUCCESS!");
+    LoggerService::trace("... SUCCESS!");
 }
 
 void* ClientWrapper::findSymbol(const char* const symbolName)
@@ -110,28 +136,28 @@ void* ClientWrapper::findSymbol(const char* const symbolName)
     auto* symbol = dlsym(handler, symbolName);
     if ((error = dlerror()) != nullptr || !symbol)
     {
-        spdlog::critical("COULD NOT FIND SYMBOL {}", symbolName);
-        spdlog::critical(error);
+        LoggerService::criticalF("COULD NOT FIND SYMBOL {}", symbolName);
+        LoggerService::critical(error);
         return nullptr;
     }
 #endif
     return symbol;
 }
 
-bool ClientWrapper::connectToHost(HostApi* hostApi) const
+bool ClientWrapper::init(HostApi* hostApi) const
 {
-    return _connectToHost(hostApi);
+    return _init(hostApi);
 }
 
 ClientWrapper::ClientWrapper(const std::filesystem::path& enginePath)
 {
-    spdlog::debug("BOOTING ENGINE WRAPPER");
+    LoggerService::debug("BOOTING ENGINE WRAPPER");
 
-    loadEninge(enginePath);
+    loadEngine(enginePath);
     extractFunctions();
     assertVersionsBothSides();
 
-    spdlog::debug("... DONE");
+    LoggerService::debug("... DONE");
 }
 
 ClientWrapper::~ClientWrapper()
@@ -148,5 +174,15 @@ ClientWrapper::~ClientWrapper()
 
 Version ClientWrapper::getClientVersion() const
 {
-    return _getClientVersion();
+    return *_CLIENT_VERSION;
+}
+
+Version ClientWrapper::getMinHostVersion() const
+{
+    return *_MIN_HOST_VERSION;
+}
+
+Version ClientWrapper::getMaxHostVersion() const
+{
+    return *_MAX_HOST_VERSION;
 }

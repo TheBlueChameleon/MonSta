@@ -1,3 +1,5 @@
+#include <spdlog/spdlog.h>
+
 #include "logger.hpp"
 
 #include <spdlog/sinks/basic_file_sink.h>
@@ -14,12 +16,12 @@ Logger::Logger()
     logger->set_level(static_cast<spdlog::level::level_enum>(DEFAULT_LOGGER_LEVEL));
 }
 
-ILogger::LogLevel Logger::getLogLevel() const
+ILoggerService::LogLevel Logger::getLogLevel() const
 {
-    return static_cast<ILogger::LogLevel>(logger->level());
+    return static_cast<ILoggerService::LogLevel>(logger->level());
 }
 
-void Logger::setLogLevel(const LogLevel level)
+void Logger::setLogLevel(const ILoggerService::LogLevel level)
 {
     logger->set_level(static_cast<spdlog::level::level_enum>(level));
     for (auto& sink : logger->sinks())
@@ -69,7 +71,7 @@ void Logger::setLogFile(const char* const filename)
     }
     catch (const spdlog::spdlog_ex& ex)
     {
-        ILogger::error("Could not set log file to '{}': {}", filename, ex.what());
+        logger->error("Could not set log file to '{}': {}", filename, ex.what());
         return;
     }
 
@@ -96,6 +98,16 @@ void Logger::unsetLogFile()
         logfile = "";
         logfileSinkIndex = -1;
     }
+}
+
+void Logger::makeDefault() const
+{
+    spdlog::set_default_logger(logger);
+}
+
+std::shared_ptr<spdlog::logger> Logger::expose()
+{
+    return logger;
 }
 
 void Logger::trace(const char* const msg) const
@@ -126,14 +138,4 @@ void Logger::error(const char* const msg) const
 void Logger::critical(const char* const msg) const
 {
     logger->critical(msg);
-}
-
-void Logger::makeDefault() const
-{
-    spdlog::set_default_logger(logger);
-}
-
-std::shared_ptr<spdlog::logger> Logger::expose()
-{
-    return logger;
 }
