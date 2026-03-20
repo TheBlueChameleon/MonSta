@@ -3,18 +3,18 @@
 
 #include <Version.hpp>
 
-namespace VersionService
+struct VersionService
 {
-    bool equal(const Version& lhs, const Version& rhs);
-    bool notEqual(const Version& lhs, const Version& rhs);
-    bool lessThan(const Version& lhs, const Version& rhs);
-    bool lessOrEqual(const Version& lhs, const Version& rhs);
-    bool greaterThan(const Version& lhs, const Version& rhs);
-    bool greaterOrEqual(const Version& lhs, const Version& rhs);
+    static bool equal(const Version& lhs, const Version& rhs);
+    static bool notEqual(const Version& lhs, const Version& rhs);
+    static bool lessThan(const Version& lhs, const Version& rhs);
+    static bool lessOrEqual(const Version& lhs, const Version& rhs);
+    static bool greaterThan(const Version& lhs, const Version& rhs);
+    static bool greaterOrEqual(const Version& lhs, const Version& rhs);
 
-    std::ostream& streamInto(std::ostream& os, const Version& v);
-    std::string to_string(const Version& v);
-}
+    static std::ostream& streamInto(std::ostream& os, const Version& v);
+    static std::string to_string(const Version& v);
+};
 
 bool operator==(const Version& lhs, const Version& rhs);
 bool operator!=(const Version& lhs, const Version& rhs);

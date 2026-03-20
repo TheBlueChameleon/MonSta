@@ -12,7 +12,10 @@ using ArgParser = argparse::ArgumentParser;
 using Json = nlohmann::json;
 using JsonValidator = nlohmann::json_schema::json_validator;
 
+#include "../api/loggerservice.hpp"
+
 #include "../defs/environmentdefinition.hpp"
+#include "../defs/loggingdefinition.hpp"
 
 #include "../json/jsonservice.hpp"
 
@@ -148,6 +151,33 @@ CliInput parseCliInput(const int argc, const char* const argv[])
 // .......................................................................... //
 // shared
 
+LoggingDefinition handleLoggingDefinition(const Json& data)
+{
+    LoggingDefinition result;
+
+    if (data.is_structured())
+    {
+        if (data.contains(JKEY_LOGGING_LOGLEVEL))
+        {
+            result.loglevel = data[JKEY_LOGGING_LOGLEVEL];
+        }
+
+        if (data.contains(JKEY_LOGGING_LOGFILE))
+        {
+            result.logfile = data[JKEY_LOGGING_LOGFILE];
+        }
+    }
+
+    Logger& logger = LoggerService::getInstance();
+    logger.setLogLevel(result.loglevel);
+    if (result.logfile.has_value())
+    {
+        logger.setLogFile(result.logfile.value());
+    }
+
+    return result;
+}
+
 EnvironmentDefinition handleEnvironmentDefinition(const Json& data)
 {
     EnvironmentDefinition result;
@@ -158,17 +188,18 @@ EnvironmentDefinition handleEnvironmentDefinition(const Json& data)
 // .......................................................................... //
 // simulation
 
-void handleSimulationInput(const std::filesystem::path& source)
+void handleSimulationInput(const char* const source)
 {
-    Json data = readJsonFile(source);
-    validateJsonAgainstJson(data, SCHEMA_SIMULATION, source.c_str());
+    Json data = JsonService::readJsonFile(source);
+    JsonService::validateJsonAgainstJson(data, SCHEMA_SIMULATION, source);
+    handleLoggingDefinition(data[JKEY_LOGGING]);
     handleEnvironmentDefinition(data[JKEY_ENVIRONMENT]);
 }
 
 // .......................................................................... //
 // template
 
-void handleTemplateInput(const std::filesystem::path& source)
+void handleTemplateInput(const char* const source)
 {
 
 }
@@ -189,10 +220,10 @@ void handleCliInput(const CliInput& cliInput)
     switch (cliInput.mode)
     {
         case CliInput::OperationMode::SIMULATION:
-            handleSimulationInput(cliInput.data);
+            handleSimulationInput(cliInput.data.c_str());
             break;
         case CliInput::OperationMode::TEMPLATE:
-            handleTemplateInput(cliInput.data);
+            handleTemplateInput(cliInput.data.c_str());
             break;
         case CliInput::OperationMode::REMOTE:
             handleRemoteInput(cliInput.data);

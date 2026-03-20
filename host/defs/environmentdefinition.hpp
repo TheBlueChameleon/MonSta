@@ -3,15 +3,12 @@
 
 #include <filesystem>
 
-#include <ILoggerService.hpp>
-
 struct EnvironmentDefinition
 {
     std::filesystem::path engine;
-    std::filesystem::path logfile;
-    std::filesystem::path output;
+    std::filesystem::path inputDir;
+    std::filesystem::path outputDir;
 
-    ILoggerService::LogLevel loglevel;
     int repetitions;
     int maxTurns;
     int threadCount;

@@ -3,21 +3,25 @@
 
 #include <filesystem>
 #include <format>
+#include <optional>
 
 #include <ILoggerService.hpp>
 
 namespace spdlog
 {
     class logger;
+    namespace sinks
+    {
+        class sink;
+    }
 }
 
 class Logger
 {
     private:
-        std::shared_ptr<spdlog::logger> logger;
-        std::string pattern;
-        std::filesystem::path logfile;
-        int logfileSinkIndex = -1;
+        std::shared_ptr<spdlog::logger>         logger;
+        std::string                             pattern;
+        std::optional<std::filesystem::path>    logfile;
 
     public:
         Logger();
@@ -25,15 +29,18 @@ class Logger
         ILoggerService::LogLevel getLogLevel() const;
         void setLogLevel(const ILoggerService::LogLevel level);
 
-        const char* getPattern() const;
-        void setPattern(const char* const pattern);
+        std::string getPattern() const;
+        void setPattern(const std::string& pattern);
 
-        std::optional<const char*> getLogFile() const;
-        void setLogFile(const char* const filename);
+        std::optional<std::filesystem::path> getLogFile() const;
+        void setLogFile(const std::filesystem::path filename);
         void unsetLogFile();
 
         void makeDefault() const;
-        std::shared_ptr<spdlog::logger> expose();
+
+        std::shared_ptr<spdlog::logger>      expose();
+        std::shared_ptr<spdlog::sinks::sink> getConsSink() const;
+        std::shared_ptr<spdlog::sinks::sink> getFileSink() const;
 
         void trace(const char* const msg) const;
         void debug(const char* const msg) const;
@@ -84,9 +91,5 @@ class Logger
             this->critical(msg.c_str());
         }
 };
-
-constexpr auto DEFALUT_LOGGER_NAME = "MonStaLogger";
-constexpr auto DEFAULT_LOGGER_PATTERN = "[%Y-%m-%d %H:%M:%S] [%l] %v";
-constexpr auto DEFAULT_LOGGER_LEVEL = ILoggerService::LogLevel::TRACE;
 
 #endif // LOGGER_HPP

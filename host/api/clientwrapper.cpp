@@ -55,17 +55,21 @@ void ClientWrapper::loadEngine(const std::filesystem::__cxx11::path& enginePath)
     LoggerService::trace("... SUCCESS!");
 }
 
-void ClientWrapper::extractFunctions()
+void ClientWrapper::extractSymbols()
 {
     LoggerService::trace("EXTRACTING FUNCTIONS ...");
 
     FETCH(CLIENT_VERSION);
+    FETCH(MIN_HOST_VERSION);
+    FETCH(MAX_HOST_VERSION);
+
     FETCH(init);
+    FETCH(hangUp);
 
     LoggerService::trace("... SUCCESS!");
 }
 
-void ClientWrapper::assertVersionsBothSides()
+void ClientWrapper::assertVersionsCompatible()
 {
     LoggerService::trace("ASSERTING VERSION COMPATIBILITY ...");
 
@@ -80,7 +84,7 @@ void ClientWrapper::assertVersionsBothSides()
                                  VersionService::to_string(clientVersion),
                                  VersionService::to_string(HOST_VERSION)
                                 );
-        throw CriticalAbort();
+        throw CriticalAbort("Incompatible Client Version");
     }
     if (clientVersion > MAX_CLIENT_VERSION)
     {
@@ -88,7 +92,7 @@ void ClientWrapper::assertVersionsBothSides()
                                  VersionService::to_string(clientVersion),
                                  VersionService::to_string(HOST_VERSION)
                                 );
-        throw CriticalAbort();
+        throw CriticalAbort("Incompatible Client Version");
     }
 
     if (HOST_VERSION < getMinHostVersion())
@@ -97,7 +101,7 @@ void ClientWrapper::assertVersionsBothSides()
                                  VersionService::to_string(HOST_VERSION),
                                  VersionService::to_string(getMinHostVersion())
                                 );
-        throw CriticalAbort();
+        throw CriticalAbort("Incompatible Host Version");
     }
     if (HOST_VERSION > getMaxHostVersion())
     {
@@ -105,9 +109,9 @@ void ClientWrapper::assertVersionsBothSides()
                                  VersionService::to_string(HOST_VERSION),
                                  VersionService::to_string(getMaxHostVersion())
                                 );
-        throw CriticalAbort();
+        throw CriticalAbort("Incompatible Host Version");
     }
-
+    LoggerService::trace("  ... Version check successful.");
 
     const auto connected = init(HostApiWrapper::GetInstancePtr());
     if (connected)
@@ -116,8 +120,8 @@ void ClientWrapper::assertVersionsBothSides()
     }
     else
     {
-        LoggerService::critical("Client refused the connection.");
-        throw CriticalAbort();
+        LoggerService::critical("Client refused the connection!");
+        throw CriticalAbort("Error when connecting to client");
     }
 
     LoggerService::trace("... SUCCESS!");
@@ -126,7 +130,7 @@ void ClientWrapper::assertVersionsBothSides()
 void* ClientWrapper::findSymbol(const char* const symbolName)
 {
 #ifdef _WIN32
-    auto* symbol = reinterpret_cast<void*>(GetProcAddress(hGetProcIDDLL, symbolName));
+    auto* symbol = reinterpret_cast<void*>(GetProcAddress(handler, symbolName));
     if (!symbol)
     {
         spdlog::critical("COULD NOT FIND SYMBOL {}", symbolName);
@@ -149,19 +153,30 @@ bool ClientWrapper::init(HostApi* hostApi) const
     return _init(hostApi);
 }
 
+bool ClientWrapper::hangUp()
+{
+    return _hangUp();
+}
+
 ClientWrapper::ClientWrapper(const std::filesystem::path& enginePath)
 {
     LoggerService::debug("BOOTING ENGINE WRAPPER");
 
     loadEngine(enginePath);
-    extractFunctions();
-    assertVersionsBothSides();
+    extractSymbols();
+    assertVersionsCompatible();
 
     LoggerService::debug("... DONE");
 }
 
 ClientWrapper::~ClientWrapper()
 {
+    if (!hangUp())
+    {
+        LoggerService::critical("Error in shutdwon process of client");
+        std::exit(-1);
+    }
+
     if (handler)
     {
 #ifdef _WIN32

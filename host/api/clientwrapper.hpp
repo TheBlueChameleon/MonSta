@@ -19,17 +19,19 @@ class ClientWrapper
         const Version* _MAX_HOST_VERSION;
 
         bool(*_init)(HostApi* hostApi);
+        bool(*_hangUp)();
 
         template<typename T>
         void fetchCheckAndTransfer(T ClientWrapper::* offset, const char* const symbol);
 
         void loadEngine(const std::filesystem::path& enginePath);
-        void extractFunctions();
-        void assertVersionsBothSides();
+        void extractSymbols();
+        void assertVersionsCompatible();
 
     protected:
         void* findSymbol(const char* const symbolName);
         bool init(HostApi* hostApi) const;
+        bool hangUp();
 
     public:
         ClientWrapper(const std::filesystem::path& enginePath);

@@ -9,6 +9,7 @@ extern "C" {
     extern const Version MAX_HOST_VERSION;
 
     bool init(HostApi*);
+    bool hangUp();
 }
 
 #endif // CLIENTAPI_HPP

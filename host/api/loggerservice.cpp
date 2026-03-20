@@ -7,7 +7,7 @@ LoggerService::LoggerService()
     instance.makeDefault();
 }
 
-Logger LoggerService::getInstance()
+Logger& LoggerService::getInstance()
 {
     return instance;
 }

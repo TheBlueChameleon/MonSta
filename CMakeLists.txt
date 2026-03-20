@@ -98,6 +98,7 @@ add_executable(App
     host/cli/logger.hpp host/cli/logger.cpp
 
     host/defs/environmentdefinition.hpp
+    host/defs/loggingdefinition.hpp
     host/defs/simulationinputs.hpp
 
     host/json/jsonservice.hpp host/json/jsonservice.cpp
@@ -105,6 +106,8 @@ add_executable(App
     host/constants.hpp host/constants.cpp
     host/errors.hpp
     host/main.cpp
+
+    config/foo.json
 )
 
 target_include_directories(App

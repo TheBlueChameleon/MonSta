@@ -1,6 +1,8 @@
 #include "constants.hpp"
 #include "api/versionservice.hpp"
 
+using Json = nlohmann::json;
+
 const Version HOST_VERSION       = {0, 1, 0, 0};
 const Version MIN_CLIENT_VERSION = {0, 1, 0, 0};
 const Version MAX_CLIENT_VERSION = {2, 0, 0, 0};
@@ -8,11 +10,15 @@ const Version MAX_CLIENT_VERSION = {2, 0, 0, 0};
 const std::string APP_NAME = "MonSta";
 const std::string APP_VERSION = VersionService::to_string(HOST_VERSION);
 
-const nlohmann::json SCHEMA_SIMULATION = R"(
+const std::string SCHEMA_SIMULATION_STRING = R"(
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
 
     "properties": {
+        "logging": {
+            "description": "foo",
+            "$ref": "#/$defs/logging"
+        },
         "environment": {
             "description": "Host side settings",
             "$ref": "#/$defs/environment"
@@ -26,21 +32,29 @@ const nlohmann::json SCHEMA_SIMULATION = R"(
     "additionalProperties": false,
 
     "$defs" : {
-        "environment" : {
+        "logging": {
             "properties": {
-                "engine": {
-                   "type": "string"
-                },
                 "logfile": {
-                   "type": "string"
-                },
-                "reportfile": {
                    "type": "string"
                 },
                 "loglevel": {
                     "type": "integer",
                     "minimum": 0,
                     "maximum": 6
+                }
+            },
+            "additionalProperties": false
+        },
+        "environment" : {
+            "properties": {
+                "engine": {
+                   "type": "string"
+                },
+                "inputDirectory": {
+                   "type": "string"
+                },
+                "outputDirectory": {
+                   "type": "string"
                 },
                 "repetitions": {
                     "type": "integer",
@@ -56,12 +70,17 @@ const nlohmann::json SCHEMA_SIMULATION = R"(
                 }
             },
             "required": [
-                "engine",
-                "reportfile"
+                "engine"
             ],
             "additionalProperties": false
         }
     }
 }
-)"_json;
-const nlohmann::json SCHEMA_TEMPLATE;
+)";
+
+const nlohmann::json SCHEMA_SIMULATION = Json::parse(SCHEMA_SIMULATION_STRING);
+
+const std::string SCHEMA_TEMPLATE_STRING = R"(
+{}
+)";
+const nlohmann::json SCHEMA_TEMPLATE = Json::parse(SCHEMA_TEMPLATE_STRING);

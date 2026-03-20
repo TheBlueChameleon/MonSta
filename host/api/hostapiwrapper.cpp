@@ -33,8 +33,9 @@ HostApiWrapper::HostApiWrapper() : HostApi(
             &VersionService::to_string
         ),
         IJsonService(
-            &readJsonFile,
-            &validateJsonAgainstJson
+            &JsonService::readJsonFile,
+            &JsonService::parseJson,
+            &JsonService::validateJsonAgainstJson
         )
     )
 {}

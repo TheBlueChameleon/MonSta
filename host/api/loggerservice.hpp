@@ -11,7 +11,7 @@ class LoggerService
         LoggerService();
 
     public:
-        static Logger getInstance();
+        static Logger& getInstance();
 
         static void trace(const char* const msg);
         static void debug(const char* const msg);

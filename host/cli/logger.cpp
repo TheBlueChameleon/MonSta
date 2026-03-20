@@ -1,18 +1,18 @@
 #include <spdlog/spdlog.h>
 
-#include "logger.hpp"
-
-#include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
+#include <spdlog/sinks/basic_file_sink.h>
+
+#include "logger.hpp"
 
 Logger::Logger()
 {
-    auto consoleSink = std::make_shared<spdlog::sinks::stderr_color_sink_mt>();
-    consoleSink->set_level(static_cast<spdlog::level::level_enum>(DEFAULT_LOGGER_LEVEL));
-    consoleSink->set_pattern(DEFAULT_LOGGER_PATTERN);
+    auto consSink = std::make_shared<spdlog::sinks::stderr_color_sink_mt>();
+    consSink->set_level(static_cast<spdlog::level::level_enum>(DEFAULT_LOGGER_LEVEL));
+    consSink->set_pattern(DEFAULT_LOGGER_PATTERN);
 
-    logger = std::make_shared<spdlog::logger>(DEFALUT_LOGGER_NAME);
-    logger->sinks().push_back(consoleSink);
+    logger = std::make_shared<spdlog::logger>(DEFAULT_LOGGER_NAME);
+    logger->sinks().push_back(consSink);
     logger->set_level(static_cast<spdlog::level::level_enum>(DEFAULT_LOGGER_LEVEL));
 }
 
@@ -30,73 +30,63 @@ void Logger::setLogLevel(const ILoggerService::LogLevel level)
     }
 }
 
-const char* Logger::getPattern() const
+std::string Logger::getPattern() const
 {
-    return this->pattern.c_str();
+    return this->pattern;
 }
 
-void Logger::setPattern(const char* const pattern)
+void Logger::setPattern(const std::string& pattern)
 {
     this->pattern = pattern;
 
     for (auto& sink : logger->sinks())
     {
-        sink->set_pattern(pattern);
+        sink->set_pattern(pattern.c_str());
     }
 }
 
-std::optional<const char*> Logger::getLogFile() const
+std::optional<std::filesystem::__cxx11::path> Logger::getLogFile() const
 {
-    if (logfileSinkIndex == -1)
-    {
-        return std::nullopt;
-    }
-    else
-    {
-        return this->logfile.c_str();
-    }
+    return this->logfile;
 }
 
-void Logger::setLogFile(const char* const filename)
+void Logger::setLogFile(const std::filesystem::__cxx11::path filename)
 {
     std::shared_ptr<spdlog::sinks::sink> fileSink;
     try
     {
         fileSink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(
-                       filename,
+                       filename.c_str(),
                        /*truncate = */true
                    );
         fileSink->set_level(static_cast<spdlog::level::level_enum>(getLogLevel()));
-        fileSink->set_pattern(getPattern());
     }
     catch (const spdlog::spdlog_ex& ex)
     {
-        logger->error("Could not set log file to '{}': {}", filename, ex.what());
+        logger->error("Could not set log file to '{}': {}", filename.c_str(), ex.what());
         return;
     }
 
-    if (logfileSinkIndex == -1)
+    if (logfile.has_value())
     {
-        logfileSinkIndex = logger->sinks().size();
-        logger->sinks().push_back(fileSink);
+        logger->sinks()[1] = fileSink;
     }
     else
     {
-        logger->sinks()[logfileSinkIndex] = fileSink;
+        logger->sinks().push_back(fileSink);
     }
 }
 
 void Logger::unsetLogFile()
 {
-    if (logfileSinkIndex == -1)
+    if (logfile.has_value())
     {
-        logger->warn("Attempting to unset log file when none has been set.");
+        logger->sinks().pop_back();
+        logfile.reset();
     }
     else
     {
-        logger->sinks().erase(logger->sinks().begin() + logfileSinkIndex);
-        logfile = "";
-        logfileSinkIndex = -1;
+        logger->warn("Attempting to unset log file when none has been set.");
     }
 }
 
@@ -108,6 +98,23 @@ void Logger::makeDefault() const
 std::shared_ptr<spdlog::logger> Logger::expose()
 {
     return logger;
+}
+
+std::shared_ptr<spdlog::sinks::sink> Logger::getConsSink() const
+{
+    return logger->sinks()[0];
+}
+
+std::shared_ptr<spdlog::sinks::sink> Logger::getFileSink() const
+{
+    if (logfile.has_value())
+    {
+        return logger->sinks()[1];
+    }
+    else
+    {
+        return nullptr;
+    }
 }
 
 void Logger::trace(const char* const msg) const

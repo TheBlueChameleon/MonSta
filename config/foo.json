@@ -1,6 +1,11 @@
 {
+    "logging": {
+        "loglevel" : 0,
+        "logfile": "logfile.txt"
+    },
     "environment" : {
         "engine": "value", // comment
-        "reportfile": "value"
+        "inputDirectory": "value",
+        "outputDirectory": "value"
     }
 }

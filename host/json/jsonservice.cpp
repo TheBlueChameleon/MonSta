@@ -10,10 +10,11 @@ using namespace std::string_literals;
 
 #include "jsonservice.hpp"
 
-const nlohmann::json readJsonFile(const std::filesystem::path& source)
-{
-    using Json = nlohmann::json;
+using Json = nlohmann::json;
+using JsonValidator = nlohmann::json_schema::json_validator;
 
+const nlohmann::json JsonService::readJsonFile(const char* const source)
+{
     try
     {
         std::ifstream hFile(source);
@@ -23,17 +24,30 @@ const nlohmann::json readJsonFile(const std::filesystem::path& source)
     catch (const Json::parse_error& err)
     {
         throw CriticalAbort(
-            "Error parsing JSON file '"s + source.c_str() + "'\n" +
+            "Error parsing JSON file '"s + source + "'\n" +
             err.what()
         );
     }
 }
 
-void validateJsonAgainstJson(const nlohmann::json& data, const nlohmann::json& schema, const std::string& origin)
+const nlohmann::json JsonService::parseJson(const char* const json)
 {
-    using Json = nlohmann::json;
-    using JsonValidator = nlohmann::json_schema::json_validator;
+    try
+    {
+        Json data = Json::parse(json, nullptr, true, true);
+        return data;
+    }
+    catch (const Json::parse_error& err)
+    {
+        throw CriticalAbort(
+            "Error parsing JSON data:\n"s + json + "\n" +
+            err.what()
+        );
+    }
+}
 
+void JsonService::validateJsonAgainstJson(const nlohmann::json& data, const nlohmann::json& schema, const char* const origin)
+{
     JsonValidator validator;
     try
     {

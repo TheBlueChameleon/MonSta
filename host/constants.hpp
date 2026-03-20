@@ -15,9 +15,16 @@ extern const Version MAX_CLIENT_VERSION;
 extern const std::string APP_NAME;
 extern const std::string APP_VERSION;
 
+extern const std::string SCHEMA_SIMULATION_STRING;
 extern const nlohmann::json SCHEMA_SIMULATION;
+
+extern const std::string SCHEMA_TEMPLATE_STRING;
 extern const nlohmann::json SCHEMA_TEMPLATE;
 
-static constexpr auto JKEY_ENVIRONMENT = "environment";
+static constexpr auto JKEY_LOGGING          = "logging";
+static constexpr auto JKEY_LOGGING_LOGFILE  = "logfile";
+static constexpr auto JKEY_LOGGING_LOGLEVEL = "loglevel";
+
+static constexpr auto JKEY_ENVIRONMENT      = "environment";
 
 #endif // CONSTANTS_HPP
