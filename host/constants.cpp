@@ -8,7 +8,7 @@ using namespace std::string_literals;
 
 #define PROPERTY_REFERENCE(propertyName, propertyDefinition) \
     "        "s + QUOTED(propertyName) + ": {\n" \
-    "            " + QUOTED("$ref")        + ": " + QUOTED("#/$defs/" # propertyName) + ",\n" \
+    "            " + QUOTED("$ref")        + ": " + QUOTED("#/$defs/"s + propertyName) + ",\n" \
     "            " + QUOTED("description") + ": " + QUOTED(propertyDefinition) + "\n" \
     "        }"
 
@@ -21,7 +21,7 @@ const Version HOST_VERSION       = {0, 1, 0, 0};
 const Version MIN_CLIENT_VERSION = {0, 1, 0, 0};
 const Version MAX_CLIENT_VERSION = {2, 0, 0, 0};
 
-const std::string SUBSCHEMA_DEFS_LOGGER_STRING =
+const std::string SUBSCHEMA_LOGGER_STRING =
     "        " + QUOTED(JKEY_LOGGING) + R"(: {
             "properties": {
                 "logfile": {
@@ -36,7 +36,7 @@ const std::string SUBSCHEMA_DEFS_LOGGER_STRING =
             "additionalProperties": false
         })";
 
-const std::string SUBSCHEMA_DEFS_SIMULATOR_STRING =
+const std::string SUBSCHEMA_SIMULATOR_STRING =
     "        " + QUOTED(JKEY_SIMULATOR) + R"(: {
             "properties": {
                 "engine": {
@@ -65,6 +65,10 @@ const std::string SUBSCHEMA_DEFS_SIMULATOR_STRING =
             "additionalProperties": false
 })";
 
+const std::string SUBSCHEMA_MATCHDEFINITION_STRING =
+    "        " + QUOTED(JKEY_MATCHDEFINITION) + R"(: {
+})";
+
 const std::string SCHEMA_SIMULATION_STRING = R"(
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
@@ -79,15 +83,14 @@ const std::string SCHEMA_SIMULATION_STRING = R"(
 
     "$defs" : {
 )"s
-    + SUBSCHEMA_DEFS_LOGGER_STRING + ",\n"
-    + SUBSCHEMA_DEFS_SIMULATOR_STRING + R"(
+    + SUBSCHEMA_LOGGER_STRING + ",\n"
+    + SUBSCHEMA_SIMULATOR_STRING + ",\n"
+    + SUBSCHEMA_MATCHDEFINITION_STRING + R"(
     }
-}
-)";
+})";
 const nlohmann::json SCHEMA_SIMULATION = Json::parse(SCHEMA_SIMULATION_STRING);
 
 const std::string SCHEMA_TEMPLATE_STRING = R"(
-{}
-)";
+{
+})";
 const nlohmann::json SCHEMA_TEMPLATE = Json::parse(SCHEMA_TEMPLATE_STRING);
-

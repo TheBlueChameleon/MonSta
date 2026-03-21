@@ -1,12 +1,16 @@
 #ifndef CLIHANDLER_HPP
 #define CLIHANDLER_HPP
 
+#include <memory>
+
+#include "../defs/basemodedefinition.hpp"
+
 #include "cliinput.hpp"
 
-CliInput parseCliInput(const int argc, const char* const argv[]);
+CliInput readCliInput(const int argc, const char* const argv[]);
 
-void handleCliInput(const CliInput& cliInput);
+std::shared_ptr<const BaseModeDefinition> unpackCliInput(const CliInput& cliInput);
 
-void showModeHelp(const std::string& data);
+void showModeHelp(const OperationMode data);
 
 #endif // CLIHANDLER_HPP

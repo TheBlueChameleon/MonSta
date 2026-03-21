@@ -97,15 +97,20 @@ add_executable(App
     host/cli/cliinput.hpp
     host/cli/logger.hpp host/cli/logger.cpp
 
-    host/defs/environmentdefinition.hpp
+    host/defs/basemodedefinition.hpp
+    host/defs/helpmodedefinition.hpp
+    host/defs/simulatordefinition.hpp
     host/defs/loggingdefinition.hpp
-    host/defs/simulationinputs.hpp
+    host/defs/remoterundefinition.hpp
+    host/defs/simulationmodedefinition.hpp
+    host/defs/templatemodedefinition.hpp
 
     host/json/jsonservice.hpp host/json/jsonservice.cpp
 
     host/constants.hpp host/constants.cpp
     host/errors.hpp
     host/main.cpp
+    host/operationmode.hpp
 
     config/foo.json
 )

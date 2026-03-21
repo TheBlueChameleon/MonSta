@@ -1,17 +1,17 @@
-#ifndef ENVIRONMENTDEFINITION_H
-#define ENVIRONMENTDEFINITION_H
+#ifndef SIMULATORDEFINITION_H
+#define SIMULATORDEFINITION_H
 
 #include <filesystem>
 
-struct EnvironmentDefinition
+struct SimulatorDefinition
 {
-    std::filesystem::path engine;
-    std::filesystem::path inputDir;
-    std::filesystem::path outputDir;
+    const std::filesystem::path engine;
+    const std::filesystem::path inputDir;
+    const std::filesystem::path outputDir;
 
-    int repetitions;
-    int maxTurns;
-    int threadCount;
+    const int repetitions;
+    const int maxTurns;
+    const int threadCount;
 };
 
-#endif // ENVIRONMENTDEFINITION_H
+#endif // SIMULATORDEFINITION_H

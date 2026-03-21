@@ -1,0 +1,9 @@
+#ifndef OPERATIONMODE_HPP
+#define OPERATIONMODE_HPP
+
+enum class OperationMode
+{
+    SIMULATION, TEMPLATE, REMOTE, HELP
+};
+
+#endif // OPERATIONMODE_HPP

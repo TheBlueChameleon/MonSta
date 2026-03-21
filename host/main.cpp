@@ -5,7 +5,8 @@
 
 #include "cli/clihandler.hpp"
 
-#include "defs/simulationinputs.hpp"
+#include "defs/helpmodedefinition.hpp"
+#include "defs/simulationmodedefinition.hpp"
 
 #include "constants.hpp"
 #include "errors.hpp"
@@ -14,10 +15,25 @@ int main(const int argc, const char* const argv[])
 {
     try
     {
-        const auto cliInput = parseCliInput(argc, argv);
-        handleCliInput(cliInput);
+        const CliInput cliInput = readCliInput(argc, argv);
+        const std::shared_ptr<const BaseModeDefinition> defs = unpackCliInput(cliInput);
 
-        ClientWrapper cw("./build-Desktop-Debug/libEngine-Gen1.so");
+        switch (defs->mode)
+        {
+            case OperationMode::SIMULATION:
+                break;
+            case OperationMode::TEMPLATE:
+                break;
+            case OperationMode::REMOTE:
+                break;
+            case OperationMode::HELP:
+                const auto ptr = std::dynamic_pointer_cast<const HelpModeDefinition>(defs);
+                const auto mode = ptr->target;
+                showModeHelp(mode);
+                break;
+        }
+
+        //ClientWrapper cw("./build-Desktop-Debug/libEngine-Gen1.so");
     }
     catch (const CriticalAbort& e)
     {

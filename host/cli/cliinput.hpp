@@ -3,13 +3,10 @@
 
 #include <string>
 
+#include "../operationmode.hpp"
+
 struct CliInput
 {
-    enum class OperationMode
-    {
-        SIMULATION, TEMPLATE, REMOTE, HELP, INVALID
-    };
-
     static constexpr auto MODE = "mode";
     static constexpr auto DATA = "data";
 

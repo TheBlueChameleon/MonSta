@@ -1,14 +1,25 @@
-#ifndef SIMULATIONINPUTS_H
-#define SIMULATIONINPUTS_H
+#ifndef SIMULATIONMODEDEFINITION_H
+#define SIMULATIONMODEDEFINITION_H
 
 #include <MatchDefinitions.hpp>
 
-#include "environmentdefinition.hpp"
+#include "basemodedefinition.hpp"
+#include "simulatordefinition.hpp"
 
-struct SimulationInputs
+struct SimulationModeDefinition : public BaseModeDefinition
 {
-    EnvironmentDefinition envDef;
-    MatchDefinition       matchDef;
+    SimulationModeDefinition(
+        const LoggingDefinition& logging,
+        const SimulatorDefinition& simulator,
+        const MatchDefinition& match
+    ):
+        BaseModeDefinition(OperationMode::SIMULATION, logging),
+        simulator(simulator),
+        match(match)
+    {}
+
+    const SimulatorDefinition simulator;
+    const MatchDefinition     match;
 };
 
-#endif // SIMULATIONINPUTS_H
+#endif // SIMULATIONMODEDEFINITION_H

@@ -1,5 +1,6 @@
 #include <filesystem>
 #include <iostream>
+#include <stdexcept>
 #include <sstream>
 #include <string>
 using namespace std::string_literals;
@@ -14,8 +15,11 @@ using JsonValidator = nlohmann::json_schema::json_validator;
 
 #include "../api/loggerservice.hpp"
 
-#include "../defs/environmentdefinition.hpp"
+#include "../defs/helpmodedefinition.hpp"
 #include "../defs/loggingdefinition.hpp"
+#include "../defs/remoterundefinition.hpp"
+#include "../defs/simulationmodedefinition.hpp"
+#include "../defs/templatemodedefinition.hpp"
 
 #include "../json/jsonservice.hpp"
 
@@ -25,7 +29,7 @@ using JsonValidator = nlohmann::json_schema::json_validator;
 #include "clihandler.hpp"
 
 // ========================================================================== //
-// parseCliInput
+// readCliInput
 
 void configureParser(ArgParser& parser)
 {
@@ -73,16 +77,16 @@ void runParser(ArgParser& parser, const int argc, const char* const argv[])
     }
 }
 
-CliInput::OperationMode modeFromString(const std::string& modeString)
+OperationMode modeFromString(const std::string& modeString)
 {
     // *INDENT-OFF*
-    if (modeString == CliInput::SIMULATION) return CliInput::OperationMode::SIMULATION;
-    if (modeString == CliInput::TEMPLATE  ) return CliInput::OperationMode::TEMPLATE;
-    if (modeString == CliInput::REMOTE    ) return CliInput::OperationMode::REMOTE;
-    if (modeString == CliInput::HELP      ) return CliInput::OperationMode::HELP;
+    if (modeString == CliInput::SIMULATION) return OperationMode::SIMULATION;
+    if (modeString == CliInput::TEMPLATE  ) return OperationMode::TEMPLATE;
+    if (modeString == CliInput::REMOTE    ) return OperationMode::REMOTE;
+    if (modeString == CliInput::HELP      ) return OperationMode::HELP;
     // *INDENT-ON*
 
-    return CliInput::OperationMode::INVALID;
+    throw std::invalid_argument("Invalid mode identifier: '"s + modeString + "'");
 }
 
 void validateAsFile(const std::string& data)
@@ -100,43 +104,29 @@ void validateAsRemote(const std::string& data)
     throw CriticalAbort("Operation mode '"s + CliInput::REMOTE + "' not implemented yet");
 }
 
-void validateAsMode(const std::string& data)
-{
-    const auto mode = modeFromString(data);
-    if (mode == CliInput::OperationMode::INVALID)
-    {
-        throw CriticalAbort("Invalid mode: "s + data);
-    }
-}
-
 CliInput readAndValidateParser(const ArgParser& parser)
 {
     const auto modeString = parser.get(CliInput::MODE);
-    CliInput::OperationMode mode = modeFromString(modeString);
+    OperationMode mode = modeFromString(modeString);
 
     const auto data = parser.get(CliInput::DATA);
     switch (mode)
     {
-        case CliInput::OperationMode::SIMULATION:
-        case CliInput::OperationMode::TEMPLATE:
+        case OperationMode::SIMULATION:
+        case OperationMode::TEMPLATE:
             validateAsFile(data);
             break;
-        case CliInput::OperationMode::REMOTE:
+        case OperationMode::REMOTE:
             validateAsRemote(data);
             break;
-        case CliInput::OperationMode::HELP:
-            validateAsMode(data);
+        case OperationMode::HELP:
             break;
-        case CliInput::OperationMode::INVALID:
-            {
-                handleError("Illegal mode: '"s +  modeString + "'", parser);
-            }
     }
 
     return CliInput(mode, data);
 }
 
-CliInput parseCliInput(const int argc, const char* const argv[])
+CliInput readCliInput(const int argc, const char* const argv[])
 {
     ArgParser parser(APP_NAME, APP_VERSION);
     configureParser(parser);
@@ -151,118 +141,167 @@ CliInput parseCliInput(const int argc, const char* const argv[])
 // .......................................................................... //
 // shared
 
-LoggingDefinition handleLoggingDefinition(const Json& data)
+LoggingDefinition unpackLoggingDefinition(const Json& data)
 {
-    LoggingDefinition result;
+    std::optional<std::filesystem::path> logfile;
+    ILoggerService::LogLevel             loglevel;
 
-    if (data.is_structured())
+    if (data.is_structured())       // eqv. to is not null
     {
         if (data.contains(JKEY_LOGGING_LOGLEVEL))
         {
-            result.loglevel = data[JKEY_LOGGING_LOGLEVEL];
+            loglevel = data[JKEY_LOGGING_LOGLEVEL];
         }
 
         if (data.contains(JKEY_LOGGING_LOGFILE))
         {
-            result.logfile = data[JKEY_LOGGING_LOGFILE];
+            logfile = data[JKEY_LOGGING_LOGFILE];
         }
     }
 
-    Logger& logger = LoggerService::getInstance();
-    logger.setLogLevel(result.loglevel);
-    if (result.logfile.has_value())
-    {
-        logger.setLogFile(result.logfile.value());
-    }
-
-    return result;
-}
-
-EnvironmentDefinition handleEnvironmentDefinition(const Json& data)
-{
-    EnvironmentDefinition result;
-
-    return result;
+    return LoggingDefinition(logfile, loglevel);
 }
 
 // .......................................................................... //
 // simulation
 
-void handleSimulationInput(const char* const source)
+SimulatorDefinition unpackSimulatorDefinition(const Json& data)
+{
+    std::filesystem::path engine;
+    std::filesystem::path inputDir;
+    std::filesystem::path outputDir;
+    int repetitions;
+    int maxTurns;
+    int threadCount;
+
+    // TODO!
+
+    return SimulatorDefinition(
+               engine,
+               inputDir,
+               outputDir,
+               repetitions,
+               maxTurns,
+               threadCount
+           );
+}
+
+MatchDefinition unpackMatchDefinition(const Json& data)
+{
+    std::filesystem::path player1Team;
+    std::filesystem::path player1Strategy;
+    std::filesystem::path player2Team;
+    std::filesystem::path player2Strategy;
+    std::filesystem::path pkmnDefs;
+    std::filesystem::path moveDefs;
+    std::filesystem::path typeDefs;
+
+    // TODO!
+
+    return MatchDefinition(
+               player1Team,
+               player1Strategy,
+               player2Team,
+               player2Strategy,
+               pkmnDefs,
+               moveDefs,
+               typeDefs
+           );
+}
+
+std::shared_ptr<const BaseModeDefinition> unpackSimulationInput(const char* const source)
 {
     Json data = JsonService::readJsonFile(source);
     JsonService::validateJsonAgainstJson(data, SCHEMA_SIMULATION, source);
-    handleLoggingDefinition(data[JKEY_LOGGING]);
-    handleEnvironmentDefinition(data[JKEY_SIMULATOR]);
+    const auto logging   = unpackLoggingDefinition(data[JKEY_LOGGING]);
+    const auto simulator = unpackSimulatorDefinition(data[JKEY_SIMULATOR]);
+
+    // TODO! MatchDefinition
+
+    return std::make_shared<SimulationModeDefinition>(logging, simulator, MatchDefinition());
 }
 
 // .......................................................................... //
 // template
 
-void handleTemplateInput(const char* const source)
+std::shared_ptr<const BaseModeDefinition> unpackTemplateInput(const char* const source)
 {
+    //TODO
 
+    return std::make_shared<TemplateModeDefinition>();
 }
 
 // .......................................................................... //
 // remote
 
-void handleRemoteInput(const std::string& socket)
+std::shared_ptr<const BaseModeDefinition> unpackRemoteInput(const std::string& socket)
 {
-    throw CriticalAbort("Remote System: Not Implemented yet");
+    //TODO
+
+    return std::make_shared<RemoteModeDefinition>();
+}
+
+// .......................................................................... //
+// help
+
+std::shared_ptr<const BaseModeDefinition> unpackHelpInput(const std::string& target)
+{
+    try
+    {
+        const auto mode = modeFromString(target);
+        return std::make_shared<HelpModeDefinition>(mode);
+    }
+    catch (const std::invalid_argument& err)
+    {
+        throw CriticalAbort("No help available for unknown mode '"s + target + "'");
+    }
 }
 
 // .......................................................................... //
 // base
 
-void handleCliInput(const CliInput& cliInput)
+std::shared_ptr<const BaseModeDefinition> unpackCliInput(const CliInput& cliInput)
 {
     switch (cliInput.mode)
     {
-        case CliInput::OperationMode::SIMULATION:
-            handleSimulationInput(cliInput.data.c_str());
-            break;
-        case CliInput::OperationMode::TEMPLATE:
-            handleTemplateInput(cliInput.data.c_str());
-            break;
-        case CliInput::OperationMode::REMOTE:
-            handleRemoteInput(cliInput.data);
-            break;
-        case CliInput::OperationMode::HELP:
-            showModeHelp(cliInput.data);
-            break;
-        case CliInput::OperationMode::INVALID:
-            throw CriticalAbort("Invalid operation mode");
+        case OperationMode::SIMULATION:
+            return unpackSimulationInput(cliInput.data.c_str());
+        case OperationMode::TEMPLATE:
+            return unpackTemplateInput(cliInput.data.c_str());
+        case OperationMode::REMOTE:
+            return unpackRemoteInput(cliInput.data);
+        case OperationMode::HELP:
+            return unpackHelpInput(cliInput.data);
     }
+
+    throw std::invalid_argument(
+        "Unrecognized mode id "s + std::to_string(static_cast<int>(cliInput.mode))
+    );
 }
 
 // ========================================================================== //
 // showModeHelp
 
-void showModeHelp(const std::string& data)
+void showModeHelp(const OperationMode mode)
 {
-    const CliInput::OperationMode mode = modeFromString(data);
-    std::cout << "Mode: '" << data << "'" << std::endl;
     switch (mode)
     {
-        case CliInput::OperationMode::SIMULATION:
+        case OperationMode::SIMULATION:
             std::cout << "Runs a sequence of match simulations and stores the results in a report file." << std::endl;
             std::cout << "'data' has to be the path to a run definition JSON file." << std::endl;
             std::cout << "Refer to the documentation for the structure of a run definition JSON file." << std::endl;
             break;
-        case CliInput::OperationMode::TEMPLATE:
+        case OperationMode::TEMPLATE:
             std::cout << "Generates a template for a run definition JSON file and the files to be referenced therein." << std::endl;
             std::cout << "'data' has to be the path to a template definition JSON file." << std::endl;
             std::cout << "Refer to the documentation for the structure of a template definition JSON file." << std::endl;
             break;
-        case CliInput::OperationMode::REMOTE:
+        case OperationMode::REMOTE:
             std::cout << "This mode has not yet been implemented" << std::endl;
             break;
-        case CliInput::OperationMode::HELP:
+        case OperationMode::HELP:
             std::cout << "Shows help on the various run modes" << std::endl;
             break;
-        case CliInput::OperationMode::INVALID:
-            throw CriticalAbort("Invalid state: mode = "s + data);
     }
 
     std::exit(0);
