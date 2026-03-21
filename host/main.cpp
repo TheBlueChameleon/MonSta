@@ -16,10 +16,6 @@
 
 int main(const int argc, const char* const argv[])
 {
-    std::cout << SUBSCHEMA_SIMULATOR_STRING << std::endl;
-
-    std::exit(0);
-
     try
     {
         const CliInput cliInput = readCliInput(argc, argv);

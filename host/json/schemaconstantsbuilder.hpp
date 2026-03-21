@@ -11,18 +11,6 @@ namespace JsonSchemaBuilderUtils
     std::string indentString(int n);
 
     std::string keyToValue(const std::string& key, const std::string& value, int indent = 1);
-
-    std::string makeSubschemaRef(const std::string& propertyName, const std::string& description, int indent = 1);
-
-    using dict_t = std::initializer_list<std::pair<const std::string, const std::string>>;
-    std::string block(const std::string& title, const dict_t& data, int indent = 1);
-
-    using named_dict_t = std::initializer_list<std::pair<const std::string, const dict_t>>;
-    std::string makeSubSchemaDef(const std::string& propertyName,
-                                 const named_dict_t elements,
-                                 const std::initializer_list<std::string> required = {},
-                                 bool additionalProperties = false,
-                                 int indent = 2);
 }
 
 class JsonBlockBuilder
@@ -31,14 +19,14 @@ class JsonBlockBuilder
         using KeyValuePair_t = std::pair<const std::string, const std::string>;
 
     private:
-        const std::string title;
+        const std::string name;
         std::vector<KeyValuePair_t> pairs;
 
     public:
-        JsonBlockBuilder(const std::string& title);
-        JsonBlockBuilder& add(const std::string& key, const std::string& value);
+        JsonBlockBuilder(const std::string& name);
+        JsonBlockBuilder& addKeyValuePair(const std::string& key, const std::string& value);
 
-        std::string build(int indent = 1) const;
+        std::string build(int indent = 0) const;
 };
 
 class JsonSchemaRefBuilder
@@ -51,41 +39,47 @@ class JsonSchemaRefBuilder
         JsonSchemaRefBuilder(const std::string& name, const std::string& description);
 
         JsonBlockBuilder toBlockBuilder() const;
-        std::string build(int indent = 1) const;
+        std::string build(int indent = 0) const;
 };
 
 class JsonSubSchemaBuilder
 {
     private:
         std::string name;
+        bool additionalProperties = false;
         std::vector<JsonBlockBuilder> elements;
         std::vector<std::string> required;
-        bool additionalProperties = false;
 
     public:
         JsonSubSchemaBuilder(const std::string& name, bool additionalProperties = false);
 
-        JsonBlockBuilder& addElement(const std::string& title);
+        JsonBlockBuilder&     addProperty(const std::string& title);
         JsonSubSchemaBuilder& addReference(const std::string& name, const std::string& description);
+
         JsonSubSchemaBuilder& setRequired(const std::initializer_list<std::string>& requirements);
 
-        std::string build(int indent = 2) const;
+        std::string build(int indent = 0) const;
 };
 
 class JsonSchemaBuilder
 {
     private:
-        std::string name;
-        std::vector<JsonBlockBuilder> elements;
-        std::vector<JsonSubSchemaBuilder> subschemas;
         bool additionalProperties = false;
+        std::vector<JsonBlockBuilder> elements;
+        std::vector<std::string> required;
+        std::vector<JsonSubSchemaBuilder> subschemas;
 
     public:
-        JsonSchemaBuilder(const std::string& name, bool additionalProperties = false);
+        JsonSchemaBuilder(bool additionalProperties = false);
 
-        JsonSubSchemaBuilder& addReference(const std::string& name, const std::string& description);
+        JsonBlockBuilder&     addProperty(const std::string& title);
+        JsonSchemaBuilder&    addReference(const std::string& name, const std::string& description);
+        JsonSchemaBuilder&    addSubSchema(const JsonSubSchemaBuilder& subSchema);
+        JsonSubSchemaBuilder& addSubSchema(const std::string& name, bool additionalProperties = false);
 
-        std::string build(int indent = 2) const;
+        JsonSchemaBuilder& setRequired(const std::initializer_list<std::string>& requirements);
+
+        std::string build() const;
 };
 
 #endif // SCHEMACONSTANTSBUILDER_HPP

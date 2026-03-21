@@ -24,75 +24,6 @@ namespace JsonSchemaBuilderUtils
 
         return ss.str();
     }
-
-    using dict_t = std::initializer_list<std::pair<const std::string, const std::string>>;
-    std::string block(const std::string& title, const dict_t& elements, int indent)
-    {
-        std::stringstream ss;
-
-        ss << indentString(indent) << quoted(title) << " : {\n";
-        int i = 0;
-        int size = elements.size();
-        for (const auto& element : elements)
-        {
-            ++i;
-            ss << keyToValue(element.first, element.second, indent + 1);
-            ss << (i < size ? "," : "") << std::endl;
-        }
-        ss << indentString(indent) << "}";
-
-        return ss.str();
-    }
-
-    std::string makeSubschemaRef(const std::string& propertyName, const std::string& description, int indent)
-    {
-        return block(propertyName,
-        {
-            {"$ref", quoted("#/$defs/"s + propertyName)},
-            {"description", quoted(description)}
-        }, indent
-                    );
-    }
-
-    std::string makeSubSchemaDef(
-        const std::string& propertyName,
-        const named_dict_t elements,
-        const std::initializer_list<std::string> required,
-        bool additionalProperties,
-        int indent)
-    {
-        std::stringstream ss;
-
-        ss << indentString(indent) << quoted(propertyName) << " : {\n";
-        ss << indentString(indent + 1) + quoted("properties") + " : {\n";
-
-        int i = 0;
-        int size = elements.size();
-        for (const auto& element : elements)
-        {
-            ++i;
-            ss << block(element.first, element.second, indent + 2);
-            ss << (i < size ? "," : "") << std::endl;
-        }
-        ss << indentString(indent + 1) + "},\n";
-
-        ss << indentString(indent + 1) << quoted("required") << " : [";
-        i = 0;
-        size = required.size();
-        for (const auto& item: required)
-        {
-            ++i;
-            ss << quoted(item) << (i < size ? "," : "");
-        }
-        ss << "],\n";
-
-        ss << keyToValue("additionalProperties", (additionalProperties ? "true" : "false"), indent + 1) << "\n";
-        ss << indentString(indent) + "}";
-
-
-        return ss.str();
-    }
-
 }
 
 // ========================================================================== //
@@ -100,11 +31,11 @@ namespace JsonSchemaBuilderUtils
 
 using namespace JsonSchemaBuilderUtils;
 
-JsonBlockBuilder::JsonBlockBuilder(const std::string& title) :
-    title(title)
+JsonBlockBuilder::JsonBlockBuilder(const std::string& name) :
+    name(name)
 {}
 
-JsonBlockBuilder& JsonBlockBuilder::add(const std::string& key, const std::string& value)
+JsonBlockBuilder& JsonBlockBuilder::addKeyValuePair(const std::string& key, const std::string& value)
 {
     pairs.emplace_back(key, value);
     return *this;
@@ -114,7 +45,7 @@ std::string JsonBlockBuilder::build(int indent) const
 {
     std::stringstream ss;
 
-    ss << indentString(indent) << quoted(title) << " : {\n";
+    ss << indentString(indent) << quoted(name) << " : {\n";
     int i = 0;
     int size = pairs.size();
     for (const auto& element : pairs)
@@ -139,8 +70,8 @@ JsonBlockBuilder JsonSchemaRefBuilder::toBlockBuilder() const
 {
     auto builder = JsonBlockBuilder(name);
 
-    builder.add("$ref", quoted("#/$defs/"s + name));
-    builder.add("description", quoted(description));
+    builder.addKeyValuePair("$ref", quoted("#/$defs/"s + name));
+    builder.addKeyValuePair("description", quoted(description));
 
     return builder;
 }
@@ -157,7 +88,7 @@ JsonSubSchemaBuilder::JsonSubSchemaBuilder(const std::string& name, bool additio
     name(name), additionalProperties(additionalProperties)
 {}
 
-JsonBlockBuilder& JsonSubSchemaBuilder::addElement(const std::string& title)
+JsonBlockBuilder& JsonSubSchemaBuilder::addProperty(const std::string& title)
 {
     elements.emplace_back(title);
     return elements.back();
@@ -206,6 +137,89 @@ std::string JsonSubSchemaBuilder::build(int indent) const
 
     ss << keyToValue("additionalProperties", (additionalProperties ? "true" : "false"), indent + 1) << "\n";
     ss << indentString(indent) + "}";
+
+    return ss.str();
+}
+
+// ========================================================================== //
+// JsonSchemaBuilder
+
+JsonSchemaBuilder::JsonSchemaBuilder(bool additionalProperties) :
+    additionalProperties(additionalProperties)
+{}
+
+JsonBlockBuilder& JsonSchemaBuilder::addProperty(const std::string& title)
+{
+    elements.emplace_back(title);
+    return elements.back();
+}
+
+JsonSchemaBuilder& JsonSchemaBuilder::addReference(const std::string& name, const std::string& description)
+{
+    elements.push_back(JsonSchemaRefBuilder(name, description).toBlockBuilder());
+    return *this;
+}
+
+JsonSchemaBuilder& JsonSchemaBuilder::addSubSchema(const JsonSubSchemaBuilder& subSchema)
+{
+    subschemas.push_back(subSchema);
+    return *this;
+}
+
+JsonSubSchemaBuilder& JsonSchemaBuilder::addSubSchema(const std::string& name, bool additionalProperties)
+{
+    subschemas.emplace_back(name, additionalProperties);
+    return subschemas.back();
+}
+
+JsonSchemaBuilder& JsonSchemaBuilder::setRequired(const std::initializer_list<std::string>& requirements)
+{
+    required = requirements;
+    return *this;
+}
+
+std::string JsonSchemaBuilder::build() const
+{
+    std::stringstream ss;
+
+    ss << "{\n";
+
+    ss << "\t" R"("$schema" : "http://json-schema.org/draft-07/schema#",)" "\n";
+
+    ss << "\t" R"("properties" : {)" "\n";
+    int i = 0;
+    int size = elements.size();
+    for (const auto& property : elements)
+    {
+        ++i;
+        ss << property.build(2) << (i < size ? "," : "") << "\n";
+    }
+    ss << "\t},\n";
+
+    ss << "\t" R"("required" : [)" ;
+    i = 0;
+    size = required.size();
+    for (const auto& r : required)
+    {
+        ++i;
+        ss << quoted(r) << (i < size ? ", " : "");
+    }
+    ss << "],\n";
+
+    ss << keyToValue("additionalProperties", (additionalProperties ? "true" : "false"), 1) << ",\n";
+
+
+    ss << "\t" R"("$defs" : {)" "\n";
+    i = 0;
+    size = subschemas.size();
+    for (const auto& s : subschemas)
+    {
+        ++i;
+        ss << s.build(2) << (i < size ? ", " : "") << "\n";
+    }
+    ss << "\t}\n";
+
+    ss << "}\n";
 
     return ss.str();
 }
