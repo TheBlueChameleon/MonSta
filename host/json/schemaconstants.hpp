@@ -6,8 +6,6 @@
 #include <nlohmann/json.hpp>
 #include <nlohmann/json-schema.hpp>
 
-extern const std::string TEST;
-
 static constexpr auto JKEY_LOGGING          = "logging";
 static constexpr auto JKEY_LOGGING_LOGFILE  = "logfile";
 static constexpr auto JKEY_LOGGING_LOGLEVEL = "loglevel";

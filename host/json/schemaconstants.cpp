@@ -3,70 +3,63 @@ using namespace std::string_literals;
 
 #include "schemaconstants.hpp"
 #include "schemaconstantsbuilder.hpp"
-using namespace JsonSchemaBuilder;
+using namespace JsonSchemaBuilderUtils;
 
 using Json = nlohmann::json;
 
-const std::string TEST = makeSubschemaRef("name", "desc");
+const std::string t_string = quoted("string");
+const std::string t_integer = quoted("integer");
 
-const std::string SUBSCHEMA_LOGGER_STRING = makeSubSchemaDef(JKEY_LOGGING,
+// ========================================================================== //
+// SHARED
+// -------------------------------------------------------------------------- //
+// logging
+
+auto logging = JsonSubSchemaBuilder(JKEY_LOGGING);
+auto& logfile = logging.addElement(JKEY_LOGGING_LOGFILE).add("type", t_string);
+auto& loglevel = logging.addElement(JKEY_LOGGING_LOGLEVEL)
+                 .add("type", t_integer)
+                 .add("minimum", "0")
+                 .add("maximum", "6");
+const std::string SUBSCHEMA_LOGGER_STRING = logging.build();
+
+// ========================================================================== //
+// SIMULATION
+// -------------------------------------------------------------------------- //
+// simulator
+
+auto simulator = JsonSubSchemaBuilder(JKEY_SIMULATOR)
+                 .setRequired(
 {
-    // properties
-    std::make_pair(JKEY_LOGGING_LOGFILE, dict_t({
-        {
-            "type", quoted("string")
-        }
-    })),
-    std::make_pair(JKEY_LOGGING_LOGLEVEL, dict_t({
-        {"type", quoted("integer")},
-        {"minimum", "0"},
-        {"maximum", "6"}
-    }))
-}
-                                                       );
+    JKEY_SIMULATOR_ENGINE
+});
+auto& engine = simulator.addElement(JKEY_SIMULATOR_ENGINE)
+               .add("type", t_string);
+auto& outputDirectory = simulator.addElement(JKEY_SIMULATOR_INPUTDIRECTORY)
+                        .add("type", t_string);
+auto& inputDirectory = simulator.addElement(JKEY_SIMULATOR_OUTPUTDIRECTORY)
+                       .add("type", t_string);
+auto& repetitions = simulator.addElement(JKEY_SIMULATOR_REPETITIONS)
+                    .add("type", t_integer)
+                    .add("minimum", "1");
+auto& maxTurns = simulator.addElement(JKEY_SIMULATOR_MAXTURNS)
+                 .add("type", t_integer)
+                 .add("minimum", "1");
+auto& threadCount = simulator.addElement(JKEY_SIMULATOR_THREADCOUNT)
+                    .add("type", t_integer)
+                    .add("minimum", "1");
+auto& args = simulator.addElement(JKEY_SIMULATOR_ARGS)
+             .add("type", t_string);
+const std::string SUBSCHEMA_SIMULATOR_STRING = simulator.build();
 
-const std::string SUBSCHEMA_SIMULATOR_STRING = makeSubSchemaDef(JKEY_SIMULATOR,
-{
-    /* properties : */
-    std::make_pair(JKEY_SIMULATOR_ENGINE, dict_t({
-        {
-            "type", quoted("string")
-        }
-    })),
-    std::make_pair(JKEY_SIMULATOR_INPUTDIRECTORY, dict_t({
-        {
-            "type", quoted("string")
-        }
-    })),
-    std::make_pair(JKEY_SIMULATOR_OUTPUTDIRECTORY, dict_t({
-        {
-            "type", quoted("string")
-        }
-    })),
+// -------------------------------------------------------------------------- //
+// match definition
 
-    std::make_pair(JKEY_SIMULATOR_REPETITIONS, dict_t({
-        {"type", quoted("integer")},
-        {"minimum", "1"}
-    })),
-    std::make_pair(JKEY_SIMULATOR_MAXTURNS, dict_t({
-        {"type", quoted("integer")},
-        {"minimum", "1"}
-    })),
-    std::make_pair(JKEY_SIMULATOR_THREADCOUNT, dict_t({
-        {"type", quoted("integer")},
-        {"minimum", "1"}
-    })),
+auto matchDefinition = JsonSubSchemaBuilder(JKEY_MATCHDEFINITION);
+const std::string SUBSCHEMA_MATCHDEFINITION_STRING = matchDefinition.build();
 
-    std::make_pair(JKEY_SIMULATOR_ARGS, dict_t({
-        {
-            "type", quoted("string")
-        }
-    }))
-},
-/* required = */ {JKEY_SIMULATOR_ENGINE}
-                                                          );
-
-const std::string SUBSCHEMA_MATCHDEFINITION_STRING = makeSubSchemaDef(JKEY_MATCHDEFINITION, {});
+// ========================================================================== //
+// FULL SCHEMA
 
 const std::string SCHEMA_SIMULATION_STRING = R"(
 {
@@ -74,10 +67,10 @@ const std::string SCHEMA_SIMULATION_STRING = R"(
 
     "properties": {
 )"s
-                                             + makeSubschemaRef(JKEY_LOGGING, "dsc") + ",\n"
-                                             + makeSubschemaRef(JKEY_SIMULATOR, "dsc") + ",\n"
-                                             + makeSubschemaRef(JKEY_MATCHDEFINITION , "dsc") + R"(    },
-    "required": [)" + quoted(JKEY_SIMULATOR) + R"(],
+                                             + JsonSchemaBuilderUtils::makeSubschemaRef(JKEY_LOGGING, "dsc") + ",\n"
+                                             + JsonSchemaBuilderUtils::makeSubschemaRef(JKEY_SIMULATOR, "dsc") + ",\n"
+                                             + JsonSchemaBuilderUtils::makeSubschemaRef(JKEY_MATCHDEFINITION , "dsc") + R"(    },
+    "required": [)" + JsonSchemaBuilderUtils::quoted(JKEY_SIMULATOR) + R"(],
     "additionalProperties": false,
 
     "$defs" : {
