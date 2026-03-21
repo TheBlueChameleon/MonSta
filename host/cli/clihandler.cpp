@@ -173,6 +173,7 @@ SimulatorDefinition unpackSimulatorDefinition(const Json& data)
     int repetitions;
     int maxTurns;
     int threadCount;
+    std::string args;
 
     // TODO!
 
@@ -182,7 +183,8 @@ SimulatorDefinition unpackSimulatorDefinition(const Json& data)
                outputDir,
                repetitions,
                maxTurns,
-               threadCount
+               threadCount,
+               args
            );
 }
 

@@ -13,6 +13,10 @@
 
 int main(const int argc, const char* const argv[])
 {
+    std::cout << SCHEMA_SIMULATION_STRING << std::endl;
+    std::cout << TEST << std::endl;
+    std::exit(0);
+
     try
     {
         const CliInput cliInput = readCliInput(argc, argv);

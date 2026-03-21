@@ -106,6 +106,8 @@ add_executable(App
     host/defs/templatemodedefinition.hpp
 
     host/json/jsonservice.hpp host/json/jsonservice.cpp
+    host/json/schemaconstants.hpp host/json/schemaconstants.cpp
+    host/json/schemaconstantsbuilder.hpp host/json/schemaconstantsbuilder.cpp
 
     host/constants.hpp host/constants.cpp
     host/errors.hpp
