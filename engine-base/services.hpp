@@ -3,4 +3,10 @@
 
 #include "loggerservice.hpp"
 
+struct HostApi;
+
+extern HostApi* hostApi;
+
+const ILoggerService& loggerService();
+
 #endif // SERVICES_HPP

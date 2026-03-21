@@ -193,7 +193,7 @@ void handleSimulationInput(const char* const source)
     Json data = JsonService::readJsonFile(source);
     JsonService::validateJsonAgainstJson(data, SCHEMA_SIMULATION, source);
     handleLoggingDefinition(data[JKEY_LOGGING]);
-    handleEnvironmentDefinition(data[JKEY_ENVIRONMENT]);
+    handleEnvironmentDefinition(data[JKEY_SIMULATOR]);
 }
 
 // .......................................................................... //

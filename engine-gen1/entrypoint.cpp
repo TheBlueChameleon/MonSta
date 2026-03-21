@@ -1,7 +1,12 @@
-#include <iostream>
-
 #include <ClientApi.hpp>
 #include <Version.hpp>
+
+#include "services.hpp"
+
+void engine_post_init()
+{
+    LoggerService::trace("  ### post init hook");
+}
 
 extern "C" {
     const Version CLIENT_VERSION(0,1,0,0);

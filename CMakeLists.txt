@@ -127,7 +127,7 @@ target_link_libraries(App
 add_library(Engine-Base STATIC
     ${apiHeaders}
 
-    engine-base/services.hpp
+    engine-base/services.hpp engine-base/services.cpp
 
     engine-base/entrypoint.cpp
     engine-base/loggerservice.hpp engine-base/loggerservice.cpp
@@ -148,9 +148,6 @@ target_link_libraries(Engine-Gen1 PUBLIC
     Engine-Base
 )
 
-target_link_libraries(Engine-Gen1 PRIVATE
-    $<$<CXX_COMPILER_ID:MSVC>:/WHOLEARCHIVE:Engine-Base>
-    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wl,--whole-archive>
-    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:Engine-Base>
-    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wl,--no-whole-archive>
+target_include_directories(Engine-Gen1
+    PRIVATE "engine-base"
 )

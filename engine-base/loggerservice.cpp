@@ -1,33 +1,34 @@
+#include <ILoggerService.hpp>
+
+#include "services.hpp"
 #include "loggerservice.hpp"
 
-ILoggerService loggerService;
-
-void trace(const char* const msg)
+void LoggerService::trace(const char* const msg)
 {
-    loggerService.trace(msg);
+    loggerService().trace(msg);
 }
 
-void debug(const char* const msg)
+void LoggerService::debug(const char* const msg)
 {
-    loggerService.trace(msg);
+    loggerService().trace(msg);
 }
 
-void info(const char* const msg)
+void LoggerService::info(const char* const msg)
 {
-    loggerService.info(msg);
+    loggerService().info(msg);
 }
 
-void warn(const char* const msg)
+void LoggerService::warn(const char* const msg)
 {
-    loggerService.warn(msg);
+    loggerService().warn(msg);
 }
 
-void error(const char* const msg)
+void LoggerService::error(const char* const msg)
 {
-    loggerService.error(msg);
+    loggerService().error(msg);
 }
 
-void critical(const char* const msg)
+void LoggerService::critical(const char* const msg)
 {
-    loggerService.critical(msg);
+    loggerService().critical(msg);
 }

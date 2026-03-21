@@ -6,8 +6,6 @@
 
 #include "services.hpp"
 
-HostApi* hostapi;
-
 bool allLoggerServicesPresent(const ILoggerService& ls)
 {
     return true;
@@ -50,6 +48,8 @@ bool allVersionServicesPresent(const IVersionService& vu)
     return true;
 }
 
+void engine_post_init() {}
+
 extern "C" {
     bool init(HostApi* api)
     {
@@ -58,7 +58,6 @@ extern "C" {
             std::cerr << "Logger was not initialized!" << std::endl;
             return false;
         }
-        loggerService = api->loggerService;
 
         if (!allVersionServicesPresent(api->versionService))
         {
@@ -66,7 +65,9 @@ extern "C" {
             return false;
         }
 
-        hostapi = api;
+        hostApi = api;
+
+        engine_post_init();
         return true;
     }
 }

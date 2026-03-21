@@ -1,17 +1,18 @@
-[2026-03-20 14:26:18.753] [MonStaLogger] [debug] BOOTING ENGINE WRAPPER
-[2026-03-20 14:26:18.753] [MonStaLogger] [trace] LOADING ENGINE FROM ./build-Desktop-Debug/libEngine-Gen1.so
-[2026-03-20 14:26:18.753] [MonStaLogger] [trace] ... SUCCESS!
-[2026-03-20 14:26:18.753] [MonStaLogger] [trace] EXTRACTING FUNCTIONS ...
-[2026-03-20 14:26:18.753] [MonStaLogger] [trace]   ... EXTRACTED CLIENT_VERSION
-[2026-03-20 14:26:18.753] [MonStaLogger] [trace]   ... EXTRACTED MIN_HOST_VERSION
-[2026-03-20 14:26:18.753] [MonStaLogger] [trace]   ... EXTRACTED MAX_HOST_VERSION
-[2026-03-20 14:26:18.753] [MonStaLogger] [trace]   ... EXTRACTED init
-[2026-03-20 14:26:18.753] [MonStaLogger] [trace]   ... EXTRACTED hangUp
-[2026-03-20 14:26:18.753] [MonStaLogger] [trace] ... SUCCESS!
-[2026-03-20 14:26:18.753] [MonStaLogger] [trace] ASSERTING VERSION COMPATIBILITY ...
-[2026-03-20 14:26:18.753] [MonStaLogger] [trace]   ... Client Version is 0.1.0.0
-[2026-03-20 14:26:18.753] [MonStaLogger] [trace]   ... Host Version is 0.1.0.0
-[2026-03-20 14:26:18.753] [MonStaLogger] [trace]   ... Version check successful.
-[2026-03-20 14:26:18.753] [MonStaLogger] [trace]   ... Client accepted connection.
-[2026-03-20 14:26:18.753] [MonStaLogger] [trace] ... SUCCESS!
-[2026-03-20 14:26:18.753] [MonStaLogger] [debug] ... DONE
+[2026-03-21 12:42:48.591] [MonStaLogger] [debug] BOOTING ENGINE WRAPPER
+[2026-03-21 12:42:48.591] [MonStaLogger] [trace] LOADING ENGINE FROM ./build-Desktop-Debug/libEngine-Gen1.so
+[2026-03-21 12:42:48.591] [MonStaLogger] [trace] ... SUCCESS!
+[2026-03-21 12:42:48.591] [MonStaLogger] [trace] EXTRACTING FUNCTIONS ...
+[2026-03-21 12:42:48.591] [MonStaLogger] [trace]   ... EXTRACTED CLIENT_VERSION
+[2026-03-21 12:42:48.591] [MonStaLogger] [trace]   ... EXTRACTED MIN_HOST_VERSION
+[2026-03-21 12:42:48.591] [MonStaLogger] [trace]   ... EXTRACTED MAX_HOST_VERSION
+[2026-03-21 12:42:48.591] [MonStaLogger] [trace]   ... EXTRACTED init
+[2026-03-21 12:42:48.591] [MonStaLogger] [trace]   ... EXTRACTED hangUp
+[2026-03-21 12:42:48.591] [MonStaLogger] [trace] ... SUCCESS!
+[2026-03-21 12:42:48.591] [MonStaLogger] [trace] ASSERTING VERSION COMPATIBILITY ...
+[2026-03-21 12:42:48.591] [MonStaLogger] [trace]   ... Client Version is 0.1.0.0
+[2026-03-21 12:42:48.591] [MonStaLogger] [trace]   ... Host Version is 0.1.0.0
+[2026-03-21 12:42:48.591] [MonStaLogger] [trace]   ... Version check successful.
+[2026-03-21 12:42:48.591] [MonStaLogger] [trace]   ### post init hook
+[2026-03-21 12:42:48.591] [MonStaLogger] [trace]   ... Client accepted connection.
+[2026-03-21 12:42:48.591] [MonStaLogger] [trace] ... SUCCESS!
+[2026-03-21 12:42:48.591] [MonStaLogger] [debug] ... DONE
