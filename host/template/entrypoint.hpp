@@ -1,4 +1,13 @@
-#ifndef ENTRYPOINT_HPP
-#define ENTRYPOINT_HPP
+#ifndef ENTRYPOINT_TEMPLATE_HPP
+#define ENTRYPOINT_TEMPLATE_HPP
 
-#endif // ENTRYPOINT_HPP
+#include <memory>
+
+#include "../defs/basemodedefinition.hpp"
+
+namespace Template
+{
+    void run(const std::shared_ptr<const BaseModeDefinition>& defs);
+}
+
+#endif // ENTRYPOINT_TEMPLATE_HPP

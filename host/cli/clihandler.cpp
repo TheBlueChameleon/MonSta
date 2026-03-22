@@ -99,7 +99,7 @@ void validateAsFile(const std::string& data)
 
 void validateAsRemote(const std::string& data)
 {
-    throw CriticalAbort("Operation mode '"s + CliInput::REMOTE + "' not implemented yet");
+    // TODO
 }
 
 CliInput readAndValidateParser(const ArgParser& parser)
@@ -167,17 +167,20 @@ LoggingDefinition unpackLoggingDefinition(const Json& data)
 
 SimulatorDefinition unpackSimulatorDefinition(const Json& data)
 {
-    std::filesystem::path engine;
-    std::filesystem::path inputDir;
-    std::filesystem::path outputDir;
+    std::string engine = data[JKEY_SIMULATOR_ENGINE];   // required to exist.
+    std::string inputDir;
+    std::string outputDir;
     int repetitions;
     int maxTurns;
     int threadCount;
     std::string args;
 
-    engine = static_cast<std::string>(data[JKEY_SIMULATOR_ENGINE]); // required to exist
-
-    // TODO!
+    fetchIfInJson(JKEY_SIMULATOR_INPUTDIRECTORY, data, inputDir);
+    fetchIfInJson(JKEY_SIMULATOR_OUTPUTDIRECTORY, data, outputDir);
+    fetchIfInJson(JKEY_SIMULATOR_REPETITIONS, data, repetitions);
+    fetchIfInJson(JKEY_SIMULATOR_MAXTURNS, data, maxTurns);
+    fetchIfInJson(JKEY_SIMULATOR_THREADCOUNT, data, threadCount);
+    fetchIfInJson(JKEY_SIMULATOR_ARGS, data, args);
 
     return SimulatorDefinition(
                engine,
@@ -192,24 +195,15 @@ SimulatorDefinition unpackSimulatorDefinition(const Json& data)
 
 MatchDefinition unpackMatchDefinition(const Json& data)
 {
-    std::filesystem::path player1Team;
-    std::filesystem::path player1Strategy;
-    std::filesystem::path player2Team;
-    std::filesystem::path player2Strategy;
-    std::filesystem::path pkmnDefs;
-    std::filesystem::path moveDefs;
-    std::filesystem::path typeDefs;
-
-    // TODO!
-
+    // all entries required
     return MatchDefinition(
-               player1Team,
-               player1Strategy,
-               player2Team,
-               player2Strategy,
-               pkmnDefs,
-               moveDefs,
-               typeDefs
+               data[JKEY_MATCHDEFINITION_PLAYER1TEAM],
+               data[JKEY_MATCHDEFINITION_PLAYER1STRATETY],
+               data[JKEY_MATCHDEFINITION_PLAYER2TEAM],
+               data[JKEY_MATCHDEFINITION_PLAYER2STRATETY],
+               data[JKEY_MATCHDEFINITION_PKMNDEFS],
+               data[JKEY_MATCHDEFINITION_MOVEDEFS],
+               data[JKEY_MATCHDEFINITION_TYPEDEFS]
            );
 }
 
@@ -217,12 +211,12 @@ std::shared_ptr<const BaseModeDefinition> unpackSimulationInput(const char* cons
 {
     Json data = JsonService::readJsonFile(source);
     JsonService::validateJsonAgainstJson(data, SCHEMA_SIMULATION, source);
-    const auto logging   = unpackLoggingDefinition(data[JKEY_LOGGING]);
-    const auto simulator = unpackSimulatorDefinition(data[JKEY_SIMULATOR]);
 
-    // TODO! MatchDefinition
-
-    return std::make_shared<SimulationModeDefinition>(logging, simulator, MatchDefinition());
+    return std::make_shared<SimulationModeDefinition>(
+               unpackLoggingDefinition(data[JKEY_LOGGING]),
+               unpackSimulatorDefinition(data[JKEY_SIMULATOR]),
+               unpackMatchDefinition(data[JKEY_MATCHDEFINITION])
+           );
 }
 
 // .......................................................................... //

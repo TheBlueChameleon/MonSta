@@ -53,7 +53,31 @@ auto& args = simulator.addProperty(JKEY_SIMULATOR_ARGS)
 // -------------------------------------------------------------------------- //
 // match definition
 
-auto matchDefinition = JsonSubSchemaBuilder(JKEY_MATCHDEFINITION);
+auto matchDefinition = JsonSubSchemaBuilder(JKEY_MATCHDEFINITION)
+                       .setRequired(
+{
+    JKEY_MATCHDEFINITION_PLAYER1TEAM,
+    JKEY_MATCHDEFINITION_PLAYER1STRATETY,
+    JKEY_MATCHDEFINITION_PLAYER2TEAM,
+    JKEY_MATCHDEFINITION_PLAYER2STRATETY,
+    JKEY_MATCHDEFINITION_PKMNDEFS,
+    JKEY_MATCHDEFINITION_MOVEDEFS,
+    JKEY_MATCHDEFINITION_TYPEDEFS
+});
+auto& player1Strategy = matchDefinition.addProperty(JKEY_MATCHDEFINITION_PLAYER1STRATETY)
+                        .addKeyValuePair("type", t_string);
+auto& player2Strategy = matchDefinition.addProperty(JKEY_MATCHDEFINITION_PLAYER2STRATETY)
+                        .addKeyValuePair("type", t_string);
+auto& player1Team = matchDefinition.addProperty(JKEY_MATCHDEFINITION_PLAYER1TEAM)
+                    .addKeyValuePair("type", t_string);
+auto& player2Team = matchDefinition.addProperty(JKEY_MATCHDEFINITION_PLAYER2TEAM)
+                    .addKeyValuePair("type", t_string);
+auto& pkmnDefs = matchDefinition.addProperty(JKEY_MATCHDEFINITION_PKMNDEFS)
+                 .addKeyValuePair("type", t_string);
+auto& moveDefs = matchDefinition.addProperty(JKEY_MATCHDEFINITION_MOVEDEFS)
+                 .addKeyValuePair("type", t_string);
+auto& typeDefs = matchDefinition.addProperty(JKEY_MATCHDEFINITION_TYPEDEFS)
+                 .addKeyValuePair("type", t_string);
 
 // -------------------------------------------------------------------------- //
 // FULL SCHEMA
@@ -67,7 +91,7 @@ auto simulation = JsonSchemaBuilder()
                   .addSubSchema(matchDefinition)
                   .setRequired(
 {
-    JKEY_SIMULATOR
+    JKEY_SIMULATOR, JKEY_MATCHDEFINITION
 });
 const std::string SCHEMA_SIMULATION_STRING = simulation.build();
 const nlohmann::json SCHEMA_SIMULATION = Json::parse(SCHEMA_SIMULATION_STRING);

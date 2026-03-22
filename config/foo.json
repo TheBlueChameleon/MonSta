@@ -7,5 +7,14 @@
         "engine": "value", // comment
         "inputDirectory": "value",
         "outputDirectory": "value"
+    },
+    "matchDefinition" : {
+        "player1Team" : "",
+        "player1Strategy" : "",
+        "player2Team" : "",
+        "player2Strategy" : "",
+        "pkmnDefs" : "",
+        "moveDefs" : "",
+        "typeDefs" : ""
     }
 }

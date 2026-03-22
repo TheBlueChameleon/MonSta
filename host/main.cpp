@@ -9,6 +9,7 @@
 #include "help/entrypoint.hpp"
 #include "remote/entrypoint.hpp"
 #include "simulation/entrypoint.hpp"
+#include "template/entrypoint.hpp"
 
 #include "constants.hpp"
 #include "errors.hpp"
@@ -26,6 +27,7 @@ int main(const int argc, const char* const argv[])
                 Simulation::run(runDefinition);
                 break;
             case OperationMode::TEMPLATE:
+                Template::run(runDefinition);
                 break;
             case OperationMode::REMOTE:
                 Remote::run(runDefinition);

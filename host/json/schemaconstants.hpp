@@ -19,7 +19,14 @@ static constexpr auto JKEY_SIMULATOR_MAXTURNS        = "maxTurns";
 static constexpr auto JKEY_SIMULATOR_THREADCOUNT     = "threadCount";
 static constexpr auto JKEY_SIMULATOR_ARGS            = "args";
 
-static constexpr auto JKEY_MATCHDEFINITION = "matchDefinition";
+static constexpr auto JKEY_MATCHDEFINITION                 = "matchDefinition";
+static constexpr auto JKEY_MATCHDEFINITION_PLAYER1TEAM     = "player1Team";
+static constexpr auto JKEY_MATCHDEFINITION_PLAYER1STRATETY = "player1Strategy";
+static constexpr auto JKEY_MATCHDEFINITION_PLAYER2TEAM     = "player2Team";
+static constexpr auto JKEY_MATCHDEFINITION_PLAYER2STRATETY = "player2Strategy";
+static constexpr auto JKEY_MATCHDEFINITION_PKMNDEFS        = "pkmnDefs";
+static constexpr auto JKEY_MATCHDEFINITION_MOVEDEFS        = "moveDefs";
+static constexpr auto JKEY_MATCHDEFINITION_TYPEDEFS        = "typeDefs";
 
 extern const std::string SCHEMA_SIMULATION_STRING;
 extern const nlohmann::json SCHEMA_SIMULATION;
