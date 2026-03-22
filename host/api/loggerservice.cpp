@@ -12,6 +12,16 @@ Logger& LoggerService::getInstance()
     return instance;
 }
 
+void LoggerService::setup(const LoggingDefinition def)
+{
+    if (def.logfile.has_value())
+    {
+        instance.setLogFile(def.logfile.value());
+    }
+
+    instance.setLogLevel(def.loglevel);
+}
+
 void LoggerService::trace(const char* const msg)
 {
     instance.trace(msg);

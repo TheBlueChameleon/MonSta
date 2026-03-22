@@ -3,6 +3,8 @@
 
 #include "../cli/logger.hpp"
 
+#include "../defs/loggingdefinition.hpp"
+
 class LoggerService
 {
     private:
@@ -12,6 +14,8 @@ class LoggerService
 
     public:
         static Logger& getInstance();
+
+        static void setup(const LoggingDefinition def);
 
         static void trace(const char* const msg);
         static void debug(const char* const msg);

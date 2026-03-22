@@ -1,6 +1,4 @@
 #include <filesystem>
-#include <iostream>
-#include <stdexcept>
 #include <sstream>
 #include <string>
 using namespace std::string_literals;
@@ -86,7 +84,7 @@ OperationMode modeFromString(const std::string& modeString)
     if (modeString == CliInput::HELP      ) return OperationMode::HELP;
     // *INDENT-ON*
 
-    throw std::invalid_argument("Invalid mode identifier: '"s + modeString + "'");
+    throw IllegalStateException("Invalid mode identifier: '"s + modeString + "'");
 }
 
 void validateAsFile(const std::string& data)
@@ -141,6 +139,15 @@ CliInput readCliInput(const int argc, const char* const argv[])
 // .......................................................................... //
 // shared
 
+template<typename T>
+void fetchIfInJson(const char* const jsonKey, const Json& data, T& target)
+{
+    if (data.contains(jsonKey))
+    {
+        target = data[jsonKey];
+    }
+}
+
 LoggingDefinition unpackLoggingDefinition(const Json& data)
 {
     std::optional<std::filesystem::path> logfile;
@@ -148,15 +155,8 @@ LoggingDefinition unpackLoggingDefinition(const Json& data)
 
     if (data.is_structured())       // eqv. to is not null
     {
-        if (data.contains(JKEY_LOGGING_LOGLEVEL))
-        {
-            loglevel = data[JKEY_LOGGING_LOGLEVEL];
-        }
-
-        if (data.contains(JKEY_LOGGING_LOGFILE))
-        {
-            logfile = data[JKEY_LOGGING_LOGFILE];
-        }
+        fetchIfInJson(JKEY_LOGGING_LOGLEVEL, data, loglevel);
+        fetchIfInJson(JKEY_LOGGING_LOGFILE, data, logfile);
     }
 
     return LoggingDefinition(logfile, loglevel);
@@ -174,6 +174,8 @@ SimulatorDefinition unpackSimulatorDefinition(const Json& data)
     int maxTurns;
     int threadCount;
     std::string args;
+
+    engine = static_cast<std::string>(data[JKEY_SIMULATOR_ENGINE]); // required to exist
 
     // TODO!
 
@@ -253,7 +255,7 @@ std::shared_ptr<const BaseModeDefinition> unpackHelpInput(const std::string& tar
         const auto mode = modeFromString(target);
         return std::make_shared<HelpModeDefinition>(mode);
     }
-    catch (const std::invalid_argument& err)
+    catch (const IllegalStateException& err)
     {
         throw CriticalAbort("No help available for unknown mode '"s + target + "'");
     }
@@ -276,35 +278,9 @@ std::shared_ptr<const BaseModeDefinition> unpackCliInput(const CliInput& cliInpu
             return unpackHelpInput(cliInput.data);
     }
 
-    throw std::invalid_argument(
+    throw IllegalStateException(
         "Unrecognized mode id "s + std::to_string(static_cast<int>(cliInput.mode))
     );
 }
 
-// ========================================================================== //
-// showModeHelp
 
-void showModeHelp(const OperationMode mode)
-{
-    switch (mode)
-    {
-        case OperationMode::SIMULATION:
-            std::cout << "Runs a sequence of match simulations and stores the results in a report file." << std::endl;
-            std::cout << "'data' has to be the path to a run definition JSON file." << std::endl;
-            std::cout << "Refer to the documentation for the structure of a run definition JSON file." << std::endl;
-            break;
-        case OperationMode::TEMPLATE:
-            std::cout << "Generates a template for a run definition JSON file and the files to be referenced therein." << std::endl;
-            std::cout << "'data' has to be the path to a template definition JSON file." << std::endl;
-            std::cout << "Refer to the documentation for the structure of a template definition JSON file." << std::endl;
-            break;
-        case OperationMode::REMOTE:
-            std::cout << "This mode has not yet been implemented" << std::endl;
-            break;
-        case OperationMode::HELP:
-            std::cout << "Shows help on the various run modes" << std::endl;
-            break;
-    }
-
-    std::exit(0);
-}

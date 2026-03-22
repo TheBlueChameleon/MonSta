@@ -10,7 +10,17 @@ class CriticalAbort : public std::runtime_error
 
         CriticalAbort() :
             std::runtime_error("Critical abort. See the logs for possible reasons.")
-        {};
+        {}
+};
+
+class IllegalStateException : public std::runtime_error
+{
+    public:
+        using std::runtime_error::runtime_error;
+
+        IllegalStateException() :
+            std::runtime_error("Illegal state. Please report what you did to <the dev>.")
+        {}
 };
 
 #endif // ERRORS_HPP

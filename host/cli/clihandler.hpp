@@ -11,6 +11,4 @@ CliInput readCliInput(const int argc, const char* const argv[]);
 
 std::shared_ptr<const BaseModeDefinition> unpackCliInput(const CliInput& cliInput);
 
-void showModeHelp(const OperationMode data);
-
 #endif // CLIHANDLER_HPP

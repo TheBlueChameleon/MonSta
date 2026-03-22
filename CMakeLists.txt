@@ -99,15 +99,24 @@ add_executable(App
 
     host/defs/basemodedefinition.hpp
     host/defs/helpmodedefinition.hpp
-    host/defs/simulatordefinition.hpp
     host/defs/loggingdefinition.hpp
     host/defs/remoterundefinition.hpp
+    host/defs/safecast.hpp host/defs/safecast.cpp
     host/defs/simulationmodedefinition.hpp
+    host/defs/simulatordefinition.hpp
     host/defs/templatemodedefinition.hpp
 
     host/json/jsonservice.hpp host/json/jsonservice.cpp
     host/json/schemaconstants.hpp host/json/schemaconstants.cpp
     host/json/schemaconstantsbuilder.hpp host/json/schemaconstantsbuilder.cpp
+
+    host/help/entrypoint.hpp host/help/entrypoint.cpp
+
+    host/remote/entrypoint.hpp host/remote/entrypoint.cpp
+
+    host/simulation/entrypoint.hpp host/simulation/entrypoint.cpp
+
+    host/template/entrypoint.hpp host/template/entrypoint.cpp
 
     host/constants.hpp host/constants.cpp
     host/errors.hpp

@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "api/clientwrapper.hpp"
 #include "api/hostapiwrapper.hpp"
 
@@ -8,40 +6,45 @@
 #include "defs/helpmodedefinition.hpp"
 #include "defs/simulationmodedefinition.hpp"
 
+#include "help/entrypoint.hpp"
+#include "remote/entrypoint.hpp"
+#include "simulation/entrypoint.hpp"
+
 #include "constants.hpp"
 #include "errors.hpp"
-
-
-#include "json/schemaconstantsbuilder.hpp"
 
 int main(const int argc, const char* const argv[])
 {
     try
     {
         const CliInput cliInput = readCliInput(argc, argv);
-        const std::shared_ptr<const BaseModeDefinition> defs = unpackCliInput(cliInput);
+        const std::shared_ptr<const BaseModeDefinition> runDefinition = unpackCliInput(cliInput);
 
-        switch (defs->mode)
+        switch (runDefinition->mode)
         {
             case OperationMode::SIMULATION:
+                Simulation::run(runDefinition);
                 break;
             case OperationMode::TEMPLATE:
                 break;
             case OperationMode::REMOTE:
+                Remote::run(runDefinition);
                 break;
             case OperationMode::HELP:
-                const auto ptr = std::dynamic_pointer_cast<const HelpModeDefinition>(defs);
-                const auto mode = ptr->target;
-                showModeHelp(mode);
-                break;
+                Help::run(runDefinition);
         }
-
-        //ClientWrapper cw("./build-Desktop-Debug/libEngine-Gen1.so");
     }
     catch (const CriticalAbort& e)
     {
         std::cerr << e.what() << std::endl;
         return -1;
+    }
+    catch (const IllegalStateException& e)
+    {
+        std::cerr << e.what() << std::endl;
+        std::cerr << "This means <the dev> fucked up. Please report what you did to them with a stern look." << std::endl;
+        return -1;
+
     }
     return 0;
 }
