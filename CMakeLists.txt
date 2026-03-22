@@ -115,20 +115,16 @@ add_executable(App
     host/json/schemaconstants.hpp host/json/schemaconstants.cpp
     host/json/schemaconstantsbuilder.hpp host/json/schemaconstantsbuilder.cpp
 
-    host/help/entrypoint.hpp host/help/entrypoint.cpp
-
-    host/remote/entrypoint.hpp host/remote/entrypoint.cpp
-
-    host/schemaExport/entrypoint.hpp host/schemaExport/entrypoint.cpp
-
-    host/simulation/entrypoint.hpp host/simulation/entrypoint.cpp
-
-    host/template/entrypoint.hpp host/template/entrypoint.cpp
+    host/operationmodes/operationmode.hpp
+    host/operationmodes/help/entrypoint.hpp         host/operationmodes/help/entrypoint.cpp
+    host/operationmodes/remote/entrypoint.hpp       host/operationmodes/remote/entrypoint.cpp
+    host/operationmodes/schemaExport/entrypoint.hpp host/operationmodes/schemaExport/entrypoint.cpp
+    host/operationmodes/simulation/entrypoint.hpp   host/operationmodes/simulation/entrypoint.cpp
+    host/operationmodes/template/entrypoint.hpp     host/operationmodes/template/entrypoint.cpp
 
     host/constants.hpp host/constants.cpp
     host/errors.hpp
     host/main.cpp
-    host/operationmode.hpp
 
     config/simulation.json
     config/template.json

@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "../operationmode.hpp"
+#include "../operationmodes/operationmode.hpp"
 
 struct CliInput
 {

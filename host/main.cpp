@@ -4,11 +4,11 @@
 
 #include "filewriter/filewriterservice.hpp"
 
-#include "help/entrypoint.hpp"
-#include "remote/entrypoint.hpp"
-#include "schemaExport/entrypoint.hpp"
-#include "simulation/entrypoint.hpp"
-#include "template/entrypoint.hpp"
+#include "operationmodes/help/entrypoint.hpp"
+#include "operationmodes/remote/entrypoint.hpp"
+#include "operationmodes/schemaExport/entrypoint.hpp"
+#include "operationmodes/simulation/entrypoint.hpp"
+#include "operationmodes/template/entrypoint.hpp"
 
 #include "errors.hpp"
 
