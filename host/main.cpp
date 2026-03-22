@@ -2,6 +2,8 @@
 
 #include "cli/clihandler.hpp"
 
+#include "filewriter/filewriterservice.hpp"
+
 #include "help/entrypoint.hpp"
 #include "remote/entrypoint.hpp"
 #include "schemaExport/entrypoint.hpp"
@@ -10,30 +12,48 @@
 
 #include "errors.hpp"
 
+void run(const int argc, const char* const argv[])
+{
+    const CliInput cliInput = readCliInput(argc, argv);
+    const std::shared_ptr<const BaseModeDefinition> runDefinition = unpackCliInput(cliInput);
+
+    switch (runDefinition->mode)
+    {
+        case OperationMode::SIMULATION:
+            SimulationMode::run(runDefinition);
+            break;
+        case OperationMode::TEMPLATE:
+            TemplateMode::run(runDefinition);
+            break;
+        case OperationMode::SCHEMAEXPORT:
+            SchemaExportMode::run(runDefinition);
+            break;
+        case OperationMode::REMOTE:
+            RemoteMode::run(runDefinition);
+            break;
+        case OperationMode::HELP:
+            HelpMode::run(runDefinition);
+    }
+
+    if (runDefinition->dryMode)
+    {
+        std::cout << "dry run summary:" << std::endl;
+        for (const auto& info : FileWriterService::getCreatedFileInfo())
+        {
+            std::cout << (info.overwritten ? "overwritten " : "new file    ") << "\t" << info.filename.c_str() << std::endl;
+        }
+        if (FileWriterService::getCreatedFileInfo().empty())
+        {
+            std::cout << "-- none --" << std::endl;
+        }
+    }
+}
+
 int main(const int argc, const char* const argv[])
 {
     try
     {
-        const CliInput cliInput = readCliInput(argc, argv);
-        const std::shared_ptr<const BaseModeDefinition> runDefinition = unpackCliInput(cliInput);
-
-        switch (runDefinition->mode)
-        {
-            case OperationMode::SIMULATION:
-                SimulationMode::run(runDefinition);
-                break;
-            case OperationMode::TEMPLATE:
-                TemplateMode::run(runDefinition);
-                break;
-            case OperationMode::SCHEMAEXPORT:
-                SchemaExportMode::run(runDefinition);
-                break;
-            case OperationMode::REMOTE:
-                RemoteMode::run(runDefinition);
-                break;
-            case OperationMode::HELP:
-                HelpMode::run(runDefinition);
-        }
+        run(argc, argv);
     }
     catch (const CriticalAbort& e)
     {

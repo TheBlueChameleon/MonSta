@@ -22,6 +22,26 @@ void FileWriterService::setOverwrite(bool newOverwrite)
     instance.overwrite = newOverwrite;
 }
 
+bool FileWriterService::getCreateDirectories()
+{
+    return instance.createDirectories;
+}
+
+void FileWriterService::setCreateDirectories(bool newCreateDirectories)
+{
+    instance.createDirectories = newCreateDirectories;
+}
+
+bool FileWriterService::getDryMode()
+{
+    return instance.dryMode;
+}
+
+void FileWriterService::setDryMode(bool newDryMode)
+{
+    instance.dryMode = newDryMode;
+}
+
 FileWriterService FileWriterService::getInstance()
 {
     return instance;
@@ -91,20 +111,57 @@ const std::unique_ptr<std::ostream> FileWriterService::getStream(const std::file
         return std::make_unique<StdOutPseudoFile>(STDOUT);
     }
 
-    std::filesystem::path resolved = getBase() / filename;
-    LoggerService::traceF(
-        "Attempting to write '{}' ~ exists: {}",
-        resolved.c_str(),
-        std::filesystem::exists(resolved)
-    );
-    if (std::filesystem::exists(resolved) && ! getOverwrite())
+    const std::filesystem::path resolved = std::filesystem::weakly_canonical(getBase() / filename);
+    const std::filesystem::path parent = resolved.parent_path();
+    const bool exists = std::filesystem::exists(resolved);
+    const bool parentExists = std::filesystem::exists(parent);
+
+    if (getDryMode())
     {
-        LoggerService::errorF("Could not write '{}': file/directory already exists!", filename.c_str());
+        instance.createdFileInfo.emplace_back(resolved, exists);
         return nullptr;
     }
 
-    return std::make_unique<std::ofstream>(resolved,
-                                           std::ios_base::out | std::ios_base::binary
-                                          );
+    if (getCreateDirectories() && !parentExists)
+    {
+        try
+        {
+            std::filesystem::create_directories(parent);
+        }
+        catch (const std::filesystem::filesystem_error& e)
+        {
+            LoggerService::errorF("Could not create directory '{}': {}",
+                                  parent.c_str(),
+                                  e.what()
+                                 );
+            return nullptr;
+        }
+    }
+
+    LoggerService::traceF("Attempting to open '{}'", resolved.c_str());
+    if (exists && ! getOverwrite())
+    {
+        LoggerService::errorF("Could not open '{}': file/directory already exists!", filename.c_str());
+        return nullptr;
+    }
+
+    auto result = std::make_unique<std::ofstream>(resolved,
+                                                  std::ios_base::out | std::ios_base::binary
+                                                 );
+    if (result->is_open())
+    {
+        instance.createdFileInfo.emplace_back(resolved, exists);
+    }
+    else
+    {
+        LoggerService::errorF("Could not open '{}': file system error", filename.c_str());
+        return nullptr;
+    }
+
+    return result;
 }
 
+const std::list<FileWriterService::CreatedFileInfo> FileWriterService::getCreatedFileInfo()
+{
+    return instance.createdFileInfo;
+}
