@@ -6,11 +6,12 @@
 
 #include "../json/jsonservice.hpp"
 
+#include "../logging/loggerservice.hpp"
+
 #include "../constants.hpp"
 
 #include "hostapiwrapper.hpp"
 #include "versionservice.hpp"
-#include "loggerservice.hpp"
 
 HostApiWrapper HostApiWrapper::instance;
 

@@ -1,7 +1,7 @@
 #include <cstring>
 #include <fstream>
 
-#include "../api/loggerservice.hpp"
+#include "../logging/loggerservice.hpp"
 
 #include "filewriterservice.hpp"
 #include "stdoutpseudofile.hpp"

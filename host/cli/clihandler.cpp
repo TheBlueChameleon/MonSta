@@ -12,8 +12,6 @@ using ArgParser = argparse::ArgumentParser;
 using Json = nlohmann::json;
 using JsonValidator = nlohmann::json_schema::json_validator;
 
-#include "../api/loggerservice.hpp"
-
 #include "../defs/helpmodedefinition.hpp"
 #include "../defs/loggingdefinition.hpp"
 #include "../defs/remoterundefinition.hpp"
@@ -24,6 +22,8 @@ using JsonValidator = nlohmann::json_schema::json_validator;
 #include "../filewriter/filewriterservice.hpp"
 
 #include "../json/jsonservice.hpp"
+
+#include "../logging/loggerservice.hpp"
 
 #include "../constants.hpp"
 #include "../errors.hpp"

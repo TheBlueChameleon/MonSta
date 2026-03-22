@@ -1,9 +1,9 @@
 #ifndef LOGGERSERVICE_HPP
 #define LOGGERSERVICE_HPP
 
-#include "../cli/logger.hpp"
-
 #include "../defs/loggingdefinition.hpp"
+
+#include "../logging/logger.hpp"
 
 class LoggerService
 {

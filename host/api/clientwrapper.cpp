@@ -9,9 +9,10 @@
 #include "../constants.hpp"
 #include "../errors.hpp"
 
+#include "../logging/loggerservice.hpp"
+
 #include "clientwrapper.hpp"
 #include "hostapiwrapper.hpp"
-#include "loggerservice.hpp"
 #include "versionservice.hpp"
 
 #define FETCH(symbol) fetchCheckAndTransfer(&ClientWrapper::_##symbol, #symbol)

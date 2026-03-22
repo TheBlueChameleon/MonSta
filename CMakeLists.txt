@@ -91,12 +91,10 @@ add_executable(App
 
     host/api/clientwrapper.hpp host/api/clientwrapper.cpp
     host/api/hostapiwrapper.hpp host/api/hostapiwrapper.cpp
-    host/api/loggerservice.hpp host/api/loggerservice.cpp
     host/api/versionservice.hpp host/api/versionservice.cpp
 
     host/cli/clihandler.hpp host/cli/clihandler.cpp
     host/cli/cliinput.hpp
-    host/cli/logger.hpp host/cli/logger.cpp
 
     host/defs/basemodedefinition.hpp
     host/defs/helpmodedefinition.hpp
@@ -114,6 +112,9 @@ add_executable(App
     host/json/jsonservice.hpp host/json/jsonservice.cpp
     host/json/schemaconstants.hpp host/json/schemaconstants.cpp
     host/json/schemaconstantsbuilder.hpp host/json/schemaconstantsbuilder.cpp
+
+    host/logging/logger.hpp host/logging/logger.cpp
+    host/logging/loggerservice.hpp host/logging/loggerservice.cpp
 
     host/operationmodes/operationmode.hpp
     host/operationmodes/help/entrypoint.hpp         host/operationmodes/help/entrypoint.cpp

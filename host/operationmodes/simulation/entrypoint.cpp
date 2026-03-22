@@ -1,7 +1,8 @@
 #include "../../api/clientwrapper.hpp"
-#include "../../api/loggerservice.hpp"
 
 #include "../../defs/safecast.hpp"
+
+#include "../../logging/loggerservice.hpp"
 
 #include "../../errors.hpp"
 
