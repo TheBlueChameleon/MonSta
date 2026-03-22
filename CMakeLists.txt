@@ -107,6 +107,9 @@ add_executable(App
     host/defs/simulatordefinition.hpp
     host/defs/templatemodedefinition.hpp
 
+    host/filewriter/filewriterservice.hpp host/filewriter/filewriterservice.cpp
+    host/filewriter/stdoutpseudofile.hpp host/filewriter/stdoutpseudofile.cpp
+
     host/json/jsonservice.hpp host/json/jsonservice.cpp
     host/json/schemaconstants.hpp host/json/schemaconstants.cpp
     host/json/schemaconstantsbuilder.hpp host/json/schemaconstantsbuilder.cpp
