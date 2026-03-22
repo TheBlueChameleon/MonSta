@@ -88,18 +88,25 @@ JsonSubSchemaBuilder::JsonSubSchemaBuilder(const std::string& name, bool additio
     name(name), additionalProperties(additionalProperties)
 {}
 
-JsonBlockBuilder& JsonSubSchemaBuilder::addProperty(const std::string& title)
-{
-    elements.emplace_back(title);
-    return elements.back();
-}
-
 JsonSubSchemaBuilder& JsonSubSchemaBuilder::addReference(const std::string& name, const std::string& description)
 {
     elements.push_back(
         JsonSchemaRefBuilder(name, description).toBlockBuilder()
     );
     return *this;
+}
+
+JsonBlockBuilder& JsonSubSchemaBuilder::addProperty(const std::string& title)
+{
+    elements.emplace_back(title);
+    return elements.back();
+}
+
+JsonBlockBuilder& JsonSubSchemaBuilder::addProperty(const std::string& title, const std::string& type)
+{
+    elements.emplace_back(title);
+    elements.back().addKeyValuePair("type", type);
+    return elements.back();
 }
 
 JsonSubSchemaBuilder& JsonSubSchemaBuilder::setRequired(const std::initializer_list<std::string>& requirements)

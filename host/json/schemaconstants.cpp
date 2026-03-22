@@ -7,93 +7,115 @@ using namespace JsonSchemaBuilderUtils;
 
 using Json = nlohmann::json;
 
-const std::string t_string = quoted("string");
-const std::string t_integer = quoted("integer");
+static const std::string t_string = quoted("string");
+static const std::string t_integer = quoted("integer");
 
 // ========================================================================== //
 // SHARED
 // -------------------------------------------------------------------------- //
 // logging
 
-auto logging = JsonSubSchemaBuilder(JKEY_LOGGING);
-auto& logfile = logging.addProperty(JKEY_LOGGING_LOGFILE).addKeyValuePair("type", t_string);
-auto& loglevel = logging.addProperty(JKEY_LOGGING_LOGLEVEL)
-                 .addKeyValuePair("type", t_integer)
-                 .addKeyValuePair("minimum", "0")
-                 .addKeyValuePair("maximum", "6");
+static const JsonSubSchemaBuilder makeLoggingSubSchema()
+{
+    auto logging = JsonSubSchemaBuilder(JKEY_LOGGING);
+
+    logging.addProperty(JKEY_LOGGING_LOGFILE, t_string);
+
+    logging.addProperty(JKEY_LOGGING_LOGLEVEL, t_integer)
+    .addKeyValuePair("minimum", "0")
+    .addKeyValuePair("maximum", "6");
+
+    return logging;
+}
 
 // ========================================================================== //
 // SIMULATION
 // -------------------------------------------------------------------------- //
 // simulator
 
-auto simulator = JsonSubSchemaBuilder(JKEY_SIMULATOR)
-                 .setRequired(
+static const JsonSubSchemaBuilder makeSimulatorSubSchema()
 {
-    JKEY_SIMULATOR_ENGINE
-});
-auto& engine = simulator.addProperty(JKEY_SIMULATOR_ENGINE)
-               .addKeyValuePair("type", t_string);
-auto& outputDirectory = simulator.addProperty(JKEY_SIMULATOR_INPUTDIRECTORY)
-                        .addKeyValuePair("type", t_string);
-auto& inputDirectory = simulator.addProperty(JKEY_SIMULATOR_OUTPUTDIRECTORY)
-                       .addKeyValuePair("type", t_string);
-auto& repetitions = simulator.addProperty(JKEY_SIMULATOR_REPETITIONS)
-                    .addKeyValuePair("type", t_integer)
-                    .addKeyValuePair("minimum", "1");
-auto& maxTurns = simulator.addProperty(JKEY_SIMULATOR_MAXTURNS)
-                 .addKeyValuePair("type", t_integer)
-                 .addKeyValuePair("minimum", "1");
-auto& threadCount = simulator.addProperty(JKEY_SIMULATOR_THREADCOUNT)
-                    .addKeyValuePair("type", t_integer)
-                    .addKeyValuePair("minimum", "1");
-auto& args = simulator.addProperty(JKEY_SIMULATOR_ARGS)
-             .addKeyValuePair("type", t_string);
+    auto simulator = JsonSubSchemaBuilder(JKEY_SIMULATOR)
+                     .setRequired(
+    {
+        JKEY_SIMULATOR_ENGINE
+    });
+
+    simulator.addProperty(JKEY_SIMULATOR_ENGINE, t_string);
+
+    simulator.addProperty(JKEY_SIMULATOR_INPUTDIRECTORY, t_string);
+
+    simulator.addProperty(JKEY_SIMULATOR_OUTPUTDIRECTORY, t_string);
+
+    simulator.addProperty(JKEY_SIMULATOR_REPETITIONS, t_integer)
+    .addKeyValuePair("minimum", "1");
+
+    simulator.addProperty(JKEY_SIMULATOR_MAXTURNS, t_integer)
+    .addKeyValuePair("minimum", "1");
+
+    simulator.addProperty(JKEY_SIMULATOR_THREADCOUNT, t_integer)
+    .addKeyValuePair("minimum", "1");
+
+    simulator.addProperty(JKEY_SIMULATOR_ARGS, t_string);
+
+    return simulator;
+}
 
 // -------------------------------------------------------------------------- //
 // match definition
 
-auto matchDefinition = JsonSubSchemaBuilder(JKEY_MATCHDEFINITION)
-                       .setRequired(
+static const JsonSubSchemaBuilder makeMatchDefinitionSubSchema()
 {
-    JKEY_MATCHDEFINITION_PLAYER1TEAM,
-    JKEY_MATCHDEFINITION_PLAYER1STRATETY,
-    JKEY_MATCHDEFINITION_PLAYER2TEAM,
-    JKEY_MATCHDEFINITION_PLAYER2STRATETY,
-    JKEY_MATCHDEFINITION_PKMNDEFS,
-    JKEY_MATCHDEFINITION_MOVEDEFS,
-    JKEY_MATCHDEFINITION_TYPEDEFS
-});
-auto& player1Strategy = matchDefinition.addProperty(JKEY_MATCHDEFINITION_PLAYER1STRATETY)
-                        .addKeyValuePair("type", t_string);
-auto& player2Strategy = matchDefinition.addProperty(JKEY_MATCHDEFINITION_PLAYER2STRATETY)
-                        .addKeyValuePair("type", t_string);
-auto& player1Team = matchDefinition.addProperty(JKEY_MATCHDEFINITION_PLAYER1TEAM)
-                    .addKeyValuePair("type", t_string);
-auto& player2Team = matchDefinition.addProperty(JKEY_MATCHDEFINITION_PLAYER2TEAM)
-                    .addKeyValuePair("type", t_string);
-auto& pkmnDefs = matchDefinition.addProperty(JKEY_MATCHDEFINITION_PKMNDEFS)
-                 .addKeyValuePair("type", t_string);
-auto& moveDefs = matchDefinition.addProperty(JKEY_MATCHDEFINITION_MOVEDEFS)
-                 .addKeyValuePair("type", t_string);
-auto& typeDefs = matchDefinition.addProperty(JKEY_MATCHDEFINITION_TYPEDEFS)
-                 .addKeyValuePair("type", t_string);
+    auto matchDefinition = JsonSubSchemaBuilder(JKEY_MATCHDEFINITION)
+                           .setRequired(
+    {
+        JKEY_MATCHDEFINITION_PLAYER1TEAM,
+        JKEY_MATCHDEFINITION_PLAYER1STRATETY,
+        JKEY_MATCHDEFINITION_PLAYER2TEAM,
+        JKEY_MATCHDEFINITION_PLAYER2STRATETY,
+        JKEY_MATCHDEFINITION_PKMNDEFS,
+        JKEY_MATCHDEFINITION_MOVEDEFS,
+        JKEY_MATCHDEFINITION_TYPEDEFS
+    });
+
+    matchDefinition.addProperty(JKEY_MATCHDEFINITION_PLAYER1STRATETY, t_string);
+
+    matchDefinition.addProperty(JKEY_MATCHDEFINITION_PLAYER2STRATETY, t_string);
+
+    matchDefinition.addProperty(JKEY_MATCHDEFINITION_PLAYER1TEAM, t_string);
+
+    matchDefinition.addProperty(JKEY_MATCHDEFINITION_PLAYER2TEAM, t_string);
+
+    matchDefinition.addProperty(JKEY_MATCHDEFINITION_PKMNDEFS, t_string);
+
+    matchDefinition.addProperty(JKEY_MATCHDEFINITION_MOVEDEFS, t_string);
+
+    matchDefinition.addProperty(JKEY_MATCHDEFINITION_TYPEDEFS, t_string);
+
+    return matchDefinition;
+}
 
 // -------------------------------------------------------------------------- //
 // FULL SCHEMA
 
-auto simulation = JsonSchemaBuilder()
-                  .addReference(JKEY_LOGGING, "logging")
-                  .addReference(JKEY_SIMULATOR, "simulator")
-                  .addReference(JKEY_MATCHDEFINITION, "match definition")
-                  .addSubSchema(logging)
-                  .addSubSchema(simulator)
-                  .addSubSchema(matchDefinition)
-                  .setRequired(
+static const JsonSchemaBuilder makeSimulationSchema()
 {
-    JKEY_SIMULATOR, JKEY_MATCHDEFINITION
-});
-const std::string SCHEMA_SIMULATION_STRING = simulation.build();
+    auto simulation = JsonSchemaBuilder()
+                      .addReference(JKEY_LOGGING, "logging")
+                      .addReference(JKEY_SIMULATOR, "simulator")
+                      .addReference(JKEY_MATCHDEFINITION, "match definition")
+                      .addSubSchema(makeLoggingSubSchema())
+                      .addSubSchema(makeSimulatorSubSchema())
+                      .addSubSchema(makeMatchDefinitionSubSchema())
+                      .setRequired(
+    {
+        JKEY_SIMULATOR, JKEY_MATCHDEFINITION
+    });
+
+    return simulation;
+}
+
+const std::string SCHEMA_SIMULATION_STRING = makeSimulationSchema().build();
 const nlohmann::json SCHEMA_SIMULATION = Json::parse(SCHEMA_SIMULATION_STRING);
 
 // ========================================================================== //
@@ -101,27 +123,38 @@ const nlohmann::json SCHEMA_SIMULATION = Json::parse(SCHEMA_SIMULATION_STRING);
 // -------------------------------------------------------------------------- //
 // templates
 
-auto templateS = JsonSubSchemaBuilder(JKEY_TEMPLATE)
-                 .setRequired(
+static const JsonSubSchemaBuilder makeTemplateDefinitionSubSchema()
 {
-    JKEY_TEMPLATE_ENGINE
-});
-auto templateEngine = templateS.addProperty(JKEY_TEMPLATE_ENGINE)
-                      .addKeyValuePair("type", t_string);
-auto templateOutputDirectory = templateS.addProperty(JKEY_TEMPLATE_OUTPUTDIRECTORY)
-                               .addKeyValuePair("type", t_string);
+    auto result = JsonSubSchemaBuilder(JKEY_TEMPLATE)
+                  .setRequired(
+    {
+        JKEY_TEMPLATE_ENGINE
+    });
+
+    result.addProperty(JKEY_TEMPLATE_ENGINE, t_string);
+
+    result.addProperty(JKEY_TEMPLATE_OUTPUTDIRECTORY, t_string);
+
+    return result;
+}
 
 // -------------------------------------------------------------------------- //
 // FULL SCHEMA
 
-auto templateB = JsonSchemaBuilder()
-                 .addReference(JKEY_LOGGING, "logging")
-                 .addReference(JKEY_TEMPLATE, "template")
-                 .addSubSchema(logging)
-                 .addSubSchema(templateS)
-                 .setRequired(
+static const JsonSchemaBuilder makeTemplateSchema()
 {
-    JKEY_TEMPLATE
-});
-const std::string SCHEMA_TEMPLATE_STRING = templateB.build();
+    auto result = JsonSchemaBuilder()
+                  .addReference(JKEY_LOGGING, "logging")
+                  .addReference(JKEY_TEMPLATE, "template")
+                  .addSubSchema(makeLoggingSubSchema())
+                  .addSubSchema(makeTemplateDefinitionSubSchema())
+                  .setRequired(
+    {
+        JKEY_TEMPLATE
+    });
+
+    return result;
+}
+
+const std::string SCHEMA_TEMPLATE_STRING = makeTemplateSchema().build();
 const nlohmann::json SCHEMA_TEMPLATE = Json::parse(SCHEMA_TEMPLATE_STRING);

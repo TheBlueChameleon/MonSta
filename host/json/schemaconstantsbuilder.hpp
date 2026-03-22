@@ -53,8 +53,9 @@ class JsonSubSchemaBuilder
     public:
         JsonSubSchemaBuilder(const std::string& name, bool additionalProperties = false);
 
-        JsonBlockBuilder&     addProperty(const std::string& title);
         JsonSubSchemaBuilder& addReference(const std::string& name, const std::string& description);
+        JsonBlockBuilder&     addProperty(const std::string& title);
+        JsonBlockBuilder&     addProperty(const std::string& title, const std::string& type);
 
         JsonSubSchemaBuilder& setRequired(const std::initializer_list<std::string>& requirements);
 
