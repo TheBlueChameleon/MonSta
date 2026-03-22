@@ -1,8 +1,8 @@
-#include "../../defs/safecast.hpp"
+#include "../../errors.hpp"
 
 #include "../../logging/loggerservice.hpp"
 
-#include "../../errors.hpp"
+#include "../defs/safecast.hpp"
 
 #include "entrypoint.hpp"
 

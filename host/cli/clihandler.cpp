@@ -12,12 +12,12 @@ using ArgParser = argparse::ArgumentParser;
 using Json = nlohmann::json;
 using JsonValidator = nlohmann::json_schema::json_validator;
 
-#include "../defs/helpmodedefinition.hpp"
-#include "../defs/loggingdefinition.hpp"
-#include "../defs/remoterundefinition.hpp"
-#include "../defs/schemaexportmodedefinition.hpp"
-#include "../defs/simulationmodedefinition.hpp"
-#include "../defs/templatemodedefinition.hpp"
+#include "../operationmodes/defs/helpmodedefinition.hpp"
+#include "../operationmodes/defs/loggingdefinition.hpp"
+#include "../operationmodes/defs/remoterundefinition.hpp"
+#include "../operationmodes/defs/schemaexportmodedefinition.hpp"
+#include "../operationmodes/defs/simulationmodedefinition.hpp"
+#include "../operationmodes/defs/templatemodedefinition.hpp"
 
 #include "../filewriter/filewriterservice.hpp"
 
@@ -37,7 +37,7 @@ void configureParser(ArgParser& parser)
 {
     parser.add_argument(CliInput::MODE)
     .nargs(1)
-    .help("Sets the processing mode.\n"
+    .help("Sets the operation mode.\n"
           "One of "s +
           CliInput::SIMULATION + ", " +
           CliInput::TEMPLATE + ", " +

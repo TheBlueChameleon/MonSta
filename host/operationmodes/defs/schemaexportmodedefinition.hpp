@@ -1,7 +1,7 @@
 #ifndef SCHEMAEXPORTMODEDEFINITION_HPP
 #define SCHEMAEXPORTMODEDEFINITION_HPP
 
-#include "../cli/cliinput.hpp"
+#include "../../cli/cliinput.hpp"
 
 #include <filesystem>
 

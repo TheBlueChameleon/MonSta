@@ -2,7 +2,7 @@
 
 #include "entrypoint.hpp"
 
-#include "../../defs/safecast.hpp"
+#include "../defs/safecast.hpp"
 
 namespace HelpMode
 {

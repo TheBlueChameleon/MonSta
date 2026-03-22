@@ -1,4 +1,4 @@
-#include "../../defs/safecast.hpp"
+#include "../../errors.hpp"
 
 #include "../../filewriter/filewriterservice.hpp"
 
@@ -6,7 +6,7 @@
 
 #include "../../logging/loggerservice.hpp"
 
-#include "../../errors.hpp"
+#include "../defs/safecast.hpp"
 
 #include "entrypoint.hpp"
 

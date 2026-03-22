@@ -1,7 +1,7 @@
 #ifndef HELPMODEDEFINITION_HPP
 #define HELPMODEDEFINITION_HPP
 
-#include "../cli/cliinput.hpp"
+#include "../../cli/cliinput.hpp"
 
 #include "basemodedefinition.hpp"
 

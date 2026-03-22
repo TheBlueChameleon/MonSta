@@ -1,7 +1,7 @@
 #ifndef REMOTERUNDEFINITION_HPP
 #define REMOTERUNDEFINITION_HPP
 
-#include "../cli/cliinput.hpp"
+#include "../../cli/cliinput.hpp"
 
 #include "basemodedefinition.hpp"
 

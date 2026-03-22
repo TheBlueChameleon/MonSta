@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "../defs/basemodedefinition.hpp"
+#include "../operationmodes/defs/basemodedefinition.hpp"
 
 #include "cliinput.hpp"
 

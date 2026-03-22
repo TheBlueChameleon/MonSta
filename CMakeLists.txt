@@ -96,16 +96,6 @@ add_executable(App
     host/cli/clihandler.hpp host/cli/clihandler.cpp
     host/cli/cliinput.hpp
 
-    host/defs/basemodedefinition.hpp
-    host/defs/helpmodedefinition.hpp
-    host/defs/loggingdefinition.hpp
-    host/defs/remoterundefinition.hpp
-    host/defs/safecast.hpp host/defs/safecast.cpp
-    host/defs/schemaexportmodedefinition.hpp
-    host/defs/simulationmodedefinition.hpp
-    host/defs/simulatordefinition.hpp
-    host/defs/templatemodedefinition.hpp
-
     host/filewriter/filewriterservice.hpp host/filewriter/filewriterservice.cpp
     host/filewriter/stdoutpseudofile.hpp host/filewriter/stdoutpseudofile.cpp
 
@@ -117,6 +107,17 @@ add_executable(App
     host/logging/loggerservice.hpp host/logging/loggerservice.cpp
 
     host/operationmodes/operationmode.hpp
+
+    host/operationmodes/defs/basemodedefinition.hpp
+    host/operationmodes/defs/helpmodedefinition.hpp
+    host/operationmodes/defs/loggingdefinition.hpp
+    host/operationmodes/defs/remoterundefinition.hpp
+    host/operationmodes/defs/safecast.hpp       host/operationmodes/defs/safecast.cpp
+    host/operationmodes/defs/schemaexportmodedefinition.hpp
+    host/operationmodes/defs/simulationmodedefinition.hpp
+    host/operationmodes/defs/simulatordefinition.hpp
+    host/operationmodes/defs/templatemodedefinition.hpp
+
     host/operationmodes/help/entrypoint.hpp         host/operationmodes/help/entrypoint.cpp
     host/operationmodes/remote/entrypoint.hpp       host/operationmodes/remote/entrypoint.cpp
     host/operationmodes/schemaExport/entrypoint.hpp host/operationmodes/schemaExport/entrypoint.cpp

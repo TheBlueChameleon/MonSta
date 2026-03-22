@@ -1,7 +1,7 @@
 #ifndef LOGGERSERVICE_HPP
 #define LOGGERSERVICE_HPP
 
-#include "../defs/loggingdefinition.hpp"
+#include "../operationmodes/defs/loggingdefinition.hpp"
 
 #include "../logging/logger.hpp"
 
