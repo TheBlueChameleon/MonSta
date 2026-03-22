@@ -5,7 +5,7 @@
 
 #include "../defs/basemodedefinition.hpp"
 
-namespace Template
+namespace TemplateMode
 {
     void run(const std::shared_ptr<const BaseModeDefinition>& defs);
 }

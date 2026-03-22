@@ -31,6 +31,11 @@ namespace RunDefinitionUtils
         return getAsT<RemoteModeDefinition>(defs, "RemoteModeDefinition");
     }
 
+    const SchemaExportModeDefinition getAsSchemaExportModeDefinition(const std::shared_ptr<const BaseModeDefinition>& defs)
+    {
+        return getAsT<SchemaExportModeDefinition>(defs, "SchemaExportModeDefinition");
+    }
+
     const SimulationModeDefinition getAsSimulationModeDefinition(const std::shared_ptr<const BaseModeDefinition>& defs)
     {
         return getAsT<SimulationModeDefinition>(defs, "SimulationModeDefinition");
@@ -40,5 +45,4 @@ namespace RunDefinitionUtils
     {
         return getAsT<TemplateModeDefinition>(defs, "TemplateModeDefinition");
     }
-
 }

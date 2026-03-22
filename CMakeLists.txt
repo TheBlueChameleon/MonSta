@@ -102,6 +102,7 @@ add_executable(App
     host/defs/loggingdefinition.hpp
     host/defs/remoterundefinition.hpp
     host/defs/safecast.hpp host/defs/safecast.cpp
+    host/defs/schemaexportmodedefinition.hpp
     host/defs/simulationmodedefinition.hpp
     host/defs/simulatordefinition.hpp
     host/defs/templatemodedefinition.hpp
@@ -113,6 +114,8 @@ add_executable(App
     host/help/entrypoint.hpp host/help/entrypoint.cpp
 
     host/remote/entrypoint.hpp host/remote/entrypoint.cpp
+
+    host/schemaExport/entrypoint.hpp host/schemaExport/entrypoint.cpp
 
     host/simulation/entrypoint.hpp host/simulation/entrypoint.cpp
 

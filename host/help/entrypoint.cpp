@@ -4,7 +4,7 @@
 
 #include "../defs/safecast.hpp"
 
-namespace Help
+namespace HelpMode
 {
     void showModeHelp(const OperationMode mode)
     {

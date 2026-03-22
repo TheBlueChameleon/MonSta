@@ -2,6 +2,7 @@
 #define HOSTAPIWRAPPER_HPP
 
 #include <HostApi.hpp>
+
 #include "../cli/logger.hpp"
 
 class HostApiWrapper : public HostApi

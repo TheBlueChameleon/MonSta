@@ -1,7 +1,6 @@
 #ifndef VERSION_HPP
 #define VERSION_HPP
 
-#include <iostream>
 #include <string>
 
 struct Version

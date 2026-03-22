@@ -6,13 +6,13 @@
 
 #include "entrypoint.hpp"
 
-namespace RemoteMode
+namespace SchemaExportMode
 {
     void run(const std::shared_ptr<const BaseModeDefinition>& defs)
     {
-        const RemoteModeDefinition& xDefs = RunDefinitionUtils::getAsRemoteModeDefinition(defs);
+        const SchemaExportModeDefinition xDefs = RunDefinitionUtils::getAsSchemaExportModeDefinition(defs);
 
-        LoggerService::info("Remote mode not implemented yet.");
-        std::exit(0);
+        LoggerService::info("SCHEMING");
     }
 }
+

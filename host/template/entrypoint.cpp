@@ -6,7 +6,7 @@
 
 #include "entrypoint.hpp"
 
-void Template::run(const std::shared_ptr<const BaseModeDefinition>& defs)
+void TemplateMode::run(const std::shared_ptr<const BaseModeDefinition>& defs)
 {
     const TemplateModeDefinition& xDefs = RunDefinitionUtils::getAsTemplateModeDefinition(defs);
     LoggerService::setup(xDefs.logging);

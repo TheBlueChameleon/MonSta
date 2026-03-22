@@ -5,7 +5,7 @@
 
 #include "../defs/basemodedefinition.hpp"
 
-namespace Simulation
+namespace SimulationMode
 {
     void run(const std::shared_ptr<const BaseModeDefinition>& defs);
 }

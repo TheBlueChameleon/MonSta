@@ -5,7 +5,7 @@
 
 #include "../defs/basemodedefinition.hpp"
 
-namespace Help
+namespace HelpMode
 {
     void run(const std::shared_ptr<const BaseModeDefinition>& defs);
 }

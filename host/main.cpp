@@ -1,17 +1,13 @@
-#include "api/clientwrapper.hpp"
-#include "api/hostapiwrapper.hpp"
+#include <iostream>
 
 #include "cli/clihandler.hpp"
 
-#include "defs/helpmodedefinition.hpp"
-#include "defs/simulationmodedefinition.hpp"
-
 #include "help/entrypoint.hpp"
 #include "remote/entrypoint.hpp"
+#include "schemaExport/entrypoint.hpp"
 #include "simulation/entrypoint.hpp"
 #include "template/entrypoint.hpp"
 
-#include "constants.hpp"
 #include "errors.hpp"
 
 int main(const int argc, const char* const argv[])
@@ -24,16 +20,19 @@ int main(const int argc, const char* const argv[])
         switch (runDefinition->mode)
         {
             case OperationMode::SIMULATION:
-                Simulation::run(runDefinition);
+                SimulationMode::run(runDefinition);
                 break;
             case OperationMode::TEMPLATE:
-                Template::run(runDefinition);
+                TemplateMode::run(runDefinition);
+                break;
+            case OperationMode::SCHEMAEXPORT:
+                SchemaExportMode::run(runDefinition);
                 break;
             case OperationMode::REMOTE:
-                Remote::run(runDefinition);
+                RemoteMode::run(runDefinition);
                 break;
             case OperationMode::HELP:
-                Help::run(runDefinition);
+                HelpMode::run(runDefinition);
         }
     }
     catch (const CriticalAbort& e)
@@ -46,8 +45,8 @@ int main(const int argc, const char* const argv[])
         std::cerr << e.what() << std::endl;
         std::cerr << "This means <the dev> fucked up. Please report what you did to them with a stern look." << std::endl;
         return -1;
-
     }
+
     return 0;
 }
 

@@ -5,7 +5,7 @@
 
 #include "../defs/basemodedefinition.hpp"
 
-namespace Remote
+namespace RemoteMode
 {
     void run(const std::shared_ptr<const BaseModeDefinition>& defs);
 }

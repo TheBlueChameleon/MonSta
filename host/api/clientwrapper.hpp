@@ -3,8 +3,9 @@
 
 #include <filesystem>
 
-#include <HostApi.hpp>
 #include <Version.hpp>
+
+class HostApi;
 
 class ClientWrapper
 {

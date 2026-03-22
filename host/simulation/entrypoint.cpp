@@ -1,3 +1,4 @@
+#include "../api/clientwrapper.hpp"
 #include "../api/loggerservice.hpp"
 
 #include "../defs/safecast.hpp"
@@ -6,7 +7,7 @@
 
 #include "entrypoint.hpp"
 
-namespace Simulation
+namespace SimulationMode
 {
     void run(const std::shared_ptr<const BaseModeDefinition>& defs)
     {

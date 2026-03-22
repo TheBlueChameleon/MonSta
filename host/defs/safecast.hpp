@@ -5,15 +5,17 @@
 
 #include "helpmodedefinition.hpp"
 #include "remoterundefinition.hpp"
+#include "schemaexportmodedefinition.hpp"
 #include "simulationmodedefinition.hpp"
 #include "templatemodedefinition.hpp"
 
 namespace RunDefinitionUtils
 {
-    const HelpModeDefinition       getAsHelpModeDefinition(const std::shared_ptr<const BaseModeDefinition>& defs);
-    const RemoteModeDefinition     getAsRemoteModeDefinition(const std::shared_ptr<const BaseModeDefinition>& defs);
-    const SimulationModeDefinition getAsSimulationModeDefinition(const std::shared_ptr<const BaseModeDefinition>& defs);
-    const TemplateModeDefinition   getAsTemplateModeDefinition(const std::shared_ptr<const BaseModeDefinition>& defs);
+    const HelpModeDefinition         getAsHelpModeDefinition(const std::shared_ptr<const BaseModeDefinition>& defs);
+    const RemoteModeDefinition       getAsRemoteModeDefinition(const std::shared_ptr<const BaseModeDefinition>& defs);
+    const SchemaExportModeDefinition getAsSchemaExportModeDefinition(const std::shared_ptr<const BaseModeDefinition>& defs);
+    const SimulationModeDefinition   getAsSimulationModeDefinition(const std::shared_ptr<const BaseModeDefinition>& defs);
+    const TemplateModeDefinition     getAsTemplateModeDefinition(const std::shared_ptr<const BaseModeDefinition>& defs);
 }
 
 #endif // SAFECAST_HPP

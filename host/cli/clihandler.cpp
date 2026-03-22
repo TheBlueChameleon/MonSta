@@ -16,6 +16,7 @@ using JsonValidator = nlohmann::json_schema::json_validator;
 #include "../defs/helpmodedefinition.hpp"
 #include "../defs/loggingdefinition.hpp"
 #include "../defs/remoterundefinition.hpp"
+#include "../defs/schemaexportmodedefinition.hpp"
 #include "../defs/simulationmodedefinition.hpp"
 #include "../defs/templatemodedefinition.hpp"
 
@@ -37,6 +38,7 @@ void configureParser(ArgParser& parser)
           "One of "s +
           CliInput::SIMULATION + ", " +
           CliInput::TEMPLATE + ", " +
+          CliInput::SCHEMAEXPORT + ", " +
           CliInput::REMOTE + ", " +
           CliInput::HELP + "."
          );
@@ -78,10 +80,11 @@ void runParser(ArgParser& parser, const int argc, const char* const argv[])
 OperationMode modeFromString(const std::string& modeString)
 {
     // *INDENT-OFF*
-    if (modeString == CliInput::SIMULATION) return OperationMode::SIMULATION;
-    if (modeString == CliInput::TEMPLATE  ) return OperationMode::TEMPLATE;
-    if (modeString == CliInput::REMOTE    ) return OperationMode::REMOTE;
-    if (modeString == CliInput::HELP      ) return OperationMode::HELP;
+    if (modeString == CliInput::SIMULATION  ) return OperationMode::SIMULATION;
+    if (modeString == CliInput::TEMPLATE    ) return OperationMode::TEMPLATE;
+    if (modeString == CliInput::SCHEMAEXPORT) return OperationMode::SCHEMAEXPORT;
+    if (modeString == CliInput::REMOTE      ) return OperationMode::REMOTE;
+    if (modeString == CliInput::HELP        ) return OperationMode::HELP;
     // *INDENT-ON*
 
     throw IllegalStateException("Invalid mode identifier: '"s + modeString + "'");
@@ -94,6 +97,27 @@ void validateAsFile(const std::string& data)
     if (!std::filesystem::exists(path))
     {
         throw CriticalAbort("'"s + data + "' does not exist.");
+    }
+
+    // TODO: check if this also works with symlinks
+    if (!std::filesystem::is_regular_file(path))
+    {
+        throw CriticalAbort("'"s + data + "' is not a file.");
+    }
+}
+
+void validateAsDirectory(const std::string& data)
+{
+    const auto path = std::filesystem::path(data);
+
+    if (!std::filesystem::exists(path))
+    {
+        throw CriticalAbort("'"s + data + "' does not exist.");
+    }
+
+    if (!std::filesystem::is_directory(path))
+    {
+        throw CriticalAbort("'"s + data + "' is not a directory.");
     }
 }
 
@@ -113,6 +137,9 @@ CliInput readAndValidateParser(const ArgParser& parser)
         case OperationMode::SIMULATION:
         case OperationMode::TEMPLATE:
             validateAsFile(data);
+            break;
+        case OperationMode::SCHEMAEXPORT:
+            validateAsDirectory(data);
             break;
         case OperationMode::REMOTE:
             validateAsRemote(data);
@@ -233,6 +260,14 @@ std::shared_ptr<const BaseModeDefinition> unpackTemplateInput(const char* const 
 }
 
 // .......................................................................... //
+// schema export
+
+std::shared_ptr<const BaseModeDefinition> unpackSchemaExportInput(const char* const outputDirectory)
+{
+    return std::make_shared<SchemaExportModeDefinition>(outputDirectory);
+}
+
+// .......................................................................... //
 // remote
 
 std::shared_ptr<const BaseModeDefinition> unpackRemoteInput(const std::string& socket)
@@ -269,6 +304,8 @@ std::shared_ptr<const BaseModeDefinition> unpackCliInput(const CliInput& cliInpu
             return unpackSimulationInput(cliInput.data.c_str());
         case OperationMode::TEMPLATE:
             return unpackTemplateInput(cliInput.data.c_str());
+        case OperationMode::SCHEMAEXPORT:
+            return unpackSchemaExportInput(cliInput.data.c_str());
         case OperationMode::REMOTE:
             return unpackRemoteInput(cliInput.data);
         case OperationMode::HELP:
