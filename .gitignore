@@ -84,3 +84,4 @@ CMakeLists.txt.user*
 # custom additions
 *.zip
 logfile.txt
+./output/**

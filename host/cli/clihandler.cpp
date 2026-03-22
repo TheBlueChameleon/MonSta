@@ -224,6 +224,9 @@ std::shared_ptr<const BaseModeDefinition> unpackSimulationInput(const char* cons
 
 std::shared_ptr<const BaseModeDefinition> unpackTemplateInput(const char* const source)
 {
+    Json data = JsonService::readJsonFile(source);
+    JsonService::validateJsonAgainstJson(data, SCHEMA_TEMPLATE, source);
+
     //TODO
 
     return std::make_shared<TemplateModeDefinition>();

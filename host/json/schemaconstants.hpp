@@ -28,6 +28,10 @@ static constexpr auto JKEY_MATCHDEFINITION_PKMNDEFS        = "pkmnDefs";
 static constexpr auto JKEY_MATCHDEFINITION_MOVEDEFS        = "moveDefs";
 static constexpr auto JKEY_MATCHDEFINITION_TYPEDEFS        = "typeDefs";
 
+static constexpr auto JKEY_TEMPLATE                 = "template";
+static constexpr auto JKEY_TEMPLATE_ENGINE          = "engine";
+static constexpr auto JKEY_TEMPLATE_OUTPUTDIRECTORY = "outputDirectory";
+
 extern const std::string SCHEMA_SIMULATION_STRING;
 extern const nlohmann::json SCHEMA_SIMULATION;
 

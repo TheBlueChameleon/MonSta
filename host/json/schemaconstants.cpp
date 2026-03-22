@@ -97,9 +97,31 @@ const std::string SCHEMA_SIMULATION_STRING = simulation.build();
 const nlohmann::json SCHEMA_SIMULATION = Json::parse(SCHEMA_SIMULATION_STRING);
 
 // ========================================================================== //
-// SHARED
+// TEMPLATE
+// -------------------------------------------------------------------------- //
+// templates
 
-const std::string SCHEMA_TEMPLATE_STRING = R"(
+auto templateS = JsonSubSchemaBuilder(JKEY_TEMPLATE)
+                 .setRequired(
 {
-})";
+    JKEY_TEMPLATE_ENGINE
+});
+auto templateEngine = templateS.addProperty(JKEY_TEMPLATE_ENGINE)
+                      .addKeyValuePair("type", t_string);
+auto templateOutputDirectory = templateS.addProperty(JKEY_TEMPLATE_OUTPUTDIRECTORY)
+                               .addKeyValuePair("type", t_string);
+
+// -------------------------------------------------------------------------- //
+// FULL SCHEMA
+
+auto templateB = JsonSchemaBuilder()
+                 .addReference(JKEY_LOGGING, "logging")
+                 .addReference(JKEY_TEMPLATE, "template")
+                 .addSubSchema(logging)
+                 .addSubSchema(templateS)
+                 .setRequired(
+{
+    JKEY_TEMPLATE
+});
+const std::string SCHEMA_TEMPLATE_STRING = templateB.build();
 const nlohmann::json SCHEMA_TEMPLATE = Json::parse(SCHEMA_TEMPLATE_STRING);

@@ -1,0 +1,10 @@
+{
+    "logging": {
+        "loglevel" : 0,
+        "logfile": "logfile.txt"
+    },
+    "template" : {
+        "engine": "value", // comment
+        "outputDirectory": "value"
+    }
+}

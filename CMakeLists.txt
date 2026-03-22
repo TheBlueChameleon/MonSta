@@ -123,7 +123,8 @@ add_executable(App
     host/main.cpp
     host/operationmode.hpp
 
-    config/foo.json
+    config/simulation.json
+    config/template.json
 )
 
 target_include_directories(App
