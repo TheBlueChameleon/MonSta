@@ -11,6 +11,7 @@ class FileWriterService
         static FileWriterService instance;
 
         std::filesystem::path base;
+        bool overwrite;
 
     protected:
         FileWriterService();
@@ -22,6 +23,9 @@ class FileWriterService
 
         static std::filesystem::path getBase();
         static const char* const getBase_cstr();
+
+        static bool getOverwrite();
+        static void setOverwrite(bool newOverwrite);
 
         static void setBase(const std::filesystem::path& newBase);
         static void setBase_cstr(const char* const newBase);

@@ -1,6 +1,8 @@
 #include <cstring>
 #include <fstream>
 
+#include "../api/loggerservice.hpp"
+
 #include "filewriterservice.hpp"
 #include "stdoutpseudofile.hpp"
 
@@ -9,6 +11,16 @@ FileWriterService FileWriterService::instance;
 FileWriterService::FileWriterService() :
     base(std::filesystem::current_path())
 {}
+
+bool FileWriterService::getOverwrite()
+{
+    return instance.overwrite;
+}
+
+void FileWriterService::setOverwrite(bool newOverwrite)
+{
+    instance.overwrite = newOverwrite;
+}
 
 FileWriterService FileWriterService::getInstance()
 {
@@ -37,14 +49,18 @@ void FileWriterService::setBase_cstr(const char* const newBase)
 
 void FileWriterService::write(const std::filesystem::__cxx11::path& filename, const std::string& content)
 {
-    auto ptr = getStream(filename);
-    std::ostream& stream = *ptr;
-    stream << content;
+    write_cstr(filename.c_str(), content.c_str());
 }
 
 void FileWriterService::write_cstr(const char* const filename, const char* const content)
 {
-    write(filename, content);
+    auto ptr = getStream(filename);
+    if (ptr.get() == nullptr)
+    {
+        return;
+    }
+    std::ostream& stream = *ptr;
+    stream << content;
 }
 
 void FileWriterService::writeBinary(const std::filesystem::__cxx11::path& filename, const std::span<const std::byte> data)
@@ -52,9 +68,13 @@ void FileWriterService::writeBinary(const std::filesystem::__cxx11::path& filena
     writeBinary_cstr(filename.c_str(), data.data(), data.size());
 }
 
-void FileWriterService::writeBinary_cstr(const char * const filename, const void* const data, size_t length)
+void FileWriterService::writeBinary_cstr(const char* const filename, const void* const data, size_t length)
 {
-    auto ptr = getStream(filename);
+    std::unique_ptr<std::ostream> ptr = getStream(filename);
+    if (ptr.get() == nullptr)
+    {
+        return;
+    }
     std::ostream& stream = *ptr;
     stream.write(reinterpret_cast<const char*>(data), length);
 }
@@ -72,6 +92,17 @@ const std::unique_ptr<std::ostream> FileWriterService::getStream(const std::file
     }
 
     std::filesystem::path resolved = getBase() / filename;
+    LoggerService::traceF(
+        "Attempting to write '{}' ~ exists: {}",
+        resolved.c_str(),
+        std::filesystem::exists(resolved)
+    );
+    if (std::filesystem::exists(resolved) && ! getOverwrite())
+    {
+        LoggerService::errorF("Could not write '{}': file/directory already exists!", filename.c_str());
+        return nullptr;
+    }
+
     return std::make_unique<std::ofstream>(resolved,
                                            std::ios_base::out | std::ios_base::binary
                                           );
