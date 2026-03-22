@@ -2,6 +2,8 @@
 
 #include <IJsonService.hpp>
 
+#include "../filewriter/filewriterservice.hpp"
+
 #include "../json/jsonservice.hpp"
 
 #include "../constants.hpp"
@@ -36,6 +38,12 @@ HostApiWrapper::HostApiWrapper() : HostApi(
             &JsonService::readJsonFile,
             &JsonService::parseJson,
             &JsonService::validateJsonAgainstJson
+        ),
+        IFileWriterServie(
+            &FileWriterService::getBase_cstr,
+            &FileWriterService::setBase_cstr,
+            &FileWriterService::write_cstr,
+            &FileWriterService::writeBinary_cstr
         )
     )
 {}

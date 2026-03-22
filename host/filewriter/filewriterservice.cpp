@@ -52,7 +52,7 @@ void FileWriterService::writeBinary(const std::filesystem::__cxx11::path& filena
     writeBinary_cstr(filename.c_str(), data.data(), data.size());
 }
 
-void FileWriterService::writeBinary_cstr(const std::filesystem::__cxx11::path& filename, const void* const data, size_t length)
+void FileWriterService::writeBinary_cstr(const char * const filename, const void* const data, size_t length)
 {
     auto ptr = getStream(filename);
     std::ostream& stream = *ptr;

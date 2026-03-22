@@ -30,7 +30,7 @@ class FileWriterService
         static void write_cstr(const char* const filename, const char* const content);
 
         static void writeBinary(const std::filesystem::path& filename, const std::span<const std::byte> data);
-        static void writeBinary_cstr(const std::filesystem::path& filename, const void* const data, size_t length);
+        static void writeBinary_cstr(const char* const filename, const void* const data, size_t length);
 
         static const std::unique_ptr<std::ostream> getStream(const std::filesystem::path& filename);
 };

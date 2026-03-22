@@ -4,6 +4,7 @@
 #include <IVersionService.hpp>
 #include <Version.hpp>
 
+#include "IFileWriterService.hpp"
 #include "IJsonService.hpp"
 #include "ILoggerService.hpp"
 
@@ -11,15 +12,17 @@ struct HostApi
 {
     protected:
         HostApi(
-            const Version         hostVersion,
-            const ILoggerService  loggerService,
-            const IVersionService versionService,
-            const IJsonService    jsonService
+            const Version           hostVersion,
+            const ILoggerService    loggerService,
+            const IVersionService   versionService,
+            const IJsonService      jsonService,
+            const IFileWriterServie fileWriterService
         ) :
             hostVersion(hostVersion),
             loggerService(loggerService),
             versionService(versionService),
-            jsonService(jsonService)
+            jsonService(jsonService),
+            fileWriterService(fileWriterService)
         {}
 
     public:
@@ -27,6 +30,7 @@ struct HostApi
         const ILoggerService  loggerService;
         const IVersionService versionService;
         const IJsonService    jsonService;
+        const IFileWriterServie fileWriterService;
 };
 
 #endif // HOSTAPI_HPP

@@ -73,6 +73,7 @@ include_directories(
 set(apiHeaders
     api/ClientApi.hpp
     api/HostApi.hpp
+    api/IFileWriterService.hpp
     api/ILoggerService.hpp
     api/IJsonService.hpp
     api/IVersionService.hpp
