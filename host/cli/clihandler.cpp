@@ -1,3 +1,4 @@
+#include <iostream>
 #include <filesystem>
 #include <sstream>
 #include <string>
@@ -47,6 +48,20 @@ void configureParser(ArgParser& parser)
     .help("The data to be processed.\n"
           "Use "s + CliInput::HELP + " <mode> for details."
          );
+
+#define makeFlag(str) "-"s + str[0], "--"s + str
+    parser.add_argument(makeFlag(CliInput::OVERWRITE))
+    .help("overwrite files if already existing")
+    .flag();
+
+    parser.add_argument(makeFlag(CliInput::CREATE_DIRECTORIES))
+    .help("creates output directories if not yet existing")
+    .flag();
+
+    parser.add_argument(makeFlag(CliInput::DRY_MODE))
+    .help("only lists which files would be (over)written")
+    .flag();
+#undef makeFlag
 }
 
 void handleError(const std::string& errorMessage, const ArgParser& parser)
@@ -106,11 +121,11 @@ void validateAsFile(const std::string& data)
     }
 }
 
-void validateAsDirectory(const std::string& data)
+void validateAsDirectory(const std::string& data, bool createDirs)
 {
     const auto path = std::filesystem::path(data);
 
-    if (!std::filesystem::exists(path))
+    if (!std::filesystem::exists(path) && !createDirs)
     {
         throw CriticalAbort("'"s + data + "' does not exist.");
     }
@@ -132,6 +147,12 @@ CliInput readAndValidateParser(const ArgParser& parser)
     OperationMode mode = modeFromString(modeString);
 
     const auto data = parser.get(CliInput::DATA);
+#define getFlag(flagName) parser.get<bool>(flagName)
+    const auto overwrite = getFlag(CliInput::OVERWRITE);
+    const auto createDirs = getFlag(CliInput::CREATE_DIRECTORIES);
+    const auto dryMode = getFlag(CliInput::DRY_MODE);
+#undef getFlag
+
     switch (mode)
     {
         case OperationMode::SIMULATION:
@@ -139,7 +160,7 @@ CliInput readAndValidateParser(const ArgParser& parser)
             validateAsFile(data);
             break;
         case OperationMode::SCHEMAEXPORT:
-            validateAsDirectory(data);
+            validateAsDirectory(data, createDirs);
             break;
         case OperationMode::REMOTE:
             validateAsRemote(data);
@@ -148,7 +169,7 @@ CliInput readAndValidateParser(const ArgParser& parser)
             break;
     }
 
-    return CliInput(mode, data);
+    return CliInput(mode, data, overwrite, createDirs, dryMode);
 }
 
 CliInput readCliInput(const int argc, const char* const argv[])
@@ -234,12 +255,14 @@ MatchDefinition unpackMatchDefinition(const Json& data)
            );
 }
 
-std::shared_ptr<const BaseModeDefinition> unpackSimulationInput(const char* const source)
+std::shared_ptr<const BaseModeDefinition> unpackSimulationInput(const CliInput& cliInput)
 {
+    const char* const source = cliInput.data.c_str();
     Json data = JsonService::readJsonFile(source);
     JsonService::validateJsonAgainstJson(data, SCHEMA_SIMULATION, source);
 
     return std::make_shared<SimulationModeDefinition>(
+               cliInput,
                unpackLoggingDefinition(data[JKEY_LOGGING]),
                unpackSimulatorDefinition(data[JKEY_SIMULATOR]),
                unpackMatchDefinition(data[JKEY_MATCHDEFINITION])
@@ -249,43 +272,48 @@ std::shared_ptr<const BaseModeDefinition> unpackSimulationInput(const char* cons
 // .......................................................................... //
 // template
 
-std::shared_ptr<const BaseModeDefinition> unpackTemplateInput(const char* const source)
+std::shared_ptr<const BaseModeDefinition> unpackTemplateInput(const CliInput& cliInput)
 {
+    const char* const source = cliInput.data.c_str();
     Json data = JsonService::readJsonFile(source);
     JsonService::validateJsonAgainstJson(data, SCHEMA_TEMPLATE, source);
 
     //TODO
 
-    return std::make_shared<TemplateModeDefinition>();
+    return std::make_shared<TemplateModeDefinition>(cliInput);
 }
 
 // .......................................................................... //
 // schema export
 
-std::shared_ptr<const BaseModeDefinition> unpackSchemaExportInput(const char* const outputDirectory)
+std::shared_ptr<const BaseModeDefinition> unpackSchemaExportInput(const CliInput& cliInput)
 {
-    return std::make_shared<SchemaExportModeDefinition>(outputDirectory);
+    const char* const outputDirectory = cliInput.data.c_str();
+    return std::make_shared<SchemaExportModeDefinition>(cliInput, outputDirectory);
 }
 
 // .......................................................................... //
 // remote
 
-std::shared_ptr<const BaseModeDefinition> unpackRemoteInput(const std::string& socket)
+std::shared_ptr<const BaseModeDefinition> unpackRemoteInput(const CliInput& cliInput)
 {
+    const std::string& socket = cliInput.data;
+
     //TODO
 
-    return std::make_shared<RemoteModeDefinition>();
+    return std::make_shared<RemoteModeDefinition>(cliInput);
 }
 
 // .......................................................................... //
 // help
 
-std::shared_ptr<const BaseModeDefinition> unpackHelpInput(const std::string& target)
+std::shared_ptr<const BaseModeDefinition> unpackHelpInput(const CliInput& cliInput)
 {
+    const std::string& target = cliInput.data;
     try
     {
         const auto mode = modeFromString(target);
-        return std::make_shared<HelpModeDefinition>(mode);
+        return std::make_shared<HelpModeDefinition>(cliInput, mode);
     }
     catch (const IllegalStateException& err)
     {
@@ -301,20 +329,18 @@ std::shared_ptr<const BaseModeDefinition> unpackCliInput(const CliInput& cliInpu
     switch (cliInput.mode)
     {
         case OperationMode::SIMULATION:
-            return unpackSimulationInput(cliInput.data.c_str());
+            return unpackSimulationInput(cliInput);
         case OperationMode::TEMPLATE:
-            return unpackTemplateInput(cliInput.data.c_str());
+            return unpackTemplateInput(cliInput);
         case OperationMode::SCHEMAEXPORT:
-            return unpackSchemaExportInput(cliInput.data.c_str());
+            return unpackSchemaExportInput(cliInput);
         case OperationMode::REMOTE:
-            return unpackRemoteInput(cliInput.data);
+            return unpackRemoteInput(cliInput);
         case OperationMode::HELP:
-            return unpackHelpInput(cliInput.data);
+            return unpackHelpInput(cliInput);
     }
 
     throw IllegalStateException(
         "Unrecognized mode id "s + std::to_string(static_cast<int>(cliInput.mode))
     );
 }
-
-

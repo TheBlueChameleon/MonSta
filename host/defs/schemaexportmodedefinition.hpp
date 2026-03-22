@@ -1,14 +1,19 @@
 #ifndef SCHEMAEXPORTMODEDEFINITION_HPP
 #define SCHEMAEXPORTMODEDEFINITION_HPP
 
+#include "../cli/cliinput.hpp"
+
 #include <filesystem>
 
 #include "basemodedefinition.hpp"
 
 struct SchemaExportModeDefinition : public BaseModeDefinition
 {
-    SchemaExportModeDefinition(const std::filesystem::path& outputDirectory):
-        BaseModeDefinition(OperationMode::SCHEMAEXPORT, LoggingDefinition()),
+    SchemaExportModeDefinition(
+        const CliInput& cli,
+        const std::filesystem::path& outputDirectory
+    ):
+        BaseModeDefinition(cli, LoggingDefinition()),
         outputDirectory(outputDirectory)
     {}
 

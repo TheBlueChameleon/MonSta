@@ -5,8 +5,8 @@
 
 struct TemplateModeDefinition : public BaseModeDefinition
 {
-    TemplateModeDefinition():
-        BaseModeDefinition(OperationMode::TEMPLATE, LoggingDefinition())
+    TemplateModeDefinition(const CliInput& cli):
+        BaseModeDefinition(cli, LoggingDefinition())
     {}
 };
 

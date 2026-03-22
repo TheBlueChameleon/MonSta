@@ -9,11 +9,12 @@
 struct SimulationModeDefinition : public BaseModeDefinition
 {
     SimulationModeDefinition(
+        const CliInput& cli,
         const LoggingDefinition& logging,
         const SimulatorDefinition& simulator,
         const MatchDefinition& match
     ):
-        BaseModeDefinition(OperationMode::SIMULATION, logging),
+        BaseModeDefinition(cli, logging),
         simulator(simulator),
         match(match)
     {}
