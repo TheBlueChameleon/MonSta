@@ -21,6 +21,8 @@ using JsonValidator = nlohmann::json_schema::json_validator;
 #include "../defs/simulationmodedefinition.hpp"
 #include "../defs/templatemodedefinition.hpp"
 
+#include "../filewriter/filewriterservice.hpp"
+
 #include "../json/jsonservice.hpp"
 
 #include "../constants.hpp"
@@ -123,11 +125,33 @@ void validateAsFile(const std::string& data)
 
 void validateAsDirectory(const std::string& data, bool createDirs)
 {
+    if (data == FileWriterService::STDOUT)
+    {
+        return;
+    }
+
     const auto path = std::filesystem::path(data);
 
-    if (!std::filesystem::exists(path) && !createDirs)
+    if (!std::filesystem::exists(path))
     {
-        throw CriticalAbort("'"s + data + "' does not exist.");
+        if (createDirs)
+        {
+            try
+            {
+                std::filesystem::create_directories(data);
+            }
+            catch (const std::filesystem::filesystem_error& e)
+            {
+                throw CriticalAbort(
+                    "Could not create directory '"s + data + "'\n"
+                    + e.what()
+                );
+            }
+        }
+        else
+        {
+            throw CriticalAbort("'"s + data + "' does not exist.");
+        }
     }
 
     if (!std::filesystem::is_directory(path))
