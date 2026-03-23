@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cstring>
 #include <fstream>
 
@@ -9,11 +10,38 @@
 FileWriterService FileWriterService::instance;
 const std::set<std::string> FileWriterService::specialNames = {STDOUT};
 
+static bool isSpecialPath(const std::filesystem::path& path)
+{
+    return FileWriterService::getSpecialNames().contains(path.c_str());
+}
+
+static bool containsSpecialPath(const std::filesystem::path& path)
+{
+    return std::any_of(path.begin(), path.end(), isSpecialPath);
+}
+
+static const std::unique_ptr<std::ostream> getSpecialStream(const char* const specialName, const std::string& filename)
+{
+    // TODO: switch-like on available specialNames
+    return std::make_unique<StdOutPseudoFile>(filename);
+
+    // "default case"
+    return nullptr;
+}
+
 static bool maybeMakeDirectoriesOrLog(const std::filesystem::path& path, bool createDirectories)
 {
-    if (FileWriterService::getSpecialNames().contains(path.c_str()))
+    if (isSpecialPath(path))
     {
         return true;
+    }
+
+    if (containsSpecialPath(path))
+    {
+        LoggerService::errorF("Invalid use of reserved symbol in '{}'",
+                              path.c_str()
+                             );
+        return false;
     }
 
     if (std::filesystem::exists(path))
@@ -142,31 +170,32 @@ void FileWriterService::writeBinary_cstr(const char* const filename, const void*
 
 const std::unique_ptr<std::ostream> FileWriterService::getStream(const std::filesystem::__cxx11::path& filename)
 {
-    if (std::strcmp(getBase().c_str(), STDOUT) == 0)
+    if (isSpecialPath(getBase()))
     {
-        return std::make_unique<StdOutPseudoFile>(filename.c_str());
+        return getSpecialStream(STDOUT, filename);
     }
 
-    if (std::strcmp(filename.c_str(), STDOUT) == 0)
+    if (isSpecialPath(filename))
     {
-        return std::make_unique<StdOutPseudoFile>(STDOUT);
+        return getSpecialStream(STDOUT, STDOUT);
     }
 
     const std::filesystem::path resolved = std::filesystem::weakly_canonical(getBase() / filename);
-    const std::filesystem::path parent = resolved.parent_path();
-
     const bool exists = std::filesystem::exists(resolved);
-    const bool parentExists = std::filesystem::exists(parent);
 
+    // TODO: this does not catch "contains special path"
     if (getDryMode())
     {
         instance.createdFileInfo.emplace_back(resolved, exists);
         return nullptr;
     }
 
-    LoggerService::traceF("Attempting to open '{}'", resolved.c_str());
+    LoggerService::traceF("Attempting to create '{}'", resolved.c_str());
 
-    maybeMakeDirectoriesOrLog(parent, getCreateDirectories());
+    if (!maybeMakeDirectoriesOrLog(resolved.parent_path(), getCreateDirectories()))
+    {
+        return nullptr;
+    }
 
     if (exists && ! getOverwrite())
     {
