@@ -96,8 +96,8 @@ add_executable(App
     host/cli/clihandler.hpp host/cli/clihandler.cpp
     host/cli/cliinput.hpp
 
-    host/filewriter/filewriterservice.hpp host/filewriter/filewriterservice.cpp
-    host/filewriter/stdoutpseudofile.hpp host/filewriter/stdoutpseudofile.cpp
+    host/filesystem/filewriterservice.hpp host/filesystem/filewriterservice.cpp
+    host/filesystem/stdoutpseudofile.hpp  host/filesystem/stdoutpseudofile.cpp
 
     host/json/jsonservice.hpp host/json/jsonservice.cpp
     host/json/schemaconstants.hpp host/json/schemaconstants.cpp

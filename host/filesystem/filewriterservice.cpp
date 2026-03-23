@@ -7,6 +7,39 @@
 #include "stdoutpseudofile.hpp"
 
 FileWriterService FileWriterService::instance;
+const std::set<std::string> FileWriterService::specialNames = {STDOUT};
+
+static bool maybeMakeDirectoriesOrLog(const std::filesystem::path& path, bool createDirectories)
+{
+    if (FileWriterService::getSpecialNames().contains(path.c_str()))
+    {
+        return true;
+    }
+
+    if (std::filesystem::exists(path))
+    {
+        return true;
+    }
+
+    if (createDirectories)
+    {
+        try
+        {
+            std::filesystem::create_directories(path);
+            return true;
+        }
+        catch (const std::filesystem::filesystem_error& e)
+        {
+            LoggerService::errorF("Could not create directory '{}': {}",
+                                  path.c_str(),
+                                  e.what()
+                                 );
+            return false;
+        }
+    }
+
+    return false;
+}
 
 FileWriterService::FileWriterService() :
     base(std::filesystem::current_path())
@@ -47,6 +80,11 @@ FileWriterService FileWriterService::getInstance()
     return instance;
 }
 
+const std::set<std::string>& FileWriterService::getSpecialNames()
+{
+    return FileWriterService::specialNames;
+}
+
 std::filesystem::path FileWriterService::getBase()
 {
     return instance.base;
@@ -59,7 +97,10 @@ const char* const FileWriterService::getBase_cstr()
 
 void FileWriterService::setBase(const std::filesystem::path& newBase)
 {
-    instance.base = newBase;
+    if (maybeMakeDirectoriesOrLog(newBase, getCreateDirectories()))
+    {
+        instance.base = newBase;
+    }
 }
 
 void FileWriterService::setBase_cstr(const char* const newBase)
@@ -113,6 +154,7 @@ const std::unique_ptr<std::ostream> FileWriterService::getStream(const std::file
 
     const std::filesystem::path resolved = std::filesystem::weakly_canonical(getBase() / filename);
     const std::filesystem::path parent = resolved.parent_path();
+
     const bool exists = std::filesystem::exists(resolved);
     const bool parentExists = std::filesystem::exists(parent);
 
@@ -122,23 +164,10 @@ const std::unique_ptr<std::ostream> FileWriterService::getStream(const std::file
         return nullptr;
     }
 
-    if (getCreateDirectories() && !parentExists)
-    {
-        try
-        {
-            std::filesystem::create_directories(parent);
-        }
-        catch (const std::filesystem::filesystem_error& e)
-        {
-            LoggerService::errorF("Could not create directory '{}': {}",
-                                  parent.c_str(),
-                                  e.what()
-                                 );
-            return nullptr;
-        }
-    }
-
     LoggerService::traceF("Attempting to open '{}'", resolved.c_str());
+
+    maybeMakeDirectoriesOrLog(parent, getCreateDirectories());
+
     if (exists && ! getOverwrite())
     {
         LoggerService::errorF("Could not open '{}': file/directory already exists!", filename.c_str());

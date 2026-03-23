@@ -2,7 +2,7 @@
 
 #include "cli/clihandler.hpp"
 
-#include "filewriter/filewriterservice.hpp"
+#include "filesystem/filewriterservice.hpp"
 
 #include "operationmodes/help/entrypoint.hpp"
 #include "operationmodes/remote/entrypoint.hpp"

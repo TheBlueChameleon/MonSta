@@ -18,7 +18,7 @@ using JsonValidator = nlohmann::json_schema::json_validator;
 #include "../operationmodes/simulation/simulationmodedefinition.hpp"
 #include "../operationmodes/template/templatemodedefinition.hpp"
 
-#include "../filewriter/filewriterservice.hpp"
+#include "../filesystem/filewriterservice.hpp"
 
 #include "../json/jsonservice.hpp"
 
