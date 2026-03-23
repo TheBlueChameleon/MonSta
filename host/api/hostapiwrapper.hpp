@@ -8,9 +8,9 @@
 class HostApiWrapper : public HostApi
 {
     private:
-        HostApiWrapper();
-
         static HostApiWrapper instance;
+
+        HostApiWrapper();
 
     public:
         HostApiWrapper(HostApiWrapper& other) = delete;

@@ -5,8 +5,10 @@
 // ========================================================================== //
 // proper implementations
 
-bool VersionService::equal(const Version& lhs, const Version& rhs)
+namespace VersionService
 {
+    bool equal(const Version& lhs, const Version& rhs)
+    {
         // *INDENT-OFF*
         if (lhs.major != rhs.major) return false;
         if (lhs.minor != rhs.minor) return false;
@@ -14,16 +16,16 @@ bool VersionService::equal(const Version& lhs, const Version& rhs)
         if (lhs.build != rhs.build) return false;
         // *INDENT-ON*
 
-    return true;
-}
+        return true;
+    }
 
-bool VersionService::notEqual(const Version& lhs, const Version& rhs)
-{
-    return !equal(lhs, rhs);
-}
+    bool notEqual(const Version& lhs, const Version& rhs)
+    {
+        return !equal(lhs, rhs);
+    }
 
-bool VersionService::lessThan(const Version& lhs, const Version& rhs)
-{
+    bool lessThan(const Version& lhs, const Version& rhs)
+    {
         // *INDENT-OFF*
         if      (lhs.major < rhs.major) return true;
         else if (lhs.major > rhs.major) return false;
@@ -38,34 +40,35 @@ bool VersionService::lessThan(const Version& lhs, const Version& rhs)
         else if (lhs.build > rhs.build) return false;
         // *INDENT-ON*
 
-    return false;
-}
+        return false;
+    }
 
-bool VersionService::lessOrEqual(const Version& lhs, const Version& rhs)
-{
-    return lessThan(lhs, rhs) || equal(lhs, rhs);
-}
+    bool lessOrEqual(const Version& lhs, const Version& rhs)
+    {
+        return lessThan(lhs, rhs) || equal(lhs, rhs);
+    }
 
-bool VersionService::greaterThan(const Version& lhs, const Version& rhs)
-{
-    return !lessOrEqual(lhs, rhs);
-}
+    bool greaterThan(const Version& lhs, const Version& rhs)
+    {
+        return !lessOrEqual(lhs, rhs);
+    }
 
-bool VersionService::greaterOrEqual(const Version& lhs, const Version& rhs)
-{
-    return !lessThan(lhs, rhs);
-}
+    bool greaterOrEqual(const Version& lhs, const Version& rhs)
+    {
+        return !lessThan(lhs, rhs);
+    }
 
-std::ostream& VersionService::streamInto(std::ostream& os, const Version& v)
-{
-    return os << v.major << "." << v.minor << "." << v.patch << "." << v.build;
-}
+    std::ostream& streamInto(std::ostream& os, const Version& v)
+    {
+        return os << v.major << "." << v.minor << "." << v.patch << "." << v.build;
+    }
 
-std::string VersionService::to_string(const Version& v)
-{
-    std::stringstream s;
-    streamInto(s, v);
-    return s.str();
+    std::string to_string(const Version& v)
+    {
+        std::stringstream s;
+        streamInto(s, v);
+        return s.str();
+    }
 }
 
 // ========================================================================== //

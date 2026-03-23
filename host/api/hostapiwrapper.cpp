@@ -1,6 +1,9 @@
 #include <functional>
 
+#include <IFileWriterService.hpp>
 #include <IJsonService.hpp>
+#include <IVersionService.hpp>
+#include <Version.hpp>
 
 #include "../filewriter/filewriterservice.hpp"
 
@@ -17,6 +20,7 @@ HostApiWrapper HostApiWrapper::instance;
 
 HostApiWrapper::HostApiWrapper() : HostApi(
         HOST_VERSION,
+
         ILoggerService(
             &LoggerService::trace,
             &LoggerService::debug,
@@ -25,6 +29,7 @@ HostApiWrapper::HostApiWrapper() : HostApi(
             &LoggerService::error,
             &LoggerService::critical
         ),
+
         IVersionService(
             &VersionService::equal,
             &VersionService::notEqual,
@@ -35,11 +40,13 @@ HostApiWrapper::HostApiWrapper() : HostApi(
             &VersionService::streamInto,
             &VersionService::to_string
         ),
+
         IJsonService(
             &JsonService::readJsonFile,
             &JsonService::parseJson,
             &JsonService::validateJsonAgainstJson
         ),
+
         IFileWriterServie(
             &FileWriterService::getBase_cstr,
             &FileWriterService::setBase_cstr,
