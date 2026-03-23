@@ -96,6 +96,8 @@ add_executable(App
     host/cli/clihandler.hpp host/cli/clihandler.cpp
     host/cli/cliinput.hpp
 
+    host/filesystem/createdfileinfo.hpp
+    host/filesystem/filewriterconfig.hpp  host/filesystem/filewriterconfig.cpp
     host/filesystem/filewriterservice.hpp host/filesystem/filewriterservice.cpp
     host/filesystem/stdoutpseudofile.hpp  host/filesystem/stdoutpseudofile.cpp
 

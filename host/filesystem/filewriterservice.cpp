@@ -1,225 +1,220 @@
 #include <algorithm>
-#include <cstring>
 #include <fstream>
 
 #include "../logging/loggerservice.hpp"
 
 #include "filewriterservice.hpp"
+#include "filewriterconfig.hpp"
 #include "stdoutpseudofile.hpp"
 
-FileWriterService FileWriterService::instance;
-const std::set<std::string> FileWriterService::specialNames = {STDOUT};
-
-static bool isSpecialPath(const std::filesystem::path& path)
+namespace FileWriterService
 {
-    return FileWriterService::getSpecialNames().contains(path.c_str());
-}
+    static const std::set<std::string> specialNames = {STDOUT};
 
-static bool containsSpecialPath(const std::filesystem::path& path)
-{
-    return std::any_of(path.begin(), path.end(), isSpecialPath);
-}
-
-static const std::unique_ptr<std::ostream> getSpecialStream(const char* const specialName, const std::string& filename)
-{
-    // TODO: switch-like on available specialNames
-    return std::make_unique<StdOutPseudoFile>(filename);
-
-    // "default case"
-    return nullptr;
-}
-
-static bool maybeMakeDirectoriesOrLog(const std::filesystem::path& path, bool createDirectories)
-{
-    if (isSpecialPath(path))
+    static bool isSpecialPath(const std::filesystem::path& path)
     {
-        return true;
+        return FileWriterService::getSpecialNames().contains(path.c_str());
     }
 
-    if (containsSpecialPath(path))
+    static bool containsSpecialPath(const std::filesystem::path& path)
     {
-        LoggerService::errorF("Invalid use of reserved symbol in '{}'",
-                              path.c_str()
-                             );
-        return false;
+        return std::any_of(path.begin(), path.end(), isSpecialPath);
     }
 
-    if (std::filesystem::exists(path))
+    static bool maybeMakeDirectoriesOrLog(const std::filesystem::path& path, bool createDirectories)
     {
-        return true;
-    }
-
-    if (createDirectories)
-    {
-        try
+        if (isSpecialPath(path))
         {
-            std::filesystem::create_directories(path);
             return true;
         }
-        catch (const std::filesystem::filesystem_error& e)
+
+        if (containsSpecialPath(path))
         {
-            LoggerService::errorF("Could not create directory '{}': {}",
-                                  path.c_str(),
-                                  e.what()
+            LoggerService::errorF("Invalid use of reserved symbol in '{}'",
+                                  path.c_str()
                                  );
             return false;
         }
+
+        if (std::filesystem::exists(path))
+        {
+            return true;
+        }
+
+        if (createDirectories)
+        {
+            try
+            {
+                std::filesystem::create_directories(path);
+                return true;
+            }
+            catch (const std::filesystem::filesystem_error& e)
+            {
+                LoggerService::errorF("Could not create directory '{}': {}",
+                                      path.c_str(),
+                                      e.what()
+                                     );
+                return false;
+            }
+        }
+
+        return false;
     }
 
-    return false;
-}
-
-FileWriterService::FileWriterService() :
-    base(std::filesystem::current_path())
-{}
-
-bool FileWriterService::getOverwrite()
-{
-    return instance.overwrite;
-}
-
-void FileWriterService::setOverwrite(bool newOverwrite)
-{
-    instance.overwrite = newOverwrite;
-}
-
-bool FileWriterService::getCreateDirectories()
-{
-    return instance.createDirectories;
-}
-
-void FileWriterService::setCreateDirectories(bool newCreateDirectories)
-{
-    instance.createDirectories = newCreateDirectories;
-}
-
-bool FileWriterService::getDryMode()
-{
-    return instance.dryMode;
-}
-
-void FileWriterService::setDryMode(bool newDryMode)
-{
-    instance.dryMode = newDryMode;
-}
-
-FileWriterService FileWriterService::getInstance()
-{
-    return instance;
-}
-
-const std::set<std::string>& FileWriterService::getSpecialNames()
-{
-    return FileWriterService::specialNames;
-}
-
-std::filesystem::path FileWriterService::getBase()
-{
-    return instance.base;
-}
-
-const char* const FileWriterService::getBase_cstr()
-{
-    return getBase().c_str();
-}
-
-void FileWriterService::setBase(const std::filesystem::path& newBase)
-{
-    if (maybeMakeDirectoriesOrLog(newBase, getCreateDirectories()))
+    static std::unique_ptr<std::ostream> getSpecialStream(const char* const specialName, const std::string& filename)
     {
-        instance.base = newBase;
-    }
-}
+        // TODO: switch-like on available specialNames
+        return std::make_unique<StdOutPseudoFile>(filename);
 
-void FileWriterService::setBase_cstr(const char* const newBase)
-{
-    setBase(newBase);
-}
-
-void FileWriterService::write(const std::filesystem::__cxx11::path& filename, const std::string& content)
-{
-    write_cstr(filename.c_str(), content.c_str());
-}
-
-void FileWriterService::write_cstr(const char* const filename, const char* const content)
-{
-    auto ptr = getStream(filename);
-    if (ptr.get() == nullptr)
-    {
-        return;
-    }
-    std::ostream& stream = *ptr;
-    stream << content;
-}
-
-void FileWriterService::writeBinary(const std::filesystem::__cxx11::path& filename, const std::span<const std::byte> data)
-{
-    writeBinary_cstr(filename.c_str(), data.data(), data.size());
-}
-
-void FileWriterService::writeBinary_cstr(const char* const filename, const void* const data, size_t length)
-{
-    std::unique_ptr<std::ostream> ptr = getStream(filename);
-    if (ptr.get() == nullptr)
-    {
-        return;
-    }
-    std::ostream& stream = *ptr;
-    stream.write(reinterpret_cast<const char*>(data), length);
-}
-
-const std::unique_ptr<std::ostream> FileWriterService::getStream(const std::filesystem::__cxx11::path& filename)
-{
-    if (isSpecialPath(getBase()))
-    {
-        return getSpecialStream(STDOUT, filename);
-    }
-
-    if (isSpecialPath(filename))
-    {
-        return getSpecialStream(STDOUT, STDOUT);
-    }
-
-    const std::filesystem::path resolved = std::filesystem::weakly_canonical(getBase() / filename);
-    const bool exists = std::filesystem::exists(resolved);
-
-    // TODO: this does not catch "contains special path"
-    if (getDryMode())
-    {
-        instance.createdFileInfo.emplace_back(resolved, exists);
+        // "default case"
         return nullptr;
     }
 
-    LoggerService::traceF("Attempting to create '{}'", resolved.c_str());
-
-    if (!maybeMakeDirectoriesOrLog(resolved.parent_path(), getCreateDirectories()))
+    static std::unique_ptr<std::ostream> getStream(const std::filesystem::__cxx11::path& filename, FileWriterConfigAccess& access)
     {
-        return nullptr;
+        if (isSpecialPath(access.getBase()))
+        {
+            return getSpecialStream(STDOUT, filename);
+        }
+
+        if (isSpecialPath(filename))
+        {
+            return getSpecialStream(STDOUT, STDOUT);
+        }
+
+        const std::filesystem::path resolved = std::filesystem::weakly_canonical(access.getBase() / filename);
+        const bool exists = std::filesystem::exists(resolved);
+
+        // TODO: this does not catch "contains special path"
+        if (access.getDryMode())
+        {
+            access.addCreatedFile(resolved, exists);
+            return nullptr;
+        }
+
+        LoggerService::traceF("Attempting to create '{}'", resolved.c_str());
+
+        if (!maybeMakeDirectoriesOrLog(resolved.parent_path(), access.getCreateDirectories()))
+        {
+            return nullptr;
+        }
+
+        if (exists && ! access.getOverwrite())
+        {
+            LoggerService::errorF("Could not open '{}': file/directory already exists!", filename.c_str());
+            return nullptr;
+        }
+
+        auto result = std::make_unique<std::ofstream>(resolved,
+                                                      std::ios_base::out | std::ios_base::binary
+                                                     );
+        if (result->is_open())
+        {
+            access.addCreatedFile(resolved, exists);
+        }
+        else
+        {
+            LoggerService::errorF("Could not open '{}': file system error", filename.c_str());
+            return nullptr;
+        }
+
+        return result;
     }
 
-    if (exists && ! getOverwrite())
+    const std::set<std::string>& getSpecialNames()
     {
-        LoggerService::errorF("Could not open '{}': file/directory already exists!", filename.c_str());
-        return nullptr;
+        return specialNames;
     }
 
-    auto result = std::make_unique<std::ofstream>(resolved,
-                                                  std::ios_base::out | std::ios_base::binary
-                                                 );
-    if (result->is_open())
+    bool getOverwrite()
     {
-        instance.createdFileInfo.emplace_back(resolved, exists);
-    }
-    else
-    {
-        LoggerService::errorF("Could not open '{}': file system error", filename.c_str());
-        return nullptr;
+        return FileWriterConfigAccess().getOverwrite();
     }
 
-    return result;
-}
+    void setOverwrite(bool newOverwrite)
+    {
+        FileWriterConfigAccess().setOverwrite(newOverwrite);
+    }
 
-const std::list<FileWriterService::CreatedFileInfo> FileWriterService::getCreatedFileInfo()
-{
-    return instance.createdFileInfo;
+    bool getCreateDirectories()
+    {
+        return FileWriterConfigAccess().getCreateDirectories();
+    }
+
+    void setCreateDirectories(bool newCreateDirectories)
+    {
+        FileWriterConfigAccess().setCreateDirectories(newCreateDirectories);
+    }
+
+    bool getDryMode()
+    {
+        return FileWriterConfigAccess().getDryMode();
+    }
+
+    void setDryMode(bool newDryMode)
+    {
+        FileWriterConfigAccess().setDryMode(newDryMode);
+    }
+
+    std::filesystem::__cxx11::path getBase()
+    {
+        return FileWriterConfigAccess().getBase();
+    }
+
+    const char* const getBase_cstr()
+    {
+        return getBase().c_str();
+    }
+
+    void setBase(const std::filesystem::__cxx11::path& newBase)
+    {
+        if (maybeMakeDirectoriesOrLog(newBase, getCreateDirectories()))
+        {
+            FileWriterConfigAccess().setBase(newBase);
+        }
+    }
+
+    void setBase_cstr(const char* const newBase)
+    {
+        setBase(newBase);
+    }
+
+    void write(const std::filesystem::__cxx11::path& filename, const std::string& content)
+    {
+        write_cstr(filename.c_str(), content.c_str());
+    }
+
+    void write_cstr(const char* const filename, const char* const content)
+    {
+        auto access = FileWriterConfigAccess();
+        std::unique_ptr<std::ostream> ptr = getStream(filename, access);
+        if (ptr.get() == nullptr)
+        {
+            return;
+        }
+        std::ostream& stream = *ptr;
+        stream << content;
+    }
+
+    void writeBinary(const std::filesystem::__cxx11::path& filename, const std::span<const std::byte> data)
+    {
+        writeBinary_cstr(filename.c_str(), data.data(), data.size());
+    }
+
+    void writeBinary_cstr(const char* const filename, const void* const data, size_t length)
+    {
+        auto access = FileWriterConfigAccess();
+        std::unique_ptr<std::ostream> ptr = getStream(filename, access);
+        if (ptr.get() == nullptr)
+        {
+            return;
+        }
+        std::ostream& stream = *ptr;
+        stream.write(reinterpret_cast<const char*>(data), length);
+    }
+
+    const std::list<CreatedFileInfo> getCreatedFileInfo()
+    {
+        return FileWriterConfigAccess().getCreatedFileInfo();
+    }
 }
