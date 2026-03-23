@@ -5,7 +5,7 @@
 
 #include "../operationmode.hpp"
 
-#include "loggingdefinition.hpp"
+#include "defs/loggingdefinition.hpp"
 
 struct BaseModeDefinition
 {

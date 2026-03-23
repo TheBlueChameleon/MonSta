@@ -77,7 +77,7 @@ set(apiHeaders
     api/ILoggerService.hpp
     api/IJsonService.hpp
     api/IVersionService.hpp
-    api/MatchDefinitions.hpp
+    api/IMatchDefinitions.hpp
     api/Version.hpp
 )
 
@@ -107,29 +107,34 @@ add_executable(App
     host/logging/loggerservice.hpp host/logging/loggerservice.cpp
 
     host/operationmodes/operationmode.hpp
-
-    host/operationmodes/defs/basemodedefinition.hpp
-    host/operationmodes/defs/helpmodedefinition.hpp
-    host/operationmodes/defs/loggingdefinition.hpp
-    host/operationmodes/defs/remoterundefinition.hpp
-    host/operationmodes/defs/safecast.hpp       host/operationmodes/defs/safecast.cpp
-    host/operationmodes/defs/schemaexportmodedefinition.hpp
-    host/operationmodes/defs/simulationmodedefinition.hpp
-    host/operationmodes/defs/simulatordefinition.hpp
-    host/operationmodes/defs/templatemodedefinition.hpp
+    host/operationmodes/safecast.hpp       host/operationmodes/safecast.cpp
 
     host/operationmodes/help/entrypoint.hpp         host/operationmodes/help/entrypoint.cpp
+    host/operationmodes/help/helpmodedefinition.hpp
+
     host/operationmodes/remote/entrypoint.hpp       host/operationmodes/remote/entrypoint.cpp
+    host/operationmodes/remote/remoterundefinition.hpp
+
     host/operationmodes/schemaExport/entrypoint.hpp host/operationmodes/schemaExport/entrypoint.cpp
+    host/operationmodes/schemaExport/schemaexportmodedefinition.hpp
+
+    host/operationmodes/shared/defs/loggingdefinition.hpp
+    host/operationmodes/shared/basemodedefinition.hpp
+
     host/operationmodes/simulation/entrypoint.hpp   host/operationmodes/simulation/entrypoint.cpp
+    host/operationmodes/simulation/simulationmodedefinition.hpp
+    host/operationmodes/simulation/defs/matchdefinition.hpp
+    host/operationmodes/simulation/defs/simulatordefinition.hpp
+
     host/operationmodes/template/entrypoint.hpp     host/operationmodes/template/entrypoint.cpp
+    host/operationmodes/template/templatemodedefinition.hpp
 
     host/constants.hpp host/constants.cpp
     host/errors.hpp
     host/main.cpp
 
-    config/simulation.json
-    config/template.json
+    inputs/config/simulation.json
+    inputs/config/template.json
 )
 
 target_include_directories(App

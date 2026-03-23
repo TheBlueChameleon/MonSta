@@ -12,12 +12,11 @@ using ArgParser = argparse::ArgumentParser;
 using Json = nlohmann::json;
 using JsonValidator = nlohmann::json_schema::json_validator;
 
-#include "../operationmodes/defs/helpmodedefinition.hpp"
-#include "../operationmodes/defs/loggingdefinition.hpp"
-#include "../operationmodes/defs/remoterundefinition.hpp"
-#include "../operationmodes/defs/schemaexportmodedefinition.hpp"
-#include "../operationmodes/defs/simulationmodedefinition.hpp"
-#include "../operationmodes/defs/templatemodedefinition.hpp"
+#include "../operationmodes/help/helpmodedefinition.hpp"
+#include "../operationmodes/remote/remoterundefinition.hpp"
+#include "../operationmodes/schemaExport/schemaexportmodedefinition.hpp"
+#include "../operationmodes/simulation/simulationmodedefinition.hpp"
+#include "../operationmodes/template/templatemodedefinition.hpp"
 
 #include "../filewriter/filewriterservice.hpp"
 
@@ -33,7 +32,7 @@ using JsonValidator = nlohmann::json_schema::json_validator;
 // ========================================================================== //
 // readCliInput
 
-void configureParser(ArgParser& parser)
+static void configureParser(ArgParser& parser)
 {
     parser.add_argument(CliInput::MODE)
     .nargs(1)
@@ -66,7 +65,7 @@ void configureParser(ArgParser& parser)
 #undef makeFlag
 }
 
-void handleError(const std::string& errorMessage, const ArgParser& parser)
+static void handleError(const std::string& errorMessage, const ArgParser& parser)
 {
     std::stringstream ss;
     ss << errorMessage << std::endl;
@@ -76,7 +75,7 @@ void handleError(const std::string& errorMessage, const ArgParser& parser)
     throw CriticalAbort(ss.str());
 }
 
-void runParser(ArgParser& parser, const int argc, const char* const argv[])
+static void runParser(ArgParser& parser, const int argc, const char* const argv[])
 {
     if (argc == 1)
     {
@@ -94,7 +93,7 @@ void runParser(ArgParser& parser, const int argc, const char* const argv[])
     }
 }
 
-OperationMode modeFromString(const std::string& modeString)
+static OperationMode modeFromString(const std::string& modeString)
 {
     // *INDENT-OFF*
     if (modeString == CliInput::SIMULATION  ) return OperationMode::SIMULATION;
@@ -107,7 +106,7 @@ OperationMode modeFromString(const std::string& modeString)
     throw IllegalStateException("Invalid mode identifier: '"s + modeString + "'");
 }
 
-void validateAsFile(const std::string& data)
+static void validateAsInputFile(const std::string& data)
 {
     const auto path = std::filesystem::path(data);
 
@@ -123,7 +122,7 @@ void validateAsFile(const std::string& data)
     }
 }
 
-void validateAsDirectory(const std::string& data, bool createDirs)
+static void validateAsOutputDirectory(const std::string& data, bool createDirs)
 {
     if (data == FileWriterService::STDOUT)
     {
@@ -160,12 +159,12 @@ void validateAsDirectory(const std::string& data, bool createDirs)
     }
 }
 
-void validateAsRemote(const std::string& data)
+static void validateAsRemote(const std::string& data)
 {
     // TODO
 }
 
-CliInput readAndValidateParser(const ArgParser& parser)
+static CliInput readAndValidateParser(const ArgParser& parser)
 {
     const auto modeString = parser.get(CliInput::MODE);
     OperationMode mode = modeFromString(modeString);
@@ -181,10 +180,10 @@ CliInput readAndValidateParser(const ArgParser& parser)
     {
         case OperationMode::SIMULATION:
         case OperationMode::TEMPLATE:
-            validateAsFile(data);
+            validateAsInputFile(data);
             break;
         case OperationMode::SCHEMAEXPORT:
-            validateAsDirectory(data, createDirs);
+            validateAsOutputDirectory(data, createDirs);
             break;
         case OperationMode::REMOTE:
             validateAsRemote(data);
@@ -212,7 +211,7 @@ CliInput readCliInput(const int argc, const char* const argv[])
 // shared
 
 template<typename T>
-void fetchIfInJson(const char* const jsonKey, const Json& data, T& target)
+static void fetchIfInJson(const char* const jsonKey, const Json& data, T& target)
 {
     if (data.contains(jsonKey))
     {
@@ -220,7 +219,7 @@ void fetchIfInJson(const char* const jsonKey, const Json& data, T& target)
     }
 }
 
-LoggingDefinition unpackLoggingDefinition(const Json& data)
+static LoggingDefinition unpackLoggingDefinition(const Json& data)
 {
     std::optional<std::filesystem::path> logfile;
     ILoggerService::LogLevel             loglevel;
@@ -237,7 +236,7 @@ LoggingDefinition unpackLoggingDefinition(const Json& data)
 // .......................................................................... //
 // simulation
 
-SimulatorDefinition unpackSimulatorDefinition(const Json& data)
+static SimulatorDefinition unpackSimulatorDefinition(const Json& data)
 {
     std::string engine = data[JKEY_SIMULATOR_ENGINE];   // required to exist.
     std::string inputDir;
@@ -265,7 +264,7 @@ SimulatorDefinition unpackSimulatorDefinition(const Json& data)
            );
 }
 
-MatchDefinition unpackMatchDefinition(const Json& data)
+static MatchDefinition unpackMatchDefinition(const Json& data)
 {
     // all entries required
     return MatchDefinition(
@@ -279,7 +278,7 @@ MatchDefinition unpackMatchDefinition(const Json& data)
            );
 }
 
-std::shared_ptr<const BaseModeDefinition> unpackSimulationInput(const CliInput& cliInput)
+static std::shared_ptr<const BaseModeDefinition> unpackSimulationInput(const CliInput& cliInput)
 {
     const char* const source = cliInput.data.c_str();
     Json data = JsonService::readJsonFile(source);
@@ -296,7 +295,7 @@ std::shared_ptr<const BaseModeDefinition> unpackSimulationInput(const CliInput& 
 // .......................................................................... //
 // template
 
-std::shared_ptr<const BaseModeDefinition> unpackTemplateInput(const CliInput& cliInput)
+static std::shared_ptr<const BaseModeDefinition> unpackTemplateInput(const CliInput& cliInput)
 {
     const char* const source = cliInput.data.c_str();
     Json data = JsonService::readJsonFile(source);
@@ -310,7 +309,7 @@ std::shared_ptr<const BaseModeDefinition> unpackTemplateInput(const CliInput& cl
 // .......................................................................... //
 // schema export
 
-std::shared_ptr<const BaseModeDefinition> unpackSchemaExportInput(const CliInput& cliInput)
+static std::shared_ptr<const BaseModeDefinition> unpackSchemaExportInput(const CliInput& cliInput)
 {
     const char* const outputDirectory = cliInput.data.c_str();
     return std::make_shared<SchemaExportModeDefinition>(cliInput, outputDirectory);
@@ -319,7 +318,7 @@ std::shared_ptr<const BaseModeDefinition> unpackSchemaExportInput(const CliInput
 // .......................................................................... //
 // remote
 
-std::shared_ptr<const BaseModeDefinition> unpackRemoteInput(const CliInput& cliInput)
+static std::shared_ptr<const BaseModeDefinition> unpackRemoteInput(const CliInput& cliInput)
 {
     const std::string& socket = cliInput.data;
 
@@ -331,7 +330,7 @@ std::shared_ptr<const BaseModeDefinition> unpackRemoteInput(const CliInput& cliI
 // .......................................................................... //
 // help
 
-std::shared_ptr<const BaseModeDefinition> unpackHelpInput(const CliInput& cliInput)
+static std::shared_ptr<const BaseModeDefinition> unpackHelpInput(const CliInput& cliInput)
 {
     const std::string& target = cliInput.data;
     try

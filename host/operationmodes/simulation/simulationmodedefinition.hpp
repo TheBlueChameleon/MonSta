@@ -1,10 +1,10 @@
 #ifndef SIMULATIONMODEDEFINITION_H
 #define SIMULATIONMODEDEFINITION_H
 
-#include <MatchDefinitions.hpp>
+#include "../shared/basemodedefinition.hpp"
 
-#include "basemodedefinition.hpp"
-#include "simulatordefinition.hpp"
+#include "defs/matchdefinition.hpp"
+#include "defs/simulatordefinition.hpp"
 
 struct SimulationModeDefinition : public BaseModeDefinition
 {

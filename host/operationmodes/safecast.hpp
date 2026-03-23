@@ -3,11 +3,12 @@
 
 #include <memory>
 
-#include "helpmodedefinition.hpp"
-#include "remoterundefinition.hpp"
-#include "schemaexportmodedefinition.hpp"
-#include "simulationmodedefinition.hpp"
-#include "templatemodedefinition.hpp"
+struct BaseModeDefinition;
+struct HelpModeDefinition;
+struct RemoteModeDefinition;
+struct SchemaExportModeDefinition;
+struct SimulationModeDefinition;
+struct TemplateModeDefinition;
 
 namespace RunDefinitionUtils
 {

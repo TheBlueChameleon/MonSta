@@ -4,9 +4,10 @@
 
 #include "../../logging/loggerservice.hpp"
 
-#include "../defs/safecast.hpp"
+#include "../safecast.hpp"
 
 #include "entrypoint.hpp"
+#include "simulationmodedefinition.hpp"
 
 namespace SimulationMode
 {

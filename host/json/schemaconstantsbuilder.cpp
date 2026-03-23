@@ -138,7 +138,7 @@ std::string JsonSubSchemaBuilder::build(int indent) const
     for (const auto& item: required)
     {
         ++i;
-        ss << quoted(item) << (i < size ? "," : "");
+        ss << quoted(item) << (i < size ? ", " : "");
     }
     ss << "],\n";
 

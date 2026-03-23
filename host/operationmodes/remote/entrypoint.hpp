@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "../defs/basemodedefinition.hpp"
+struct BaseModeDefinition;
 
 namespace RemoteMode
 {

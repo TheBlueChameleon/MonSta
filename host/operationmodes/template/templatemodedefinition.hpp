@@ -1,7 +1,7 @@
 #ifndef TEMPLATEMODEDEFINITION_HPP
 #define TEMPLATEMODEDEFINITION_HPP
 
-#include "basemodedefinition.hpp"
+#include "../shared/basemodedefinition.hpp"
 
 struct TemplateModeDefinition : public BaseModeDefinition
 {

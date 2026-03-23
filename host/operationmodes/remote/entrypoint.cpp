@@ -2,9 +2,10 @@
 
 #include "../../logging/loggerservice.hpp"
 
-#include "../defs/safecast.hpp"
+#include "../safecast.hpp"
 
 #include "entrypoint.hpp"
+#include "remoterundefinition.hpp"
 
 namespace RemoteMode
 {

@@ -5,7 +5,7 @@
 
 #include <filesystem>
 
-#include "basemodedefinition.hpp"
+#include "../shared/basemodedefinition.hpp"
 
 struct SchemaExportModeDefinition : public BaseModeDefinition
 {

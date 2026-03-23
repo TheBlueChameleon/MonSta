@@ -1,53 +1,53 @@
+#include "../operationmodes/shared/defs/loggingdefinition.hpp"
+
 #include "loggerservice.hpp"
 
-Logger LoggerService::instance;
-
-LoggerService::LoggerService()
+namespace LoggerService
 {
-    instance.makeDefault();
-}
+    Logger instance;
 
-Logger& LoggerService::getInstance()
-{
-    return instance;
-}
-
-void LoggerService::setup(const LoggingDefinition def)
-{
-    if (def.logfile.has_value())
+    Logger& getInstance()
     {
-        instance.setLogFile(def.logfile.value());
+        return instance;
     }
 
-    instance.setLogLevel(def.loglevel);
-}
+    void setup(const LoggingDefinition def)
+    {
+        if (def.logfile.has_value())
+        {
+            instance.setLogFile(def.logfile.value());
+        }
 
-void LoggerService::trace(const char* const msg)
-{
-    instance.trace(msg);
-}
+        instance.setLogLevel(def.loglevel);
+    }
 
-void LoggerService::debug(const char* const msg)
-{
-    instance.debug(msg);
-}
+    void trace(const char* const msg)
+    {
+        instance.trace(msg);
+    }
 
-void LoggerService::info(const char* const msg)
-{
-    instance.info(msg);
-}
+    void debug(const char* const msg)
+    {
+        instance.debug(msg);
+    }
 
-void LoggerService::warn(const char* const msg)
-{
-    instance.warn(msg);
-}
+    void info(const char* const msg)
+    {
+        instance.info(msg);
+    }
 
-void LoggerService::error(const char* const msg)
-{
-    instance.error(msg);
-}
+    void warn(const char* const msg)
+    {
+        instance.warn(msg);
+    }
 
-void LoggerService::critical(const char* const msg)
-{
-    instance.critical(msg);
+    void error(const char* const msg)
+    {
+        instance.error(msg);
+    }
+
+    void critical(const char* const msg)
+    {
+        instance.critical(msg);
+    }
 }

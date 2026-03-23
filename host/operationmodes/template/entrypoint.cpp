@@ -2,9 +2,10 @@
 
 #include "../../logging/loggerservice.hpp"
 
-#include "../defs/safecast.hpp"
+#include "../safecast.hpp"
 
 #include "entrypoint.hpp"
+#include "templatemodedefinition.hpp"
 
 void TemplateMode::run(const std::shared_ptr<const BaseModeDefinition>& defs)
 {

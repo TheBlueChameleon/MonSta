@@ -1,5 +1,5 @@
-#ifndef MATCHDEFINITIONS_H
-#define MATCHDEFINITIONS_H
+#ifndef MATCHDEFINITION_H
+#define MATCHDEFINITION_H
 
 #include <filesystem>
 
@@ -16,4 +16,4 @@ struct MatchDefinition
     const std::filesystem::path typeDefs;
 };
 
-#endif // MATCHDEFINITIONS_H
+#endif // MATCHDEFINITION_H

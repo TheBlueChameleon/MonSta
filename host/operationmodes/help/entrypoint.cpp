@@ -1,8 +1,9 @@
 #include <iostream>
 
-#include "entrypoint.hpp"
+#include "../safecast.hpp"
 
-#include "../defs/safecast.hpp"
+#include "entrypoint.hpp"
+#include "helpmodedefinition.hpp"
 
 namespace HelpMode
 {

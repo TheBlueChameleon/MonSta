@@ -3,7 +3,7 @@
 
 #include "../../cli/cliinput.hpp"
 
-#include "basemodedefinition.hpp"
+#include "../shared/basemodedefinition.hpp"
 
 struct HelpModeDefinition : public BaseModeDefinition
 {
