@@ -27,10 +27,21 @@ static constexpr auto JKEY_MATCHDEFINITION_PLAYER2STRATETY = "player2Strategy";
 static constexpr auto JKEY_MATCHDEFINITION_PKMNDEFS        = "pkmnDefs";
 static constexpr auto JKEY_MATCHDEFINITION_MOVEDEFS        = "moveDefs";
 static constexpr auto JKEY_MATCHDEFINITION_TYPEDEFS        = "typeDefs";
+// TODO: held items?
 
 static constexpr auto JKEY_TEMPLATE                 = "template";
 static constexpr auto JKEY_TEMPLATE_ENGINE          = "engine";
 static constexpr auto JKEY_TEMPLATE_OUTPUTDIRECTORY = "outputDirectory";
+static constexpr auto JKEY_TEMPLATE_WRITESCHEMAS    = "writeSchemas";
+static constexpr auto JKEY_TEMPLATE_PLAYER1TEAM     = "player1Team";
+static constexpr auto JKEY_TEMPLATE_PLAYER1STRATEGY = "player1Strategy";
+static constexpr auto JKEY_TEMPLATE_PLAYER2TEAM     = "player2Team";
+static constexpr auto JKEY_TEMPLATE_PLAYER2STRATEGY = "player2Strategy";
+static constexpr auto JKEY_TEMPLATE_PKMNDEFS        = "pkmnDefs";
+static constexpr auto JKEY_TEMPLATE_MOVEDEFS        = "moveDefs";
+static constexpr auto JKEY_TEMPLATE_TYPEDEFS        = "typeDefs";
+static constexpr auto JKEY_TEMPLATE_ARGS            = "args";
+// TODO: held items?
 
 extern const std::string SCHEMA_SIMULATION_STRING;
 extern const nlohmann::json SCHEMA_SIMULATION;
