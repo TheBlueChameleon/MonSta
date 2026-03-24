@@ -1,11 +1,11 @@
 #include <functional>
 
-#include <IFileWriterService.hpp>
+#include <IFileService.hpp>
 #include <IJsonService.hpp>
 #include <IVersionService.hpp>
 #include <Version.hpp>
 
-#include "../filesystem/filewriterservice.hpp"
+#include "../fileservice/fileservice.hpp"
 
 #include "../json/jsonservice.hpp"
 
@@ -47,11 +47,11 @@ HostApiWrapper::HostApiWrapper() : HostApi(
             &JsonService::validateJsonAgainstJson
         ),
 
-        IFileWriterServie(
-            &FileWriterService::getBase_cstr,
-            &FileWriterService::setBase_cstr,
-            &FileWriterService::write_cstr,
-            &FileWriterService::writeBinary_cstr
+        IFileServie(
+            &FileService::getBase_cstr,
+            &FileService::setBase_cstr,
+            &FileService::write_cstr,
+            &FileService::writeBinary_cstr
         )
     )
 {}

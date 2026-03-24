@@ -1,5 +1,5 @@
-#ifndef FILEWRITERSERVICE_H
-#define FILEWRITERSERVICE_H
+#ifndef FILESERVICE_H
+#define FILESERVICE_H
 
 #include <filesystem>
 #include <list>
@@ -9,7 +9,7 @@
 
 #include "createdfileinfo.hpp"
 
-namespace FileWriterService
+namespace FileService
 {
     static constexpr auto STDOUT = ":stdout:";
 
@@ -39,4 +39,4 @@ namespace FileWriterService
     const std::list<CreatedFileInfo> getCreatedFileInfo();
 }
 
-#endif // FILEWRITERSERVICE_H
+#endif // FILESERVICE_H

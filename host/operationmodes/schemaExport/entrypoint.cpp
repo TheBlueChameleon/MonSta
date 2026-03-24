@@ -1,6 +1,6 @@
 #include "../../errors.hpp"
 
-#include "../../filesystem/filewriterservice.hpp"
+#include "../../fileservice/fileservice.hpp"
 
 #include "../../json/schemaconstants.hpp"
 
@@ -17,13 +17,13 @@ namespace SchemaExportMode
     {
         const SchemaExportModeDefinition xDefs = RunDefinitionUtils::getAsSchemaExportModeDefinition(defs);
 
-        FileWriterService::setBase(xDefs.outputDirectory);
-        FileWriterService::setOverwrite(xDefs.overwrite);
-        FileWriterService::setCreateDirectories(xDefs.createDirectories);
-        FileWriterService::setDryMode(xDefs.dryMode);
+        FileService::setBase(xDefs.outputDirectory);
+        FileService::setOverwrite(xDefs.overwrite);
+        FileService::setCreateDirectories(xDefs.createDirectories);
+        FileService::setDryMode(xDefs.dryMode);
 
-        FileWriterService::write("simulation.json", SCHEMA_SIMULATION_STRING);
-        FileWriterService::write("template.json", SCHEMA_TEMPLATE_STRING);
+        FileService::write("simulation.json", SCHEMA_SIMULATION_STRING);
+        FileService::write("template.json", SCHEMA_TEMPLATE_STRING);
 
         if (!xDefs.dryMode)
         {

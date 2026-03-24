@@ -3,17 +3,17 @@
 
 #include "../logging/loggerservice.hpp"
 
-#include "filewriterservice.hpp"
-#include "filewriterconfig.hpp"
+#include "fileservice.hpp"
+#include "fileservicedb.hpp"
 #include "stdoutpseudofile.hpp"
 
-namespace FileWriterService
+namespace FileService
 {
     static const std::set<std::string> specialNames = {STDOUT};
 
     static bool isSpecialPath(const std::filesystem::path& path)
     {
-        return FileWriterService::getSpecialNames().contains(path.c_str());
+        return FileService::getSpecialNames().contains(path.c_str());
     }
 
     static bool containsSpecialPath(const std::filesystem::path& path)
@@ -70,7 +70,7 @@ namespace FileWriterService
         return nullptr;
     }
 
-    static std::unique_ptr<std::ostream> getStream(const std::filesystem::__cxx11::path& filename, FileWriterConfigAccess& access)
+    static std::unique_ptr<std::ostream> getStream(const std::filesystem::__cxx11::path& filename, FileServiceDatabaseAccess& access)
     {
         if (isSpecialPath(access.getBase()))
         {
@@ -128,37 +128,37 @@ namespace FileWriterService
 
     bool getOverwrite()
     {
-        return FileWriterConfigAccess().getOverwrite();
+        return FileServiceDatabaseAccess().getOverwrite();
     }
 
     void setOverwrite(bool newOverwrite)
     {
-        FileWriterConfigAccess().setOverwrite(newOverwrite);
+        FileServiceDatabaseAccess().setOverwrite(newOverwrite);
     }
 
     bool getCreateDirectories()
     {
-        return FileWriterConfigAccess().getCreateDirectories();
+        return FileServiceDatabaseAccess().getCreateDirectories();
     }
 
     void setCreateDirectories(bool newCreateDirectories)
     {
-        FileWriterConfigAccess().setCreateDirectories(newCreateDirectories);
+        FileServiceDatabaseAccess().setCreateDirectories(newCreateDirectories);
     }
 
     bool getDryMode()
     {
-        return FileWriterConfigAccess().getDryMode();
+        return FileServiceDatabaseAccess().getDryMode();
     }
 
     void setDryMode(bool newDryMode)
     {
-        FileWriterConfigAccess().setDryMode(newDryMode);
+        FileServiceDatabaseAccess().setDryMode(newDryMode);
     }
 
     std::filesystem::__cxx11::path getBase()
     {
-        return FileWriterConfigAccess().getBase();
+        return FileServiceDatabaseAccess().getBase();
     }
 
     const char* const getBase_cstr()
@@ -170,7 +170,7 @@ namespace FileWriterService
     {
         if (maybeMakeDirectoriesOrLog(newBase, getCreateDirectories()))
         {
-            FileWriterConfigAccess().setBase(newBase);
+            FileServiceDatabaseAccess().setBase(newBase);
         }
     }
 
@@ -186,7 +186,7 @@ namespace FileWriterService
 
     void write_cstr(const char* const filename, const char* const content)
     {
-        auto access = FileWriterConfigAccess();
+        auto access = FileServiceDatabaseAccess();
         std::unique_ptr<std::ostream> ptr = getStream(filename, access);
         if (ptr.get() == nullptr)
         {
@@ -203,7 +203,7 @@ namespace FileWriterService
 
     void writeBinary_cstr(const char* const filename, const void* const data, size_t length)
     {
-        auto access = FileWriterConfigAccess();
+        auto access = FileServiceDatabaseAccess();
         std::unique_ptr<std::ostream> ptr = getStream(filename, access);
         if (ptr.get() == nullptr)
         {
@@ -215,6 +215,6 @@ namespace FileWriterService
 
     const std::list<CreatedFileInfo> getCreatedFileInfo()
     {
-        return FileWriterConfigAccess().getCreatedFileInfo();
+        return FileServiceDatabaseAccess().getCreatedFileInfo();
     }
 }

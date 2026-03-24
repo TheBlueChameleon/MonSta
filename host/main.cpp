@@ -2,7 +2,7 @@
 
 #include "cli/clihandler.hpp"
 
-#include "filesystem/filewriterservice.hpp"
+#include "fileservice/fileservice.hpp"
 
 #include "operationmodes/help/entrypoint.hpp"
 #include "operationmodes/remote/entrypoint.hpp"
@@ -38,11 +38,11 @@ void run(const int argc, const char* const argv[])
     if (runDefinition->dryMode)
     {
         std::cout << "dry run summary:" << std::endl;
-        for (const auto& info : FileWriterService::getCreatedFileInfo())
+        for (const auto& info : FileService::getCreatedFileInfo())
         {
             std::cout << (info.overwritten ? "overwritten " : "new file    ") << "\t" << info.filename.c_str() << std::endl;
         }
-        if (FileWriterService::getCreatedFileInfo().empty())
+        if (FileService::getCreatedFileInfo().empty())
         {
             std::cout << "-- none --" << std::endl;
         }

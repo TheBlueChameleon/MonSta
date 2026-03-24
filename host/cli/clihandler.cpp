@@ -18,7 +18,7 @@ using JsonValidator = nlohmann::json_schema::json_validator;
 #include "../operationmodes/simulation/simulationmodedefinition.hpp"
 #include "../operationmodes/template/templatemodedefinition.hpp"
 
-#include "../filesystem/filewriterservice.hpp"
+#include "../fileservice/fileservice.hpp"
 
 #include "../json/jsonservice.hpp"
 
@@ -124,7 +124,7 @@ static void validateAsInputFile(const std::string& data)
 
 static void validateAsOutputDirectory(const std::string& data, bool createDirs)
 {
-    if (data == FileWriterService::STDOUT)
+    if (data == FileService::STDOUT)
     {
         return;
     }

@@ -3,7 +3,7 @@
 
 #include <filesystem>
 
-namespace FileWriterService
+namespace FileService
 {
     struct CreatedFileInfo
     {

@@ -1,7 +1,7 @@
-#ifndef IFILEWRITERSERVICE_HPP
-#define IFILEWRITERSERVICE_HPP
+#ifndef IFILESERVICE_H
+#define IFILESERVICE_H
 
-struct IFileWriterServie
+struct IFileServie
 {
     const char* const(*getBase)();
     void (*setBase)(const char* const newBase);
@@ -10,4 +10,4 @@ struct IFileWriterServie
     void (*writeBinary)(const char* const filename, const void* const data, size_t length);
 };
 
-#endif // IFILEWRITERSERVICE_HPP
+#endif // IFILESERVICE_H

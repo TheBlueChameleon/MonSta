@@ -73,7 +73,7 @@ include_directories(
 set(apiHeaders
     api/ClientApi.hpp
     api/HostApi.hpp
-    api/IFileWriterService.hpp
+    api/IFileService.hpp
     api/ILoggerService.hpp
     api/IJsonService.hpp
     api/IVersionService.hpp
@@ -96,10 +96,10 @@ add_executable(App
     host/cli/clihandler.hpp host/cli/clihandler.cpp
     host/cli/cliinput.hpp
 
-    host/filesystem/createdfileinfo.hpp
-    host/filesystem/filewriterconfig.hpp  host/filesystem/filewriterconfig.cpp
-    host/filesystem/filewriterservice.hpp host/filesystem/filewriterservice.cpp
-    host/filesystem/stdoutpseudofile.hpp  host/filesystem/stdoutpseudofile.cpp
+    host/fileservice/createdfileinfo.hpp
+    host/fileservice/fileservicedb.hpp  host/fileservice/fileservicedb.cpp
+    host/fileservice/fileservice.hpp host/fileservice/fileservice.cpp
+    host/fileservice/stdoutpseudofile.hpp  host/fileservice/stdoutpseudofile.cpp
 
     host/json/jsonservice.hpp host/json/jsonservice.cpp
     host/json/schemaconstants.hpp host/json/schemaconstants.cpp

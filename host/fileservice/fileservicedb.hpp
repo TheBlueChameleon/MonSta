@@ -1,5 +1,5 @@
-#ifndef FILEWRITERCONFIG_HPP
-#define FILEWRITERCONFIG_HPP
+#ifndef FILESERVICEDB_H
+#define FILESERVICEDB_H
 
 #include <filesystem>
 #include <list>
@@ -9,32 +9,32 @@
 
 #include "createdfileinfo.hpp"
 
-class FileWriterConfig
+class FileServiceDatabase
 {
     private:
-        static FileWriterConfig instance;
+        static FileServiceDatabase instance;
 
         bool overwrite         = false;
         bool createDirectories = false;
         bool dryMode           = false;
 
         std::filesystem::path base;
-        std::list<FileWriterService::CreatedFileInfo> createdFileInfo;
+        std::list<FileService::CreatedFileInfo> createdFileInfo;
         std::binary_semaphore smph;
 
-        FileWriterConfig();
+        FileServiceDatabase();
 
-        friend class FileWriterConfigAccess;
+        friend class FileServiceDatabaseAccess;
 };
 
-class FileWriterConfigAccess
+class FileServiceDatabaseAccess
 {
     private:
-        FileWriterConfig& instance;
+        FileServiceDatabase& instance;
 
     public:
-        FileWriterConfigAccess();
-        ~FileWriterConfigAccess();
+        FileServiceDatabaseAccess();
+        ~FileServiceDatabaseAccess();
 
         bool getOverwrite();
         void setOverwrite(bool newOverwrite);
@@ -48,8 +48,8 @@ class FileWriterConfigAccess
         const std::filesystem::path& getBase();
         void setBase(const std::filesystem::path& newBase);
 
-        const std::list<FileWriterService::CreatedFileInfo>& getCreatedFileInfo();
+        const std::list<FileService::CreatedFileInfo>& getCreatedFileInfo();
         void addCreatedFile(const std::filesystem::path& filename, const bool overwritten);
 };
 
-#endif // FILEWRITERCONFIG_HPP
+#endif // FILESERVICEDB_H

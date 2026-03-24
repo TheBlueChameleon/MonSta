@@ -4,7 +4,7 @@
 #include <IVersionService.hpp>
 #include <Version.hpp>
 
-#include "IFileWriterService.hpp"
+#include "IFileService.hpp"
 #include "IJsonService.hpp"
 #include "ILoggerService.hpp"
 
@@ -16,7 +16,7 @@ struct HostApi
             const ILoggerService    loggerService,
             const IVersionService   versionService,
             const IJsonService      jsonService,
-            const IFileWriterServie fileWriterService
+            const IFileServie fileWriterService
         ) :
             hostVersion(hostVersion),
             loggerService(loggerService),
@@ -30,7 +30,7 @@ struct HostApi
         const ILoggerService  loggerService;
         const IVersionService versionService;
         const IJsonService    jsonService;
-        const IFileWriterServie fileWriterService;
+        const IFileServie fileWriterService;
 };
 
 #endif // HOSTAPI_HPP
