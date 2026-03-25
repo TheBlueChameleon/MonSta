@@ -98,7 +98,7 @@ namespace FileService
         return false;
     }
 
-    std::pair<std::unique_ptr<std::ostream>, bool> createStream(
+    std::pair<std::ostream*, bool> createStream(
         const std::filesystem::__cxx11::path& path,
         const bool createDirectories,
         const bool overwrite
@@ -134,11 +134,19 @@ namespace FileService
                         }
                     }
 
-                    return std::make_pair(std::make_unique<std::ofstream>(path), exists) ;
+                    std::ofstream* stream = new std::ofstream(path);
+                    if (!stream->is_open())
+                    {
+                        LoggerService::errorF("Could not create file '{}': file system error",
+                                              path.c_str()
+                                             );
+                        return std::make_pair(nullptr, false);
+                    }
+                    return std::make_pair(stream, exists) ;
                 }
 
             case TargetStreamType::STDOUT:
-                return std::make_pair(std::make_unique<StdOutPseudoFile>(path), false);
+                return std::make_pair(new StdOutPseudoFile(path), false);
 
             case TargetStreamType::INVALID:
                 return std::make_pair(nullptr, false);

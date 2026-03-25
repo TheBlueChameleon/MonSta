@@ -28,7 +28,7 @@ namespace FileService
             std::filesystem::path outputBasePath;
             std::list<FileService::CreatedFileInfo> createdFileInfo;
 
-            std::unordered_map<std::filesystem::path, SynchronizedOStream> oStreams;
+            std::unordered_map<std::filesystem::path, std::unique_ptr<SynchronizedOStream>> oStreams;
 
         protected:
             FileServiceDatabase();

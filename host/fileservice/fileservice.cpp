@@ -66,7 +66,7 @@ namespace FileService
 
     void write(const std::filesystem::__cxx11::path& filename, const std::string& content)
     {
-        SynchronizedOStream& stream = FileServiceDatabase::getInstance().getOrCreateStream(filename);
+        auto& stream = FileServiceDatabase::getInstance().getOrCreateStream(filename);
         stream << content;
     }
 
@@ -77,7 +77,7 @@ namespace FileService
 
     void writeBinary(const std::filesystem::__cxx11::path& filename, const std::span<const std::byte> data)
     {
-        SynchronizedOStream& stream = FileServiceDatabase::getInstance().getOrCreateStream(filename);
+        auto& stream = FileServiceDatabase::getInstance().getOrCreateStream(filename);
         stream.write(data.data(), data.size());
     }
 

@@ -84,24 +84,26 @@ namespace FileService
         {
             const std::filesystem::path resolved = outputBasePath / filename;
             LoggerService::traceF("creating stream '{}'", resolved.c_str());
-            auto [streamPtr, overwritten] = createStream(resolved, createDirectories, overwrite);
+            auto [simpleStreamPtr, overwritten] = createStream(resolved, createDirectories, overwrite);
 
-            if (dynamic_cast<std::ofstream*>(streamPtr.get()))
+            if (dynamic_cast<std::ofstream*>(simpleStreamPtr))
             {
                 addCreatedFile_internal(createdFileInfo, filename, overwritten);
             }
 
+            auto synchronizedStreamPtr = new SynchronizedOStream(simpleStreamPtr);
+
             /* emplacement = pair<iterator, bool newlyCreatedItem> */
             /* iterator = pair<key*, value*> */
-            auto emplacement = oStreams.emplace(filename, streamPtr);
+            auto emplacement = oStreams.emplace(filename, synchronizedStreamPtr);
 
             // TODO: throw if !newlyCreatedItem?
 
-            return emplacement.first->second;
+            return *emplacement.first->second;
         }
         else
         {
-            return it->second;
+            return *it->second;
         }
     }
 

@@ -4,7 +4,7 @@
 #include <filesystem>
 #include <utility>
 
-namespace  FileService
+namespace FileService
 {
     enum class TargetStreamType
     {
@@ -20,10 +20,11 @@ namespace  FileService
 
     bool makeDirectoriesOrLog(const std::filesystem::path& path, bool createDirectories);
 
-    std::pair<std::unique_ptr<std::ostream>, bool> createStream(
+    std::pair<std::ostream*, bool> createStream(
         const std::filesystem::path& path,
-        const bool createDirectories
-        , const bool overwrite);
+        const bool createDirectories,
+        const bool overwrite
+    );
 }
 
 #endif // FILESERVICEOPERATIONS_H
