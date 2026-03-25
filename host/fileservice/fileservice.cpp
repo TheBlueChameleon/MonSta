@@ -86,6 +86,35 @@ namespace FileService
         writeBinary(filename, std::span(reinterpret_cast<const std::byte*>(data), length));
     }
 
+    std::string read(const std::filesystem::__cxx11::path& filename)
+    {
+        auto stream = FileServiceDatabase::getInstance().getReadStream(filename);
+        const auto size = getFileSize(stream);
+
+        std::string result(size, '\0');
+        stream.read(&result[0], size);
+
+        return result;
+    }
+
+    FileContents read_cstr(const char* const filename)
+    {
+        auto stream = FileServiceDatabase::getInstance().getReadStream(filename);
+        const auto size = getFileSize(stream);
+
+        FileContents result = {new char[size], size};
+        stream.read(result.data, size);
+
+        return result;
+    }
+
+    void freeFileContents(FileContents& fileContents)
+    {
+        delete fileContents.data;
+        fileContents.data = nullptr;
+        fileContents.size = 0;
+    }
+
     const std::list<CreatedFileInfo> getCreatedFileInfo()
     {
         return FileServiceDatabase::getInstance().getCreatedFileInfo();

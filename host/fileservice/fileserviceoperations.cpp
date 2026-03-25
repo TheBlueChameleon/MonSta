@@ -160,4 +160,16 @@ namespace FileService
 
         throw IllegalStateException("Unknown target type: '"s + path.c_str() + "'");
     }
+
+    size_t getFileSize(std::ifstream& stream)
+    {
+        size_t result;
+
+        stream.seekg(0, std::ios::end);
+        result = stream.tellg();
+        stream.seekg(0);
+
+        return result;
+    }
+
 }

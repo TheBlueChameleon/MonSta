@@ -25,6 +25,8 @@ namespace FileService
         const bool createDirectories,
         const bool overwrite
     );
+
+    size_t getFileSize(std::ifstream& stream);
 }
 
 #endif // FILESERVICEOPERATIONS_H

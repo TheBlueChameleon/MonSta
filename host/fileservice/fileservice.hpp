@@ -7,7 +7,7 @@
 #include <set>
 #include <span>
 
-#include "createdfileinfo.hpp"
+#include "types.hpp"
 
 namespace FileService
 {
@@ -34,6 +34,10 @@ namespace FileService
 
     void writeBinary(const std::filesystem::path& filename, const std::span<const std::byte> data);
     void writeBinary_cstr(const char* const filename, const void* const data, size_t length);
+
+    std::string  read(const std::filesystem::path& filename);
+    FileContents read_cstr(const char* const filename);
+    void freeFileContents(FileContents& fileContents);
 
     const std::list<CreatedFileInfo> getCreatedFileInfo();
 }

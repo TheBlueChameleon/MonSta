@@ -8,7 +8,7 @@
 #include <span>
 #include <unordered_map>
 
-#include "createdfileinfo.hpp"
+#include "types.hpp"
 
 namespace FileService
 {
@@ -25,6 +25,7 @@ namespace FileService
             bool createDirectories = false;
             bool dryMode           = false;
 
+            std::filesystem::path inputBasePath;
             std::filesystem::path outputBasePath;
             std::list<FileService::CreatedFileInfo> createdFileInfo;
 
@@ -45,10 +46,14 @@ namespace FileService
             bool getDryMode() const;
             void setDryMode(bool newDryMode);
 
+            const std::filesystem::path& getInputBasePath() const;
+            void setInputBasePath(const std::filesystem::path& newInputBasePath);
+
             const std::filesystem::path& getOutputBasePath() const;
             void setOutputBasePath(const std::filesystem::path& newBase);
 
             SynchronizedOStream& getOrCreateStream(const std::filesystem::path& filename);
+            std::ifstream getReadStream(const std::filesystem::path& filename);
 
             const std::list<FileService::CreatedFileInfo>& getCreatedFileInfo() const;
             void addCreatedFile(const std::filesystem::path& filename, const bool overwritten);

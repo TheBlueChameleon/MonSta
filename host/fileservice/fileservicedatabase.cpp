@@ -64,6 +64,18 @@ namespace FileService
         dryMode = newDryMode;
     }
 
+    const std::filesystem::__cxx11::path& FileServiceDatabase::getInputBasePath() const
+    {
+        auto lock = std::lock_guard(mutex);
+        return inputBasePath;
+    }
+
+    void FileServiceDatabase::setInputBasePath(const std::filesystem::path& newInputBasePath)
+    {
+        auto lock = std::lock_guard(mutex);
+        inputBasePath = newInputBasePath;
+    }
+
     const std::filesystem::__cxx11::path& FileServiceDatabase::getOutputBasePath() const
     {
         auto lock = std::lock_guard(mutex);
@@ -105,6 +117,23 @@ namespace FileService
         {
             return *it->second;
         }
+    }
+
+    std::ifstream FileServiceDatabase::getReadStream(const std::filesystem::__cxx11::path& filename)
+    {
+        auto lock = std::lock_guard(mutex);
+        const auto target = inputBasePath / filename;
+
+        if (!std::filesystem::exists(target))
+        {
+            LoggerService::errorF("File to read '{}' does not exist", target.c_str());
+            return std::ifstream();
+        }
+
+        return std::ifstream(
+                   target,
+                   std::ifstream::in | std::ifstream::binary
+               );
     }
 
     const std::list<CreatedFileInfo>& FileServiceDatabase::getCreatedFileInfo() const

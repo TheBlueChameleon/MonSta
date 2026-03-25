@@ -96,7 +96,7 @@ add_executable(App
     host/cli/clihandler.hpp host/cli/clihandler.cpp
     host/cli/cliinput.hpp
 
-    host/fileservice/createdfileinfo.hpp
+    host/fileservice/types.hpp
     host/fileservice/fileservice.hpp            host/fileservice/fileservice.cpp
     host/fileservice/fileservicedatabase.hpp    host/fileservice/fileservicedatabase.cpp
     host/fileservice/fileserviceoperations.hpp  host/fileservice/fileserviceoperations.cpp
