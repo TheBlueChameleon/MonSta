@@ -10,12 +10,6 @@ namespace FileService
         std::filesystem::path filename;
         bool                  overwritten;
     };
-
-    struct FileContents
-    {
-        char*  data;
-        size_t size;
-    };
 }
 
 #endif // TYPES_H

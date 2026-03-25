@@ -16,7 +16,7 @@ struct HostApi
             const ILoggerService    loggerService,
             const IVersionService   versionService,
             const IJsonService      jsonService,
-            const IFileServie fileWriterService
+            const IFileService fileWriterService
         ) :
             hostVersion(hostVersion),
             loggerService(loggerService),
@@ -30,7 +30,7 @@ struct HostApi
         const ILoggerService  loggerService;
         const IVersionService versionService;
         const IJsonService    jsonService;
-        const IFileServie fileWriterService;
+        const IFileService fileWriterService;
 };
 
 #endif // HOSTAPI_HPP

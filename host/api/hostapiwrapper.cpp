@@ -47,9 +47,13 @@ HostApiWrapper::HostApiWrapper() : HostApi(
             &JsonService::validateJsonAgainstJson
         ),
 
-        IFileServie(
+        IFileService(
+            &FileService::getInputBasePath_cstr,
+            &FileService::setInputBasePath_cstr,
             &FileService::getOutputBasePath_cstr,
             &FileService::setOutputBasePath_cstr,
+            &FileService::read_cstr,
+            &FileService::freeFileContents,
             &FileService::write_cstr,
             &FileService::writeBinary_cstr
         )

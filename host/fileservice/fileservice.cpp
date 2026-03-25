@@ -41,6 +41,16 @@ namespace FileService
         FileServiceDatabase::getInstance().setDryMode(newDryMode);
     }
 
+    std::filesystem::__cxx11::path getInputBasePath()
+    {
+        return FileServiceDatabase::getInstance().getInputBasePath();
+    }
+
+    const char* const getInputBasePath_cstr()
+    {
+        return getInputBasePath().c_str();
+    }
+
     std::filesystem::__cxx11::path getOutputBasePath()
     {
         return FileServiceDatabase::getInstance().getOutputBasePath();
@@ -49,6 +59,19 @@ namespace FileService
     const char* const getOutputBasePath_cstr()
     {
         return getOutputBasePath().c_str();
+    }
+
+    void setInputBasePath(const std::filesystem::__cxx11::path& newBase)
+    {
+        if (std::filesystem::exists(newBase))
+        {
+            FileServiceDatabase::getInstance().setInputBasePath(newBase);
+        }
+    }
+
+    void setInputBasePath_cstr(const char* const newBase)
+    {
+        setInputBasePath(newBase);
     }
 
     void setOutputBasePath(const std::filesystem::__cxx11::path& newBase)
@@ -97,22 +120,22 @@ namespace FileService
         return result;
     }
 
-    FileContents read_cstr(const char* const filename)
+    IFileService::FileContents read_cstr(const char* const filename)
     {
         auto stream = FileServiceDatabase::getInstance().getReadStream(filename);
         const auto size = getFileSize(stream);
 
-        FileContents result = {new char[size], size};
+        IFileService::FileContents result = {new char[size], size};
         stream.read(result.data, size);
 
         return result;
     }
 
-    void freeFileContents(FileContents& fileContents)
+    void freeFileContents(IFileService::FileContents* fileContents)
     {
-        delete fileContents.data;
-        fileContents.data = nullptr;
-        fileContents.size = 0;
+        delete fileContents->data;
+        fileContents->data = nullptr;
+        fileContents->size = 0;
     }
 
     const std::list<CreatedFileInfo> getCreatedFileInfo()

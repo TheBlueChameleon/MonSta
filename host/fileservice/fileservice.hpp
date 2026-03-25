@@ -7,6 +7,8 @@
 #include <set>
 #include <span>
 
+#include <IFileService.hpp>
+
 #include "types.hpp"
 
 namespace FileService
@@ -23,8 +25,14 @@ namespace FileService
     bool getDryMode();
     void setDryMode(bool newDryMode);
 
+    std::filesystem::path getInputBasePath();
+    const char* const getInputBasePath_cstr();
+
     std::filesystem::path getOutputBasePath();
     const char* const getOutputBasePath_cstr();
+
+    void setInputBasePath(const std::filesystem::path& newBase);
+    void setInputBasePath_cstr(const char* const newBase);
 
     void setOutputBasePath(const std::filesystem::path& newBase);
     void setOutputBasePath_cstr(const char* const newBase);
@@ -36,8 +44,8 @@ namespace FileService
     void writeBinary_cstr(const char* const filename, const void* const data, size_t length);
 
     std::string  read(const std::filesystem::path& filename);
-    FileContents read_cstr(const char* const filename);
-    void freeFileContents(FileContents& fileContents);
+    IFileService::FileContents read_cstr(const char* const filename);
+    void freeFileContents(IFileService::FileContents *fileContents);
 
     const std::list<CreatedFileInfo> getCreatedFileInfo();
 }
