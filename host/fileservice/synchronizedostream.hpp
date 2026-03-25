@@ -3,7 +3,7 @@
 
 #include <concepts>
 #include <memory>
-#include <semaphore>
+#include <mutex>
 
 namespace FileService
 {
@@ -12,31 +12,31 @@ namespace FileService
     class SynchronizedOStream
     {
         private:
-            std::binary_semaphore         smph;
+            std::mutex mutable            mutex;
             std::unique_ptr<std::ostream> stream;
 
         public:
             template <std::derived_from<std::ostream> T>
             SynchronizedOStream(std::unique_ptr<T>& stream) :
-                smph(1),
                 stream(stream.release())
             {}
 
             template <std::derived_from<std::ostream> T>
             SynchronizedOStream(std::unique_ptr<T>&& stream) :
-                smph(1),
                 stream(stream.release())
             {}
 
+            bool hasStream() const;
+            void assertHasStream() const;
 
             SynchronizedOStream& write(const void* data, std::streamsize count);
 
             template <typename T>
             SynchronizedOStream& operator<<(const T& data)
             {
-                smph.acquire();
+                auto lock = std::lock_guard(mutex);
+                assertHasStream();
                 *stream << data;
-                smph.release();
 
                 return *this;
             }

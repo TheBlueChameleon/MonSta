@@ -13,8 +13,6 @@ namespace FileService
 {
     static constexpr auto STDOUT = ":stdout:";
 
-    const std::set<std::string>& getSpecialNames();
-
     bool getOverwrite();
     void setOverwrite(bool newOverwrite);
 

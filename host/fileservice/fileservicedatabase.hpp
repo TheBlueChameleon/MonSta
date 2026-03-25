@@ -1,10 +1,10 @@
-#ifndef FILESERVICEDB_H
-#define FILESERVICEDB_H
+#ifndef FILESERVICEDATABASE_H
+#define FILESERVICEDATABASE_H
 
 #include <filesystem>
 #include <list>
 #include <memory>
-#include <semaphore>
+#include <mutex>
 #include <span>
 #include <unordered_map>
 
@@ -19,7 +19,7 @@ namespace FileService
         private:
             static FileServiceDatabase instance;
 
-            std::binary_semaphore smph;
+            std::mutex mutable mutex;
 
             bool overwrite         = false;
             bool createDirectories = false;
@@ -33,35 +33,28 @@ namespace FileService
         protected:
             FileServiceDatabase();
 
-            friend class FileServiceDatabaseAccess;
-    };
-
-    class FileServiceDatabaseAccess
-    {
-        private:
-            FileServiceDatabase& instance;
-
         public:
-            FileServiceDatabaseAccess();
-            ~FileServiceDatabaseAccess();
+            static FileServiceDatabase& getInstance();
 
-            bool getOverwrite();
+            bool getOverwrite() const;
             void setOverwrite(bool newOverwrite);
 
-            bool getCreateDirectories();
+            bool getCreateDirectories() const;
             void setCreateDirectories(bool newCreateDirectories);
 
-            bool getDryMode();
+            bool getDryMode() const;
             void setDryMode(bool newDryMode);
 
-            const std::filesystem::path& getOutputBasePath();
+            const std::filesystem::path& getOutputBasePath() const;
             void setOutputBasePath(const std::filesystem::path& newBase);
 
             SynchronizedOStream& getOrCreateStream(const std::filesystem::path& filename);
 
-            const std::list<FileService::CreatedFileInfo>& getCreatedFileInfo();
+            const std::list<FileService::CreatedFileInfo>& getCreatedFileInfo() const;
             void addCreatedFile(const std::filesystem::path& filename, const bool overwritten);
+
+            friend class FileServiceDatabaseAccess;
     };
 }
 
-#endif // FILESERVICEDB_H
+#endif // FILESERVICEDATABASE_H
