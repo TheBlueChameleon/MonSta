@@ -20,7 +20,7 @@ namespace FileService
 
     bool makeDirectoriesOrLog(const std::filesystem::path& path, bool createDirectories);
 
-    std::pair<std::ostream*, bool> createStream(
+    std::pair<std::unique_ptr<std::ostream>, bool> createStream(
         const std::filesystem::path& path,
         const bool createDirectories,
         const bool overwrite

@@ -86,7 +86,7 @@ namespace FileService
             LoggerService::traceF("creating stream '{}'", resolved.c_str());
             auto [simpleStreamPtr, overwritten] = createStream(resolved, createDirectories, overwrite);
 
-            if (dynamic_cast<std::ofstream*>(simpleStreamPtr))
+            if (dynamic_cast<std::ofstream*>(simpleStreamPtr.get()))
             {
                 addCreatedFile_internal(createdFileInfo, filename, overwritten);
             }

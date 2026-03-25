@@ -17,10 +17,6 @@ namespace FileService
 
         public:
             template <std::derived_from<std::ostream> T>
-            SynchronizedOStream(T* stream) :
-                stream(stream)
-            {}
-            template <std::derived_from<std::ostream> T>
             SynchronizedOStream(std::unique_ptr<T>& stream) :
                 stream(stream.release())
             {}

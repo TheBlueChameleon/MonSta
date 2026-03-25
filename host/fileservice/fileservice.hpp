@@ -11,6 +11,7 @@
 
 namespace FileService
 {
+    // TODO: add NULLFILE = ":null:";
     static constexpr auto STDOUT = ":stdout:";
 
     bool getOverwrite();
