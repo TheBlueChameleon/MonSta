@@ -24,11 +24,11 @@ namespace FileService
     bool getDryMode();
     void setDryMode(bool newDryMode);
 
-    std::filesystem::path getBase();
-    const char* const getBase_cstr();
+    std::filesystem::path getOutputBasePath();
+    const char* const getOutputBasePath_cstr();
 
-    void setBase(const std::filesystem::path& newBase);
-    void setBase_cstr(const char* const newBase);
+    void setOutputBasePath(const std::filesystem::path& newBase);
+    void setOutputBasePath_cstr(const char* const newBase);
 
     void write(const std::filesystem::path& filename, const std::string& content);
     void write_cstr(const char* const filename, const char* const content);

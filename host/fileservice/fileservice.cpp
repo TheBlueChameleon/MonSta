@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cstring>
 #include <fstream>
 
 #include "../logging/loggerservice.hpp"
@@ -72,7 +73,7 @@ namespace FileService
 
     static std::unique_ptr<std::ostream> getStream(const std::filesystem::__cxx11::path& filename, FileServiceDatabaseAccess& access)
     {
-        if (isSpecialPath(access.getBase()))
+        if (isSpecialPath(access.getOutputBasePath()))
         {
             return getSpecialStream(STDOUT, filename);
         }
@@ -82,7 +83,7 @@ namespace FileService
             return getSpecialStream(STDOUT, STDOUT);
         }
 
-        const std::filesystem::path resolved = std::filesystem::weakly_canonical(access.getBase() / filename);
+        const std::filesystem::path resolved = std::filesystem::weakly_canonical(access.getOutputBasePath() / filename);
         const bool exists = std::filesystem::exists(resolved);
 
         // TODO: this does not catch "contains special path"
@@ -156,27 +157,27 @@ namespace FileService
         FileServiceDatabaseAccess().setDryMode(newDryMode);
     }
 
-    std::filesystem::__cxx11::path getBase()
+    std::filesystem::__cxx11::path getOutputBasePath()
     {
-        return FileServiceDatabaseAccess().getBase();
+        return FileServiceDatabaseAccess().getOutputBasePath();
     }
 
-    const char* const getBase_cstr()
+    const char* const getOutputBasePath_cstr()
     {
-        return getBase().c_str();
+        return getOutputBasePath().c_str();
     }
 
-    void setBase(const std::filesystem::__cxx11::path& newBase)
+    void setOutputBasePath(const std::filesystem::__cxx11::path& newBase)
     {
         if (maybeMakeDirectoriesOrLog(newBase, getCreateDirectories()))
         {
-            FileServiceDatabaseAccess().setBase(newBase);
+            FileServiceDatabaseAccess().setOutputBasePath(newBase);
         }
     }
 
-    void setBase_cstr(const char* const newBase)
+    void setOutputBasePath_cstr(const char* const newBase)
     {
-        setBase(newBase);
+        setOutputBasePath(newBase);
     }
 
     void write(const std::filesystem::__cxx11::path& filename, const std::string& content)

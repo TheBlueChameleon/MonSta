@@ -6,50 +6,62 @@
 #include <memory>
 #include <semaphore>
 #include <span>
+#include <unordered_map>
 
 #include "createdfileinfo.hpp"
 
-class FileServiceDatabase
+namespace FileService
 {
-    private:
-        static FileServiceDatabase instance;
+    class SynchronizedOStream;
 
-        bool overwrite         = false;
-        bool createDirectories = false;
-        bool dryMode           = false;
+    class FileServiceDatabase
+    {
+        private:
+            static FileServiceDatabase instance;
 
-        std::filesystem::path base;
-        std::list<FileService::CreatedFileInfo> createdFileInfo;
-        std::binary_semaphore smph;
+            std::binary_semaphore smph;
 
-        FileServiceDatabase();
+            bool overwrite         = false;
+            bool createDirectories = false;
+            bool dryMode           = false;
 
-        friend class FileServiceDatabaseAccess;
-};
+            std::filesystem::path outputBasePath;
+            std::list<FileService::CreatedFileInfo> createdFileInfo;
 
-class FileServiceDatabaseAccess
-{
-    private:
-        FileServiceDatabase& instance;
+            std::unordered_map<std::filesystem::path, SynchronizedOStream> oStreams;
 
-    public:
-        FileServiceDatabaseAccess();
-        ~FileServiceDatabaseAccess();
+        protected:
+            FileServiceDatabase();
 
-        bool getOverwrite();
-        void setOverwrite(bool newOverwrite);
+            friend class FileServiceDatabaseAccess;
+    };
 
-        bool getCreateDirectories();
-        void setCreateDirectories(bool newCreateDirectories);
+    class FileServiceDatabaseAccess
+    {
+        private:
+            FileServiceDatabase& instance;
 
-        bool getDryMode();
-        void setDryMode(bool newDryMode);
+        public:
+            FileServiceDatabaseAccess();
+            ~FileServiceDatabaseAccess();
 
-        const std::filesystem::path& getBase();
-        void setBase(const std::filesystem::path& newBase);
+            bool getOverwrite();
+            void setOverwrite(bool newOverwrite);
 
-        const std::list<FileService::CreatedFileInfo>& getCreatedFileInfo();
-        void addCreatedFile(const std::filesystem::path& filename, const bool overwritten);
-};
+            bool getCreateDirectories();
+            void setCreateDirectories(bool newCreateDirectories);
+
+            bool getDryMode();
+            void setDryMode(bool newDryMode);
+
+            const std::filesystem::path& getOutputBasePath();
+            void setOutputBasePath(const std::filesystem::path& newBase);
+
+            SynchronizedOStream& getOrCreateStream(const std::filesystem::path& filename);
+
+            const std::list<FileService::CreatedFileInfo>& getCreatedFileInfo();
+            void addCreatedFile(const std::filesystem::path& filename, const bool overwritten);
+    };
+}
 
 #endif // FILESERVICEDB_H

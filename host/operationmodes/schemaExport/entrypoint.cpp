@@ -17,7 +17,7 @@ namespace SchemaExportMode
     {
         const SchemaExportModeDefinition xDefs = RunDefinitionUtils::getAsSchemaExportModeDefinition(defs);
 
-        FileService::setBase(xDefs.outputDirectory);
+        FileService::setOutputBasePath(xDefs.outputDirectory);
         FileService::setOverwrite(xDefs.overwrite);
         FileService::setCreateDirectories(xDefs.createDirectories);
         FileService::setDryMode(xDefs.dryMode);

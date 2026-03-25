@@ -3,16 +3,19 @@
 
 #include <sstream>
 
-class StdOutPseudoFile : public std::ostringstream
+namespace FileService
 {
-    private:
-        std::string title;
+    class StdOutPseudoFile : public std::ostringstream
+    {
+        private:
+            std::string title;
 
-    public:
-        StdOutPseudoFile(const std::string& title);
-        ~StdOutPseudoFile();
+        public:
+            StdOutPseudoFile(const std::string& title);
+            ~StdOutPseudoFile();
 
-        std::ostream& flush();
-};
+            std::ostream& flush();
+    };
+}
 
 #endif // STDOUTPSEUDOFILE_H

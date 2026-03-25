@@ -97,9 +97,11 @@ add_executable(App
     host/cli/cliinput.hpp
 
     host/fileservice/createdfileinfo.hpp
-    host/fileservice/fileservicedb.hpp  host/fileservice/fileservicedb.cpp
-    host/fileservice/fileservice.hpp host/fileservice/fileservice.cpp
-    host/fileservice/stdoutpseudofile.hpp  host/fileservice/stdoutpseudofile.cpp
+    host/fileservice/fileservicedb.hpp          host/fileservice/fileservicedb.cpp
+    host/fileservice/fileservice.hpp            host/fileservice/fileservice.cpp
+    host/fileservice/ostreamfactory.hpp         host/fileservice/ostreamfactory.cpp
+    host/fileservice/stdoutpseudofile.hpp       host/fileservice/stdoutpseudofile.cpp
+    host/fileservice/synchronizedostream.hpp    host/fileservice/synchronizedostream.cpp
 
     host/json/jsonservice.hpp host/json/jsonservice.cpp
     host/json/schemaconstants.hpp host/json/schemaconstants.cpp

@@ -1,71 +1,109 @@
 #include <iostream>
+#include <fstream>
+#include <string>
+using namespace std::string_literals;
+
+#include "../errors.hpp"
 
 #include "fileservicedb.hpp"
+#include "ostreamfactory.hpp"
+#include "synchronizedostream.hpp"
 
-FileServiceDatabase FileServiceDatabase::instance;
-
-FileServiceDatabase::FileServiceDatabase() :
-    base(std::filesystem::current_path()),
-    smph(1)
-{}
-
-FileServiceDatabaseAccess::FileServiceDatabaseAccess() :
-    instance(FileServiceDatabase::instance)
+namespace FileService
 {
-    FileServiceDatabase::instance.smph.acquire();
-}
+    FileServiceDatabase FileServiceDatabase::instance;
 
-FileServiceDatabaseAccess::~FileServiceDatabaseAccess()
-{
-    FileServiceDatabase::instance.smph.release();
-}
+    FileServiceDatabase::FileServiceDatabase() :
+        smph(1),
+        outputBasePath(std::filesystem::current_path())
+    {}
 
-bool FileServiceDatabaseAccess::getOverwrite()
-{
-    return instance.overwrite;
-}
+    FileServiceDatabaseAccess::FileServiceDatabaseAccess() :
+        instance(FileServiceDatabase::instance)
+    {
+        FileServiceDatabase::instance.smph.acquire();
+    }
 
-void FileServiceDatabaseAccess::setOverwrite(bool newOverwrite)
-{
-    instance.overwrite = newOverwrite;
-}
+    FileServiceDatabaseAccess::~FileServiceDatabaseAccess()
+    {
+        FileServiceDatabase::instance.smph.release();
+    }
 
-bool FileServiceDatabaseAccess::getCreateDirectories()
-{
-    return instance.createDirectories;
-}
+    bool FileServiceDatabaseAccess::getOverwrite()
+    {
+        return instance.overwrite;
+    }
 
-void FileServiceDatabaseAccess::setCreateDirectories(bool newCreateDirectories)
-{
-    instance.createDirectories = newCreateDirectories;
-}
+    void FileServiceDatabaseAccess::setOverwrite(bool newOverwrite)
+    {
+        instance.overwrite = newOverwrite;
+    }
 
-bool FileServiceDatabaseAccess::getDryMode()
-{
-    return instance.dryMode;
-}
+    bool FileServiceDatabaseAccess::getCreateDirectories()
+    {
+        return instance.createDirectories;
+    }
 
-void FileServiceDatabaseAccess::setDryMode(bool newDryMode)
-{
-    instance.dryMode = newDryMode;
-}
+    void FileServiceDatabaseAccess::setCreateDirectories(bool newCreateDirectories)
+    {
+        instance.createDirectories = newCreateDirectories;
+    }
 
-const std::filesystem::__cxx11::path& FileServiceDatabaseAccess::getBase()
-{
-    return instance.base;
-}
+    bool FileServiceDatabaseAccess::getDryMode()
+    {
+        return instance.dryMode;
+    }
 
-void FileServiceDatabaseAccess::setBase(const std::filesystem::__cxx11::path& newBase)
-{
-    instance.base = newBase;
-}
+    void FileServiceDatabaseAccess::setDryMode(bool newDryMode)
+    {
+        instance.dryMode = newDryMode;
+    }
 
-const std::list<FileService::CreatedFileInfo>& FileServiceDatabaseAccess::getCreatedFileInfo()
-{
-    return instance.createdFileInfo;
-}
+    const std::filesystem::__cxx11::path& FileServiceDatabaseAccess::getOutputBasePath()
+    {
+        return instance.outputBasePath;
+    }
 
-void FileServiceDatabaseAccess::addCreatedFile(const std::filesystem::path& filename, const bool overwritten)
-{
-    instance.createdFileInfo.emplace_back(filename, overwritten);
+    void FileServiceDatabaseAccess::setOutputBasePath(const std::filesystem::__cxx11::path& newBase)
+    {
+        instance.outputBasePath = newBase;
+    }
+
+    SynchronizedOStream& FileServiceDatabaseAccess::getOrCreateStream(
+        const std::filesystem::__cxx11::path& filename
+    )
+    {
+        auto it = instance.oStreams.find(filename);
+        if (it == instance.oStreams.end())
+        {
+            auto [streamPtr, overwritten] = createStream(filename);
+
+            if (dynamic_cast<std::ofstream*>(streamPtr.get()))
+            {
+                addCreatedFile(filename, overwritten);
+            }
+
+            /* emplacement = pair<iterator, bool newlyCreatedItem> */
+            /* iterator = pair<key*, value*> */
+            auto emplacement = instance.oStreams.emplace(filename, streamPtr);
+
+            // TODO: throw if !newlyCreatedItem?
+
+            return emplacement.first->second;
+        }
+        else
+        {
+            return it->second;
+        }
+    }
+
+    const std::list<FileService::CreatedFileInfo>& FileServiceDatabaseAccess::getCreatedFileInfo()
+    {
+        return instance.createdFileInfo;
+    }
+
+    void FileServiceDatabaseAccess::addCreatedFile(const std::filesystem::path& filename, const bool overwritten)
+    {
+        instance.createdFileInfo.emplace_back(filename, overwritten);
+    }
 }

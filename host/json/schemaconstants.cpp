@@ -7,8 +7,9 @@ using namespace JsonSchemaBuilderUtils;
 
 using Json = nlohmann::json;
 
-static const std::string t_string = quoted("string");
-static const std::string t_integer = quoted("integer");
+static const auto t_boolean = "\"boolean\"";
+static const auto t_integer = "\"integer\"";
+static const auto t_string  = "\"string\"";
 
 // ========================================================================== //
 // SHARED
@@ -134,6 +135,24 @@ static const JsonSubSchemaBuilder makeTemplateDefinitionSubSchema()
     result.addProperty(JKEY_TEMPLATE_ENGINE, t_string);
 
     result.addProperty(JKEY_TEMPLATE_OUTPUTDIRECTORY, t_string);
+
+    result.addProperty(JKEY_TEMPLATE_WRITESCHEMAS, t_boolean);
+
+    result.addProperty(JKEY_TEMPLATE_PLAYER1TEAM, t_string);
+
+    result.addProperty(JKEY_TEMPLATE_PLAYER1STRATEGY, t_string);
+
+    result.addProperty(JKEY_TEMPLATE_PLAYER2TEAM, t_string);
+
+    result.addProperty(JKEY_TEMPLATE_PLAYER2STRATEGY, t_string);
+
+    result.addProperty(JKEY_TEMPLATE_PKMNDEFS, t_string);
+
+    result.addProperty(JKEY_TEMPLATE_MOVEDEFS, t_string);
+
+    result.addProperty(JKEY_TEMPLATE_TYPEDEFS, t_string);
+
+    result.addProperty(JKEY_TEMPLATE_ARGS, t_string);
 
     return result;
 }

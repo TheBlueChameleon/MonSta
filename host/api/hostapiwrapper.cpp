@@ -48,8 +48,8 @@ HostApiWrapper::HostApiWrapper() : HostApi(
         ),
 
         IFileServie(
-            &FileService::getBase_cstr,
-            &FileService::setBase_cstr,
+            &FileService::getOutputBasePath_cstr,
+            &FileService::setOutputBasePath_cstr,
             &FileService::write_cstr,
             &FileService::writeBinary_cstr
         )
