@@ -5,6 +5,8 @@ using namespace std::string_literals;
 
 #include "../errors.hpp"
 
+#include "../logging/loggerservice.hpp"
+
 #include "fileservicedatabase.hpp"
 #include "fileserviceoperations.hpp"
 #include "synchronizedostream.hpp"
@@ -21,6 +23,10 @@ namespace FileService
     {
         return instance;
     }
+
+    static void addCreatedFile_internal(std::list<FileService::CreatedFileInfo>& createdFileInfo,
+                                        const std::filesystem::__cxx11::path&
+                                        filename, const bool overwritten);
 
     bool FileServiceDatabase::getOverwrite() const
     {
@@ -76,11 +82,13 @@ namespace FileService
         auto it = oStreams.find(filename);
         if (it == oStreams.end())
         {
-            auto [streamPtr, overwritten] = createStream(filename, createDirectories, overwrite);
+            const std::filesystem::path resolved = outputBasePath / filename;
+            LoggerService::traceF("creating stream '{}'", resolved.c_str());
+            auto [streamPtr, overwritten] = createStream(resolved, createDirectories, overwrite);
 
             if (dynamic_cast<std::ofstream*>(streamPtr.get()))
             {
-                addCreatedFile(filename, overwritten);
+                addCreatedFile_internal(createdFileInfo, filename, overwritten);
             }
 
             /* emplacement = pair<iterator, bool newlyCreatedItem> */
@@ -103,9 +111,17 @@ namespace FileService
         return createdFileInfo;
     }
 
+    static void addCreatedFile_internal(std::list<FileService::CreatedFileInfo>& createdFileInfo,
+                                        const std::filesystem::__cxx11::path& filename,
+                                        const bool overwritten
+                                       )
+    {
+        createdFileInfo.emplace_back(filename, overwritten);
+    }
+
     void FileServiceDatabase::addCreatedFile(const std::filesystem::__cxx11::path& filename, const bool overwritten)
     {
         auto lock = std::lock_guard(mutex);
-        createdFileInfo.emplace_back(filename, overwritten);
+        addCreatedFile_internal(createdFileInfo, filename, overwritten);
     }
 }

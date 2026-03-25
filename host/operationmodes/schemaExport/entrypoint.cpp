@@ -22,6 +22,7 @@ namespace SchemaExportMode
         FileService::setCreateDirectories(xDefs.createDirectories);
         FileService::setDryMode(xDefs.dryMode);
 
+        LoggerService::trace("Begin writing schemas");
         FileService::write("simulation.json", SCHEMA_SIMULATION_STRING);
         FileService::write("template.json", SCHEMA_TEMPLATE_STRING);
 
@@ -29,7 +30,7 @@ namespace SchemaExportMode
         {
             LoggerService::infoF(
                 "schemas written into '{}'",
-                std::filesystem::canonical(xDefs.outputDirectory).c_str()
+                std::filesystem::weakly_canonical(xDefs.outputDirectory).c_str()
             );
         }
     }

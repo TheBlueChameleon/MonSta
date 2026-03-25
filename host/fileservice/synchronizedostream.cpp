@@ -6,7 +6,6 @@ namespace FileService
 {
     bool SynchronizedOStream::hasStream() const
     {
-        auto lock = std::lock_guard(mutex);
         return static_cast<bool>(stream);
     }
 

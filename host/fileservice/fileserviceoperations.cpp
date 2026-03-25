@@ -55,6 +55,11 @@ namespace FileService
 
     bool makeDirectoriesOrLog(const std::filesystem::path& path, bool createDirectories)
     {
+        if (path.empty())
+        {
+            return true;
+        }
+
         if (isSpecialPath(path))
         {
             return true;
@@ -99,7 +104,9 @@ namespace FileService
         const bool overwrite
     )
     {
+        LoggerService::traceF("got {}", path.c_str());
         const TargetStreamType type = getTargetStreamType(path);
+        LoggerService::traceF("made {}", static_cast<int>(type));
 
         const auto parent = path.parent_path();
         const bool parentDirAsserted = makeDirectoriesOrLog(parent, createDirectories);
@@ -111,22 +118,24 @@ namespace FileService
             return std::make_pair(nullptr, false);
         }
 
-        const bool exists = std::filesystem::exists(path);
-        if (exists)
-        {
-            if (!overwrite)
-            {
-                LoggerService::errorF("Could not create file '{}': file already exists",
-                                      path.c_str()
-                                     );
-                return std::make_pair(nullptr, false);
-            }
-        }
-
         switch (type)
         {
             case TargetStreamType::REGULAR:
-                return std::make_pair(std::make_unique<std::ofstream>(path), exists) ;
+                {
+                    const bool exists = std::filesystem::exists(path);
+                    if (exists)
+                    {
+                        if (!overwrite)
+                        {
+                            LoggerService::errorF("Could not create file '{}': file already exists",
+                                                  path.c_str()
+                                                 );
+                            return std::make_pair(nullptr, false);
+                        }
+                    }
+
+                    return std::make_pair(std::make_unique<std::ofstream>(path), exists) ;
+                }
 
             case TargetStreamType::STDOUT:
                 return std::make_pair(std::make_unique<StdOutPseudoFile>(path), false);
