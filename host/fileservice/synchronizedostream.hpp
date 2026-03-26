@@ -7,7 +7,7 @@
 
 namespace FileService
 {
-    class StdOutPseudoFile;
+    class StdOutStream;
 
     class SynchronizedOStream
     {
@@ -40,6 +40,8 @@ namespace FileService
 
                 return *this;
             }
+
+            std::ostream* expose() const;
     };
 }
 

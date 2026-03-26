@@ -16,6 +16,7 @@ namespace FileService
     FileServiceDatabase FileServiceDatabase::instance;
 
     FileServiceDatabase::FileServiceDatabase() :
+        inputBasePath(std::filesystem::current_path()),
         outputBasePath(std::filesystem::current_path())
     {}
 

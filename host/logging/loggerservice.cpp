@@ -11,6 +11,11 @@ namespace LoggerService
         return instance;
     }
 
+    void setLogLevel(const ILoggerService::LogLevel level)
+    {
+        instance.setLogLevel(level);
+    }
+
     void setup(const LoggingDefinition def)
     {
         if (def.logfile.has_value())

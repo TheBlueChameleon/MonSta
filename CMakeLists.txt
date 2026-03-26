@@ -90,6 +90,23 @@ set(apiHeaders
     api/Version.hpp
 )
 
+# with testing
+set(fileService
+    host/fileservice/debugstream.hpp
+    host/fileservice/fileservice.hpp            host/fileservice/fileservice.cpp
+    host/fileservice/fileservicedatabase.hpp    host/fileservice/fileservicedatabase.cpp
+    host/fileservice/fileserviceoperations.hpp  host/fileservice/fileserviceoperations.cpp
+    host/fileservice/nullstream.hpp
+    host/fileservice/stdoutstream.hpp           host/fileservice/stdoutstream.cpp
+    host/fileservice/synchronizedostream.hpp    host/fileservice/synchronizedostream.cpp
+    host/fileservice/types.hpp
+)
+
+set(loggerService
+    host/logging/logger.hpp host/logging/logger.cpp
+    host/logging/loggerservice.hpp host/logging/loggerservice.cpp
+)
+
 # ---------------------------------------------------------------------------- #
 # Main App
 
@@ -105,21 +122,13 @@ add_executable(App
     host/cli/clihandler.hpp host/cli/clihandler.cpp
     host/cli/cliinput.hpp
 
-    host/fileservice/debugstream.hpp
-    host/fileservice/fileservice.hpp            host/fileservice/fileservice.cpp
-    host/fileservice/fileservicedatabase.hpp    host/fileservice/fileservicedatabase.cpp
-    host/fileservice/fileserviceoperations.hpp  host/fileservice/fileserviceoperations.cpp
-    host/fileservice/nullstream.hpp
-    host/fileservice/stdoutstream.hpp           host/fileservice/stdoutstream.cpp
-    host/fileservice/synchronizedostream.hpp    host/fileservice/synchronizedostream.cpp
-    host/fileservice/types.hpp
+    ${fileService}
 
     host/json/jsonservice.hpp host/json/jsonservice.cpp
     host/json/schemaconstants.hpp host/json/schemaconstants.cpp
     host/json/schemaconstantsbuilder.hpp host/json/schemaconstantsbuilder.cpp
 
-    host/logging/logger.hpp host/logging/logger.cpp
-    host/logging/loggerservice.hpp host/logging/loggerservice.cpp
+    ${loggerService}
 
     host/operationmodes/operationmode.hpp
     host/operationmodes/safecast.hpp       host/operationmodes/safecast.cpp
@@ -203,7 +212,15 @@ enable_testing()
 
 add_executable(MonSta-Test
     test/main.cpp
+
+    ${fileService}
+    ${loggerService}
+
     test/fileservicetest.hpp test/fileservicetest.cpp
+)
+
+target_include_directories(MonSta-Test
+    PRIVATE host
 )
 
 if (TARGET GTest::gtest_main)

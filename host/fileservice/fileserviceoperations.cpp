@@ -25,6 +25,11 @@ namespace FileService
 
     OutputStreamType outputStreamTypeFromCString(const char* const cstring)
     {
+        if (cstring[0] == '\0')
+        {
+            return OutputStreamType::INVALID;
+        }
+
         if (equalsCString(cstring, STDOUTSTREAM))
         {
             return OutputStreamType::STDOUT;

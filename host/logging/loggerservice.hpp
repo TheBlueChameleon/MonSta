@@ -9,6 +9,7 @@ namespace LoggerService
 {
     Logger& getInstance();
 
+    void setLogLevel(const ILoggerService::LogLevel level);
     void setup(const LoggingDefinition def);
 
     void trace(const char* const msg);
