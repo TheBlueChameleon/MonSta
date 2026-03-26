@@ -13,8 +13,11 @@
 
 namespace FileService
 {
-    // TODO: add NULLFILE = ":null:";
-    static constexpr auto STDOUT = ":stdout:";
+    static constexpr auto STDOUTSTREAM = ":stdout:";
+    static constexpr auto DEBUGSTREAM  = ":debug:";
+    static constexpr auto NULLSTREAM   = ":null:";
+
+    bool isSpecialPath(const std::filesystem::path& path);
 
     bool getOverwrite();
     void setOverwrite(bool newOverwrite);
@@ -45,7 +48,7 @@ namespace FileService
 
     std::string  read(const std::filesystem::path& filename);
     IFileService::FileContents read_cstr(const char* const filename);
-    void freeFileContents(IFileService::FileContents *fileContents);
+    void freeFileContents(IFileService::FileContents* fileContents);
 
     const std::list<CreatedFileInfo> getCreatedFileInfo();
 }

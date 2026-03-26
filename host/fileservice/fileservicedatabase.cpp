@@ -91,11 +91,12 @@ namespace FileService
     SynchronizedOStream& FileServiceDatabase::getOrCreateStream(const std::filesystem::__cxx11::path& filename)
     {
         auto lock = std::lock_guard(mutex);
-        auto it = oStreams.find(filename);
-        if (it == oStreams.end())
+
+        /* iterator = pair<key*, value*> */
+        auto lookup = oStreams.find(filename);
+        if (lookup == oStreams.end())
         {
             const std::filesystem::path resolved = outputBasePath / filename;
-            LoggerService::traceF("creating stream '{}'", resolved.c_str());
             auto [simpleStreamPtr, overwritten] = createStream(resolved, createDirectories, overwrite);
 
             if (dynamic_cast<std::ofstream*>(simpleStreamPtr.get()))
@@ -103,19 +104,17 @@ namespace FileService
                 addCreatedFile_internal(createdFileInfo, filename, overwritten);
             }
 
-            auto synchronizedStreamPtr = new SynchronizedOStream(simpleStreamPtr);
+            auto [iterator, newlyCreated] = oStreams.emplace(filename, new SynchronizedOStream(simpleStreamPtr));
+            if (!newlyCreated)
+            {
+                throw IllegalStateException("Encountered a previously existing stream for '"s + filename.c_str() + "'");
+            }
 
-            /* emplacement = pair<iterator, bool newlyCreatedItem> */
-            /* iterator = pair<key*, value*> */
-            auto emplacement = oStreams.emplace(filename, synchronizedStreamPtr);
-
-            // TODO: throw if !newlyCreatedItem?
-
-            return *emplacement.first->second;
+            return *iterator->second;
         }
         else
         {
-            return *it->second;
+            return *lookup->second;
         }
     }
 

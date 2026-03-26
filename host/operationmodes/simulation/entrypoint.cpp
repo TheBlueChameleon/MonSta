@@ -18,6 +18,6 @@ namespace SimulationMode
 
         LoggerService::infoF("overwrite is {}", xDefs.overwrite);
 
-        //ClientWrapper cw("./build-Desktop-Debug/libEngine-Gen1.so");
+        ClientWrapper cw("./build-Desktop-Debug/libEngine-Gen1.so");
     }
 }

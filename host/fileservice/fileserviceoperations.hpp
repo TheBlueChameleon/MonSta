@@ -6,17 +6,18 @@
 
 namespace FileService
 {
-    enum class TargetStreamType
+    enum class OutputStreamType
     {
         REGULAR,
         STDOUT,
+        DEBUG,
+        NULLSTREAM,
         INVALID
     };
 
-    bool isSpecialPath(const std::filesystem::path& path);
-    bool containsSpecialPath(const std::filesystem::path& path);
+    OutputStreamType outputStreamTypeFromCString(const char* const cstring);
 
-    TargetStreamType getTargetStreamType(const std::filesystem::path& path);
+    std::pair<OutputStreamType, std::filesystem::path> getOutputStreamTypeAndResidualFilename(const std::filesystem::path& path);
 
     bool makeDirectoriesOrLog(const std::filesystem::path& path, bool createDirectories);
 

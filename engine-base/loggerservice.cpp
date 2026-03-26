@@ -3,32 +3,35 @@
 #include "services.hpp"
 #include "loggerservice.hpp"
 
-void LoggerService::trace(const char* const msg)
+namespace LoggerService
 {
-    loggerService().trace(msg);
-}
+    void trace(const char* const msg)
+    {
+        loggerService().trace(msg);
+    }
 
-void LoggerService::debug(const char* const msg)
-{
-    loggerService().trace(msg);
-}
+    void debug(const char* const msg)
+    {
+        loggerService().trace(msg);
+    }
 
-void LoggerService::info(const char* const msg)
-{
-    loggerService().info(msg);
-}
+    void info(const char* const msg)
+    {
+        loggerService().info(msg);
+    }
 
-void LoggerService::warn(const char* const msg)
-{
-    loggerService().warn(msg);
-}
+    void warn(const char* const msg)
+    {
+        loggerService().warn(msg);
+    }
 
-void LoggerService::error(const char* const msg)
-{
-    loggerService().error(msg);
-}
+    void error(const char* const msg)
+    {
+        loggerService().error(msg);
+    }
 
-void LoggerService::critical(const char* const msg)
-{
-    loggerService().critical(msg);
+    void critical(const char* const msg)
+    {
+        loggerService().critical(msg);
+    }
 }

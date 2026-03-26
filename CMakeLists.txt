@@ -49,15 +49,24 @@ FetchContent_Declare(
     GIT_SHALLOW    true
 )
 
+FetchContent_Declare(
+  googletest
+  GIT_REPOSITORY https://github.com/google/googletest
+  GIT_TAG        "v1.17.0"
+)
+
 # more `FetchContent_Declare`s (if any). They should all be declared
 # before any calls to FetchContent_Make_available (see docs for why).
 
 FetchContent_MakeAvailable(argparse)
+set(JSON_BuildTests OFF CACHE INTERNAL "")
 FetchContent_MakeAvailable(json)
 FetchContent_MakeAvailable(json-schema-validator)
 FetchContent_MakeAvailable(spdlog)
+# For Windows: Prevent overriding the parent project's compiler/linker settings
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
 
-set(JSON_BuildTests OFF CACHE INTERNAL "")
 
 # ============================================================================ #
 # source file definitions
@@ -96,12 +105,14 @@ add_executable(App
     host/cli/clihandler.hpp host/cli/clihandler.cpp
     host/cli/cliinput.hpp
 
-    host/fileservice/types.hpp
+    host/fileservice/debugstream.hpp
     host/fileservice/fileservice.hpp            host/fileservice/fileservice.cpp
     host/fileservice/fileservicedatabase.hpp    host/fileservice/fileservicedatabase.cpp
     host/fileservice/fileserviceoperations.hpp  host/fileservice/fileserviceoperations.cpp
-    host/fileservice/stdoutpseudofile.hpp       host/fileservice/stdoutpseudofile.cpp
+    host/fileservice/nullstream.hpp
+    host/fileservice/stdoutstream.hpp           host/fileservice/stdoutstream.cpp
     host/fileservice/synchronizedostream.hpp    host/fileservice/synchronizedostream.cpp
+    host/fileservice/types.hpp
 
     host/json/jsonservice.hpp host/json/jsonservice.cpp
     host/json/schemaconstants.hpp host/json/schemaconstants.cpp
@@ -182,3 +193,30 @@ target_link_libraries(Engine-Gen1 PUBLIC
 target_include_directories(Engine-Gen1
     PRIVATE "engine-base"
 )
+
+# ============================================================================ #
+# tests
+
+include(GoogleTest)
+
+enable_testing()
+
+add_executable(MonSta-Test
+    test/main.cpp
+    test/fileservicetest.hpp test/fileservicetest.cpp
+)
+
+if (TARGET GTest::gtest_main)
+    message("found it!")
+else()
+    message("no gtest!")
+endif()
+
+target_link_libraries(MonSta-Test
+    GTest::gtest_main
+    nlohmann_json::nlohmann_json
+    nlohmann_json_schema_validator
+    spdlog
+)
+
+gtest_discover_tests(MonSta-Test)

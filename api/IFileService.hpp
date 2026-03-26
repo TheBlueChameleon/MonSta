@@ -1,6 +1,8 @@
 #ifndef IFILESERVICE_H
 #define IFILESERVICE_H
 
+#include <stddef.h>
+
 struct IFileService
 {
     struct FileContents
@@ -10,10 +12,7 @@ struct IFileService
     };
 
     const char* const(*getInputBase)();
-    void (*setInputBase)(const char* const newBase);
-
     const char* const(*getOutputBase)();
-    void (*setOutputBase)(const char* const newBase);
 
     FileContents(*read)(const char* const filename);
     void(*freeFileContents)(FileContents*);

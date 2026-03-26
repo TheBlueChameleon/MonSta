@@ -22,40 +22,38 @@ HostApiWrapper::HostApiWrapper() : HostApi(
         HOST_VERSION,
 
         ILoggerService(
-            &LoggerService::trace,
-            &LoggerService::debug,
-            &LoggerService::info,
-            &LoggerService::warn,
-            &LoggerService::error,
-            &LoggerService::critical
+            LoggerService::trace,
+            LoggerService::debug,
+            LoggerService::info,
+            LoggerService::warn,
+            LoggerService::error,
+            LoggerService::critical
         ),
 
         IVersionService(
-            &VersionService::equal,
-            &VersionService::notEqual,
-            &VersionService::lessThan,
-            &VersionService::lessOrEqual,
-            &VersionService::greaterThan,
-            &VersionService::greaterOrEqual,
-            &VersionService::streamInto,
-            &VersionService::to_string
+            VersionService::equal,
+            VersionService::notEqual,
+            VersionService::lessThan,
+            VersionService::lessOrEqual,
+            VersionService::greaterThan,
+            VersionService::greaterOrEqual,
+            VersionService::streamInto,
+            VersionService::to_string
         ),
 
         IJsonService(
-            &JsonService::readJsonFile,
-            &JsonService::parseJson,
-            &JsonService::validateJsonAgainstJson
+            JsonService::readJsonFile,
+            JsonService::parseJson,
+            JsonService::validateJsonAgainstJson
         ),
 
         IFileService(
-            &FileService::getInputBasePath_cstr,
-            &FileService::setInputBasePath_cstr,
-            &FileService::getOutputBasePath_cstr,
-            &FileService::setOutputBasePath_cstr,
-            &FileService::read_cstr,
-            &FileService::freeFileContents,
-            &FileService::write_cstr,
-            &FileService::writeBinary_cstr
+            FileService::getInputBasePath_cstr,
+            FileService::getOutputBasePath_cstr,
+            FileService::read_cstr,
+            FileService::freeFileContents,
+            FileService::write_cstr,
+            FileService::writeBinary_cstr
         )
     )
 {}

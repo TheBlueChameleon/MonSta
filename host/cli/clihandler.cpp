@@ -122,40 +122,21 @@ static void validateAsInputFile(const std::string& data)
     }
 }
 
-static void validateAsOutputDirectory(const std::string& data, bool createDirs)
+static void validateAsOutputDirectory(const std::string& data)
 {
-    if (data == FileService::STDOUT)
+    const auto path = std::filesystem::path(data);
+
+    if (FileService::isSpecialPath(path))
     {
         return;
     }
 
-    const auto path = std::filesystem::path(data);
-
     if (!std::filesystem::exists(path))
     {
-        if (createDirs)
+        if (!std::filesystem::is_directory(path))
         {
-            try
-            {
-                std::filesystem::create_directories(data);
-            }
-            catch (const std::filesystem::filesystem_error& e)
-            {
-                throw CriticalAbort(
-                    "Could not create directory '"s + data + "'\n"
-                    + e.what()
-                );
-            }
+            throw CriticalAbort("'"s + data + "' is not a directory.");
         }
-        else
-        {
-            throw CriticalAbort("'"s + data + "' does not exist.");
-        }
-    }
-
-    if (!std::filesystem::is_directory(path))
-    {
-        throw CriticalAbort("'"s + data + "' is not a directory.");
     }
 }
 
@@ -183,7 +164,7 @@ static CliInput readAndValidateParser(const ArgParser& parser)
             validateAsInputFile(data);
             break;
         case OperationMode::SCHEMAEXPORT:
-            validateAsOutputDirectory(data, createDirs);
+            validateAsOutputDirectory(data);
             break;
         case OperationMode::REMOTE:
             validateAsRemote(data);

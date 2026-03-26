@@ -11,6 +11,21 @@
 
 namespace FileService
 {
+    static const std::set<std::string> specialNames = {STDOUTSTREAM, DEBUGSTREAM, NULLSTREAM};
+
+    bool isSpecialPath(const std::filesystem::path& path)
+    {
+        for (const auto& element : path)
+        {
+            if (specialNames.contains(element.c_str()))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     bool getOverwrite()
     {
         return FileServiceDatabase::getInstance().getOverwrite();
@@ -65,6 +80,7 @@ namespace FileService
     {
         if (std::filesystem::exists(newBase))
         {
+            LoggerService::traceF("input directory set to {}", newBase.c_str());
             FileServiceDatabase::getInstance().setInputBasePath(newBase);
         }
     }
@@ -78,6 +94,7 @@ namespace FileService
     {
         if (makeDirectoriesOrLog(newBase, getCreateDirectories()))
         {
+            LoggerService::traceF("output directory set to {}", newBase.c_str());
             FileServiceDatabase::getInstance().setOutputBasePath(newBase);
         }
     }
@@ -90,6 +107,7 @@ namespace FileService
     void write(const std::filesystem::__cxx11::path& filename, const std::string& content)
     {
         auto& stream = FileServiceDatabase::getInstance().getOrCreateStream(filename);
+        LoggerService::traceF("writing into {}", filename.c_str());
         stream << content;
     }
 
@@ -101,6 +119,7 @@ namespace FileService
     void writeBinary(const std::filesystem::__cxx11::path& filename, const std::span<const std::byte> data)
     {
         auto& stream = FileServiceDatabase::getInstance().getOrCreateStream(filename);
+        LoggerService::traceF("writing into {}", filename.c_str());
         stream.write(data.data(), data.size());
     }
 
@@ -112,6 +131,7 @@ namespace FileService
     std::string read(const std::filesystem::__cxx11::path& filename)
     {
         auto stream = FileServiceDatabase::getInstance().getReadStream(filename);
+        LoggerService::traceF("reading from {}", filename.c_str());
         const auto size = getFileSize(stream);
 
         std::string result(size, '\0');
@@ -123,6 +143,7 @@ namespace FileService
     IFileService::FileContents read_cstr(const char* const filename)
     {
         auto stream = FileServiceDatabase::getInstance().getReadStream(filename);
+        LoggerService::traceF("reading from {}", filename);
         const auto size = getFileSize(stream);
 
         IFileService::FileContents result = {new char[size], size};

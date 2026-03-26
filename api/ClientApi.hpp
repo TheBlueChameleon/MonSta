@@ -3,8 +3,6 @@
 
 #include <HostApi.hpp>
 
-struct HostApi;
-
 extern "C" {
     extern const Version CLIENT_VERSION;
     extern const Version MIN_HOST_VERSION;
@@ -12,8 +10,9 @@ extern "C" {
 
     void engine_post_init() __attribute__((weak));
 
-    extern bool init(HostApi*);
+    bool init(HostApi*);
     bool hangUp();
+    void terminateAbnormally();
 }
 
 // hack

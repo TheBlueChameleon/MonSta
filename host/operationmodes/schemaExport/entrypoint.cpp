@@ -22,7 +22,7 @@ namespace SchemaExportMode
         FileService::setCreateDirectories(xDefs.createDirectories);
         FileService::setDryMode(xDefs.dryMode);
 
-        LoggerService::trace("Begin writing schemas");
+        LoggerService::trace("begin writing schemas");
         FileService::write("simulation.json", SCHEMA_SIMULATION_STRING);
         FileService::write("template.json", SCHEMA_TEMPLATE_STRING);
 

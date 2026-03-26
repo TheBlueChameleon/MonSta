@@ -70,4 +70,6 @@ extern "C" {
         engine_post_init();
         return true;
     }
+
+    void terminateAbnormally() {}
 }

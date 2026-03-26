@@ -9,48 +9,75 @@ using namespace std::string_literals;
 
 #include "../logging/loggerservice.hpp"
 
+#include "debugstream.hpp"
 #include "fileservice.hpp"
 #include "fileserviceoperations.hpp"
-#include "stdoutpseudofile.hpp"
+#include "nullstream.hpp"
+#include "stdoutstream.hpp"
 #include "synchronizedostream.hpp"
 
 namespace FileService
 {
-    static const std::set<std::string> specialNames = {STDOUT};
-
-    static bool pathEqualsCString(const std::filesystem::__cxx11::path& path, const char* const cstring)
+    static bool equalsCString(const char* const lhs, const char* const rhs)
     {
-        return std::strcmp(path.begin()->c_str(), cstring) == 0;
+        return std::strcmp(lhs, rhs) == 0;
     }
 
-    bool isSpecialPath(const std::filesystem::path& path)
+    OutputStreamType outputStreamTypeFromCString(const char* const cstring)
     {
-        return specialNames.contains(path.c_str());
+        if (equalsCString(cstring, STDOUTSTREAM))
+        {
+            return OutputStreamType::STDOUT;
+        }
+
+        if (equalsCString(cstring, DEBUGSTREAM))
+        {
+            return OutputStreamType::DEBUG;
+        }
+
+        if (equalsCString(cstring, NULLSTREAM))
+        {
+            return OutputStreamType::NULLSTREAM;
+        }
+
+        if (cstring[0] == ':')
+        {
+            return OutputStreamType::INVALID;
+        }
+
+        return OutputStreamType::REGULAR;
     }
 
-    bool containsSpecialPath(const std::filesystem::path& path)
-    {
-        return std::any_of(path.begin(), path.end(), isSpecialPath);
-    }
-
-    TargetStreamType getTargetStreamType(const std::filesystem::__cxx11::path& path)
+    std::pair<OutputStreamType, std::filesystem::__cxx11::path> getOutputStreamTypeAndResidualFilename(const std::filesystem::__cxx11::path& path)
     {
         if (path.empty())
         {
-            return TargetStreamType::INVALID;
+            return {OutputStreamType::INVALID, path};
         }
 
-        if (pathEqualsCString(path, STDOUT))
+        OutputStreamType type = OutputStreamType::REGULAR;
+        std::filesystem::path residual = path;
+        for (const auto element : path)
         {
-            return TargetStreamType::STDOUT;
+            const OutputStreamType elementType = outputStreamTypeFromCString(element.c_str());
+            if (type == OutputStreamType::REGULAR)
+            {
+                if (elementType != OutputStreamType::REGULAR)
+                {
+                    type = elementType;
+                    residual = "";
+                }
+            }
+            else
+            {
+                if (elementType != OutputStreamType::REGULAR)
+                {
+                    return {OutputStreamType::INVALID, path};
+                }
+                residual /= element;
+            }
         }
-
-        if (pathEqualsCString(path.filename(), STDOUT))
-        {
-            return TargetStreamType::STDOUT;
-        }
-
-        return TargetStreamType::REGULAR;
+        return {type, residual};
     }
 
     bool makeDirectoriesOrLog(const std::filesystem::path& path, bool createDirectories)
@@ -63,14 +90,6 @@ namespace FileService
         if (isSpecialPath(path))
         {
             return true;
-        }
-
-        if (containsSpecialPath(path))
-        {
-            LoggerService::errorF("Invalid use of reserved symbol in '{}'",
-                                  path.c_str()
-                                 );
-            return false;
         }
 
         if (std::filesystem::exists(path))
@@ -98,18 +117,51 @@ namespace FileService
         return false;
     }
 
+    static std::pair<std::unique_ptr<std::ostream>, bool> createRegularStream(
+        const std::filesystem::__cxx11::path& path,
+        const bool createDirectories,
+        const bool overwrite
+    )
+    {
+        const bool exists = std::filesystem::exists(path);
+        if (exists)
+        {
+            if (!overwrite)
+            {
+                LoggerService::errorF("Could not create file '{}': file already exists",
+                                      path.c_str()
+                                     );
+                return std::make_pair(nullptr, false);
+            }
+        }
+
+        std::ofstream* stream = new std::ofstream(path);
+        if (!stream->is_open())
+        {
+            LoggerService::errorF("Could not create file '{}': file system error",
+                                  path.c_str()
+                                 );
+            return std::make_pair(nullptr, false);
+        }
+
+        LoggerService::debugF("created file '{}'",
+                              path.c_str()
+                             );
+        return std::make_pair(
+                   std::unique_ptr<std::ostream>(stream),
+                   exists
+               );
+    }
+
     std::pair<std::unique_ptr<std::ostream>, bool> createStream(
         const std::filesystem::__cxx11::path& path,
         const bool createDirectories,
         const bool overwrite
     )
     {
-        LoggerService::traceF("got {}", path.c_str());
-        const TargetStreamType type = getTargetStreamType(path);
-        LoggerService::traceF("made {}", static_cast<int>(type));
-
-        const auto parent = path.parent_path();
-        const bool parentDirAsserted = makeDirectoriesOrLog(parent, createDirectories);
+        const auto& [type, residual] = getOutputStreamTypeAndResidualFilename(path);
+        const auto  parent = path.parent_path();
+        const bool  parentDirAsserted = makeDirectoriesOrLog(parent, createDirectories);
         if (!parentDirAsserted)
         {
             LoggerService::errorF("Could not create directory '{}'",
@@ -120,41 +172,28 @@ namespace FileService
 
         switch (type)
         {
-            case TargetStreamType::REGULAR:
-                {
-                    const bool exists = std::filesystem::exists(path);
-                    if (exists)
-                    {
-                        if (!overwrite)
-                        {
-                            LoggerService::errorF("Could not create file '{}': file already exists",
-                                                  path.c_str()
-                                                 );
-                            return std::make_pair(nullptr, false);
-                        }
-                    }
+            case OutputStreamType::REGULAR:
+                return createRegularStream(path, createDirectories, overwrite);
 
-                    std::ofstream* stream = new std::ofstream(path);
-                    if (!stream->is_open())
-                    {
-                        LoggerService::errorF("Could not create file '{}': file system error",
-                                              path.c_str()
-                                             );
-                        return std::make_pair(nullptr, false);
-                    }
-                    return std::make_pair(
-                               std::unique_ptr<std::ostream>(stream),
-                               exists
-                           );
-                }
-
-            case TargetStreamType::STDOUT:
+            case OutputStreamType::STDOUT:
                 return std::make_pair(
-                           std::make_unique<StdOutPseudoFile>(path),
+                           std::make_unique<StdOutStream>(residual),
                            false
                        );
 
-            case TargetStreamType::INVALID:
+            case OutputStreamType::DEBUG:
+                return std::make_pair(
+                           std::make_unique<DebugStream>(),
+                           false
+                       );
+
+            case OutputStreamType::NULLSTREAM:
+                return std::make_pair(
+                           std::make_unique<NullStream>(),
+                           false
+                       );
+
+            case OutputStreamType::INVALID:
                 return std::make_pair(nullptr, false);
         }
 
@@ -171,5 +210,4 @@ namespace FileService
 
         return result;
     }
-
 }

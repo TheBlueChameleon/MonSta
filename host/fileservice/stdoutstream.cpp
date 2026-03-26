@@ -1,10 +1,10 @@
 #include <iostream>
 
-#include "stdoutpseudofile.hpp"
+#include "stdoutstream.hpp"
 
 namespace FileService
 {
-    StdOutPseudoFile::StdOutPseudoFile(const std::string& title) :
+    StdOutStream::StdOutStream(const std::string& title) :
         title(title)
     {
         *this << '+'  << std::string(78, '-')                           << "+" << std::endl;
@@ -12,12 +12,12 @@ namespace FileService
         *this << '+'  << std::string(78, '-')                           << "+" << std::endl;
     }
 
-    StdOutPseudoFile::~StdOutPseudoFile()
+    StdOutStream::~StdOutStream()
     {
         flush();
     }
 
-    std::ostream& StdOutPseudoFile::flush()
+    std::ostream& StdOutStream::flush()
     {
         *this << std::string(80, '~') << std::endl;
 

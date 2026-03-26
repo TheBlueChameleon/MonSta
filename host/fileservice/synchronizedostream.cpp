@@ -25,4 +25,9 @@ namespace FileService
 
         return *this;
     }
+
+    std::ostream* SynchronizedOStream::expose() const
+    {
+        return stream.get();
+    }
 }
