@@ -14,6 +14,7 @@ struct MatchDefinition
     const std::filesystem::path pkmnDefs;
     const std::filesystem::path moveDefs;
     const std::filesystem::path typeDefs;
+    const std::filesystem::path itemDefs;
 };
 
 #endif // MATCHDEFINITION_H

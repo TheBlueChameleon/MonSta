@@ -76,7 +76,8 @@ static const JsonSubSchemaBuilder makeMatchDefinitionSubSchema()
         JKEY_MATCHDEFINITION_PLAYER2STRATETY,
         JKEY_MATCHDEFINITION_PKMNDEFS,
         JKEY_MATCHDEFINITION_MOVEDEFS,
-        JKEY_MATCHDEFINITION_TYPEDEFS
+        JKEY_MATCHDEFINITION_TYPEDEFS,
+        JKEY_MATCHDEFINITION_ITEMDEFS
     });
 
     matchDefinition.addProperty(JKEY_MATCHDEFINITION_PLAYER1STRATETY, t_string);
@@ -92,6 +93,8 @@ static const JsonSubSchemaBuilder makeMatchDefinitionSubSchema()
     matchDefinition.addProperty(JKEY_MATCHDEFINITION_MOVEDEFS, t_string);
 
     matchDefinition.addProperty(JKEY_MATCHDEFINITION_TYPEDEFS, t_string);
+
+    matchDefinition.addProperty(JKEY_MATCHDEFINITION_ITEMDEFS, t_string);
 
     return matchDefinition;
 }

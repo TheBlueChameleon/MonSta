@@ -103,6 +103,10 @@ set(fileService
     host/fileservice/types.hpp
 )
 
+set(jsonService
+    jsonservice/jsonservice.hpp jsonservice/jsonservice.cpp
+)
+
 set(loggerService
     host/loggerservice/logger.hpp         host/loggerservice/logger.cpp
     host/loggerservice/loggerservice.hpp  host/loggerservice/loggerservice.cpp
@@ -125,6 +129,7 @@ add_executable(App
 
     ${fileService}
 
+    ${jsonService}
     host/json/jsonservice.hpp            host/json/jsonservice.cpp
     host/json/schemaconstants.hpp        host/json/schemaconstants.cpp
     host/json/schemaconstantsbuilder.hpp host/json/schemaconstantsbuilder.cpp

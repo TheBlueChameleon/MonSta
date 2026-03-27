@@ -10,6 +10,7 @@ struct MatchDefinition
     const char* const pkmnDefs;
     const char* const moveDefs;
     const char* const typeDefs;
+    const char* const itemDefs;
 };
 
 #endif // IMATCHDEFINITION_H

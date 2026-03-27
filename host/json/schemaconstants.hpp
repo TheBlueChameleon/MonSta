@@ -27,6 +27,7 @@ static constexpr auto JKEY_MATCHDEFINITION_PLAYER2STRATETY = "player2Strategy";
 static constexpr auto JKEY_MATCHDEFINITION_PKMNDEFS        = "pkmnDefs";
 static constexpr auto JKEY_MATCHDEFINITION_MOVEDEFS        = "moveDefs";
 static constexpr auto JKEY_MATCHDEFINITION_TYPEDEFS        = "typeDefs";
+static constexpr auto JKEY_MATCHDEFINITION_ITEMDEFS        = "itemDefs";
 // TODO: held items?
 
 static constexpr auto JKEY_TEMPLATE                 = "template";

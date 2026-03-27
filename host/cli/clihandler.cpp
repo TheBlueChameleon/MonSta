@@ -255,7 +255,8 @@ static MatchDefinition unpackMatchDefinition(const Json& data)
                data[JKEY_MATCHDEFINITION_PLAYER2STRATETY],
                data[JKEY_MATCHDEFINITION_PKMNDEFS],
                data[JKEY_MATCHDEFINITION_MOVEDEFS],
-               data[JKEY_MATCHDEFINITION_TYPEDEFS]
+               data[JKEY_MATCHDEFINITION_TYPEDEFS],
+               data[JKEY_MATCHDEFINITION_ITEMDEFS]
            );
 }
 

@@ -15,6 +15,7 @@
         "player2Strategy" : "",
         "pkmnDefs" : "",
         "moveDefs" : "",
-        "typeDefs" : ""
+        "typeDefs" : "",
+        "itemDefs" : ""
     }
 }
