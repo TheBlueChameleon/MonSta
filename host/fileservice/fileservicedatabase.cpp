@@ -102,7 +102,7 @@ namespace FileService
 
             if (dynamic_cast<std::ofstream*>(simpleStreamPtr.get()))
             {
-                addCreatedFile_internal(createdFileInfo, filename, overwritten);
+                addCreatedFile(filename, overwritten);
             }
 
             auto [iterator, newlyCreated] = oStreams.emplace(filename, new SynchronizedOStream(simpleStreamPtr));
@@ -142,17 +142,9 @@ namespace FileService
         return createdFileInfo;
     }
 
-    static void addCreatedFile_internal(std::list<FileService::CreatedFileInfo>& createdFileInfo,
-                                        const std::filesystem::__cxx11::path& filename,
-                                        const bool overwritten
-                                       )
-    {
-        createdFileInfo.emplace_back(filename, overwritten);
-    }
-
     void FileServiceDatabase::addCreatedFile(const std::filesystem::__cxx11::path& filename, const bool overwritten)
     {
         auto lock = std::lock_guard(mutex);
-        addCreatedFile_internal(createdFileInfo, filename, overwritten);
+        createdFileInfo.emplace_back(filename, overwritten);
     }
 }

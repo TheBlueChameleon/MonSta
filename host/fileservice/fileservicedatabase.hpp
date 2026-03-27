@@ -19,7 +19,7 @@ namespace FileService
         private:
             static FileServiceDatabase instance;
 
-            std::mutex mutable mutex;
+            std::recursive_mutex mutable mutex;
 
             bool overwrite         = false;
             bool createDirectories = false;
@@ -57,8 +57,6 @@ namespace FileService
 
             const std::list<FileService::CreatedFileInfo>& getCreatedFileInfo() const;
             void addCreatedFile(const std::filesystem::path& filename, const bool overwritten);
-
-            friend class FileServiceDatabaseAccess;
     };
 }
 
