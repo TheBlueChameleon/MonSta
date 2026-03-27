@@ -41,6 +41,24 @@ JsonBlockBuilder& JsonBlockBuilder::addKeyValuePair(const std::string& key, cons
     return *this;
 }
 
+JsonBlockBuilder& JsonBlockBuilder::addType(const std::string& value)
+{
+    pairs.emplace_back("type", value);
+    return *this;
+}
+
+JsonBlockBuilder& JsonBlockBuilder::addTitle(const std::string& value)
+{
+    pairs.emplace_back("title", value);
+    return *this;
+}
+
+JsonBlockBuilder& JsonBlockBuilder::addDescription(const std::string& value)
+{
+    pairs.emplace_back("description", value);
+    return *this;
+}
+
 std::string JsonBlockBuilder::build(int indent) const
 {
     std::stringstream ss;
@@ -71,7 +89,10 @@ JsonBlockBuilder JsonSchemaRefBuilder::toBlockBuilder() const
     auto builder = JsonBlockBuilder(name);
 
     builder.addKeyValuePair("$ref", quoted("#/$defs/"s + name));
-    builder.addKeyValuePair("description", quoted(description));
+    if (!description.empty())
+    {
+        builder.addDescription(quoted(description));
+    }
 
     return builder;
 }
@@ -105,7 +126,7 @@ JsonBlockBuilder& JsonSubSchemaBuilder::addProperty(const std::string& title)
 JsonBlockBuilder& JsonSubSchemaBuilder::addProperty(const std::string& title, const std::string& type)
 {
     elements.emplace_back(title);
-    elements.back().addKeyValuePair("type", type);
+    elements.back().addType(type);
     return elements.back();
 }
 

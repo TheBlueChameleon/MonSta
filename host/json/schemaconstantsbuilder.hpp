@@ -25,6 +25,9 @@ class JsonBlockBuilder
     public:
         JsonBlockBuilder(const std::string& name);
         JsonBlockBuilder& addKeyValuePair(const std::string& key, const std::string& value);
+        JsonBlockBuilder& addType(const std::string& value);
+        JsonBlockBuilder& addTitle(const std::string& value);
+        JsonBlockBuilder& addDescription(const std::string& value);
 
         std::string build(int indent = 0) const;
 };
@@ -36,7 +39,7 @@ class JsonSchemaRefBuilder
         const std::string description;
 
     public:
-        JsonSchemaRefBuilder(const std::string& name, const std::string& description);
+        JsonSchemaRefBuilder(const std::string& name, const std::string& description = "");
 
         JsonBlockBuilder toBlockBuilder() const;
         std::string build(int indent = 0) const;
@@ -53,7 +56,7 @@ class JsonSubSchemaBuilder
     public:
         JsonSubSchemaBuilder(const std::string& name, bool additionalProperties = false);
 
-        JsonSubSchemaBuilder& addReference(const std::string& name, const std::string& description);
+        JsonSubSchemaBuilder& addReference(const std::string& name, const std::string& description = "");
         JsonBlockBuilder&     addProperty(const std::string& title);
         JsonBlockBuilder&     addProperty(const std::string& title, const std::string& type);
 
@@ -74,7 +77,7 @@ class JsonSchemaBuilder
         JsonSchemaBuilder(bool additionalProperties = false);
 
         JsonBlockBuilder&     addProperty(const std::string& title);
-        JsonSchemaBuilder&    addReference(const std::string& name, const std::string& description);
+        JsonSchemaBuilder&    addReference(const std::string& name, const std::string& description = "");
         JsonSchemaBuilder&    addSubSchema(const JsonSubSchemaBuilder& subSchema);
         JsonSubSchemaBuilder& addSubSchema(const std::string& name, bool additionalProperties = false);
 
