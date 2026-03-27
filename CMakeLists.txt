@@ -91,7 +91,9 @@ set(apiHeaders
     api/Version.hpp
 )
 
+# ............................................................................ #
 # with testing
+
 set(fileService
     host/fileservice/debugstream.hpp
     host/fileservice/fileservice.hpp            host/fileservice/fileservice.cpp
@@ -104,12 +106,13 @@ set(fileService
 )
 
 set(jsonService
-    jsonservice/jsonservice.hpp jsonservice/jsonservice.cpp
+    host/jsonservice/jsonservice.hpp            host/jsonservice/jsonservice.cpp
+    host/jsonservice/jsonservicedatabase.hpp    host/jsonservice/jsonservicedatabase.cpp
 )
 
 set(loggerService
-    host/loggerservice/logger.hpp         host/loggerservice/logger.cpp
-    host/loggerservice/loggerservice.hpp  host/loggerservice/loggerservice.cpp
+    host/loggerservice/logger.hpp               host/loggerservice/logger.cpp
+    host/loggerservice/loggerservice.hpp        host/loggerservice/loggerservice.cpp
 )
 
 # ---------------------------------------------------------------------------- #

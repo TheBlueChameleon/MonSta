@@ -41,22 +41,24 @@ JsonBlockBuilder& JsonBlockBuilder::addKeyValuePair(const std::string& key, cons
     return *this;
 }
 
+JsonBlockBuilder& JsonBlockBuilder::addDefault(const std::string& value)
+{
+    return addKeyValuePair("default", value);
+}
+
 JsonBlockBuilder& JsonBlockBuilder::addType(const std::string& value)
 {
-    pairs.emplace_back("type", value);
-    return *this;
+    return addKeyValuePair("type", value);
 }
 
 JsonBlockBuilder& JsonBlockBuilder::addTitle(const std::string& value)
 {
-    pairs.emplace_back("title", value);
-    return *this;
+    return addKeyValuePair("title", value);
 }
 
 JsonBlockBuilder& JsonBlockBuilder::addDescription(const std::string& value)
 {
-    pairs.emplace_back("description", value);
-    return *this;
+    return addKeyValuePair("description", value);
 }
 
 std::string JsonBlockBuilder::build(int indent) const

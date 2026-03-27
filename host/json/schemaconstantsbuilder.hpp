@@ -25,9 +25,10 @@ class JsonBlockBuilder
     public:
         JsonBlockBuilder(const std::string& name);
         JsonBlockBuilder& addKeyValuePair(const std::string& key, const std::string& value);
-        JsonBlockBuilder& addType(const std::string& value);
-        JsonBlockBuilder& addTitle(const std::string& value);
+        JsonBlockBuilder& addDefault(const std::string& value);
         JsonBlockBuilder& addDescription(const std::string& value);
+        JsonBlockBuilder& addTitle(const std::string& value);
+        JsonBlockBuilder& addType(const std::string& value);
 
         std::string build(int indent = 0) const;
 };

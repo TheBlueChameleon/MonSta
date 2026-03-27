@@ -18,8 +18,9 @@ extern "C" {
 // hack
 static void force_link()
 {
-    volatile auto ptr0 = &init;
-    volatile auto ptr1 = &hangUp;
+    volatile auto ptr0 = init;
+    volatile auto ptr1 = hangUp;
+    volatile auto ptr2 = terminateAbnormally;
 }
 
 #endif // CLIENTAPI_HPP
