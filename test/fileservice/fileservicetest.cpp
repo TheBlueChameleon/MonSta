@@ -1,9 +1,16 @@
+#include <chrono>
+using namespace std::literals::chrono_literals;
+#include <thread>
+
 #include "logging/loggerservice.hpp"
 
+#include "fileservice/debugstream.hpp"
 #include "fileservice/fileservice.hpp"
 #include "fileservice/fileserviceoperations.hpp"
 using namespace FileService;
 #include "fileservicetest.hpp"
+
+#include "fileservicedatabasetestadapter.hpp"
 
 #include <iostream>
 
@@ -15,6 +22,7 @@ FileServiceTest::FileServiceTest()
 
 FileServiceTest::~FileServiceTest()
 {
+    FileServiceDatabaseTestAdapter::getInstance().reset();
     std::filesystem::remove_all(temp);
 }
 
@@ -131,3 +139,29 @@ TEST_F(FileServiceTest, SpecialPaths)
         getOutputStreamTypeAndResidualFilename(infixed)
     );
 }
+
+TEST_F(FileServiceTest, OutputOrdering)
+{
+    auto writer = [](const int id, const std::chrono::microseconds delay)
+    {
+        std::this_thread::sleep_for(delay);
+        FileService::write(":debug:", std::to_string(id) + ";");
+    };
+
+    auto t0 = std::thread(writer, 0, 20us);
+    auto t1 = std::thread(writer, 1, 10us);
+    auto t2 = std::thread(writer, 2,  0us);
+
+    t0.join();
+    t1.join();
+    t2.join();
+
+    auto& synchronizedResultStream = FileServiceDatabase::getInstance().getOrCreateStream(":debug:");
+    auto* innerResultStream = dynamic_cast<FileService::DebugStream*>(synchronizedResultStream.expose());
+    auto result = innerResultStream->str();
+
+    std::string expected = "2;1;0;";
+
+    EXPECT_EQ(result, expected);
+}
+

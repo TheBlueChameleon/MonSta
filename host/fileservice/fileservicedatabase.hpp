@@ -16,7 +16,7 @@ namespace FileService
 
     class FileServiceDatabase
     {
-        private:
+        protected:
             static FileServiceDatabase instance;
 
             std::recursive_mutex mutable mutex;
@@ -27,8 +27,8 @@ namespace FileService
 
             std::filesystem::path inputBasePath;
             std::filesystem::path outputBasePath;
-            std::list<FileService::CreatedFileInfo> createdFileInfo;
 
+            std::list<FileService::CreatedFileInfo> createdFileInfo;
             std::unordered_map<std::filesystem::path, std::unique_ptr<SynchronizedOStream>> oStreams;
 
         protected:

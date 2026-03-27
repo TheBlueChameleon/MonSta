@@ -6,8 +6,12 @@
 
 class FileServiceDatabaseTestAdapter : public FileService::FileServiceDatabase
 {
+    protected:
+        FileServiceDatabaseTestAdapter() = default;
+
     public:
-        FileServiceDatabaseTestAdapter();
+        static FileServiceDatabaseTestAdapter& getInstance();
+        void reset();
 };
 
 #endif // FILESERVICEDATABASETESTADAPTER_HPP
