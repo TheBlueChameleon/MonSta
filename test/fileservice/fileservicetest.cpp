@@ -2,7 +2,7 @@
 using namespace std::literals::chrono_literals;
 #include <thread>
 
-#include "logging/loggerservice.hpp"
+#include "loggerservice/loggerservice.hpp"
 
 #include "fileservice/debugstream.hpp"
 #include "fileservice/fileservice.hpp"
@@ -10,9 +10,8 @@ using namespace std::literals::chrono_literals;
 using namespace FileService;
 #include "fileservicetest.hpp"
 
-#include "testutils/loggerserviceadapter.hpp"
-
-#include "fileservicedatabasetestadapter.hpp"
+#include "serviceadapters/fileservicedatabasetestadapter.hpp"
+#include "serviceadapters/loggerserviceadapter.hpp"
 
 #include <iostream>
 

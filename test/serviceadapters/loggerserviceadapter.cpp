@@ -4,7 +4,7 @@
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/ostream_sink.h>
 
-#include "logging/loggerservice.hpp"
+#include "loggerservice/loggerservice.hpp"
 
 #include "loggerserviceadapter.hpp"
 

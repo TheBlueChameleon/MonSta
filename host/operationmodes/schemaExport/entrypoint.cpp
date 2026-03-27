@@ -4,7 +4,7 @@
 
 #include "json/schemaconstants.hpp"
 
-#include "logging/loggerservice.hpp"
+#include "loggerservice/loggerservice.hpp"
 
 #include "operationmodes/safecast.hpp"
 

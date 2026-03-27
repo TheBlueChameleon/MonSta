@@ -19,7 +19,7 @@ using JsonValidator = nlohmann::json_schema::json_validator;
 
 #include "json/jsonservice.hpp"
 
-#include "logging/loggerservice.hpp"
+#include "loggerservice/loggerservice.hpp"
 
 #include "operationmodes/help/helpmodedefinition.hpp"
 #include "operationmodes/remote/remoterundefinition.hpp"

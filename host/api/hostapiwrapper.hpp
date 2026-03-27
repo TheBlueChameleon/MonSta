@@ -3,7 +3,7 @@
 
 #include <HostApi.hpp>
 
-#include "logging/logger.hpp"
+#include "loggerservice/logger.hpp"
 
 class HostApiWrapper : public HostApi
 {

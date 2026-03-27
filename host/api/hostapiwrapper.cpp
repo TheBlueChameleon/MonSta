@@ -11,7 +11,7 @@
 
 #include "json/jsonservice.hpp"
 
-#include "logging/loggerservice.hpp"
+#include "loggerservice/loggerservice.hpp"
 
 #include "hostapiwrapper.hpp"
 #include "versionservice.hpp"

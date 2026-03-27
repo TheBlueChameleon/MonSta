@@ -104,8 +104,8 @@ set(fileService
 )
 
 set(loggerService
-    host/logging/logger.hpp         host/logging/logger.cpp
-    host/logging/loggerservice.hpp  host/logging/loggerservice.cpp
+    host/loggerservice/logger.hpp         host/loggerservice/logger.cpp
+    host/loggerservice/loggerservice.hpp  host/loggerservice/loggerservice.cpp
 )
 
 # ---------------------------------------------------------------------------- #
@@ -218,10 +218,10 @@ add_executable(MonSta-Test
     ${fileService}
     ${loggerService}
 
-    test/fileservice/fileservicetest.hpp                test/fileservice/fileservicetest.cpp
-    test/fileservice/fileservicedatabasetestadapter.hpp test/fileservice/fileservicedatabasetestadapter.cpp
+    test/fileservice/fileservicetest.hpp test/fileservice/fileservicetest.cpp
 
-    test/testutils/loggerserviceadapter.hpp test/testutils/loggerserviceadapter.cpp
+    test/serviceadapters/fileservicedatabasetestadapter.hpp test/serviceadapters/fileservicedatabasetestadapter.cpp
+    test/serviceadapters/loggerserviceadapter.hpp           test/serviceadapters/loggerserviceadapter.cpp
 )
 
 target_include_directories(MonSta-Test

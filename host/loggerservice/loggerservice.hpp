@@ -1,7 +1,7 @@
 #ifndef LOGGERSERVICE_HPP
 #define LOGGERSERVICE_HPP
 
-#include "logging/logger.hpp"
+#include "loggerservice/logger.hpp"
 
 struct LoggingDefinition;
 
