@@ -1,4 +1,4 @@
-#include "../errors.hpp"
+#include "errors.hpp"
 
 #include "synchronizedostream.hpp"
 

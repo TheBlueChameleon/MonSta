@@ -1,8 +1,8 @@
-#include "../../errors.hpp"
+#include "errors.hpp"
 
-#include "../../logging/loggerservice.hpp"
+#include "logging/loggerservice.hpp"
 
-#include "../safecast.hpp"
+#include "operationmodes/safecast.hpp"
 
 #include "entrypoint.hpp"
 #include "remoterundefinition.hpp"

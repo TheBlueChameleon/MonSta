@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "../safecast.hpp"
+#include "operationmodes/safecast.hpp"
 
 #include "entrypoint.hpp"
 #include "helpmodedefinition.hpp"

@@ -5,13 +5,13 @@
 #include <IVersionService.hpp>
 #include <Version.hpp>
 
-#include "../fileservice/fileservice.hpp"
+#include "constants.hpp"
 
-#include "../json/jsonservice.hpp"
+#include "fileservice/fileservice.hpp"
 
-#include "../logging/loggerservice.hpp"
+#include "json/jsonservice.hpp"
 
-#include "../constants.hpp"
+#include "logging/loggerservice.hpp"
 
 #include "hostapiwrapper.hpp"
 #include "versionservice.hpp"

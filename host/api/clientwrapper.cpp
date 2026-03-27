@@ -6,10 +6,10 @@
 
 #include <Version.hpp>
 
-#include "../constants.hpp"
-#include "../errors.hpp"
+#include "constants.hpp"
+#include "errors.hpp"
 
-#include "../logging/loggerservice.hpp"
+#include "logging/loggerservice.hpp"
 
 #include "clientwrapper.hpp"
 #include "hostapiwrapper.hpp"

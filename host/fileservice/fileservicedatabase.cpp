@@ -3,9 +3,9 @@
 #include <string>
 using namespace std::string_literals;
 
-#include "../errors.hpp"
+#include "errors.hpp"
 
-#include "../logging/loggerservice.hpp"
+#include "logging/loggerservice.hpp"
 
 #include "fileservicedatabase.hpp"
 #include "fileserviceoperations.hpp"

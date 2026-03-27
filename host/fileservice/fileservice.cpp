@@ -2,7 +2,7 @@
 #include <cstring>
 #include <fstream>
 
-#include "../logging/loggerservice.hpp"
+#include "logging/loggerservice.hpp"
 
 #include "fileservice.hpp"
 #include "fileservicedatabase.hpp"

@@ -1,9 +1,9 @@
 #ifndef HELPMODEDEFINITION_HPP
 #define HELPMODEDEFINITION_HPP
 
-#include "../../cli/cliinput.hpp"
+#include "cli/cliinput.hpp"
 
-#include "../shared/basemodedefinition.hpp"
+#include "operationmodes/shared/basemodedefinition.hpp"
 
 struct HelpModeDefinition : public BaseModeDefinition
 {

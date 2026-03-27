@@ -1,7 +1,7 @@
 #include <string>
 using namespace std::string_literals;
 
-#include "../errors.hpp"
+#include "errors.hpp"
 
 #include "help/helpmodedefinition.hpp"
 #include "remote/remoterundefinition.hpp"

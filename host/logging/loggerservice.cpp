@@ -1,4 +1,4 @@
-#include "../operationmodes/shared/defs/loggingdefinition.hpp"
+#include "operationmodes/shared/defs/loggingdefinition.hpp"
 
 #include "loggerservice.hpp"
 

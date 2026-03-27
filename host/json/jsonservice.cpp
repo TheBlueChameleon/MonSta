@@ -5,7 +5,7 @@ using namespace std::string_literals;
 #include <nlohmann/json.hpp>
 #include <nlohmann/json-schema.hpp>
 
-#include "../errors.hpp"
+#include "errors.hpp"
 
 #include "jsonservice.hpp"
 

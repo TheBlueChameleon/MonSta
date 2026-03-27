@@ -12,20 +12,20 @@ using ArgParser = argparse::ArgumentParser;
 using Json = nlohmann::json;
 using JsonValidator = nlohmann::json_schema::json_validator;
 
-#include "../operationmodes/help/helpmodedefinition.hpp"
-#include "../operationmodes/remote/remoterundefinition.hpp"
-#include "../operationmodes/schemaExport/schemaexportmodedefinition.hpp"
-#include "../operationmodes/simulation/simulationmodedefinition.hpp"
-#include "../operationmodes/template/templatemodedefinition.hpp"
+#include "constants.hpp"
+#include "errors.hpp"
 
-#include "../fileservice/fileservice.hpp"
+#include "fileservice/fileservice.hpp"
 
-#include "../json/jsonservice.hpp"
+#include "json/jsonservice.hpp"
 
-#include "../logging/loggerservice.hpp"
+#include "logging/loggerservice.hpp"
 
-#include "../constants.hpp"
-#include "../errors.hpp"
+#include "operationmodes/help/helpmodedefinition.hpp"
+#include "operationmodes/remote/remoterundefinition.hpp"
+#include "operationmodes/schemaExport/schemaexportmodedefinition.hpp"
+#include "operationmodes/simulation/simulationmodedefinition.hpp"
+#include "operationmodes/template/templatemodedefinition.hpp"
 
 #include "clihandler.hpp"
 

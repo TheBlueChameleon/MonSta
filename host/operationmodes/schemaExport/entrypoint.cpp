@@ -1,12 +1,12 @@
-#include "../../errors.hpp"
+#include "errors.hpp"
 
-#include "../../fileservice/fileservice.hpp"
+#include "fileservice/fileservice.hpp"
 
-#include "../../json/schemaconstants.hpp"
+#include "json/schemaconstants.hpp"
 
-#include "../../logging/loggerservice.hpp"
+#include "logging/loggerservice.hpp"
 
-#include "../safecast.hpp"
+#include "operationmodes/safecast.hpp"
 
 #include "entrypoint.hpp"
 #include "schemaexportmodedefinition.hpp"

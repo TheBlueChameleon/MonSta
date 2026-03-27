@@ -1,9 +1,9 @@
 #ifndef BASEMODEDEFINITION_H
 #define BASEMODEDEFINITION_H
 
-#include "../../cli/cliinput.hpp"
+#include "cli/cliinput.hpp"
 
-#include "../operationmode.hpp"
+#include "operationmodes/operationmode.hpp"
 
 #include "defs/loggingdefinition.hpp"
 

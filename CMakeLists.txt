@@ -218,8 +218,8 @@ add_executable(MonSta-Test
     ${fileService}
     ${loggerService}
 
-    test/fileservice/fileservicetest.hpp            test/fileservice/fileservicetest.cpp
-    test/fileservice/fileservicedatatestadapter.hpp test/fileservice/fileservicedatatestadapter.cpp
+    test/fileservice/fileservicetest.hpp                test/fileservice/fileservicetest.cpp
+    test/fileservice/fileservicedatabasetestadapter.hpp test/fileservice/fileservicedatabasetestadapter.cpp
 )
 
 target_include_directories(MonSta-Test

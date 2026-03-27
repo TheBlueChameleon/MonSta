@@ -1,10 +1,10 @@
-#include "../../errors.hpp"
+#include "errors.hpp"
 
-#include "../../api/clientwrapper.hpp"
+#include "api/clientwrapper.hpp"
 
-#include "../../logging/loggerservice.hpp"
+#include "logging/loggerservice.hpp"
 
-#include "../safecast.hpp"
+#include "operationmodes/safecast.hpp"
 
 #include "entrypoint.hpp"
 #include "simulationmodedefinition.hpp"

@@ -1,7 +1,7 @@
 #ifndef SIMULATIONMODEDEFINITION_H
 #define SIMULATIONMODEDEFINITION_H
 
-#include "../shared/basemodedefinition.hpp"
+#include "operationmodes/shared/basemodedefinition.hpp"
 
 #include "defs/matchdefinition.hpp"
 #include "defs/simulatordefinition.hpp"
