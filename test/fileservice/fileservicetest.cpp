@@ -10,13 +10,15 @@ using namespace std::literals::chrono_literals;
 using namespace FileService;
 #include "fileservicetest.hpp"
 
+#include "testutils/loggerserviceadapter.hpp"
+
 #include "fileservicedatabasetestadapter.hpp"
 
 #include <iostream>
 
 FileServiceTest::FileServiceTest()
 {
-    LoggerService::setLogLevel(ILoggerService::LogLevel::OFF);
+    LoggerServiceAdapter::useOnlyTestSink();
     std::filesystem::create_directories(temp);
 }
 

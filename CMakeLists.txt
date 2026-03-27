@@ -220,10 +220,13 @@ add_executable(MonSta-Test
 
     test/fileservice/fileservicetest.hpp                test/fileservice/fileservicetest.cpp
     test/fileservice/fileservicedatabasetestadapter.hpp test/fileservice/fileservicedatabasetestadapter.cpp
+
+    test/testutils/loggerserviceadapter.hpp test/testutils/loggerserviceadapter.cpp
 )
 
 target_include_directories(MonSta-Test
     PRIVATE host
+    PRIVATE test
 )
 
 if (TARGET GTest::gtest_main)
