@@ -144,15 +144,15 @@ TEST_F(FileServiceTest, SpecialPaths)
 
 TEST_F(FileServiceTest, OutputOrdering)
 {
-    auto writer = [](const int id, const std::chrono::microseconds delay)
+    auto writer = [](const int id, const std::chrono::milliseconds delay)
     {
         std::this_thread::sleep_for(delay);
         FileService::write(":debug:", std::to_string(id) + ";");
     };
 
-    auto t0 = std::thread(writer, 0, 20us);
-    auto t1 = std::thread(writer, 1, 10us);
-    auto t2 = std::thread(writer, 2,  0us);
+    auto t0 = std::thread(writer, 0, 20ms);
+    auto t1 = std::thread(writer, 1, 10ms);
+    auto t2 = std::thread(writer, 2,  0ms);
 
     t0.join();
     t1.join();
