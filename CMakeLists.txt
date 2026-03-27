@@ -20,7 +20,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 FetchContent_Declare(
   argparse
-  GIT_REPOSITORY git@github.com:p-ranav/argparse.git
+  GIT_REPOSITORY https://github.com/p-ranav/argparse
   GIT_TAG "v3.2"
   GIT_SHALLOW TRUE
   GIT_PROGRESS ON
@@ -28,7 +28,7 @@ FetchContent_Declare(
 )
 FetchContent_Declare(
   json
-  GIT_REPOSITORY git@github.com:nlohmann/json.git
+  GIT_REPOSITORY https://github.com/nlohmann/json
   GIT_TAG "v3.12.0"
   GIT_SHALLOW TRUE
   GIT_PROGRESS ON
@@ -36,7 +36,7 @@ FetchContent_Declare(
 )
 FetchContent_Declare(
   json-schema-validator
-  GIT_REPOSITORY git@github.com:pboettch/json-schema-validator.git
+  GIT_REPOSITORY https://github.com/pboettch/json-schema-validator
   GIT_TAG "2.4.0"
   GIT_SHALLOW TRUE
   GIT_PROGRESS ON
@@ -61,6 +61,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(argparse)
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 FetchContent_MakeAvailable(json)
+set(nlohmann_json_VERSION "v3.12.0")
 FetchContent_MakeAvailable(json-schema-validator)
 FetchContent_MakeAvailable(spdlog)
 # For Windows: Prevent overriding the parent project's compiler/linker settings
@@ -103,8 +104,8 @@ set(fileService
 )
 
 set(loggerService
-    host/logging/logger.hpp host/logging/logger.cpp
-    host/logging/loggerservice.hpp host/logging/loggerservice.cpp
+    host/logging/logger.hpp         host/logging/logger.cpp
+    host/logging/loggerservice.hpp  host/logging/loggerservice.cpp
 )
 
 # ---------------------------------------------------------------------------- #
@@ -115,7 +116,7 @@ cmake_print_variables(json_SOURCE_DIR)
 add_executable(App
     ${apiHeaders}
 
-    host/api/clientwrapper.hpp host/api/clientwrapper.cpp
+    host/api/clientwrapper.hpp  host/api/clientwrapper.cpp
     host/api/hostapiwrapper.hpp host/api/hostapiwrapper.cpp
     host/api/versionservice.hpp host/api/versionservice.cpp
 
@@ -124,8 +125,8 @@ add_executable(App
 
     ${fileService}
 
-    host/json/jsonservice.hpp host/json/jsonservice.cpp
-    host/json/schemaconstants.hpp host/json/schemaconstants.cpp
+    host/json/jsonservice.hpp            host/json/jsonservice.cpp
+    host/json/schemaconstants.hpp        host/json/schemaconstants.cpp
     host/json/schemaconstantsbuilder.hpp host/json/schemaconstantsbuilder.cpp
 
     ${loggerService}
@@ -164,6 +165,7 @@ add_executable(App
 target_include_directories(App
     PRIVATE "${argparse_SOURCE_DIR}/include"
     PRIVATE "${json-schema-validator_SOURCE_DIR}/src/"
+    PRIVATE host
 )
 
 target_link_libraries(App
@@ -216,7 +218,8 @@ add_executable(MonSta-Test
     ${fileService}
     ${loggerService}
 
-    test/fileservicetest.hpp test/fileservicetest.cpp
+    test/fileservice/fileservicetest.hpp            test/fileservice/fileservicetest.cpp
+    test/fileservice/fileservicedatatestadapter.hpp test/fileservice/fileservicedatatestadapter.cpp
 )
 
 target_include_directories(MonSta-Test
