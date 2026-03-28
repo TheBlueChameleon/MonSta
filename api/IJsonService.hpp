@@ -5,6 +5,14 @@
 
 struct IJsonService
 {
+    struct Handle
+    {
+        void* data;
+    };
+
+    // ====================================================================== //
+    // LEGACY
+
     const nlohmann::json(*readJsonFile)(const char* const source);
 
     const nlohmann::json(*parseJson)(const char* const json);

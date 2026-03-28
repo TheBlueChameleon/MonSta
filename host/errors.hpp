@@ -13,6 +13,26 @@ class CriticalAbort : public std::runtime_error
         {}
 };
 
+class LookupError : public std::runtime_error
+{
+    public:
+        using std::runtime_error::runtime_error;
+
+        LookupError() :
+            std::runtime_error("Requested Item not found. See the logs for possible reasons.")
+        {}
+};
+
+class ClientError : public std::runtime_error
+{
+    public:
+        using std::runtime_error::runtime_error;
+
+        ClientError() :
+            std::runtime_error("Client side abort. See the logs for possible reasons.")
+        {}
+};
+
 class IllegalStateException : public std::runtime_error
 {
     public:
