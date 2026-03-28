@@ -1,3 +1,5 @@
+#include <nlohmann/json.hpp>
+
 #include <IJsonService.hpp>
 
 #include "jsonservice.hpp"

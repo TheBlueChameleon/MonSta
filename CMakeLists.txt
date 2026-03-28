@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 4.1.1)
+cmake_minimum_required(VERSION 3.25)
 
 include(FetchContent)
 include(CMakePrintHelpers)
@@ -72,11 +72,6 @@ FetchContent_MakeAvailable(googletest)
 # ============================================================================ #
 # source file definitions
 
-include_directories(
-    api
-    "${json_SOURCE_DIR}/include/"
-)
-
 # ---------------------------------------------------------------------------- #
 # Shared
 
@@ -117,8 +112,6 @@ set(loggerService
 
 # ---------------------------------------------------------------------------- #
 # Main App
-
-cmake_print_variables(json_SOURCE_DIR)
 
 add_executable(App
     ${apiHeaders}
@@ -172,8 +165,10 @@ add_executable(App
 
 target_include_directories(App
     PRIVATE "${argparse_SOURCE_DIR}/include"
+    PRIVATE "${json_SOURCE_DIR}/include/"
     PRIVATE "${json-schema-validator_SOURCE_DIR}/src/"
     PRIVATE host
+    PRIVATE api
 )
 
 target_link_libraries(App
@@ -194,6 +189,10 @@ add_library(Engine-Base STATIC
     engine-base/loggerservice.hpp engine-base/loggerservice.cpp
 )
 
+target_include_directories(Engine-Base
+    PRIVATE api
+)
+
 target_compile_options(Engine-Base PRIVATE -fPIC)
 
 # ---------------------------------------------------------------------------- #
@@ -211,6 +210,7 @@ target_link_libraries(Engine-Gen1 PUBLIC
 
 target_include_directories(Engine-Gen1
     PRIVATE "engine-base"
+    PRIVATE api
 )
 
 # ============================================================================ #
@@ -224,17 +224,20 @@ add_executable(MonSta-Test
     test/main.cpp
 
     ${fileService}
+    ${jsonService}
     ${loggerService}
 
     test/fileservice/fileservicetest.hpp test/fileservice/fileservicetest.cpp
 
     test/serviceadapters/fileservicedatabasetestadapter.hpp test/serviceadapters/fileservicedatabasetestadapter.cpp
+    test/serviceadapters/jsonservicedatabaseadapter.hpp     test/serviceadapters/jsonservicedatabaseadapter.cpp
     test/serviceadapters/loggerserviceadapter.hpp           test/serviceadapters/loggerserviceadapter.cpp
 )
 
 target_include_directories(MonSta-Test
     PRIVATE host
     PRIVATE test
+    PRIVATE api
 )
 
 if (TARGET GTest::gtest_main)

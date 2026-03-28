@@ -42,9 +42,6 @@ HostApiWrapper::HostApiWrapper() : HostApi(
         ),
 
         IJsonService(
-            JsonService::readJsonFile,
-            JsonService::parseJson,
-            JsonService::validateJsonAgainstJson
         ),
 
         IFileService(
