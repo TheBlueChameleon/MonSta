@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.25)
 
 include(FetchContent)
 include(CMakePrintHelpers)
-include(GNUInstallDirs)
 
 # ============================================================================ #
 # language definition
@@ -17,6 +16,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # ============================================================================ #
 # external dependencies
+
+set(JSON_BuildTests OFF CACHE BOOL "" FORCE)
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)  # For Windows: Prevent overriding the parent project's compiler/linker settings
+set(nlohmann_json_VERSION "v3.12.0")
 
 FetchContent_Declare(
   argparse
@@ -59,13 +62,9 @@ FetchContent_Declare(
 # before any calls to FetchContent_Make_available (see docs for why).
 
 FetchContent_MakeAvailable(argparse)
-set(JSON_BuildTests OFF CACHE INTERNAL "")
 FetchContent_MakeAvailable(json)
-set(nlohmann_json_VERSION "v3.12.0")
 FetchContent_MakeAvailable(json-schema-validator)
 FetchContent_MakeAvailable(spdlog)
-# For Windows: Prevent overriding the parent project's compiler/linker settings
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 
@@ -104,8 +103,8 @@ add_library(Host-FileService STATIC
 )
 
 target_include_directories(Host-FileService
-    PRIVATE host
-    PRIVATE api
+    PUBLIC host
+    PUBLIC api
 )
 
 # ............................................................................ #
@@ -117,10 +116,10 @@ add_library(Host-JsonService STATIC
 )
 
 target_include_directories(Host-JsonService
-    PRIVATE host
-    PRIVATE api
-    PRIVATE "${json_SOURCE_DIR}/include/"
-    PRIVATE "${json-schema-validator_SOURCE_DIR}/src/"
+    PUBLIC host
+    PUBLIC api
+    PUBLIC "${json_SOURCE_DIR}/include/"
+    PUBLIC "${json-schema-validator_SOURCE_DIR}/src/"
 )
 
 # ............................................................................ #
@@ -132,8 +131,8 @@ add_library(Host-LoggerService STATIC
 )
 
 target_include_directories(Host-LoggerService
-    PRIVATE host
-    PRIVATE api
+    PUBLIC host
+    PUBLIC api
 )
 
 target_link_libraries(Host-LoggerService
@@ -217,7 +216,7 @@ add_library(Engine-Base STATIC
 )
 
 target_include_directories(Engine-Base
-    PRIVATE api
+    PUBLIC api
 )
 
 set_target_properties(Engine-Base PROPERTIES POSITION_INDEPENDENT_CODE ON)
@@ -236,8 +235,8 @@ target_link_libraries(Engine-Gen1 PUBLIC
 )
 
 target_include_directories(Engine-Gen1
-    PRIVATE "engine-base"
-    PRIVATE api
+    PUBLIC "engine-base"
+    PUBLIC api
 )
 
 # ============================================================================ #
