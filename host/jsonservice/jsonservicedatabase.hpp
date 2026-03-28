@@ -45,7 +45,7 @@ namespace JsonService
 
             const nlohmann::json& getOrAdd(const std::string& tag, std::function<nlohmann::json()> creator);
 
-            std::optional<nlohmann::json*> declare(const std::string& tag);
+            std::optional<std::reference_wrapper<nlohmann::json>> declare(const std::string& tag);
 
             const nlohmann::json& commit(const std::string& tag);
     };

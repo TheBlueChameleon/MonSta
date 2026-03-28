@@ -133,7 +133,7 @@ namespace JsonService
         }
     }
 
-    std::optional<nlohmann::json*> JsonServiceDatabase::declare(const std::string& tag)
+    std::optional<std::reference_wrapper<nlohmann::json>> JsonServiceDatabase::declare(const std::string& tag)
     {
         Entry* entry;
 
@@ -149,7 +149,7 @@ namespace JsonService
                     throw LookupError("JSON Tag already exists: '"s + tag + "'");
                 }
 
-                return std::make_optional(nullptr);
+                return std::nullopt;
             }
 
             entry = &it->second;
@@ -162,7 +162,7 @@ namespace JsonService
             entry->state = EntryState::DECLARED;
         }
 
-        return std::make_optional(entry->data.get());
+        return *entry->data;
     }
 
     const nlohmann::json& JsonServiceDatabase::commit(const std::string& tag)
