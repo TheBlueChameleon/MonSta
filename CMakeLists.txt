@@ -86,10 +86,13 @@ set(apiHeaders
     api/Version.hpp
 )
 
-# ............................................................................ #
-# with testing
+# ---------------------------------------------------------------------------- #
+# Main App
 
-set(fileService
+# ............................................................................ #
+# FileService
+
+add_library(Host-FileService STATIC
     host/fileservice/debugstream.hpp
     host/fileservice/fileservice.hpp            host/fileservice/fileservice.cpp
     host/fileservice/fileservicedatabase.hpp    host/fileservice/fileservicedatabase.cpp
@@ -100,20 +103,47 @@ set(fileService
     host/fileservice/types.hpp
 )
 
-set(jsonService
+target_include_directories(Host-FileService
+    PRIVATE host
+    PRIVATE api
+)
+
+# ............................................................................ #
+# JsonService
+
+add_library(Host-JsonService STATIC
     host/jsonservice/jsonservice.hpp            host/jsonservice/jsonservice.cpp
     host/jsonservice/jsonservicedatabase.hpp    host/jsonservice/jsonservicedatabase.cpp
 )
 
-set(loggerService
+target_include_directories(Host-JsonService
+    PRIVATE host
+    PRIVATE api
+    PRIVATE "${json_SOURCE_DIR}/include/"
+    PRIVATE "${json-schema-validator_SOURCE_DIR}/src/"
+)
+
+# ............................................................................ #
+# LoggerService
+
+add_library(Host-LoggerService STATIC
     host/loggerservice/logger.hpp               host/loggerservice/logger.cpp
     host/loggerservice/loggerservice.hpp        host/loggerservice/loggerservice.cpp
 )
 
-# ---------------------------------------------------------------------------- #
-# Main App
+target_include_directories(Host-LoggerService
+    PRIVATE host
+    PRIVATE api
+)
 
-add_executable(App
+target_link_libraries(Host-LoggerService
+    spdlog
+)
+
+# ............................................................................ #
+# main app
+
+add_executable(Host
     ${apiHeaders}
 
     host/api/clientwrapper.hpp  host/api/clientwrapper.cpp
@@ -123,14 +153,9 @@ add_executable(App
     host/cli/clihandler.hpp host/cli/clihandler.cpp
     host/cli/cliinput.hpp
 
-    ${fileService}
-
-    ${jsonService}
     host/json/jsonservice.hpp            host/json/jsonservice.cpp
     host/json/schemaconstants.hpp        host/json/schemaconstants.cpp
     host/json/schemaconstantsbuilder.hpp host/json/schemaconstantsbuilder.cpp
-
-    ${loggerService}
 
     host/operationmodes/operationmode.hpp
     host/operationmodes/safecast.hpp       host/operationmodes/safecast.cpp
@@ -163,7 +188,7 @@ add_executable(App
     inputs/config/template.json
 )
 
-target_include_directories(App
+target_include_directories(Host
     PRIVATE "${argparse_SOURCE_DIR}/include"
     PRIVATE "${json_SOURCE_DIR}/include/"
     PRIVATE "${json-schema-validator_SOURCE_DIR}/src/"
@@ -171,10 +196,12 @@ target_include_directories(App
     PRIVATE api
 )
 
-target_link_libraries(App
+target_link_libraries(Host
     nlohmann_json::nlohmann_json
     nlohmann_json_schema_validator
-    spdlog
+    Host-LoggerService
+    Host-FileService
+    Host-JsonService
 )
 
 # ---------------------------------------------------------------------------- #
@@ -193,7 +220,7 @@ target_include_directories(Engine-Base
     PRIVATE api
 )
 
-target_compile_options(Engine-Base PRIVATE -fPIC)
+set_target_properties(Engine-Base PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 # ---------------------------------------------------------------------------- #
 # Gen 1 Engine
@@ -220,12 +247,8 @@ include(GoogleTest)
 
 enable_testing()
 
-add_executable(MonSta-Test
+add_executable(Test
     test/main.cpp
-
-    ${fileService}
-    ${jsonService}
-    ${loggerService}
 
     test/fileservice/fileservicetest.hpp test/fileservice/fileservicetest.cpp
 
@@ -234,7 +257,7 @@ add_executable(MonSta-Test
     test/serviceadapters/loggerserviceadapter.hpp           test/serviceadapters/loggerserviceadapter.cpp
 )
 
-target_include_directories(MonSta-Test
+target_include_directories(Test
     PRIVATE host
     PRIVATE test
     PRIVATE api
@@ -246,11 +269,13 @@ else()
     message("no gtest!")
 endif()
 
-target_link_libraries(MonSta-Test
+target_link_libraries(Test
     GTest::gtest_main
     nlohmann_json::nlohmann_json
     nlohmann_json_schema_validator
-    spdlog
+    Host-LoggerService
+    Host-FileService
+    Host-JsonService
 )
 
-gtest_discover_tests(MonSta-Test)
+gtest_discover_tests(Test)
