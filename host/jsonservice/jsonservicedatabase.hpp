@@ -37,7 +37,7 @@ namespace JsonService
         public:
             static JsonServiceDatabase& getInstance();
 
-            static IJsonService::Handle toHandle(const std::unique_ptr<nlohmann::json>& reference);
+            std::optional<EntryState> getState(const std::string& tag) const;
 
             const nlohmann::json& get(const std::string& tag) const;
 
@@ -45,7 +45,7 @@ namespace JsonService
 
             const nlohmann::json& getOrAdd(const std::string& tag, std::function<nlohmann::json()> creator);
 
-            nlohmann::json& declare(const std::string& tag);
+            std::optional<nlohmann::json*> declare(const std::string& tag);
 
             const nlohmann::json& commit(const std::string& tag);
     };

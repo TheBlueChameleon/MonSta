@@ -7,7 +7,7 @@ struct IJsonService
 {
     struct Handle
     {
-        void* data;
+        const void* data;
     };
 
     // ====================================================================== //

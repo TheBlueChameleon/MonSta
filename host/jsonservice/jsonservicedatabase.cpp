@@ -14,9 +14,17 @@ namespace JsonService
         return instance;
     }
 
-    IJsonService::Handle JsonServiceDatabase::toHandle(const std::unique_ptr<nlohmann::json>& reference)
+    std::optional<JsonServiceDatabase::EntryState> JsonServiceDatabase::getState(const std::string& tag) const
     {
-        return IJsonService::Handle{reference.get()};
+        std::lock_guard lock(mutex);
+
+        auto it = database.find(tag);
+        if (it == database.end())
+        {
+            return std::nullopt;
+        }
+
+        return it->second.state;
     }
 
     static void waitForCompletion(const JsonServiceDatabase::Entry& lookup)
@@ -57,7 +65,7 @@ namespace JsonService
 
             if (!inserted)
             {
-                throw std::runtime_error("JSON Tag already exists: '"s + tag + "'");
+                throw LookupError("JSON Tag already exists: '"s + tag + "'");
             }
 
             entry = &it->second;
@@ -123,6 +131,75 @@ namespace JsonService
 
             return *entry->data;
         }
+    }
+
+    std::optional<nlohmann::json*> JsonServiceDatabase::declare(const std::string& tag)
+    {
+        Entry* entry;
+
+        {
+            std::lock_guard lock(mutex);
+
+            auto [it, inserted] = database.try_emplace(tag);
+
+            if (!inserted)
+            {
+                if (it->second.state != EntryState::DECLARED)
+                {
+                    throw LookupError("JSON Tag already exists: '"s + tag + "'");
+                }
+
+                return std::make_optional(nullptr);
+            }
+
+            entry = &it->second;
+        }
+
+        {
+            std::lock_guard entryLock(entry->mtx);
+
+            entry->data = std::make_unique<nlohmann::json>();
+            entry->state = EntryState::DECLARED;
+        }
+
+        return std::make_optional(entry->data.get());
+    }
+
+    const nlohmann::json& JsonServiceDatabase::commit(const std::string& tag)
+    {
+        Entry* entry;
+
+        {
+            std::lock_guard lock(mutex);
+
+            auto it = database.find(tag);
+            if (it == database.end())
+            {
+                throw LookupError("Unknown JSON tag: '"s + tag + "'");
+            }
+
+            entry = &it->second;
+        }
+
+        {
+            std::lock_guard entryLock(entry->mtx);
+            if (entry->state != EntryState::DECLARED)
+            {
+                throw LookupError("Unknown JSON tag: '"s + tag + "' has already been committed!");
+            }
+
+            if (!entry->data)
+            {
+                throw IllegalStateException("Commit on uninitialized JSON");
+            }
+
+
+            entry->state = EntryState::READY;
+        }
+
+        entry->cv.notify_all();
+
+        return *entry->data;
     }
 
 
