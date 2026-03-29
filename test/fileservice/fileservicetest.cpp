@@ -1,6 +1,6 @@
 #include <chrono>
-using namespace std::literals::chrono_literals;
 #include <thread>
+using namespace std::literals::chrono_literals;
 
 #include "loggerservice/loggerservice.hpp"
 
@@ -10,20 +10,21 @@ using namespace std::literals::chrono_literals;
 using namespace FileService;
 #include "fileservicetest.hpp"
 
-#include "serviceadapters/fileservicedatabasetestadapter.hpp"
+#include "serviceadapters/fileservicedatabaseadapter.hpp"
 #include "serviceadapters/loggerserviceadapter.hpp"
 
-#include <iostream>
+std::filesystem::path FileServiceTest::home = std::filesystem::current_path();
+std::filesystem::path FileServiceTest::temp = std::filesystem::temp_directory_path() / "FileServiceTest";
 
-FileServiceTest::FileServiceTest()
+void FileServiceTest::SetUpTestSuite()
 {
     LoggerServiceAdapter::useOnlyTestSink();
     std::filesystem::create_directories(temp);
 }
 
-FileServiceTest::~FileServiceTest()
+void FileServiceTest::TearDownTestSuite()
 {
-    FileServiceDatabaseTestAdapter::getInstance().reset();
+    FileServiceDatabaseAdapter::getInstance().reset();
     std::filesystem::remove_all(temp);
 }
 

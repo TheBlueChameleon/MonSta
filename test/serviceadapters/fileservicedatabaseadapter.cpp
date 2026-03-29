@@ -1,13 +1,13 @@
-#include "fileservicedatabasetestadapter.hpp"
+#include "fileservicedatabaseadapter.hpp"
 
 using namespace FileService;
 
-FileServiceDatabaseTestAdapter& FileServiceDatabaseTestAdapter::getInstance()
+FileServiceDatabaseAdapter& FileServiceDatabaseAdapter::getInstance()
 {
-    return static_cast<FileServiceDatabaseTestAdapter&>(FileServiceDatabase::getInstance());
+    return static_cast<FileServiceDatabaseAdapter&>(FileServiceDatabase::getInstance());
 }
 
-void FileServiceDatabaseTestAdapter::reset()
+void FileServiceDatabaseAdapter::reset()
 {
     overwrite         = false;
     createDirectories = false;

@@ -67,7 +67,6 @@ FetchContent_MakeAvailable(json-schema-validator)
 FetchContent_MakeAvailable(spdlog)
 FetchContent_MakeAvailable(googletest)
 
-
 # ============================================================================ #
 # source file definitions
 
@@ -249,9 +248,10 @@ enable_testing()
 add_executable(Test
     test/main.cpp
 
-    test/fileservice/fileservicetest.hpp test/fileservice/fileservicetest.cpp
+    test/fileservice/fileservicetest.hpp    test/fileservice/fileservicetest.cpp
+    test/jsonservice/jsonservicetest.hpp    test/jsonservice/jsonservicetest.cpp
 
-    test/serviceadapters/fileservicedatabasetestadapter.hpp test/serviceadapters/fileservicedatabasetestadapter.cpp
+    test/serviceadapters/fileservicedatabaseadapter.hpp     test/serviceadapters/fileservicedatabaseadapter.cpp
     test/serviceadapters/jsonservicedatabaseadapter.hpp     test/serviceadapters/jsonservicedatabaseadapter.cpp
     test/serviceadapters/loggerserviceadapter.hpp           test/serviceadapters/loggerserviceadapter.cpp
 )

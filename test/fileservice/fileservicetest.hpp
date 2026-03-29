@@ -9,13 +9,12 @@
 class FileServiceTest : public testing::Test
 {
     protected:
-        std::filesystem::path home = std::filesystem::current_path();
-        std::filesystem::path temp = std::filesystem::temp_directory_path() / "FileServiceTest";
-
-        FileServiceTest();
-        ~FileServiceTest();
+        static std::filesystem::path home;
+        static std::filesystem::path temp;
 
         void SetUp() override;
+        static void SetUpTestSuite();
+        static void TearDownTestSuite();
 };
 
 #endif // FILESERVICETEST_HPP
