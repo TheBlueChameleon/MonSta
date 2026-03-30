@@ -5,12 +5,13 @@
 #include <ClientApi.hpp>
 
 #include "services.hpp"
+#include "globals.hpp"
 
-bool allLoggerServicesPresent(const ILoggerService& ls)
+static bool allLoggerServicesPresent(const ILoggerService& ls)
 {
     return true;
 }
-bool allVersionServicesPresent(const IVersionService& vu)
+static bool allVersionServicesPresent(const IVersionService& vu)
 {
     if (vu.equal == nullptr)
     {
@@ -44,8 +45,6 @@ bool allVersionServicesPresent(const IVersionService& vu)
     return true;
 }
 
-void engine_post_init() {}
-
 extern "C" {
     bool init(HostApi* api)
     {
@@ -61,10 +60,15 @@ extern "C" {
             return false;
         }
 
-        hostApi = api;
+        Globals::hostApi = api;
 
         engine_post_init();
         return true;
+    }
+
+    bool hasFeature(const char* const featureTag)
+    {
+        return Globals::supportedFeatures.contains(featureTag);
     }
 
     void terminateAbnormally() {}

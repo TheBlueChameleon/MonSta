@@ -1,10 +1,9 @@
 #include <HostApi.hpp>
 
+#include "globals.hpp"
 #include "services.hpp"
-
-HostApi* hostApi;
 
 const ILoggerService& loggerService()
 {
-    return hostApi->loggerService;
+    return Globals::hostApi->loggerService;
 }

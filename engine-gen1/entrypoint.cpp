@@ -1,11 +1,17 @@
 #include <ClientApi.hpp>
+#include <FeatureTags.hpp>
 #include <Version.hpp>
 
+#include "globals.hpp"
 #include "services.hpp"
 
 void engine_post_init()
 {
-    LoggerService::trace("  ### post init hook");
+    Globals::supportedFeatures =
+    {
+        FEATURE_SIMULATIONMODE_V1_0,
+        FEATURE_TEMPLATEMODE_V1_0
+    };
 }
 
 extern "C" {

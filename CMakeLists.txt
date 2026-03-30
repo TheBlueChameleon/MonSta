@@ -75,6 +75,7 @@ FetchContent_MakeAvailable(googletest)
 
 set(apiHeaders
     api/ClientApi.hpp
+    api/FeatureTags.hpp
     api/HostApi.hpp
     api/Version.hpp
 
@@ -241,10 +242,11 @@ target_link_libraries(Host
 add_library(Engine-Base STATIC
     ${apiHeaders}
 
-    engine-base/services.hpp engine-base/services.cpp
-
     engine-base/entrypoint.cpp
-    engine-base/loggerservice.hpp engine-base/loggerservice.cpp
+    engine-base/globals.hpp         engine-base/globals.cpp
+
+    engine-base/services.hpp        engine-base/services.cpp
+    engine-base/loggerservice.hpp   engine-base/loggerservice.cpp
 )
 
 target_include_directories(Engine-Base
