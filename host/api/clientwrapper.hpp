@@ -2,6 +2,7 @@
 #define CLIENTWRAPPER_HPP
 
 #include <filesystem>
+#include <set>
 
 #include <FeatureTags.hpp>
 #include <Version.hpp>
@@ -29,6 +30,8 @@ class ClientWrapper
         const Version* _MIN_HOST_VERSION;
         const Version* _MAX_HOST_VERSION;
 
+        std::set<std::string> featureSet;
+
         bool (*_init)(HostApi* hostApi);
         bool (*_hasFeature)(const char* const featureTag);
         bool (*_hangUp)();
@@ -45,12 +48,14 @@ class ClientWrapper
     protected:
         void* findSymbol(const char* const symbolName);
         bool init(HostApi* hostApi) const;
-        bool hasFeature(const char* const featureTag);
         bool hangUp();
 
     public:
         ClientWrapper(const std::filesystem::path& enginePath);
         ~ClientWrapper();
+
+        const std::set<std::string>& getFeatureSet() const;
+        bool hasFeature(const char* const featureTag);
 
         Version getClientVersion() const;
         Version getMinHostVersion() const;

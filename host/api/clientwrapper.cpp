@@ -73,29 +73,6 @@ void ClientWrapper::extractSymbols()
     LoggerService::trace("... SUCCESS!");
 }
 
-bool ClientWrapper::checkForFeatures(const FeatureCheckParams& featureDesc)
-{
-    const auto& [featureTag, description, criticality] = featureDesc;
-    if (!hasFeature(featureTag))
-    {
-        switch (criticality)
-        {
-            case ClientWrapper::FeatureCriticality::WARN:
-                LoggerService::warnF("The feature '{}' is not supported by this client. Not all operations may be available.",
-                                     description
-                                    );
-                return false;
-            case ClientWrapper::FeatureCriticality::CRITICAL:
-                LoggerService::criticalF("The critical feature '{}' is not supported by this client.",
-                                         description
-                                        );
-                return true;
-        }
-    }
-
-    return false;
-}
-
 void ClientWrapper::assertVersionsCompatible()
 {
     LoggerService::trace("ASSERTING VERSION COMPATIBILITY ...");
@@ -133,12 +110,12 @@ void ClientWrapper::assertVersionsCompatible()
         throw CriticalAbort("Error when connecting to client");
     }
 
-    bool criticalFeatureMissing = false;
+    bool allCriticalFeaturesAvailable = true;
     for (const auto& feature: features)
     {
-        criticalFeatureMissing |= checkForFeatures(feature);
+        allCriticalFeaturesAvailable &= checkForFeatures(feature);
     }
-    if (criticalFeatureMissing)
+    if (!allCriticalFeaturesAvailable)
     {
         throw ClientError("Critical feature not implemented by client");
     }
@@ -146,6 +123,33 @@ void ClientWrapper::assertVersionsCompatible()
     LoggerService::trace("  ... Version check successful.");
 
     LoggerService::trace("... SUCCESS!");
+}
+
+bool ClientWrapper::checkForFeatures(const FeatureCheckParams& featureDesc)
+{
+    const auto& [featureTag, description, criticality] = featureDesc;
+    if (hasFeature(featureTag))
+    {
+        featureSet.emplace(featureTag);
+        return true;
+    }
+    else
+    {
+        switch (criticality)
+        {
+            case ClientWrapper::FeatureCriticality::WARN:
+                LoggerService::warnF("The feature '{}' is not supported by this client. Not all operations may be available.",
+                                     description
+                                    );
+                return true;
+            case ClientWrapper::FeatureCriticality::CRITICAL:
+                LoggerService::criticalF("The critical feature '{}' is not supported by this client.",
+                                         description
+                                        );
+                return false;
+        }
+        throw IllegalStateException("Unknown criticality level");
+    }
 }
 
 void* ClientWrapper::findSymbol(const char* const symbolName)
@@ -172,11 +176,6 @@ void* ClientWrapper::findSymbol(const char* const symbolName)
 bool ClientWrapper::init(HostApi* hostApi) const
 {
     return _init(hostApi);
-}
-
-bool ClientWrapper::hasFeature(const char* const featureTag)
-{
-    return _hasFeature(featureTag);
 }
 
 bool ClientWrapper::hangUp()
@@ -211,6 +210,16 @@ ClientWrapper::~ClientWrapper()
         dlclose(handler);
 #endif
     }
+}
+
+const std::set<std::string>& ClientWrapper::getFeatureSet() const
+{
+    return featureSet;
+}
+
+bool ClientWrapper::hasFeature(const char* const featureTag)
+{
+    return _hasFeature(featureTag);
 }
 
 Version ClientWrapper::getClientVersion() const
