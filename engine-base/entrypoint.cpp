@@ -36,10 +36,6 @@ bool allVersionServicesPresent(const IVersionService& vu)
     {
         return false;
     }
-    if (vu.streamInto == nullptr)
-    {
-        return false;
-    }
     if (vu.to_string == nullptr)
     {
         return false;

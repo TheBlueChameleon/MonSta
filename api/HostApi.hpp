@@ -13,24 +13,27 @@ struct HostApi
     protected:
         HostApi(
             const Version           hostVersion,
-            const ILoggerService    loggerService,
-            const IVersionService   versionService,
+
+            const IFileService      fileService,
             const IJsonService      jsonService,
-            const IFileService fileWriterService
+            const ILoggerService    loggerService,
+            const IVersionService   versionService
         ) :
             hostVersion(hostVersion),
-            loggerService(loggerService),
-            versionService(versionService),
+
+            fileService(fileService),
             jsonService(jsonService),
-            fileWriterService(fileWriterService)
+            loggerService(loggerService),
+            versionService(versionService)
         {}
 
     public:
         const Version         hostVersion;
+
+        const IFileService    fileService;
+        const IJsonService    jsonService;
         const ILoggerService  loggerService;
         const IVersionService versionService;
-        const IJsonService    jsonService;
-        const IFileService fileWriterService;
 };
 
 #endif // HOSTAPI_HPP

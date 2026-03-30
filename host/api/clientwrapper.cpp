@@ -11,9 +11,10 @@
 
 #include "loggerservice/loggerservice.hpp"
 
+#include "versionservice/versionservice.hpp"
+
 #include "clientwrapper.hpp"
 #include "hostapiwrapper.hpp"
-#include "versionservice.hpp"
 
 #define FETCH(symbol) fetchCheckAndTransfer(&ClientWrapper::_##symbol, #symbol)
 

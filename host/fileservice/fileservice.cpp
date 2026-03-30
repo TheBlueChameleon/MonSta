@@ -163,4 +163,18 @@ namespace FileService
     {
         return FileServiceDatabase::getInstance().getCreatedFileInfo();
     }
+
+    IFileService exportService()
+    {
+        return IFileService(
+                   getInputBasePath_cstr,
+                   getOutputBasePath_cstr,
+
+                   read_cstr,
+
+                   write_cstr,
+                   writeBinary_cstr
+               );
+    }
+
 }

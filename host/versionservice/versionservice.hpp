@@ -1,10 +1,12 @@
 #ifndef VERSIONSERVICE_H
 #define VERSIONSERVICE_H
 
-#include <Version.hpp>
+#include <IVersionService.hpp>
 
 namespace VersionService
 {
+    IVersionService exportService();
+
     bool equal(const Version& lhs, const Version& rhs);
     bool notEqual(const Version& lhs, const Version& rhs);
     bool lessThan(const Version& lhs, const Version& rhs);

@@ -139,6 +139,21 @@ target_link_libraries(Host-LoggerService
 )
 
 # ............................................................................ #
+# VersionService
+
+add_library(Host-VersionService STATIC
+    host/versionservice/versionservice.hpp     host/versionservice/versionservice.cpp
+)
+
+target_include_directories(Host-VersionService
+    PUBLIC host
+    PUBLIC api
+)
+
+target_link_libraries(Host-VersionService
+)
+
+# ............................................................................ #
 # main app
 
 add_executable(Host
@@ -146,7 +161,6 @@ add_executable(Host
 
     host/api/clientwrapper.hpp  host/api/clientwrapper.cpp
     host/api/hostapiwrapper.hpp host/api/hostapiwrapper.cpp
-    host/api/versionservice.hpp host/api/versionservice.cpp
 
     host/cli/clihandler.hpp host/cli/clihandler.cpp
     host/cli/cliinput.hpp
@@ -200,6 +214,7 @@ target_link_libraries(Host
     Host-LoggerService
     Host-FileService
     Host-JsonService
+    Host-VersionService
 )
 
 # ---------------------------------------------------------------------------- #
@@ -275,6 +290,7 @@ target_link_libraries(Test
     Host-LoggerService
     Host-FileService
     Host-JsonService
+    Host-VersionService
 )
 
 gtest_discover_tests(Test)

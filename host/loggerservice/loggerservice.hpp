@@ -1,12 +1,16 @@
 #ifndef LOGGERSERVICE_HPP
 #define LOGGERSERVICE_HPP
 
+#include <ILoggerService.hpp>
+
 #include "loggerservice/logger.hpp"
 
 struct LoggingDefinition;
 
 namespace LoggerService
 {
+    ILoggerService exportService();
+
     Logger& getInstance();
 
     void setLogLevel(const ILoggerService::LogLevel level);

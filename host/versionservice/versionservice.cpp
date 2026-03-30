@@ -7,6 +7,19 @@
 
 namespace VersionService
 {
+    IVersionService exportService()
+    {
+        return IVersionService(
+                   equal,
+                   notEqual,
+                   lessThan,
+                   lessOrEqual,
+                   greaterThan,
+                   greaterOrEqual,
+                   to_string
+               );
+    }
+
     bool equal(const Version& lhs, const Version& rhs)
     {
         // *INDENT-OFF*

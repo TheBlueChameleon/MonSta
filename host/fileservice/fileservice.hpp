@@ -17,6 +17,8 @@ namespace FileService
     static constexpr auto DEBUGSTREAM  = ":debug:";
     static constexpr auto NULLSTREAM   = ":null:";
 
+    IFileService exportService();
+
     bool isSpecialPath(const std::filesystem::path& path);
 
     bool getOverwrite();
@@ -46,7 +48,7 @@ namespace FileService
     void writeBinary(const std::filesystem::path& filename, const std::span<const std::byte> data);
     void writeBinary_cstr(const char* const filename, const void* const data, size_t length);
 
-    std::string  read(const std::filesystem::path& filename);
+    std::string read(const std::filesystem::path& filename);
     IFileService::FileContents read_cstr(const char* const filename);
     void freeFileContents(IFileService::FileContents* fileContents);
 

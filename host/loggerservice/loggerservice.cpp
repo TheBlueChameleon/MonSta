@@ -6,6 +6,18 @@ namespace LoggerService
 {
     Logger instance;
 
+    ILoggerService exportService()
+    {
+        return ILoggerService(
+                   LoggerService::trace,
+                   LoggerService::debug,
+                   LoggerService::info,
+                   LoggerService::warn,
+                   LoggerService::error,
+                   LoggerService::critical
+               );
+    }
+
     Logger& getInstance()
     {
         return instance;

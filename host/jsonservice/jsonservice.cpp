@@ -6,6 +6,11 @@
 
 namespace JsonService
 {
+    IJsonService exportService()
+    {
+        return IJsonService();
+    }
+
     static IJsonService::Handle toHandle(const nlohmann::json& reference)
     {
         return IJsonService::Handle(
