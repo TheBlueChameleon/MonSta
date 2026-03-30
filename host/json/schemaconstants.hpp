@@ -28,7 +28,6 @@ static constexpr auto JKEY_MATCHDEFINITION_PKMNDEFS        = "pkmnDefs";
 static constexpr auto JKEY_MATCHDEFINITION_MOVEDEFS        = "moveDefs";
 static constexpr auto JKEY_MATCHDEFINITION_TYPEDEFS        = "typeDefs";
 static constexpr auto JKEY_MATCHDEFINITION_ITEMDEFS        = "itemDefs";
-// TODO: held items?
 
 static constexpr auto JKEY_TEMPLATE                 = "template";
 static constexpr auto JKEY_TEMPLATE_ENGINE          = "engine";
@@ -41,6 +40,7 @@ static constexpr auto JKEY_TEMPLATE_PLAYER2STRATEGY = "player2Strategy";
 static constexpr auto JKEY_TEMPLATE_PKMNDEFS        = "pkmnDefs";
 static constexpr auto JKEY_TEMPLATE_MOVEDEFS        = "moveDefs";
 static constexpr auto JKEY_TEMPLATE_TYPEDEFS        = "typeDefs";
+static constexpr auto JKEY_TEMPLATE_ITEMDEFS        = "itemDefs";
 static constexpr auto JKEY_TEMPLATE_ARGS            = "args";
 // TODO: held items?
 

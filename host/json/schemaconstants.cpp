@@ -39,7 +39,7 @@ static const JsonSubSchemaBuilder makeSimulatorSubSchema()
     auto simulator = JsonSubSchemaBuilder(JKEY_SIMULATOR)
                      .setRequired(
     {
-        JKEY_SIMULATOR_ENGINE
+        JKEY_SIMULATOR_ENGINE, JKEY_SIMULATOR_INPUTDIRECTORY, JKEY_SIMULATOR_OUTPUTDIRECTORY
     });
 
     simulator.addProperty(JKEY_SIMULATOR_ENGINE, t_string);
@@ -49,13 +49,16 @@ static const JsonSubSchemaBuilder makeSimulatorSubSchema()
     simulator.addProperty(JKEY_SIMULATOR_OUTPUTDIRECTORY, t_string);
 
     simulator.addProperty(JKEY_SIMULATOR_REPETITIONS, t_integer)
-    .addKeyValuePair("minimum", "1");
+    .addKeyValuePair("minimum", "1")
+    .addDefault("100");
 
     simulator.addProperty(JKEY_SIMULATOR_MAXTURNS, t_integer)
-    .addKeyValuePair("minimum", "1");
+    .addKeyValuePair("minimum", "1")
+    .addDefault("100");
 
     simulator.addProperty(JKEY_SIMULATOR_THREADCOUNT, t_integer)
-    .addKeyValuePair("minimum", "1");
+    .addKeyValuePair("minimum", "1")
+    .addDefault("1");
 
     simulator.addProperty(JKEY_SIMULATOR_ARGS, t_string);
 
@@ -132,14 +135,15 @@ static const JsonSubSchemaBuilder makeTemplateDefinitionSubSchema()
     auto result = JsonSubSchemaBuilder(JKEY_TEMPLATE)
                   .setRequired(
     {
-        JKEY_TEMPLATE_ENGINE
+        JKEY_TEMPLATE_ENGINE, JKEY_TEMPLATE_OUTPUTDIRECTORY
     });
 
     result.addProperty(JKEY_TEMPLATE_ENGINE, t_string);
 
     result.addProperty(JKEY_TEMPLATE_OUTPUTDIRECTORY, t_string);
 
-    result.addProperty(JKEY_TEMPLATE_WRITESCHEMAS, t_boolean);
+    result.addProperty(JKEY_TEMPLATE_WRITESCHEMAS, t_boolean)
+    .addDefault("true");
 
     result.addProperty(JKEY_TEMPLATE_PLAYER1TEAM, t_string);
 
@@ -154,6 +158,8 @@ static const JsonSubSchemaBuilder makeTemplateDefinitionSubSchema()
     result.addProperty(JKEY_TEMPLATE_MOVEDEFS, t_string);
 
     result.addProperty(JKEY_TEMPLATE_TYPEDEFS, t_string);
+
+    result.addProperty(JKEY_TEMPLATE_ITEMDEFS, t_string);
 
     result.addProperty(JKEY_TEMPLATE_ARGS, t_string);
 
