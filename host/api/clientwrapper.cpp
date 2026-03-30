@@ -66,9 +66,34 @@ void ClientWrapper::extractSymbols()
     FETCH(MAX_HOST_VERSION);
 
     FETCH(init);
+    FETCH(hasFeature);
     FETCH(hangUp);
+    FETCH(terminateAbnormally);
 
     LoggerService::trace("... SUCCESS!");
+}
+
+bool ClientWrapper::checkForFeatures(const FeatureCheckParams& featureDesc)
+{
+    const auto& [featureTag, description, criticality] = featureDesc;
+    if (!hasFeature(featureTag))
+    {
+        switch (criticality)
+        {
+            case ClientWrapper::FeatureCriticality::WARN:
+                LoggerService::warnF("The feature '{}' is not supported by this client. Not all operations may be available.",
+                                     description
+                                    );
+                return false;
+            case ClientWrapper::FeatureCriticality::CRITICAL:
+                LoggerService::criticalF("The critical feature '{}' is not supported by this client.",
+                                         description
+                                        );
+                return true;
+        }
+    }
+
+    return false;
 }
 
 void ClientWrapper::assertVersionsCompatible()
@@ -96,7 +121,6 @@ void ClientWrapper::assertVersionsCompatible()
                                 );
         throw CriticalAbort("Incompatible Host Version");
     }
-    LoggerService::trace("  ... Version check successful.");
 
     const auto connected = init(HostApiWrapper::GetInstancePtr());
     if (connected)
@@ -108,6 +132,18 @@ void ClientWrapper::assertVersionsCompatible()
         LoggerService::critical("Client refused the connection!");
         throw CriticalAbort("Error when connecting to client");
     }
+
+    bool criticalFeatureMissing = false;
+    for (const auto& feature: features)
+    {
+        criticalFeatureMissing |= checkForFeatures(feature);
+    }
+    if (criticalFeatureMissing)
+    {
+        throw ClientError("Critical feature not implemented by client");
+    }
+
+    LoggerService::trace("  ... Version check successful.");
 
     LoggerService::trace("... SUCCESS!");
 }
@@ -136,6 +172,11 @@ void* ClientWrapper::findSymbol(const char* const symbolName)
 bool ClientWrapper::init(HostApi* hostApi) const
 {
     return _init(hostApi);
+}
+
+bool ClientWrapper::hasFeature(const char* const featureTag)
+{
+    return _hasFeature(featureTag);
 }
 
 bool ClientWrapper::hangUp()
@@ -185,4 +226,9 @@ Version ClientWrapper::getMinHostVersion() const
 Version ClientWrapper::getMaxHostVersion() const
 {
     return *_MAX_HOST_VERSION;
+}
+
+void ClientWrapper::terminateAbnormally()
+{
+    _terminateAbnormally();
 }
