@@ -175,3 +175,86 @@ TEST_F(JsonServiceTest, Database_GetOrAdd)
     EXPECT_EQ(writeCalls, 1);
     EXPECT_EQ(correctReads, 2);
 }
+
+TEST_F(JsonServiceTest, Database_DeclareCommit)
+{
+    using namespace JsonService;
+
+    const auto tag = "tag";
+    const auto key = "key";
+    const auto val = "value";
+    const auto raw = R"({"key":"value"})";
+    nlohmann::json json = nlohmann::json::parse(raw);
+
+    std::atomic_int writeCount = 0;
+    std::atomic_int writeThrowCount = 0;
+    std::atomic_int readThrowCount = 0;
+    std::atomic_int readCorrectCount = 0;
+
+    auto writer = [&tag, &key, &val, &json, &writeCount, &writeThrowCount](const std::chrono::milliseconds delay)
+    {
+        std::this_thread::sleep_for(5ms);
+
+        auto& instance = JsonServiceDatabase::getInstance();
+        auto data = instance.declare(tag);
+        if (data.has_value())
+        {
+            (data.value().get())[key] = val;
+            ++writeCount;
+        }
+
+        std::this_thread::sleep_for(delay);
+
+        try
+        {
+            instance.commit(tag);
+        }
+        catch (const LookupError& e)
+        {
+            ++writeThrowCount;
+        }
+    };
+
+    auto reader = [&tag, &raw, &readCorrectCount, &readThrowCount](const std::chrono::milliseconds delay)
+    {
+        std::this_thread::sleep_for(delay);
+
+        auto& instance = JsonServiceDatabase::getInstance();
+        try
+        {
+            const auto result = instance.get(tag);
+            if (result.dump() == raw)
+            {
+                ++readCorrectCount;
+            }
+        }
+        catch (const LookupError& e)
+        {
+            ++readThrowCount;
+        }
+    };
+
+    // only one thread may write a given tag
+    // any thread can read the same tag
+
+    auto w1 = std::thread(writer, 10ms);        // first commit: succeeds
+    auto w2 = std::thread(writer, 20ms);        // second commit: throws
+
+    auto r1 = std::thread(reader,  0ms);        // before write happens: throws
+    auto r2 = std::thread(reader, 15ms);        // after write starts
+    auto r3 = std::thread(reader, 25ms);        // after write completes
+
+    w1.join();
+    w2.join();
+
+    r1.join();
+    r2.join();
+    r3.join();
+
+    EXPECT_EQ(writeCount, 1);
+    EXPECT_EQ(writeThrowCount, 1);
+    EXPECT_EQ(readThrowCount, 1);
+    EXPECT_EQ(readCorrectCount, 2);
+}
+
+// TODO: test declare/add interaction
