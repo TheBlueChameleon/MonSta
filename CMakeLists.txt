@@ -76,12 +76,15 @@ FetchContent_MakeAvailable(googletest)
 set(apiHeaders
     api/ClientApi.hpp
     api/HostApi.hpp
-    api/IFileService.hpp
-    api/ILoggerService.hpp
-    api/IJsonService.hpp
-    api/IVersionService.hpp
-    api/IMatchDefinitions.hpp
     api/Version.hpp
+
+    api/IFileService.hpp
+    api/IJsonService.hpp
+    api/ILoggerService.hpp
+    api/IStringService.hpp
+    api/IVersionService.hpp
+
+    api/IMatchDefinitions.hpp
 )
 
 # ---------------------------------------------------------------------------- #
@@ -135,6 +138,22 @@ target_include_directories(Host-LoggerService
 )
 
 target_link_libraries(Host-LoggerService
+    spdlog
+)
+
+# ............................................................................ #
+# StringService
+
+add_library(Host-StringService STATIC
+    host/stringservice/stringservice.hpp host/stringservice/stringservice.cpp
+)
+
+target_include_directories(Host-StringService
+    PUBLIC host
+    PUBLIC api
+)
+
+target_link_libraries(Host-StringService
     spdlog
 )
 
@@ -214,6 +233,7 @@ target_link_libraries(Host
     Host-LoggerService
     Host-FileService
     Host-JsonService
+    Host-StringService
     Host-VersionService
 )
 
@@ -290,6 +310,7 @@ target_link_libraries(Test
     Host-LoggerService
     Host-FileService
     Host-JsonService
+    Host-StringService
     Host-VersionService
 )
 

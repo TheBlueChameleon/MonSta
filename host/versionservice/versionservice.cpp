@@ -1,5 +1,7 @@
 #include <sstream>
 
+#include "stringservice/stringservice.hpp"
+
 #include "versionservice.hpp"
 
 // ========================================================================== //
@@ -16,7 +18,7 @@ namespace VersionService
                    lessOrEqual,
                    greaterThan,
                    greaterOrEqual,
-                   to_string
+                   to_string_cstr
                );
     }
 
@@ -82,6 +84,15 @@ namespace VersionService
         streamInto(s, v);
         return s.str();
     }
+
+    IStringService::StringData to_string_cstr(const Version& v)
+    {
+        std::stringstream s;
+        streamInto(s, v);
+
+        return StringService::createFromView(s.view());
+    }
+
 }
 
 // ========================================================================== //

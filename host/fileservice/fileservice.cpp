@@ -140,23 +140,16 @@ namespace FileService
         return result;
     }
 
-    IFileService::FileContents read_cstr(const char* const filename)
+    IStringService::StringData read_cstr(const char* const filename)
     {
         auto stream = FileServiceDatabase::getInstance().getReadStream(filename);
         LoggerService::traceF("reading from {}", filename);
         const auto size = getFileSize(stream);
 
-        IFileService::FileContents result = {new char[size], size};
+        IStringService::StringData result = StringService::allocate(size);
         stream.read(result.data, size);
 
         return result;
-    }
-
-    void freeFileContents(IFileService::FileContents* fileContents)
-    {
-        delete fileContents->data;
-        fileContents->data = nullptr;
-        fileContents->size = 0;
     }
 
     const std::list<CreatedFileInfo> getCreatedFileInfo()

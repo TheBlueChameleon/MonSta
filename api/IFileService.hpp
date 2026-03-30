@@ -3,21 +3,17 @@
 
 #include <stddef.h>
 
+#include <IStringService.hpp>
+
 struct IFileService
 {
-    struct FileContents
-    {
-        char*  data;
-        size_t size;
-    };
+    const char* const(*const getInputBase)();
+    const char* const(*const getOutputBase)();
 
-    const char* const(*getInputBase)();
-    const char* const(*getOutputBase)();
+    IStringService::StringData(*const read)(const char* const filename);
 
-    FileContents(*read)(const char* const filename);
-
-    void (*write)(const char* const filename, const char* const content);
-    void (*writeBinary)(const char* const filename, const void* const data, size_t length);
+    void (*const write)(const char* const filename, const char* const content);
+    void (*const writeBinary)(const char* const filename, const void* const data, size_t length);
 };
 
 #endif // IFILESERVICE_H

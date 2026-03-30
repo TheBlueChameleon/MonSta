@@ -1,6 +1,7 @@
 #ifndef IVERSIONSERVICE_H
 #define IVERSIONSERVICE_H
 
+#include <IStringService.hpp>
 #include <Version.hpp>
 
 struct IVersionService
@@ -12,8 +13,7 @@ struct IVersionService
     bool (*const greaterThan)(const Version& lhs, const Version& rhs);
     bool (*const greaterOrEqual)(const Version& lhs, const Version& rhs);
 
-    // TODO: not yet ABI hardened
-    std::string(*const to_string)(const Version& v);
+    IStringService::StringData(*const to_string)(const Version& v);
 };
 
 #endif // IVERSIONSERVICE_H

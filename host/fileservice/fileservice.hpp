@@ -9,6 +9,8 @@
 
 #include <IFileService.hpp>
 
+#include "stringservice/stringservice.hpp"
+
 #include "types.hpp"
 
 namespace FileService
@@ -49,8 +51,7 @@ namespace FileService
     void writeBinary_cstr(const char* const filename, const void* const data, size_t length);
 
     std::string read(const std::filesystem::path& filename);
-    IFileService::FileContents read_cstr(const char* const filename);
-    void freeFileContents(IFileService::FileContents* fileContents);
+    IStringService::StringData read_cstr(const char* const filename);
 
     const std::list<CreatedFileInfo> getCreatedFileInfo();
 }

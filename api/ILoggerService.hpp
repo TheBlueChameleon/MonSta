@@ -15,12 +15,12 @@ struct ILoggerService
         N_LEVELS
     };
 
-    void (*trace)(const char* const msg);
-    void (*debug)(const char* const msg);
-    void (*info)(const char* const msg);
-    void (*warn)(const char* const msg);
-    void (*error)(const char* const msg);
-    void (*critical)(const char* const msg);
+    void (*const trace)(const char* const msg);
+    void (*const debug)(const char* const msg);
+    void (*const info)(const char* const msg);
+    void (*const warn)(const char* const msg);
+    void (*const error)(const char* const msg);
+    void (*const critical)(const char* const msg);
 };
 
 constexpr auto DEFAULT_LOGGER_NAME = "MonStaLogger";
