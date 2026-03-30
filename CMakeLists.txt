@@ -83,8 +83,6 @@ set(apiHeaders
     api/ILoggerService.hpp
     api/IStringService.hpp
     api/IVersionService.hpp
-
-    api/IMatchDefinitions.hpp
 )
 
 # ---------------------------------------------------------------------------- #
