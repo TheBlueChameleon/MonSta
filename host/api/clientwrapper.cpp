@@ -80,23 +80,6 @@ void ClientWrapper::assertVersionsCompatible()
     LoggerService::traceF("  ... Client Version is {}", VersionService::to_string(clientVersion));
     LoggerService::traceF("  ... Host Version is {}", VersionService::to_string(HOST_VERSION));
 
-    if (clientVersion < MIN_CLIENT_VERSION)
-    {
-        LoggerService::criticalF("Client Version is {} but at least Version {} is required for this host.",
-                                 VersionService::to_string(clientVersion),
-                                 VersionService::to_string(HOST_VERSION)
-                                );
-        throw CriticalAbort("Incompatible Client Version");
-    }
-    if (clientVersion > MAX_CLIENT_VERSION)
-    {
-        LoggerService::criticalF("Client Version is {} but at most Version {} is supported by this host.",
-                                 VersionService::to_string(clientVersion),
-                                 VersionService::to_string(HOST_VERSION)
-                                );
-        throw CriticalAbort("Incompatible Client Version");
-    }
-
     if (HOST_VERSION < getMinHostVersion())
     {
         LoggerService::criticalF("Host Version is {} but at least Version {} is required for this client.",
