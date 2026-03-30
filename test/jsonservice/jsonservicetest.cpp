@@ -1,5 +1,6 @@
 #include <atomic>
 #include <chrono>
+#include <cstring>
 #include <ostream>
 #include <thread>
 using namespace std::literals::chrono_literals;
@@ -74,7 +75,7 @@ TEST_F(JsonServiceTest, Database_AddGet_MultiThread)
     using namespace JsonService;
 
     const auto tag = "tag";
-    const auto raw = R"({"KEY":"value"})";
+    const auto raw = R"({"key":"value"})";
     nlohmann::json json = nlohmann::json::parse(raw);
 
     std::atomic_int writeThrowCount = 0;
@@ -135,4 +136,42 @@ TEST_F(JsonServiceTest, Database_AddGet_MultiThread)
     EXPECT_EQ(writeThrowCount, 1);
     EXPECT_EQ(readThrowCount, 1);
     EXPECT_EQ(readCorrectCount, 2);
+}
+
+TEST_F(JsonServiceTest, Database_GetOrAdd)
+{
+    using namespace JsonService;
+
+    const auto tag = "tag";
+    const auto raw = R"({"key":"value"})";
+
+    std::atomic_int correctReads = 0;
+    std::atomic_int writeCalls = 0;
+
+    auto creator = [&raw, &writeCalls]()
+    {
+        ++writeCalls;
+        return nlohmann::json::parse(raw);
+    };
+
+    auto writer = [&tag, &raw, &creator, &correctReads]()
+    {
+        auto& instance = JsonServiceDatabase::getInstance();
+
+        auto json = instance.getOrAdd(tag, creator);
+
+        if (std::strcmp(json.dump().c_str(), raw) == 0)
+        {
+            ++correctReads;
+        }
+    };
+
+    auto t1 = std::thread(writer);
+    auto t2 = std::thread(writer);
+
+    t1.join();
+    t2.join();
+
+    EXPECT_EQ(writeCalls, 1);
+    EXPECT_EQ(correctReads, 2);
 }
