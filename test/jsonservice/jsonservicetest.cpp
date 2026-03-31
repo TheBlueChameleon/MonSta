@@ -257,4 +257,123 @@ TEST_F(JsonServiceTest, Database_DeclareCommit)
     EXPECT_EQ(readCorrectCount, 2);
 }
 
-// TODO: test declare/add interaction
+TEST_F(JsonServiceTest, Database_DeclareAdd)
+{
+    using namespace JsonService;
+
+    const auto tag1 = "tag1";
+    const auto tag2 = "tag2";
+    const auto keyD = "keyD";
+    const auto val  = "value";
+    const auto rawD = R"({"keyD":"value"})";
+    const auto rawA = R"({"keyA":"value"})";
+
+    std::atomic_int declareThrowCount = 0;
+    std::atomic_int addThrowCount = 0;
+    std::atomic_int readCorrectCount = 0;
+
+    auto declareFirst = [&tag1, &tag2, &keyD, &val, &rawA, &declareThrowCount, &addThrowCount]()
+    {
+        auto& instance = JsonServiceDatabase::getInstance();
+        std::optional<std::reference_wrapper<nlohmann::json>> declJsonOpt;
+
+        try
+        {
+            declJsonOpt = instance.declare(tag1).value();
+        }
+        catch (const LookupError& e)
+        {
+            ++declareThrowCount;
+        }
+
+        std::this_thread::sleep_for(10ms);
+
+        auto& declJson = declJsonOpt.value().get();
+        declJson[keyD] = val;
+
+        try
+        {
+            instance.add(tag2, declJson);
+        }
+        catch (const LookupError& e)
+        {
+            ++declareThrowCount;
+        }
+
+        try
+        {
+            instance.commit(tag1);
+        }
+        catch (const LookupError& e)
+        {
+            ++declareThrowCount;
+        }
+    };
+
+    auto addFirst = [&tag1, &tag2, &keyD, &val, &rawA, &declareThrowCount, &addThrowCount]()
+    {
+        auto& instance = JsonServiceDatabase::getInstance();
+
+        try
+        {
+            instance.add(tag2, nlohmann::json::parse(rawA));
+        }
+        catch (const LookupError& e)
+        {
+            ++addThrowCount;
+        }
+
+        std::this_thread::sleep_for(10ms);
+
+        try
+        {
+            auto declJsonOpt = instance.declare(tag1);
+            auto& declJson = declJsonOpt.value().get();
+            declJson[keyD] = val;
+            instance.commit(tag1);
+        }
+        catch (const LookupError& e)
+        {
+            ++addThrowCount;
+        }
+        catch (const std::bad_optional_access& e)
+        {
+            ++addThrowCount;
+        }
+    };
+
+    auto readBoth = [&tag1, &tag2, &rawA, &rawD, &readCorrectCount](const std::chrono::milliseconds delay)
+    {
+        std::this_thread::sleep_for(delay);
+
+        auto& instance = JsonServiceDatabase::getInstance();
+
+        auto read1 = instance.get(tag1).dump();
+        auto read2 = instance.get(tag2).dump();
+
+        if (read1 == rawD)
+        {
+            readCorrectCount++;
+        }
+        if (read2 == rawA)
+        {
+            readCorrectCount++;
+        }
+    };
+
+    auto w1 = std::thread(declareFirst);
+    auto w2 = std::thread(addFirst);
+
+    auto r1 = std::thread(readBoth,  5ms);      // after each thread has finished part 1
+    auto r2 = std::thread(readBoth, 15ms);      // after each thread has finished both parts
+
+    w1.join();
+    w2.join();
+
+    r1.join();
+    r2.join();
+
+    EXPECT_EQ(addThrowCount, 1);
+    EXPECT_EQ(declareThrowCount, 1);
+    EXPECT_EQ(readCorrectCount, 4);
+}
