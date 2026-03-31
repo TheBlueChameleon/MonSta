@@ -112,8 +112,11 @@ target_include_directories(Host-FileService
 # JsonService
 
 add_library(Host-JsonService STATIC
-    host/jsonservice/jsonservice.hpp            host/jsonservice/jsonservice.cpp
-    host/jsonservice/jsonservicedatabase.hpp    host/jsonservice/jsonservicedatabase.cpp
+    host/jsonservice/jsonservice.hpp                        host/jsonservice/jsonservice.cpp
+
+    host/jsonservice/database/jsonservicedatabase.hpp       host/jsonservice/database/jsonservicedatabase.cpp
+
+    host/jsonservice/schemabuilder/jsonschemabuilder.hpp    host/jsonservice/schemabuilder/jsonschemabuilder.cpp
 )
 
 target_include_directories(Host-JsonService
