@@ -1,6 +1,6 @@
 #include <sstream>
 
-#include "stringservice/stringservice.hpp"
+#include "memoryservice/memoryservice.hpp"
 
 #include "versionservice.hpp"
 
@@ -85,12 +85,12 @@ namespace VersionService
         return s.str();
     }
 
-    IStringService::StringData to_string_cstr(const Version& v)
+    IMemoryService::MemoryBlock to_string_cstr(const Version& v)
     {
         std::stringstream s;
         streamInto(s, v);
 
-        return StringService::createFromView(s.view());
+        return MemoryService::createFromView(s.view());
     }
 
 }

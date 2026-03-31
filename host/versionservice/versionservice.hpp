@@ -16,7 +16,7 @@ namespace VersionService
 
     std::ostream& streamInto(std::ostream& os, const Version& v);
     std::string to_string(const Version& v);
-    IStringService::StringData to_string_cstr(const Version& v);
+    IMemoryService::MemoryBlock to_string_cstr(const Version& v);
 }
 
 bool operator==(const Version& lhs, const Version& rhs);

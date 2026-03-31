@@ -3,14 +3,14 @@
 
 #include <stddef.h>
 
-#include <IStringService.hpp>
+#include <IMemoryService.hpp>
 
 struct IFileService
 {
     const char* const(*const getInputBase)();
     const char* const(*const getOutputBase)();
 
-    IStringService::StringData(*const read)(const char* const filename);
+    IMemoryService::MemoryBlock(*const read)(const char* const filename);
 
     void (*const write)(const char* const filename, const char* const content);
     void (*const writeBinary)(const char* const filename, const void* const data, size_t length);

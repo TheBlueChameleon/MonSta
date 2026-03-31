@@ -1,12 +1,12 @@
 #include <cstring>
 
-#include "stringservice.hpp"
+#include "memoryservice.hpp"
 
-namespace StringService
+namespace MemoryService
 {
-    IStringService exportService()
+    IMemoryService exportService()
     {
-        return IStringService
+        return IMemoryService
         {
             allocate,
             createFromCstr,
@@ -14,34 +14,34 @@ namespace StringService
         };
     }
 
-    IStringService::StringData allocate(const size_t size)
+    IMemoryService::MemoryBlock allocate(const size_t size)
     {
-        return IStringService::StringData(
+        return IMemoryService::MemoryBlock(
                    new char[size],
                    size
                );
     }
 
 
-    IStringService::StringData createFromView(const std::string_view view)
+    IMemoryService::MemoryBlock createFromView(const std::string_view view)
     {
         const auto size = view.size();
-        IStringService::StringData result = allocate(size);
+        IMemoryService::MemoryBlock result = allocate(size);
         std::strncpy(result.data, view.data(), size);
 
         return result;
     }
 
-    IStringService::StringData createFromCstr(const char* const data)
+    IMemoryService::MemoryBlock createFromCstr(const char* const data)
     {
         const auto size = std::strlen(data);
-        IStringService::StringData result = allocate(size);
+        IMemoryService::MemoryBlock result = allocate(size);
         std::strncpy(result.data, data, size);
 
         return result;
     }
 
-    void free(IStringService::StringData* stringData)
+    void free(IMemoryService::MemoryBlock* stringData)
     {
         delete stringData->data;
         stringData->data = nullptr;

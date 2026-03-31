@@ -10,6 +10,11 @@ struct IJsonService
         const void* data;
     };
 
+    struct ModifiableHandle
+    {
+        const void* data;
+    };
+
     // ====================================================================== //
     // LEGACY
 

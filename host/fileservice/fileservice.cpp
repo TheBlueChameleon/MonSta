@@ -140,13 +140,13 @@ namespace FileService
         return result;
     }
 
-    IStringService::StringData read_cstr(const char* const filename)
+    IMemoryService::MemoryBlock read_cstr(const char* const filename)
     {
         auto stream = FileServiceDatabase::getInstance().getReadStream(filename);
         LoggerService::traceF("reading from {}", filename);
         const auto size = getFileSize(stream);
 
-        IStringService::StringData result = StringService::allocate(size);
+        IMemoryService::MemoryBlock result = MemoryService::allocate(size);
         stream.read(result.data, size);
 
         return result;

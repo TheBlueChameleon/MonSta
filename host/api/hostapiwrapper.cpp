@@ -22,6 +22,7 @@ HostApiWrapper::HostApiWrapper() : HostApi(
         FileService::exportService(),
         JsonService::exportService(),
         LoggerService::exportService(),
+        MemoryService::exportService(),
         VersionService::exportService()
     )
 {}

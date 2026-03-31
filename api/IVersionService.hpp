@@ -1,7 +1,7 @@
 #ifndef IVERSIONSERVICE_H
 #define IVERSIONSERVICE_H
 
-#include <IStringService.hpp>
+#include <IMemoryService.hpp>
 #include <Version.hpp>
 
 struct IVersionService
@@ -13,7 +13,7 @@ struct IVersionService
     bool (*const greaterThan)(const Version& lhs, const Version& rhs);
     bool (*const greaterOrEqual)(const Version& lhs, const Version& rhs);
 
-    IStringService::StringData(*const to_string)(const Version& v);
+    IMemoryService::MemoryBlock(*const to_string)(const Version& v);
 };
 
 #endif // IVERSIONSERVICE_H

@@ -9,7 +9,7 @@
 
 #include <IFileService.hpp>
 
-#include "stringservice/stringservice.hpp"
+#include "memoryservice/memoryservice.hpp"
 
 #include "types.hpp"
 
@@ -51,7 +51,7 @@ namespace FileService
     void writeBinary_cstr(const char* const filename, const void* const data, size_t length);
 
     std::string read(const std::filesystem::path& filename);
-    IStringService::StringData read_cstr(const char* const filename);
+    IMemoryService::MemoryBlock read_cstr(const char* const filename);
 
     const std::list<CreatedFileInfo> getCreatedFileInfo();
 }

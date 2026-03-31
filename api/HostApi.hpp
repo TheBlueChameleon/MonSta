@@ -1,12 +1,13 @@
 #ifndef HOSTAPI_HPP
 #define HOSTAPI_HPP
 
-#include <IVersionService.hpp>
-#include <Version.hpp>
+#include "Version.hpp"
 
 #include "IFileService.hpp"
 #include "IJsonService.hpp"
+#include "IMemoryService.hpp"
 #include "ILoggerService.hpp"
+#include "IVersionService.hpp"
 
 struct HostApi
 {
@@ -17,6 +18,7 @@ struct HostApi
             const IFileService      fileService,
             const IJsonService      jsonService,
             const ILoggerService    loggerService,
+            const IMemoryService    memoryService,
             const IVersionService   versionService
         ) :
             hostVersion(hostVersion),
@@ -24,6 +26,7 @@ struct HostApi
             fileService(fileService),
             jsonService(jsonService),
             loggerService(loggerService),
+            memoryService(memoryService),
             versionService(versionService)
         {}
 
@@ -33,6 +36,7 @@ struct HostApi
         const IFileService    fileService;
         const IJsonService    jsonService;
         const ILoggerService  loggerService;
+        const IMemoryService  memoryService;
         const IVersionService versionService;
 };
 

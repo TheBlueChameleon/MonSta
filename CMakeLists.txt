@@ -82,7 +82,7 @@ set(apiHeaders
     api/IFileService.hpp
     api/IJsonService.hpp
     api/ILoggerService.hpp
-    api/IStringService.hpp
+    api/IMemoryService.hpp
     api/IVersionService.hpp
 )
 
@@ -141,18 +141,18 @@ target_link_libraries(Host-LoggerService
 )
 
 # ............................................................................ #
-# StringService
+# MemoryService
 
-add_library(Host-StringService STATIC
-    host/stringservice/stringservice.hpp host/stringservice/stringservice.cpp
+add_library(Host-MemoryService STATIC
+    host/memoryservice/memoryservice.hpp host/memoryservice/memoryservice.cpp
 )
 
-target_include_directories(Host-StringService
+target_include_directories(Host-MemoryService
     PUBLIC host
     PUBLIC api
 )
 
-target_link_libraries(Host-StringService
+target_link_libraries(Host-MemoryService
     spdlog
 )
 
@@ -229,10 +229,10 @@ target_include_directories(Host
 target_link_libraries(Host
     nlohmann_json::nlohmann_json
     nlohmann_json_schema_validator
-    Host-LoggerService
     Host-FileService
     Host-JsonService
-    Host-StringService
+    Host-LoggerService
+    Host-MemoryService
     Host-VersionService
 )
 
@@ -307,10 +307,10 @@ target_link_libraries(Test
     GTest::gtest_main
     nlohmann_json::nlohmann_json
     nlohmann_json_schema_validator
-    Host-LoggerService
     Host-FileService
     Host-JsonService
-    Host-StringService
+    Host-LoggerService
+    Host-MemoryService
     Host-VersionService
 )
 
