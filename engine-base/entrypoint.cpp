@@ -46,24 +46,23 @@ static bool allVersionServicesPresent(const IVersionService& vu)
 }
 
 extern "C" {
-    bool init(HostApi* api)
+    bool init(HostApi* hostApi)
     {
-        if (!allLoggerServicesPresent(api->loggerService))
+        if (!allLoggerServicesPresent(hostApi->loggerService))
         {
             std::cerr << "Logger was not initialized!" << std::endl;
             return false;
         }
 
-        if (!allVersionServicesPresent(api->versionService))
+        if (!allVersionServicesPresent(hostApi->versionService))
         {
-            api->loggerService.critical("Not all VersionUtils have been initialized!");
+            hostApi->loggerService.critical("Not all VersionUtils have been initialized!");
             return false;
         }
 
-        Globals::hostApi = api;
+        Globals::hostApi = hostApi;
 
-        engine_post_init();
-        return true;
+        return init_engine();
     }
 
     bool hasFeature(const char* const featureTag)

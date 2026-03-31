@@ -3,20 +3,23 @@
 
 #include <HostApi.hpp>
 
+// ========================================================================== //
+// exported to host
+
 extern "C" {
     extern const Version CLIENT_VERSION;
     extern const Version MIN_HOST_VERSION;
     extern const Version MAX_HOST_VERSION;
 
-    void engine_post_init();
-
-    bool init(HostApi*);
+    bool init(HostApi* hostApi);
     bool hasFeature(const char* const featureTag);
     bool hangUp();
     void terminateAbnormally();
 }
 
-// hack
+// -------------------------------------------------------------------------- //
+// ensure availability of exported functions in resulting SO/DLL
+
 static void force_link()
 {
     volatile auto ptr0 = init;
@@ -24,5 +27,11 @@ static void force_link()
     volatile auto ptr2 = terminateAbnormally;
     volatile auto ptr3 = hasFeature;
 }
+
+// ========================================================================== //
+// called internally
+
+bool init_engine();
+
 
 #endif // CLIENTAPI_HPP
