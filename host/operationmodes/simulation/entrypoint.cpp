@@ -13,7 +13,7 @@ namespace SimulationMode
 {
     void run(const SimulationModeDefinition& defs)
     {
-        OperationModes::setupLogger(defs.logging);
+        OperationModes::setupLoggerService(defs.logging);
 
         LoggerService::infoF("overwrite is {}", defs.overwrite);
 

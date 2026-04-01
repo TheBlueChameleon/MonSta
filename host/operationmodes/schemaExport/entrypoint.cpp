@@ -15,10 +15,7 @@ namespace SchemaExportMode
 {
     void run(const SchemaExportModeDefinition& defs)
     {
-        FileService::setOutputBasePath(defs.outputDirectory);
-        FileService::setOverwrite(defs.overwrite);
-        FileService::setCreateDirectories(defs.createDirectories);
-        FileService::setDryMode(defs.dryMode);
+        OperationModes::setupFileService(defs, defs.outputDirectory);
 
         LoggerService::trace("begin writing schemas");
         FileService::write("simulation.json", SCHEMA_SIMULATION_STRING);

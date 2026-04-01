@@ -152,9 +152,9 @@ static CliInput readAndValidateParser(const ArgParser& parser)
 
     const auto data = parser.get(CliInput::DATA);
 #define getFlag(flagName) parser.get<bool>(flagName)
-    const auto overwrite = getFlag(CliInput::OVERWRITE);
+    const auto overwrite  = getFlag(CliInput::OVERWRITE);
     const auto createDirs = getFlag(CliInput::CREATE_DIRECTORIES);
-    const auto dryMode = getFlag(CliInput::DRY_MODE);
+    const auto dryMode    = getFlag(CliInput::DRY_MODE);
 #undef getFlag
 
     switch (mode)
@@ -202,10 +202,10 @@ static void fetchIfInJson(const char* const jsonKey, const Json& data, T& target
 
 static LoggingDefinition unpackLoggingDefinition(const Json& data)
 {
-    std::optional<std::filesystem::path> logfile;
     ILoggerService::LogLevel             loglevel;
+    std::optional<std::filesystem::path> logfile;
 
-    if (data.is_structured())       // eqv. to is not null
+    if (data.is_structured())       // eqv. to is test: exists
     {
         fetchIfInJson(JKEY_LOGGING_LOGLEVEL, data, loglevel);
         fetchIfInJson(JKEY_LOGGING_LOGFILE, data, logfile);
@@ -227,22 +227,23 @@ static SimulatorDefinition unpackSimulatorDefinition(const Json& data)
     int threadCount;
     std::string args;
 
-    fetchIfInJson(JKEY_SIMULATOR_INPUTDIRECTORY, data, inputDir);
+    fetchIfInJson(JKEY_SIMULATOR_INPUTDIRECTORY,  data, inputDir);
     fetchIfInJson(JKEY_SIMULATOR_OUTPUTDIRECTORY, data, outputDir);
-    fetchIfInJson(JKEY_SIMULATOR_REPETITIONS, data, repetitions);
-    fetchIfInJson(JKEY_SIMULATOR_MAXTURNS, data, maxTurns);
-    fetchIfInJson(JKEY_SIMULATOR_THREADCOUNT, data, threadCount);
-    fetchIfInJson(JKEY_SIMULATOR_ARGS, data, args);
+    fetchIfInJson(JKEY_SIMULATOR_REPETITIONS,     data, repetitions);
+    fetchIfInJson(JKEY_SIMULATOR_MAXTURNS,        data, maxTurns);
+    fetchIfInJson(JKEY_SIMULATOR_THREADCOUNT,     data, threadCount);
+    fetchIfInJson(JKEY_SIMULATOR_ARGS,            data, args);
 
-    return SimulatorDefinition(
-               engine,
-               inputDir,
-               outputDir,
-               repetitions,
-               maxTurns,
-               threadCount,
-               args
-           );
+    return SimulatorDefinition
+    {
+        engine,
+        inputDir,
+        outputDir,
+        repetitions,
+        maxTurns,
+        threadCount,
+        args
+    };
 }
 
 static MatchDefinition unpackMatchDefinition(const Json& data)
@@ -277,15 +278,58 @@ static std::shared_ptr<const BaseModeDefinition> unpackSimulationInput(const Cli
 // .......................................................................... //
 // template
 
+static TemplatesDefinition unpackTemplatesDefinition(const Json& data)
+{
+    std::string engine          = data[JKEY_TEMPLATES_ENGINE];                  // required to exist.
+    std::string outputDirectory = data[JKEY_TEMPLATES_OUTPUTDIRECTORY];         // required to exist.
+    std::string player1Team;
+    std::string player1Strategy;
+    std::string player2Team;
+    std::string player2Strategy;
+    std::string pkmnDefs;
+    std::string moveDefs;
+    std::string typeDefs;
+    std::string itemDefs;
+    bool writeSchemas = data[JKEY_TEMPLATES_WRITESCHEMAS];                      // exists by default
+    std::string args;
+
+    fetchIfInJson(JKEY_TEMPLATES_PLAYER1TEAM,      data, player1Team);
+    fetchIfInJson(JKEY_TEMPLATES_PLAYER1STRATEGY,  data, player1Strategy);
+    fetchIfInJson(JKEY_TEMPLATES_PLAYER2TEAM,      data, player2Team);
+    fetchIfInJson(JKEY_TEMPLATES_PLAYER2STRATEGY,  data, player2Strategy);
+    fetchIfInJson(JKEY_TEMPLATES_PKMNDEFS,         data, pkmnDefs);
+    fetchIfInJson(JKEY_TEMPLATES_MOVEDEFS,         data, moveDefs);
+    fetchIfInJson(JKEY_TEMPLATES_TYPEDEFS,         data, typeDefs);
+    fetchIfInJson(JKEY_TEMPLATES_ITEMDEFS,         data, itemDefs);
+
+    return TemplatesDefinition
+    {
+        engine,
+        outputDirectory,
+        player1Team,
+        player1Strategy,
+        player2Team,
+        player2Strategy,
+        pkmnDefs,
+        moveDefs,
+        typeDefs,
+        itemDefs,
+        writeSchemas,
+        args
+    };
+}
+
 static std::shared_ptr<const BaseModeDefinition> unpackTemplateInput(const CliInput& cliInput)
 {
     const char* const source = cliInput.data.c_str();
     Json data = JsonService::readJsonFile(source);
     JsonService::validateJsonAgainstJson(data, SCHEMA_TEMPLATE, source);
 
-    //TODO
-
-    return std::make_shared<TemplateModeDefinition>(cliInput);
+    return std::make_shared<TemplateModeDefinition>(
+               cliInput,
+               unpackLoggingDefinition(data[JKEY_LOGGING]),
+               unpackTemplatesDefinition(data[JKEY_TEMPLATES])
+           );
 }
 
 // .......................................................................... //

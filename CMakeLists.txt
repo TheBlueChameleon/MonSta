@@ -204,6 +204,7 @@ add_executable(Host
 
     host/operationmodes/template/entrypoint.hpp     host/operationmodes/template/entrypoint.cpp
     host/operationmodes/template/templatemodedefinition.hpp
+    host/operationmodes/template/defs/templatesdefinition.hpp
 
     host/constants.hpp host/constants.cpp
     host/errors.hpp

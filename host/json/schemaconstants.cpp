@@ -132,36 +132,36 @@ const nlohmann::json SCHEMA_SIMULATION = Json::parse(SCHEMA_SIMULATION_STRING);
 
 static const JsonSubSchemaBuilder makeTemplateDefinitionSubSchema()
 {
-    auto result = JsonSubSchemaBuilder(JKEY_TEMPLATE)
+    auto result = JsonSubSchemaBuilder(JKEY_TEMPLATES)
                   .setRequired(
     {
-        JKEY_TEMPLATE_ENGINE, JKEY_TEMPLATE_OUTPUTDIRECTORY
+        JKEY_TEMPLATES_ENGINE, JKEY_TEMPLATES_OUTPUTDIRECTORY
     });
 
-    result.addProperty(JKEY_TEMPLATE_ENGINE, t_string);
+    result.addProperty(JKEY_TEMPLATES_ENGINE, t_string);
 
-    result.addProperty(JKEY_TEMPLATE_OUTPUTDIRECTORY, t_string);
+    result.addProperty(JKEY_TEMPLATES_OUTPUTDIRECTORY, t_string);
 
-    result.addProperty(JKEY_TEMPLATE_WRITESCHEMAS, t_boolean)
+    result.addProperty(JKEY_TEMPLATES_WRITESCHEMAS, t_boolean)
     .addDefault("true");
 
-    result.addProperty(JKEY_TEMPLATE_PLAYER1TEAM, t_string);
+    result.addProperty(JKEY_TEMPLATES_PLAYER1TEAM, t_string);
 
-    result.addProperty(JKEY_TEMPLATE_PLAYER1STRATEGY, t_string);
+    result.addProperty(JKEY_TEMPLATES_PLAYER1STRATEGY, t_string);
 
-    result.addProperty(JKEY_TEMPLATE_PLAYER2TEAM, t_string);
+    result.addProperty(JKEY_TEMPLATES_PLAYER2TEAM, t_string);
 
-    result.addProperty(JKEY_TEMPLATE_PLAYER2STRATEGY, t_string);
+    result.addProperty(JKEY_TEMPLATES_PLAYER2STRATEGY, t_string);
 
-    result.addProperty(JKEY_TEMPLATE_PKMNDEFS, t_string);
+    result.addProperty(JKEY_TEMPLATES_PKMNDEFS, t_string);
 
-    result.addProperty(JKEY_TEMPLATE_MOVEDEFS, t_string);
+    result.addProperty(JKEY_TEMPLATES_MOVEDEFS, t_string);
 
-    result.addProperty(JKEY_TEMPLATE_TYPEDEFS, t_string);
+    result.addProperty(JKEY_TEMPLATES_TYPEDEFS, t_string);
 
-    result.addProperty(JKEY_TEMPLATE_ITEMDEFS, t_string);
+    result.addProperty(JKEY_TEMPLATES_ITEMDEFS, t_string);
 
-    result.addProperty(JKEY_TEMPLATE_ARGS, t_string);
+    result.addProperty(JKEY_TEMPLATES_ARGS, t_string);
 
     return result;
 }
@@ -173,12 +173,12 @@ static const JsonSchemaBuilder makeTemplateSchema()
 {
     auto result = JsonSchemaBuilder()
                   .addReference(JKEY_LOGGING)
-                  .addReference(JKEY_TEMPLATE)
+                  .addReference(JKEY_TEMPLATES)
                   .addSubSchema(makeLoggingSubSchema())
                   .addSubSchema(makeTemplateDefinitionSubSchema())
                   .setRequired(
     {
-        JKEY_TEMPLATE
+        JKEY_TEMPLATES
     });
 
     return result;

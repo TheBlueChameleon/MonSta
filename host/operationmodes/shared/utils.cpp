@@ -3,6 +3,8 @@ using namespace std::string_literals;
 
 #include "errors.hpp"
 
+#include "fileservice/fileservice.hpp"
+
 #include "loggerservice/loggerservice.hpp"
 
 #include "operationmodes/help/helpmodedefinition.hpp"
@@ -54,13 +56,22 @@ namespace OperationModes
         return getAsT<TemplateModeDefinition>(defs, "TemplateModeDefinition");
     }
 
-    void setupLogger(const LoggingDefinition& def)
+    void setupLoggerService(const LoggingDefinition& definition)
     {
-        if (def.logfile.has_value())
+        if (definition.logfile.has_value())
         {
-            LoggerService::setLogFile(def.logfile.value());
+            LoggerService::setLogFile(definition.logfile.value());
         }
 
-        LoggerService::setLogLevel(def.loglevel);
+        LoggerService::setLogLevel(definition.loglevel);
+    }
+
+    void setupFileService(const BaseModeDefinition& definition, const std::filesystem::__cxx11::path& outputDirectory)
+    {
+        FileService::setOutputBasePath(outputDirectory);
+
+        FileService::setOverwrite(definition.overwrite);
+        FileService::setCreateDirectories(definition.createDirectories);
+        FileService::setDryMode(definition.dryMode);
     }
 }

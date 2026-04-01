@@ -11,7 +11,8 @@ namespace TemplateMode
 {
     void run(const TemplateModeDefinition& defs)
     {
-        OperationModes::setupLogger(defs.logging);
+        OperationModes::setupLoggerService(defs.logging);
+        OperationModes::setupFileService(defs, defs.templates.outputDirectory);
 
         LoggerService::info("Template mode not implemented yet.");
         std::exit(0);
