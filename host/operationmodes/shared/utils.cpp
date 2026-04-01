@@ -3,15 +3,17 @@ using namespace std::string_literals;
 
 #include "errors.hpp"
 
-#include "help/helpmodedefinition.hpp"
-#include "remote/remoterundefinition.hpp"
-#include "schemaExport/schemaexportmodedefinition.hpp"
-#include "simulation/simulationmodedefinition.hpp"
-#include "template/templatemodedefinition.hpp"
+#include "loggerservice/loggerservice.hpp"
 
-#include "safecast.hpp"
+#include "operationmodes/help/helpmodedefinition.hpp"
+#include "operationmodes/remote/remoterundefinition.hpp"
+#include "operationmodes/schemaExport/schemaexportmodedefinition.hpp"
+#include "operationmodes/simulation/simulationmodedefinition.hpp"
+#include "operationmodes/template/templatemodedefinition.hpp"
 
-namespace RunDefinitionUtils
+#include "utils.hpp"
+
+namespace OperationModes
 {
     template <typename T>
     const T& getAsT(const std::shared_ptr<const BaseModeDefinition>& defs, const std::string& typeName)
@@ -42,7 +44,7 @@ namespace RunDefinitionUtils
         return getAsT<SchemaExportModeDefinition>(defs, "SchemaExportModeDefinition");
     }
 
-    const SimulationModeDefinition& getAsSimulationModeDefinition(const std::shared_ptr<const BaseModeDefinition>& defs)
+    const SimulationModeDefinition& getAsSimulationModeDefinition(const std::shared_ptr<const BaseModeDefinition> defs)
     {
         return getAsT<SimulationModeDefinition>(defs, "SimulationModeDefinition");
     }
@@ -50,5 +52,15 @@ namespace RunDefinitionUtils
     const TemplateModeDefinition& getAsTemplateModeDefinition(const std::shared_ptr<const BaseModeDefinition>& defs)
     {
         return getAsT<TemplateModeDefinition>(defs, "TemplateModeDefinition");
+    }
+
+    void setupLogger(const LoggingDefinition& def)
+    {
+        if (def.logfile.has_value())
+        {
+            LoggerService::setLogFile(def.logfile.value());
+        }
+
+        LoggerService::setLogLevel(def.loglevel);
     }
 }

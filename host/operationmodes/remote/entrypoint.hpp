@@ -3,11 +3,11 @@
 
 #include <memory>
 
-struct BaseModeDefinition;
+struct RemoteModeDefinition;
 
 namespace RemoteMode
 {
-    void run(const std::shared_ptr<const BaseModeDefinition>& defs);
+    void run(const RemoteModeDefinition& defs);
 }
 
 #endif // ENTRYPOINT_REMOTE_HPP

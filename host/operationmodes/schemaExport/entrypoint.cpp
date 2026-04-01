@@ -6,31 +6,29 @@
 
 #include "loggerservice/loggerservice.hpp"
 
-#include "operationmodes/safecast.hpp"
+#include "operationmodes/shared/utils.hpp"
 
 #include "entrypoint.hpp"
 #include "schemaexportmodedefinition.hpp"
 
 namespace SchemaExportMode
 {
-    void run(const std::shared_ptr<const BaseModeDefinition>& defs)
+    void run(const SchemaExportModeDefinition& defs)
     {
-        const SchemaExportModeDefinition xDefs = RunDefinitionUtils::getAsSchemaExportModeDefinition(defs);
-
-        FileService::setOutputBasePath(xDefs.outputDirectory);
-        FileService::setOverwrite(xDefs.overwrite);
-        FileService::setCreateDirectories(xDefs.createDirectories);
-        FileService::setDryMode(xDefs.dryMode);
+        FileService::setOutputBasePath(defs.outputDirectory);
+        FileService::setOverwrite(defs.overwrite);
+        FileService::setCreateDirectories(defs.createDirectories);
+        FileService::setDryMode(defs.dryMode);
 
         LoggerService::trace("begin writing schemas");
         FileService::write("simulation.json", SCHEMA_SIMULATION_STRING);
         FileService::write("template.json", SCHEMA_TEMPLATE_STRING);
 
-        if (!xDefs.dryMode)
+        if (!defs.dryMode)
         {
             LoggerService::infoF(
                 "schemas written into '{}'",
-                std::filesystem::weakly_canonical(xDefs.outputDirectory).c_str()
+                std::filesystem::weakly_canonical(defs.outputDirectory).c_str()
             );
         }
     }

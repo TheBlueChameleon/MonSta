@@ -1,5 +1,5 @@
-#ifndef SAFECAST_HPP
-#define SAFECAST_HPP
+#ifndef UTILS_H
+#define UTILS_H
 
 #include <memory>
 
@@ -10,13 +10,17 @@ struct SchemaExportModeDefinition;
 struct SimulationModeDefinition;
 struct TemplateModeDefinition;
 
-namespace RunDefinitionUtils
+struct LoggingDefinition;
+
+namespace OperationModes
 {
     const HelpModeDefinition&           getAsHelpModeDefinition(const std::shared_ptr<const BaseModeDefinition>& defs);
     const RemoteModeDefinition&         getAsRemoteModeDefinition(const std::shared_ptr<const BaseModeDefinition>& defs);
     const SchemaExportModeDefinition&   getAsSchemaExportModeDefinition(const std::shared_ptr<const BaseModeDefinition>& defs);
-    const SimulationModeDefinition&     getAsSimulationModeDefinition(const std::shared_ptr<const BaseModeDefinition>& defs);
+    const SimulationModeDefinition&     getAsSimulationModeDefinition(const std::shared_ptr<const BaseModeDefinition> defs);
     const TemplateModeDefinition&       getAsTemplateModeDefinition(const std::shared_ptr<const BaseModeDefinition>& defs);
+
+    void setupLogger(const LoggingDefinition& def);
 }
 
-#endif // SAFECAST_HPP
+#endif // UTILS_H

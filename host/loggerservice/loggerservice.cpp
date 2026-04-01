@@ -1,5 +1,3 @@
-#include "operationmodes/shared/defs/loggingdefinition.hpp"
-
 #include "loggerservice.hpp"
 
 namespace LoggerService
@@ -28,14 +26,9 @@ namespace LoggerService
         instance.setLogLevel(level);
     }
 
-    void setup(const LoggingDefinition def)
+    void setLogFile(const std::filesystem::__cxx11::path filename)
     {
-        if (def.logfile.has_value())
-        {
-            instance.setLogFile(def.logfile.value());
-        }
-
-        instance.setLogLevel(def.loglevel);
+        instance.setLogFile(filename);
     }
 
     void trace(const char* const msg)

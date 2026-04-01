@@ -3,11 +3,11 @@
 
 #include <memory>
 
-struct BaseModeDefinition;
+struct HelpModeDefinition;
 
 namespace HelpMode
 {
-    void run(const std::shared_ptr<const BaseModeDefinition>& defs);
+    void run(const HelpModeDefinition& defs);
 }
 
 #endif // ENTRYPOINT_HELP_HPP

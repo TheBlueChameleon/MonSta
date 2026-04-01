@@ -182,7 +182,7 @@ add_executable(Host
     host/json/schemaconstantsbuilder.hpp host/json/schemaconstantsbuilder.cpp
 
     host/operationmodes/operationmode.hpp
-    host/operationmodes/safecast.hpp       host/operationmodes/safecast.cpp
+    host/operationmodes/entrypoint.hpp host/operationmodes/entrypoint.cpp
 
     host/operationmodes/help/entrypoint.hpp         host/operationmodes/help/entrypoint.cpp
     host/operationmodes/help/helpmodedefinition.hpp
@@ -195,6 +195,7 @@ add_executable(Host
 
     host/operationmodes/shared/defs/loggingdefinition.hpp
     host/operationmodes/shared/basemodedefinition.hpp
+    host/operationmodes/shared/utils.hpp       host/operationmodes/shared/utils.cpp
 
     host/operationmodes/simulation/entrypoint.hpp   host/operationmodes/simulation/entrypoint.cpp
     host/operationmodes/simulation/simulationmodedefinition.hpp

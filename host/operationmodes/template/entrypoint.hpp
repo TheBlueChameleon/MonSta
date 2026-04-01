@@ -3,11 +3,11 @@
 
 #include <memory>
 
-struct BaseModeDefinition;
+struct TemplateModeDefinition;
 
 namespace TemplateMode
 {
-    void run(const std::shared_ptr<const BaseModeDefinition>& defs);
+    void run(const TemplateModeDefinition& defs);
 }
 
 #endif // ENTRYPOINT_TEMPLATE_HPP

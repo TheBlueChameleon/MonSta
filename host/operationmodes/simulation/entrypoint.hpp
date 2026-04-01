@@ -3,11 +3,11 @@
 
 #include <memory>
 
-struct BaseModeDefinition;
+struct SimulationModeDefinition;
 
 namespace SimulationMode
 {
-    void run(const std::shared_ptr<const BaseModeDefinition>& defs);
+    void run(const SimulationModeDefinition& defs);
 }
 
 #endif // ENTRYPOINT_SIMULATION_HPP

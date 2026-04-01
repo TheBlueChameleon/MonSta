@@ -2,17 +2,15 @@
 
 #include "loggerservice/loggerservice.hpp"
 
-#include "operationmodes/safecast.hpp"
+#include "operationmodes/shared/utils.hpp"
 
 #include "entrypoint.hpp"
 #include "remoterundefinition.hpp"
 
 namespace RemoteMode
 {
-    void run(const std::shared_ptr<const BaseModeDefinition>& defs)
+    void run(const RemoteModeDefinition& defs)
     {
-        const RemoteModeDefinition& xDefs = RunDefinitionUtils::getAsRemoteModeDefinition(defs);
-
         LoggerService::info("Remote mode not implemented yet.");
         std::exit(0);
     }

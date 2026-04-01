@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "operationmodes/safecast.hpp"
+#include "operationmodes/shared/utils.hpp"
 
 #include "entrypoint.hpp"
 #include "helpmodedefinition.hpp"
@@ -32,9 +32,8 @@ namespace HelpMode
         std::exit(0);
     }
 
-    void run(const std::shared_ptr<const BaseModeDefinition>& defs)
+    void run(const HelpModeDefinition& defs)
     {
-        const HelpModeDefinition& xDefs = RunDefinitionUtils::getAsHelpModeDefinition(defs);
-        showModeHelp(xDefs.target);
+        showModeHelp(defs.target);
     }
 }

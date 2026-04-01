@@ -2,16 +2,18 @@
 
 #include "loggerservice/loggerservice.hpp"
 
-#include "operationmodes/safecast.hpp"
+#include "operationmodes/shared/utils.hpp"
 
 #include "entrypoint.hpp"
 #include "templatemodedefinition.hpp"
 
-void TemplateMode::run(const std::shared_ptr<const BaseModeDefinition>& defs)
+namespace TemplateMode
 {
-    const TemplateModeDefinition& xDefs = RunDefinitionUtils::getAsTemplateModeDefinition(defs);
-    LoggerService::setup(xDefs.logging);
+    void run(const TemplateModeDefinition& defs)
+    {
+        OperationModes::setupLogger(defs.logging);
 
-    LoggerService::info("Template mode not implemented yet.");
-    std::exit(0);
+        LoggerService::info("Template mode not implemented yet.");
+        std::exit(0);
+    }
 }

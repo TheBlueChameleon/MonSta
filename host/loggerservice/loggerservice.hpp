@@ -1,11 +1,11 @@
 #ifndef LOGGERSERVICE_HPP
 #define LOGGERSERVICE_HPP
 
+#include <filesystem>
+
 #include <ILoggerService.hpp>
 
 #include "loggerservice/logger.hpp"
-
-struct LoggingDefinition;
 
 namespace LoggerService
 {
@@ -14,7 +14,7 @@ namespace LoggerService
     Logger& getInstance();
 
     void setLogLevel(const ILoggerService::LogLevel level);
-    void setup(const LoggingDefinition def);
+    void setLogFile(const std::filesystem::path filename);
 
     void trace(const char* const msg);
     void debug(const char* const msg);

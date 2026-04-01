@@ -1,11 +1,11 @@
 #ifndef ENTRYPOINT_SCHEMAEXPORT_HPP
 #define ENTRYPOINT_SCHEMAEXPORT_HPP
 
-struct BaseModeDefinition;
+struct SchemaExportModeDefinition;
 
 namespace SchemaExportMode
 {
-    void run(const std::shared_ptr<const BaseModeDefinition>& defs);
+    void run(const SchemaExportModeDefinition& defs);
 }
 
 #endif // ENTRYPOINT_HPP
