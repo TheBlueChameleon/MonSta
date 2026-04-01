@@ -15,11 +15,15 @@
 
 namespace FileService
 {
+    class FileServiceDatabase;
+
     static constexpr auto STDOUTSTREAM = ":stdout:";
     static constexpr auto DEBUGSTREAM  = ":debug:";
     static constexpr auto NULLSTREAM   = ":null:";
 
     IFileService exportService();
+
+    FileServiceDatabase& getDatabase();
 
     bool isSpecialPath(const std::filesystem::path& path);
 

@@ -16,9 +16,7 @@ namespace FileService
 
     class FileServiceDatabase
     {
-        protected:
-            static FileServiceDatabase instance;
-
+        private:
             std::recursive_mutex mutable mutex;
 
             bool overwrite         = false;
@@ -31,11 +29,8 @@ namespace FileService
             std::list<FileService::CreatedFileInfo> createdFileInfo;
             std::unordered_map<std::filesystem::path, std::unique_ptr<SynchronizedOStream>> oStreams;
 
-        protected:
-            FileServiceDatabase();
-
         public:
-            static FileServiceDatabase& getInstance();
+            FileServiceDatabase();
 
             bool getOverwrite() const;
             void setOverwrite(bool newOverwrite);

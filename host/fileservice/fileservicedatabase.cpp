@@ -13,17 +13,10 @@ using namespace std::string_literals;
 
 namespace FileService
 {
-    FileServiceDatabase FileServiceDatabase::instance;
-
     FileServiceDatabase::FileServiceDatabase() :
         inputBasePath(std::filesystem::current_path()),
         outputBasePath(std::filesystem::current_path())
     {}
-
-    FileServiceDatabase& FileServiceDatabase::getInstance()
-    {
-        return instance;
-    }
 
     static void addCreatedFile_internal(std::list<FileService::CreatedFileInfo>& createdFileInfo,
                                         const std::filesystem::__cxx11::path&

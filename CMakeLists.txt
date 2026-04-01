@@ -281,10 +281,11 @@ add_executable(Test
     test/main.cpp
 
     test/fileservice/fileservicetest.hpp                    test/fileservice/fileservicetest.cpp
+    test/fileservice/fileservicedatabasetest.hpp            test/fileservice/fileservicedatabasetest.cpp
+
     test/jsonservice/jsonservicedatabasetest.hpp            test/jsonservice/jsonservicedatabasetest.cpp
     test/versionservice/versionservicetest.hpp              test/versionservice/versionservicetest.cpp
 
-    test/serviceadapters/fileservicedatabaseadapter.hpp     test/serviceadapters/fileservicedatabaseadapter.cpp
     test/serviceadapters/loggerserviceadapter.hpp           test/serviceadapters/loggerserviceadapter.cpp
 )
 

@@ -6,11 +6,12 @@ using namespace std::literals::chrono_literals;
 
 #include "fileservice/debugstream.hpp"
 #include "fileservice/fileservice.hpp"
+#include "fileservice/fileservicedatabase.hpp"
 #include "fileservice/fileserviceoperations.hpp"
+#include "fileservice/synchronizedostream.hpp"
 using namespace FileService;
 #include "fileservicetest.hpp"
 
-#include "serviceadapters/fileservicedatabaseadapter.hpp"
 #include "serviceadapters/loggerserviceadapter.hpp"
 
 std::filesystem::path FileServiceTest::home = std::filesystem::current_path();
@@ -24,41 +25,30 @@ void FileServiceTest::SetUpTestSuite()
 
 void FileServiceTest::TearDownTestSuite()
 {
-    FileServiceDatabaseAdapter::getInstance().reset();
     std::filesystem::remove_all(temp);
 }
 
 void FileServiceTest::SetUp()
 {
+    FileService::setInputBasePath(temp);
+    FileService::setOutputBasePath(temp);
+
+    FileService::setOverwrite(false);
+    FileService::setCreateDirectories(false);
+    FileService::setDryMode(false);
+
     for (const auto& dirEntry : std::filesystem::directory_iterator{temp})
     {
         std::filesystem::remove_all(dirEntry.path());
     }
 }
 
-TEST_F(FileServiceTest, IOPaths_Default)
-{
-    ASSERT_EQ(FileService::getInputBasePath(), home)  <<  "input base path not home directory";
-    ASSERT_EQ(FileService::getOutputBasePath(), home) << "output base path not home directory";
-}
-
-TEST_F(FileServiceTest, IOPaths_SetExistingAbsolute)
-{
-    FileService::setInputBasePath(temp);
-    FileService::setOutputBasePath(temp);
-
-    ASSERT_EQ(FileService::getInputBasePath(), temp);
-    ASSERT_EQ(FileService::getOutputBasePath(), temp);
-}
+// ========================================================================== //
 
 TEST_F(FileServiceTest, IOPaths_SetNonExisting)
 {
     // setup
     const std::filesystem::path nonExisting = temp / "valid/relative/path";
-    //std::filesystem::create_directories(temp / nonExisting);
-
-    FileService::setInputBasePath(temp);
-    FileService::setOutputBasePath(temp);
 
     // when
     FileService::setInputBasePath(nonExisting);
@@ -74,8 +64,6 @@ TEST_F(FileServiceTest, IOPaths_SetNonExistingWithCreate)
     // setup
     const std::filesystem::path toBeCreated = temp / "valid/relative/path";
 
-    FileService::setInputBasePath(temp);
-    FileService::setOutputBasePath(temp);
     FileService::setCreateDirectories(true);
 
     // when
@@ -110,8 +98,8 @@ TEST_F(FileServiceTest, SpecialPaths)
     EXPECT_EQ(OutputStreamType::INVALID, outputStreamTypeFromFileName("::"));
     EXPECT_EQ(OutputStreamType::INVALID, outputStreamTypeFromFileName(":unknown_symbol:"));
 
-    EXPECT_EQ(OutputStreamType::STDOUT, outputStreamTypeFromFileName(STDOUTSTREAM));
-    EXPECT_EQ(OutputStreamType::DEBUG, outputStreamTypeFromFileName(DEBUGSTREAM));
+    EXPECT_EQ(OutputStreamType::STDOUT,     outputStreamTypeFromFileName(STDOUTSTREAM));
+    EXPECT_EQ(OutputStreamType::DEBUG,      outputStreamTypeFromFileName(DEBUGSTREAM));
     EXPECT_EQ(OutputStreamType::NULLSTREAM, outputStreamTypeFromFileName(NULLSTREAM));
 
     std::filesystem::path nullpath;
@@ -120,6 +108,7 @@ TEST_F(FileServiceTest, SpecialPaths)
     std::filesystem::path prefixed = std::filesystem::path(DEBUGSTREAM) / residual;
     std::filesystem::path postfixed = std::filesystem::path("home") / DEBUGSTREAM;
     std::filesystem::path infixed = std::filesystem::path("home") / DEBUGSTREAM / residual;
+
     EXPECT_EQ(
         std::make_pair(OutputStreamType::INVALID, nullpath),
         getOutputStreamTypeAndResidualFilename("")
@@ -158,7 +147,7 @@ TEST_F(FileServiceTest, OutputOrdering)
     t1.join();
     t2.join();
 
-    auto& synchronizedResultStream = FileServiceDatabase::getInstance().getOrCreateStream(":debug:");
+    auto& synchronizedResultStream = FileService::getDatabase().getOrCreateStream(":debug:");
     auto* innerResultStream = dynamic_cast<FileService::DebugStream*>(synchronizedResultStream.expose());
     auto result = innerResultStream->str();
 
@@ -166,4 +155,3 @@ TEST_F(FileServiceTest, OutputOrdering)
 
     EXPECT_EQ(result, expected);
 }
-

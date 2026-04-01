@@ -11,6 +11,8 @@
 
 namespace FileService
 {
+    static FileServiceDatabase database;
+
     static const std::set<std::string> specialNames = {STDOUTSTREAM, DEBUGSTREAM, NULLSTREAM};
 
     bool isSpecialPath(const std::filesystem::path& path)
@@ -28,37 +30,37 @@ namespace FileService
 
     bool getOverwrite()
     {
-        return FileServiceDatabase::getInstance().getOverwrite();
+        return database.getOverwrite();
     }
 
     void setOverwrite(bool newOverwrite)
     {
-        FileServiceDatabase::getInstance().setOverwrite(newOverwrite);
+        database.setOverwrite(newOverwrite);
     }
 
     bool getCreateDirectories()
     {
-        return FileServiceDatabase::getInstance().getCreateDirectories();
+        return database.getCreateDirectories();
     }
 
     void setCreateDirectories(bool newCreateDirectories)
     {
-        FileServiceDatabase::getInstance().setCreateDirectories(newCreateDirectories);
+        database.setCreateDirectories(newCreateDirectories);
     }
 
     bool getDryMode()
     {
-        return FileServiceDatabase::getInstance().getDryMode();
+        return database.getDryMode();
     }
 
     void setDryMode(bool newDryMode)
     {
-        FileServiceDatabase::getInstance().setDryMode(newDryMode);
+        database.setDryMode(newDryMode);
     }
 
     std::filesystem::__cxx11::path getInputBasePath()
     {
-        return FileServiceDatabase::getInstance().getInputBasePath();
+        return database.getInputBasePath();
     }
 
     const char* const getInputBasePath_cstr()
@@ -68,7 +70,7 @@ namespace FileService
 
     std::filesystem::__cxx11::path getOutputBasePath()
     {
-        return FileServiceDatabase::getInstance().getOutputBasePath();
+        return database.getOutputBasePath();
     }
 
     const char* const getOutputBasePath_cstr()
@@ -81,7 +83,7 @@ namespace FileService
         if (std::filesystem::exists(newBase))
         {
             LoggerService::traceF("input directory set to {}", newBase.c_str());
-            FileServiceDatabase::getInstance().setInputBasePath(newBase);
+            database.setInputBasePath(newBase);
         }
     }
 
@@ -95,7 +97,7 @@ namespace FileService
         if (makeDirectoriesOrLog(newBase, getCreateDirectories()))
         {
             LoggerService::traceF("output directory set to {}", newBase.c_str());
-            FileServiceDatabase::getInstance().setOutputBasePath(newBase);
+            database.setOutputBasePath(newBase);
         }
     }
 
@@ -106,7 +108,7 @@ namespace FileService
 
     void write(const std::filesystem::__cxx11::path& filename, const std::string_view content)
     {
-        auto& stream = FileServiceDatabase::getInstance().getOrCreateStream(filename);
+        auto& stream = database.getOrCreateStream(filename);
         LoggerService::traceF("writing into {}", filename.c_str());
         stream << content;
     }
@@ -118,7 +120,7 @@ namespace FileService
 
     void writeBinary(const std::filesystem::__cxx11::path& filename, const std::span<const std::byte> data)
     {
-        auto& stream = FileServiceDatabase::getInstance().getOrCreateStream(filename);
+        auto& stream = database.getOrCreateStream(filename);
         LoggerService::traceF("writing into {}", filename.c_str());
         stream.write(data.data(), data.size());
     }
@@ -130,7 +132,7 @@ namespace FileService
 
     std::string read(const std::filesystem::__cxx11::path& filename)
     {
-        auto stream = FileServiceDatabase::getInstance().getReadStream(filename);
+        auto stream = database.getReadStream(filename);
         LoggerService::traceF("reading from {}", filename.c_str());
         const auto size = getFileSize(stream);
 
@@ -142,7 +144,7 @@ namespace FileService
 
     IMemoryService::MemoryBlock read_cstr(const char* const filename)
     {
-        auto stream = FileServiceDatabase::getInstance().getReadStream(filename);
+        auto stream = database.getReadStream(filename);
         LoggerService::traceF("reading from {}", filename);
         const auto size = getFileSize(stream);
 
@@ -152,9 +154,9 @@ namespace FileService
         return result;
     }
 
-    const std::list<CreatedFileInfo> &getCreatedFileInfo()
+    const std::list<CreatedFileInfo>& getCreatedFileInfo()
     {
-        return FileServiceDatabase::getInstance().getCreatedFileInfo();
+        return database.getCreatedFileInfo();
     }
 
     IFileService exportService()
@@ -168,6 +170,11 @@ namespace FileService
                    write_cstr,
                    writeBinary_cstr
                );
+    }
+
+    FileServiceDatabase& getDatabase()
+    {
+        return database;
     }
 
 }
