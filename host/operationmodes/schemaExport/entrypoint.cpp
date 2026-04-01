@@ -2,10 +2,13 @@
 
 #include "fileservice/fileservice.hpp"
 
-#include "json/schemaconstants.hpp"
+//#include "json/schemaconstants.hpp"
+
+#include "jsonservice/jsonservicedatabase.hpp"
 
 #include "loggerservice/loggerservice.hpp"
 
+#include "operationmodes/shared/schemavalidation.hpp"
 #include "operationmodes/shared/utils.hpp"
 
 #include "entrypoint.hpp"
@@ -18,9 +21,14 @@ namespace SchemaExportMode
         OperationModes::setupLoggerService(defs.logging);                       // apply defaults
         OperationModes::setupFileService(defs, defs.outputDirectory);
 
+        // TODO: remove bypass through Database
+        auto& instance = JsonService::JsonServiceDatabase::getInstance();
+        auto& sim = instance.get(JTAG_SIMULATION);
+        auto& tpl = instance.get(JTAG_TEMPLATE);
+
         LoggerService::trace("begin writing schemas");
-        FileService::write("simulation.json", SCHEMA_SIMULATION_STRING);
-        FileService::write("template.json", SCHEMA_TEMPLATE_STRING);
+        FileService::write("simulation.json", sim.dump(2));
+        FileService::write("template.json", tpl.dump(2));
 
         if (!defs.dryMode)
         {

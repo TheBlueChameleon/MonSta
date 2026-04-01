@@ -22,12 +22,12 @@ namespace JsonService
         json(json::object())
     {}
 
-    nlohmann::json& JsonSchemaElementBuilder::getJson()
+    nlohmann::ordered_json& JsonSchemaElementBuilder::getJson()
     {
         return json;
     }
 
-    const json& JsonSchemaElementBuilder::getJson() const
+    const ordered_json& JsonSchemaElementBuilder::getJson() const
     {
         return json;
     }
@@ -147,9 +147,9 @@ namespace JsonService
         return elements.back();
     }
 
-    json JsonSubSchemaBuilder::build() const
+    ordered_json JsonSubSchemaBuilder::build() const
     {
-        json result = {{"additionalProperties", additionalProperties}};
+        ordered_json result = {{"additionalProperties", additionalProperties}};
 
         if (!required.empty())
         {
@@ -224,9 +224,9 @@ namespace JsonService
         return elements.back();
     }
 
-    json JsonSchemaBuilder::build() const
+    ordered_json JsonSchemaBuilder::build() const
     {
-        json result =
+        ordered_json result =
         {
             {"$schema", "http://json-schema.org/draft-07/schema#"},
             {"additionalProperties", additionalProperties}

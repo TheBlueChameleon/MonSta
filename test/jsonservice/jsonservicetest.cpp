@@ -275,7 +275,7 @@ TEST_F(JsonServiceTest, Database_DeclareAdd)
     auto declareFirst = [&tag1, &tag2, &keyD, &val, &rawA, &declareThrowCount, &addThrowCount]()
     {
         auto& instance = JsonServiceDatabase::getInstance();
-        std::optional<std::reference_wrapper<nlohmann::json>> declJsonOpt;
+        std::optional<std::reference_wrapper<nlohmann::ordered_json>> declJsonOpt;
 
         try
         {

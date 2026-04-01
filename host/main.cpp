@@ -1,8 +1,15 @@
 #include "cli/clihandler.hpp"
 
 #include "operationmodes/entrypoint.hpp"
+#include "operationmodes/shared/schemavalidation.hpp"
 
 #include "errors.hpp"
+
+void registerSchemas()
+{
+    OperationModes::registerSchemaSimulation();
+    OperationModes::registerSchemaTemplate();
+}
 
 void run(const int argc, const char* const argv[])
 {
@@ -48,6 +55,7 @@ int main(const int argc, const char* const argv[])
 
     try
     {
+        registerSchemas();
         run(argc, argv);
     }
     catch (const CriticalAbort& e)

@@ -15,14 +15,14 @@ namespace JsonService
     {
         private:
             const std::string name;
-            nlohmann::json json;
+            nlohmann::ordered_json json;
 
         public:
             JsonSchemaElementBuilder();
             JsonSchemaElementBuilder(const std::string_view name);
 
-            nlohmann::json& getJson();
-            const nlohmann::json& getJson() const;
+            nlohmann::ordered_json& getJson();
+            const nlohmann::ordered_json& getJson() const;
             const std::string_view getName() const;
 
             JsonSchemaElementBuilder& setProperty(const std::string_view key, const nlohmann::json& value);
@@ -56,7 +56,7 @@ namespace JsonService
             JsonSchemaElementBuilder& addProperty(const std::string_view name);
             JsonSchemaElementBuilder& addProperty(const std::string_view name, JsonType type);
 
-            nlohmann::json build() const;
+            nlohmann::ordered_json build() const;
     };
 
     class JsonSchemaBuilder
@@ -80,7 +80,7 @@ namespace JsonService
             JsonSchemaElementBuilder&   addProperty(const std::string_view name);
             JsonSchemaElementBuilder&   addProperty(const std::string_view name, JsonType type);
 
-            nlohmann::json build() const;
+            nlohmann::ordered_json build() const;
     };
 } // namespace JsonService
 

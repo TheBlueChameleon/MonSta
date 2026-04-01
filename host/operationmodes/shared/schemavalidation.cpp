@@ -9,7 +9,7 @@ using namespace JsonService;
 
 using Json = nlohmann::json;
 
-namespace RunDefinitionUtils
+namespace OperationModes
 {
     // ====================================================================== //
     // SHARED
@@ -130,7 +130,7 @@ namespace RunDefinitionUtils
 
         jsonDatabase.add(
             JTAG_SIMULATION,
-            makeSimulationSchema().build()
+            std::move(makeSimulationSchema().build())
         );
     }
 
@@ -201,7 +201,7 @@ namespace RunDefinitionUtils
 
         jsonDatabase.add(
             JTAG_TEMPLATE,
-            makeTemplateSchema().build()
+            std::move(makeTemplateSchema().build())
         );
     }
 }

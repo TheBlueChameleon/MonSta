@@ -23,7 +23,7 @@ namespace JsonService
                 mutable std::mutex mtx;
                 mutable std::condition_variable cv;
                 EntryState state;
-                std::unique_ptr<nlohmann::json> data;
+                std::unique_ptr<nlohmann::ordered_json> data;
             };
 
         protected:
@@ -40,17 +40,17 @@ namespace JsonService
 
             std::optional<EntryState> getState(const std::string_view tag) const;
 
-            const nlohmann::json& get(const std::string_view tag) const;
+            const nlohmann::ordered_json& get(const std::string_view tag) const;
 
-            const nlohmann::json& add(const std::string_view tag, const nlohmann::json& json);
+            const nlohmann::ordered_json& add(const std::string_view tag, const nlohmann::ordered_json& json);
 
-            const nlohmann::json& add(const std::string_view tag, const nlohmann::json&& json);
+            const nlohmann::ordered_json& add(const std::string_view tag, const nlohmann::ordered_json&& json);
 
-            const nlohmann::json& getOrAdd(const std::string_view tag, std::function<nlohmann::json()> creator);
+            const nlohmann::ordered_json& getOrAdd(const std::string_view tag, std::function<nlohmann::ordered_json()> creator);
 
-            std::optional<std::reference_wrapper<nlohmann::json>> declare(const std::string_view tag);
+            std::optional<std::reference_wrapper<nlohmann::ordered_json> > declare(const std::string_view tag);
 
-            const nlohmann::json& commit(const std::string& tag);
+            const nlohmann::ordered_json& commit(const std::string& tag);
     };
 
 } // namespace JsonService

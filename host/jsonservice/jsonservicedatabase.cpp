@@ -33,7 +33,7 @@ namespace JsonService
         entry.cv.wait(lock, [&entry] { return entry.state == JsonServiceDatabase::EntryState::READY; });
     }
 
-    const nlohmann::json& JsonServiceDatabase::get(const std::string_view tag) const
+    const nlohmann::ordered_json &JsonServiceDatabase::get(const std::string_view tag) const
     {
         const Entry* entry;
 
@@ -54,7 +54,10 @@ namespace JsonService
         return *entry->data;
     }
 
-    const nlohmann::json& JsonServiceDatabase::add(const std::string_view tag, const nlohmann::json& json)
+    const nlohmann::ordered_json &JsonServiceDatabase::add(
+        const std::string_view tag,
+        const nlohmann::ordered_json& json
+    )
     {
         Entry* entry;
 
@@ -75,7 +78,7 @@ namespace JsonService
         {
             std::lock_guard entryLock(entry->mtx);
 
-            entry->data = std::make_unique<nlohmann::json>(json); // copy
+            entry->data = std::make_unique<nlohmann::ordered_json>(json); // copy
             entry->state = EntryState::READY;
         }
 
@@ -84,7 +87,7 @@ namespace JsonService
         return *entry->data;
     }
 
-    const nlohmann::json& JsonServiceDatabase::add(const std::string_view tag, const nlohmann::json&& json)
+    const nlohmann::ordered_json &JsonServiceDatabase::add(const std::string_view tag, const nlohmann::ordered_json&& json)
     {
         Entry* entry;
 
@@ -104,7 +107,7 @@ namespace JsonService
         {
             std::lock_guard entryLock(entry->mtx);
 
-            entry->data = std::make_unique<nlohmann::json>(std::move(json));
+            entry->data = std::make_unique<nlohmann::ordered_json>(std::move(json));
             entry->state = EntryState::READY;
         }
 
@@ -113,9 +116,9 @@ namespace JsonService
         return *entry->data;
     }
 
-    const nlohmann::json& JsonServiceDatabase::getOrAdd(
+    const nlohmann::ordered_json &JsonServiceDatabase::getOrAdd(
         const std::string_view tag,
-        std::function<nlohmann::json()> creator
+        std::function<nlohmann::ordered_json()> creator
     )
     {
         Entry* entry;
@@ -144,7 +147,7 @@ namespace JsonService
             if (entry->state == EntryState::DECLARED && !entry->data)
             {
                 // This thread initializes
-                entry->data = std::make_unique<nlohmann::json>(std::move(creator()));
+                entry->data = std::make_unique<nlohmann::ordered_json>(std::move(creator()));
                 entry->state = EntryState::READY;
 
                 entryLock.unlock();
@@ -163,7 +166,7 @@ namespace JsonService
         }
     }
 
-    std::optional<std::reference_wrapper<nlohmann::json>> JsonServiceDatabase::declare(const std::string_view tag)
+    std::optional<std::reference_wrapper<nlohmann::ordered_json>> JsonServiceDatabase::declare(const std::string_view tag)
     {
         Entry* entry;
 
@@ -188,14 +191,14 @@ namespace JsonService
         {
             std::lock_guard entryLock(entry->mtx);
 
-            entry->data = std::make_unique<nlohmann::json>();
+            entry->data = std::make_unique<nlohmann::ordered_json>();
             entry->state = EntryState::DECLARED;
         }
 
         return *entry->data;
     }
 
-    const nlohmann::json& JsonServiceDatabase::commit(const std::string& tag)
+    const nlohmann::ordered_json &JsonServiceDatabase::commit(const std::string& tag)
     {
         Entry* entry;
 

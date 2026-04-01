@@ -42,7 +42,7 @@ static constexpr auto JKEY_TEMPLATE_ARGS            = "args";
 
 static constexpr auto JTAG_TEMPLATE = ":storage:/host/template.json";
 
-namespace RunDefinitionUtils
+namespace OperationModes
 {
     void registerSchemaSimulation();
     void registerSchemaTemplate();
