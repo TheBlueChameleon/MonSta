@@ -2,6 +2,7 @@
 #include <filesystem>
 #include <sstream>
 #include <string>
+#include <string_view>
 using namespace std::string_literals;
 
 #include <argparse/argparse.hpp>
@@ -65,7 +66,7 @@ static void configureParser(ArgParser& parser)
 #undef makeFlag
 }
 
-static void handleError(const std::string& errorMessage, const ArgParser& parser)
+static void handleError(const std::string_view errorMessage, const ArgParser& parser)
 {
     std::stringstream ss;
     ss << errorMessage << std::endl;
@@ -93,7 +94,7 @@ static void runParser(ArgParser& parser, const int argc, const char* const argv[
     }
 }
 
-static OperationMode modeFromString(const std::string& modeString)
+static OperationMode modeFromString(const std::string_view modeString)
 {
     // *INDENT-OFF*
     if (modeString == CliInput::SIMULATION  ) return OperationMode::SIMULATION;
@@ -103,26 +104,26 @@ static OperationMode modeFromString(const std::string& modeString)
     if (modeString == CliInput::HELP        ) return OperationMode::HELP;
     // *INDENT-ON*
 
-    throw IllegalStateException("Invalid mode identifier: '"s + modeString + "'");
+    throw IllegalStateException("Invalid mode identifier: '"s + modeString.data() + "'");
 }
 
-static void validateAsInputFile(const std::string& data)
+static void validateAsInputFile(const std::string_view data)
 {
     const auto path = std::filesystem::path(data);
 
     if (!std::filesystem::exists(path))
     {
-        throw CriticalAbort("'"s + data + "' does not exist.");
+        throw CriticalAbort("'"s + data.data() + "' does not exist.");
     }
 
     // TODO: check if this also works with symlinks
     if (!std::filesystem::is_regular_file(path))
     {
-        throw CriticalAbort("'"s + data + "' is not a file.");
+        throw CriticalAbort("'"s + data.data() + "' is not a file.");
     }
 }
 
-static void validateAsOutputDirectory(const std::string& data)
+static void validateAsOutputDirectory(const std::string_view data)
 {
     const auto path = std::filesystem::path(data);
 
@@ -135,12 +136,12 @@ static void validateAsOutputDirectory(const std::string& data)
     {
         if (!std::filesystem::is_directory(path))
         {
-            throw CriticalAbort("'"s + data + "' is not a directory.");
+            throw CriticalAbort("'"s + data.data() + "' is not a directory.");
         }
     }
 }
 
-static void validateAsRemote(const std::string& data)
+static void validateAsRemote(const std::string_view data)
 {
     // TODO
 }
@@ -263,9 +264,9 @@ static MatchDefinition unpackMatchDefinition(const Json& data)
 
 static std::shared_ptr<const BaseModeDefinition> unpackSimulationInput(const CliInput& cliInput)
 {
-    const char* const source = cliInput.data.c_str();
-    Json data = JsonService::readJsonFile(source);
-    JsonService::validateJsonAgainstJson(data, SCHEMA_SIMULATION, source);
+    const std::string_view source = cliInput.data;
+    Json data = JsonService::readJsonFile(source.data());
+    JsonService::validateJsonAgainstJson(data, SCHEMA_SIMULATION, source.data());
 
     return std::make_shared<SimulationModeDefinition>(
                cliInput,
@@ -321,9 +322,9 @@ static TemplatesDefinition unpackTemplatesDefinition(const Json& data)
 
 static std::shared_ptr<const BaseModeDefinition> unpackTemplateInput(const CliInput& cliInput)
 {
-    const char* const source = cliInput.data.c_str();
-    Json data = JsonService::readJsonFile(source);
-    JsonService::validateJsonAgainstJson(data, SCHEMA_TEMPLATE, source);
+    const std::string_view source = cliInput.data;
+    Json data = JsonService::readJsonFile(source.data());
+    JsonService::validateJsonAgainstJson(data, SCHEMA_TEMPLATE, source.data());
 
     return std::make_shared<TemplateModeDefinition>(
                cliInput,
@@ -337,7 +338,7 @@ static std::shared_ptr<const BaseModeDefinition> unpackTemplateInput(const CliIn
 
 static std::shared_ptr<const BaseModeDefinition> unpackSchemaExportInput(const CliInput& cliInput)
 {
-    const char* const outputDirectory = cliInput.data.c_str();
+    const std::string_view outputDirectory = cliInput.data;
     return std::make_shared<SchemaExportModeDefinition>(cliInput, outputDirectory);
 }
 
@@ -346,7 +347,7 @@ static std::shared_ptr<const BaseModeDefinition> unpackSchemaExportInput(const C
 
 static std::shared_ptr<const BaseModeDefinition> unpackRemoteInput(const CliInput& cliInput)
 {
-    const std::string& socket = cliInput.data;
+    const std::string_view socket = cliInput.data;
 
     //TODO
 
@@ -358,7 +359,7 @@ static std::shared_ptr<const BaseModeDefinition> unpackRemoteInput(const CliInpu
 
 static std::shared_ptr<const BaseModeDefinition> unpackHelpInput(const CliInput& cliInput)
 {
-    const std::string& target = cliInput.data;
+    const std::string_view target = cliInput.data;
     try
     {
         const auto mode = modeFromString(target);
@@ -366,7 +367,7 @@ static std::shared_ptr<const BaseModeDefinition> unpackHelpInput(const CliInput&
     }
     catch (const IllegalStateException& err)
     {
-        throw CriticalAbort("No help available for unknown mode '"s + target + "'");
+        throw CriticalAbort("No help available for unknown mode '"s + target.data() + "'");
     }
 }
 

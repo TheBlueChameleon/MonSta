@@ -105,7 +105,10 @@ namespace FileService
                 addCreatedFile(filename, overwritten);
             }
 
-            auto [iterator, newlyCreated] = oStreams.emplace(filename, new SynchronizedOStream(simpleStreamPtr));
+            auto [iterator, newlyCreated] = oStreams.emplace(
+                                                filename,
+                                                new SynchronizedOStream(std::move(simpleStreamPtr))
+                                            );
             if (!newlyCreated)
             {
                 throw IllegalStateException("Encountered a previously existing stream for '"s + filename.c_str() + "'");

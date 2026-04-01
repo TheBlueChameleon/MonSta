@@ -15,7 +15,7 @@ namespace FileService
         INVALID
     };
 
-    OutputStreamType outputStreamTypeFromCString(const char* const cstring);
+    OutputStreamType outputStreamTypeFromFileName(const std::string_view filename);
 
     std::pair<OutputStreamType, std::filesystem::path> getOutputStreamTypeAndResidualFilename(const std::filesystem::path& path);
 

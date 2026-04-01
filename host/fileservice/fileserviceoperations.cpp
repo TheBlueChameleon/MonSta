@@ -18,34 +18,29 @@ using namespace std::string_literals;
 
 namespace FileService
 {
-    static bool equalsCString(const char* const lhs, const char* const rhs)
+    OutputStreamType outputStreamTypeFromFileName(const std::string_view filename)
     {
-        return std::strcmp(lhs, rhs) == 0;
-    }
-
-    OutputStreamType outputStreamTypeFromCString(const char* const cstring)
-    {
-        if (cstring[0] == '\0')
+        if (filename.empty())
         {
             return OutputStreamType::INVALID;
         }
 
-        if (equalsCString(cstring, STDOUTSTREAM))
+        if (filename == STDOUTSTREAM)
         {
             return OutputStreamType::STDOUT;
         }
 
-        if (equalsCString(cstring, DEBUGSTREAM))
+        if (filename == DEBUGSTREAM)
         {
             return OutputStreamType::DEBUG;
         }
 
-        if (equalsCString(cstring, NULLSTREAM))
+        if (filename == NULLSTREAM)
         {
             return OutputStreamType::NULLSTREAM;
         }
 
-        if (cstring[0] == ':')
+        if (filename.front() == ':')
         {
             return OutputStreamType::INVALID;
         }
@@ -64,7 +59,7 @@ namespace FileService
         std::filesystem::path residual = path;
         for (const auto element : path)
         {
-            const OutputStreamType elementType = outputStreamTypeFromCString(element.c_str());
+            const OutputStreamType elementType = outputStreamTypeFromFileName(element.c_str());
             if (type == OutputStreamType::REGULAR)
             {
                 if (elementType != OutputStreamType::REGULAR)

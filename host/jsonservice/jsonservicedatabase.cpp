@@ -14,11 +14,11 @@ namespace JsonService
         return instance;
     }
 
-    std::optional<JsonServiceDatabase::EntryState> JsonServiceDatabase::getState(const std::string& tag) const
+    std::optional<JsonServiceDatabase::EntryState> JsonServiceDatabase::getState(const std::string_view tag) const
     {
         std::lock_guard lock(mutex);
 
-        auto it = database.find(tag);
+        auto it = database.find(tag.data());
         if (it == database.end())
         {
             return std::nullopt;
@@ -33,17 +33,17 @@ namespace JsonService
         entry.cv.wait(lock, [&entry] { return entry.state == JsonServiceDatabase::EntryState::READY; });
     }
 
-    const nlohmann::json& JsonServiceDatabase::get(const std::string& tag) const
+    const nlohmann::json& JsonServiceDatabase::get(const std::string_view tag) const
     {
         const Entry* entry;
 
         {
             std::lock_guard lock(mutex);
 
-            auto it = database.find(tag);
+            auto it = database.find(tag.data());
             if (it == database.end())
             {
-                throw LookupError("Unknown JSON tag: '"s + tag + "'");
+                throw LookupError("Unknown JSON tag: '"s + tag.data() + "'");
             }
 
             entry = &it->second;
@@ -54,7 +54,7 @@ namespace JsonService
         return *entry->data;
     }
 
-    const nlohmann::json& JsonServiceDatabase::add(const std::string& tag, const nlohmann::json& json)
+    const nlohmann::json& JsonServiceDatabase::add(const std::string_view tag, const nlohmann::json& json)
     {
         Entry* entry;
 
@@ -62,11 +62,11 @@ namespace JsonService
         {
             std::lock_guard lock(mutex);
 
-            auto [it, inserted] = database.try_emplace(tag);
+            auto [it, inserted] = database.try_emplace(tag.data());
 
             if (!inserted)
             {
-                throw LookupError("JSON Tag already exists: '"s + tag + "'");
+                throw LookupError("JSON Tag already exists: '"s + tag.data() + "'");
             }
 
             entry = &it->second;
@@ -84,18 +84,18 @@ namespace JsonService
         return *entry->data;
     }
 
-    const nlohmann::json& JsonServiceDatabase::add(const std::string& tag, const nlohmann::json&& json)
+    const nlohmann::json& JsonServiceDatabase::add(const std::string_view tag, const nlohmann::json&& json)
     {
         Entry* entry;
 
         {
             std::lock_guard lock(mutex);
 
-            auto [it, inserted] = database.try_emplace(tag);
+            auto [it, inserted] = database.try_emplace(tag.data());
 
             if (!inserted)
             {
-                throw LookupError("JSON Tag already exists: '"s + tag + "'");
+                throw LookupError("JSON Tag already exists: '"s + tag.data() + "'");
             }
 
             entry = &it->second;
@@ -114,7 +114,7 @@ namespace JsonService
     }
 
     const nlohmann::json& JsonServiceDatabase::getOrAdd(
-        const std::string& tag,
+        const std::string_view tag,
         std::function<nlohmann::json()> creator
     )
     {
@@ -123,7 +123,7 @@ namespace JsonService
         {
             std::lock_guard lock(mutex);
 
-            auto [it, inserted] = database.try_emplace(tag);
+            auto [it, inserted] = database.try_emplace(tag.data());
             entry = &it->second;
 
             if (inserted)
@@ -163,20 +163,20 @@ namespace JsonService
         }
     }
 
-    std::optional<std::reference_wrapper<nlohmann::json>> JsonServiceDatabase::declare(const std::string& tag)
+    std::optional<std::reference_wrapper<nlohmann::json>> JsonServiceDatabase::declare(const std::string_view tag)
     {
         Entry* entry;
 
         {
             std::lock_guard lock(mutex);
 
-            auto [it, inserted] = database.try_emplace(tag);
+            auto [it, inserted] = database.try_emplace(tag.data());
 
             if (!inserted)
             {
                 if (it->second.state != EntryState::DECLARED)
                 {
-                    throw LookupError("JSON Tag already exists: '"s + tag + "'");
+                    throw LookupError("JSON Tag already exists: '"s + tag.data() + "'");
                 }
 
                 return std::nullopt;

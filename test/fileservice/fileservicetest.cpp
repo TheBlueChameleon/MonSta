@@ -103,16 +103,16 @@ TEST_F(FileServiceTest, SpecialPaths)
     EXPECT_EQ(true, FileService::isSpecialPath("home/:stdout:"));
     EXPECT_EQ(true, FileService::isSpecialPath("home/:stdout:/title"));
 
-    EXPECT_EQ(OutputStreamType::REGULAR, outputStreamTypeFromCString("/"));
-    EXPECT_EQ(OutputStreamType::REGULAR, outputStreamTypeFromCString("C:\\"));
+    EXPECT_EQ(OutputStreamType::REGULAR, outputStreamTypeFromFileName("/"));
+    EXPECT_EQ(OutputStreamType::REGULAR, outputStreamTypeFromFileName("C:\\"));
 
-    EXPECT_EQ(OutputStreamType::INVALID, outputStreamTypeFromCString(""));
-    EXPECT_EQ(OutputStreamType::INVALID, outputStreamTypeFromCString("::"));
-    EXPECT_EQ(OutputStreamType::INVALID, outputStreamTypeFromCString(":unknown_symbol:"));
+    EXPECT_EQ(OutputStreamType::INVALID, outputStreamTypeFromFileName(""));
+    EXPECT_EQ(OutputStreamType::INVALID, outputStreamTypeFromFileName("::"));
+    EXPECT_EQ(OutputStreamType::INVALID, outputStreamTypeFromFileName(":unknown_symbol:"));
 
-    EXPECT_EQ(OutputStreamType::STDOUT, outputStreamTypeFromCString(STDOUTSTREAM));
-    EXPECT_EQ(OutputStreamType::DEBUG, outputStreamTypeFromCString(DEBUGSTREAM));
-    EXPECT_EQ(OutputStreamType::NULLSTREAM, outputStreamTypeFromCString(NULLSTREAM));
+    EXPECT_EQ(OutputStreamType::STDOUT, outputStreamTypeFromFileName(STDOUTSTREAM));
+    EXPECT_EQ(OutputStreamType::DEBUG, outputStreamTypeFromFileName(DEBUGSTREAM));
+    EXPECT_EQ(OutputStreamType::NULLSTREAM, outputStreamTypeFromFileName(NULLSTREAM));
 
     std::filesystem::path nullpath;
     std::filesystem::path residual = "residual";

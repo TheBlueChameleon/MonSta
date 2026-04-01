@@ -6,6 +6,7 @@
 #include <memory>
 #include <mutex>
 #include <string>
+#include <string_view>
 
 #include <nlohmann/json.hpp>
 
@@ -37,17 +38,17 @@ namespace JsonService
         public:
             static JsonServiceDatabase& getInstance();
 
-            std::optional<EntryState> getState(const std::string& tag) const;
+            std::optional<EntryState> getState(const std::string_view tag) const;
 
-            const nlohmann::json& get(const std::string& tag) const;
+            const nlohmann::json& get(const std::string_view tag) const;
 
-            const nlohmann::json& add(const std::string& tag, const nlohmann::json& json);
+            const nlohmann::json& add(const std::string_view tag, const nlohmann::json& json);
 
-            const nlohmann::json& add(const std::string& tag, const nlohmann::json&& json);
+            const nlohmann::json& add(const std::string_view tag, const nlohmann::json&& json);
 
-            const nlohmann::json& getOrAdd(const std::string& tag, std::function<nlohmann::json()> creator);
+            const nlohmann::json& getOrAdd(const std::string_view tag, std::function<nlohmann::json()> creator);
 
-            std::optional<std::reference_wrapper<nlohmann::json>> declare(const std::string& tag);
+            std::optional<std::reference_wrapper<nlohmann::json>> declare(const std::string_view tag);
 
             const nlohmann::json& commit(const std::string& tag);
     };

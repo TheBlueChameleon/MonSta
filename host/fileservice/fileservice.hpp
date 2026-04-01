@@ -44,7 +44,7 @@ namespace FileService
     void setOutputBasePath(const std::filesystem::path& newBase);
     void setOutputBasePath_cstr(const char* const newBase);
 
-    void write(const std::filesystem::path& filename, const std::string& content);
+    void write(const std::filesystem::path& filename, const std::string_view content);
     void write_cstr(const char* const filename, const char* const content);
 
     void writeBinary(const std::filesystem::path& filename, const std::span<const std::byte> data);
@@ -53,7 +53,7 @@ namespace FileService
     std::string read(const std::filesystem::path& filename);
     IMemoryService::MemoryBlock read_cstr(const char* const filename);
 
-    const std::list<CreatedFileInfo> getCreatedFileInfo();
+    const std::list<CreatedFileInfo>& getCreatedFileInfo();
 }
 
 #endif // FILESERVICE_H

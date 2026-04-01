@@ -15,6 +15,7 @@ namespace SchemaExportMode
 {
     void run(const SchemaExportModeDefinition& defs)
     {
+        OperationModes::setupLoggerService(defs.logging);                       // apply defaults
         OperationModes::setupFileService(defs, defs.outputDirectory);
 
         LoggerService::trace("begin writing schemas");

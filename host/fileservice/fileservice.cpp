@@ -104,7 +104,7 @@ namespace FileService
         setOutputBasePath(newBase);
     }
 
-    void write(const std::filesystem::__cxx11::path& filename, const std::string& content)
+    void write(const std::filesystem::__cxx11::path& filename, const std::string_view content)
     {
         auto& stream = FileServiceDatabase::getInstance().getOrCreateStream(filename);
         LoggerService::traceF("writing into {}", filename.c_str());
@@ -152,7 +152,7 @@ namespace FileService
         return result;
     }
 
-    const std::list<CreatedFileInfo> getCreatedFileInfo()
+    const std::list<CreatedFileInfo> &getCreatedFileInfo()
     {
         return FileServiceDatabase::getInstance().getCreatedFileInfo();
     }
