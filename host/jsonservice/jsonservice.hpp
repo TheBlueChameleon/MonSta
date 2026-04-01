@@ -8,9 +8,12 @@
 
 namespace JsonService
 {
-    enum class EntryState {NONEXISTENT, DECLARED, READY};
-
     IJsonService exportService();
+
+    // ---------------------------------------------------------------------- //
+    // JsonDatabase
+
+    enum class EntryState {NONEXISTENT, DECLARED, READY};
 
     JsonServiceDatabase& getDatabase();
 
@@ -19,8 +22,21 @@ namespace JsonService
     const nlohmann::ordered_json& add(const std::string_view tag, const nlohmann::ordered_json& json);
     const nlohmann::ordered_json& add(const std::string_view tag, const nlohmann::ordered_json&& json);
     const nlohmann::ordered_json& getOrAdd(const std::string_view tag, std::function<nlohmann::ordered_json()> creator);
-    std::optional<std::reference_wrapper<nlohmann::ordered_json> > declare(const std::string_view tag);
+    std::optional<std::reference_wrapper<nlohmann::ordered_json>> declare(const std::string_view tag);
     const nlohmann::ordered_json& commit(const std::string& tag);
+
+    // ---------------------------------------------------------------------- //
+    // Parsing
+
+
+    // ---------------------------------------------------------------------- //
+    // Validation
+
+
+    // ---------------------------------------------------------------------- //
+    // Schema Builder Operations
+
+
 
 
     /* setAllowComments(bool)

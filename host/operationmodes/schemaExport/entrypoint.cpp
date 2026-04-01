@@ -21,10 +21,8 @@ namespace SchemaExportMode
         OperationModes::setupLoggerService(defs.logging);                       // apply defaults
         OperationModes::setupFileService(defs, defs.outputDirectory);
 
-        // TODO: remove bypass through Database
-        auto& instance = JsonService::getDatabase();
-        auto& sim = instance.get(JTAG_SIMULATION);
-        auto& tpl = instance.get(JTAG_TEMPLATE);
+        auto& sim = JsonService::get(JTAG_SIMULATION);
+        auto& tpl = JsonService::get(JTAG_TEMPLATE);
 
         LoggerService::trace("begin writing schemas");
         FileService::write("simulation.json", sim.dump(2));

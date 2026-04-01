@@ -257,6 +257,4 @@ namespace JsonService
 
         return result;
     }
-
-    // }
 } // namespace JsonService
