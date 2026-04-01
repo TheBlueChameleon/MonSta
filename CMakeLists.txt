@@ -112,11 +112,9 @@ target_include_directories(Host-FileService
 # JsonService
 
 add_library(Host-JsonService STATIC
-    host/jsonservice/jsonservice.hpp                        host/jsonservice/jsonservice.cpp
-
-    host/jsonservice/database/jsonservicedatabase.hpp       host/jsonservice/database/jsonservicedatabase.cpp
-
-    host/jsonservice/schemabuilder/jsonschemabuilder.hpp    host/jsonservice/schemabuilder/jsonschemabuilder.cpp
+    host/jsonservice/jsonservice.hpp            host/jsonservice/jsonservice.cpp
+    host/jsonservice/jsonservicedatabase.hpp    host/jsonservice/jsonservicedatabase.cpp
+    host/jsonservice/jsonschemabuilder.hpp      host/jsonservice/jsonschemabuilder.cpp
 )
 
 target_include_directories(Host-JsonService
@@ -155,10 +153,6 @@ target_include_directories(Host-MemoryService
     PUBLIC api
 )
 
-target_link_libraries(Host-MemoryService
-    spdlog
-)
-
 # ............................................................................ #
 # VersionService
 
@@ -169,9 +163,6 @@ add_library(Host-VersionService STATIC
 target_include_directories(Host-VersionService
     PUBLIC host
     PUBLIC api
-)
-
-target_link_libraries(Host-VersionService
 )
 
 # ............................................................................ #

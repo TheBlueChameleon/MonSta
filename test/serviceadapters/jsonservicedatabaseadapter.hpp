@@ -1,7 +1,7 @@
 #ifndef JSONSERVICEDATABASEADAPTER_HPP
 #define JSONSERVICEDATABASEADAPTER_HPP
 
-#include <jsonservice/database/jsonservicedatabase.hpp>
+#include <jsonservice/jsonservicedatabase.hpp>
 
 class JsonServiceDatabaseAdapter : public JsonService::JsonServiceDatabase
 {

@@ -131,7 +131,7 @@ static void validateAsOutputDirectory(const std::string& data)
         return;
     }
 
-    if (!std::filesystem::exists(path))
+    if (std::filesystem::exists(path))
     {
         if (!std::filesystem::is_directory(path))
         {

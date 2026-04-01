@@ -90,7 +90,7 @@ namespace JsonService
         return *this;
     }
 
-    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setDefault(const std::string_view value)
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setDefault(const nlohmann::json& value)
     {
         json["default"] = value;
         return *this;
@@ -189,6 +189,18 @@ namespace JsonService
         {
             elements.back().setDescription(description);
         }
+        return *this;
+    }
+
+    JsonSchemaBuilder& JsonSchemaBuilder::addSubSchema(const JsonSubSchemaBuilder& subSchema)
+    {
+        subSchemas.push_back(subSchema);
+        return *this;
+    }
+
+    JsonSchemaBuilder& JsonSchemaBuilder::addSubSchema(JsonSubSchemaBuilder&& subSchema)
+    {
+        subSchemas.emplace_back(std::move(subSchema));
         return *this;
     }
 

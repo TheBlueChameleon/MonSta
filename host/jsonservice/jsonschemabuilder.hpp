@@ -30,7 +30,7 @@ namespace JsonService
             JsonSchemaElementBuilder& setArrayOfType(const JsonType type);
             JsonSchemaElementBuilder& setDescription(const std::string_view value);
             JsonSchemaElementBuilder& setTitle(const std::string_view value);
-            JsonSchemaElementBuilder& setDefault(const std::string_view value);
+            JsonSchemaElementBuilder& setDefault(const nlohmann::json& value);
             JsonSchemaElementBuilder& setReference(const std::string_view value);
     };
 
@@ -71,10 +71,12 @@ namespace JsonService
             JsonSchemaBuilder& setAdditionalProperties(bool additionalProperties);
             JsonSchemaBuilder& setRequired(const std::initializer_list<std::string>& required);
 
-            JsonSchemaBuilder&        addReference(const std::string_view name, const std::string_view description = "");
-            JsonSubSchemaBuilder&     addSubSchema(const std::string_view name);
-            JsonSchemaElementBuilder& addProperty(const std::string_view name);
-            JsonSchemaElementBuilder& addProperty(const std::string_view name, JsonType type);
+            JsonSchemaBuilder&          addReference(const std::string_view name, const std::string_view description = "");
+            JsonSchemaBuilder&          addSubSchema(const JsonSubSchemaBuilder& subSchema);
+            JsonSchemaBuilder&          addSubSchema(JsonSubSchemaBuilder&& subSchema);
+            JsonSubSchemaBuilder&       addSubSchema(const std::string_view name);
+            JsonSchemaElementBuilder&   addProperty(const std::string_view name);
+            JsonSchemaElementBuilder&   addProperty(const std::string_view name, JsonType type);
 
             nlohmann::json build() const;
     };

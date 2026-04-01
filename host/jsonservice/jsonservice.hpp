@@ -12,21 +12,29 @@ namespace JsonService
     /* setAllowComments(bool)
      * setAllowExceptions(bool)
      *
-     * parse(string)
-     * read(file)
-     * validate(json, json)
-     * patch(json, json)
-     * merge_patch(json, json)?
+     * parse(string) -> json
+     * public parseAndRegister(tag, string)
+     * read(file)    -> json
+     * public readAndRegister(tag, file)
+     * validate(json, json) -> json
+     * validate(json, tag)  -> json
+     * patch(json, json) -> json
+     * merge_patch(json, json)?  -> json
      *
      * readValidateAndPatch(file, json)
+     * parseValidateAndPatch(file, json)
+     * public readValidateAndPatch(file, tag)
+     * public parseValidateAndPatch(file, tag)
      *
      * json ops:
-     * getHandle
-     * getHandleFromPath
-     * emplace(string, string)
+     * getHandle(tag) -> Handle
+     * getHandleFromPath(tag, path) -> Handle
+     * getElement(Handle, item) -> Handle
+     * emplace(Handle, path, *) -> Handle
+     * asString(Handle), ...
      *
-     * asString, ...
-     *
+     * json schema builder ops:
+     * ???
      */
 }
 

@@ -27,10 +27,10 @@ namespace JsonService
         return it->second.state;
     }
 
-    static void waitForCompletion(const JsonServiceDatabase::Entry& lookup)
+    static void waitForCompletion(const JsonServiceDatabase::Entry& entry)
     {
-        std::unique_lock lock(lookup.mtx);
-        lookup.cv.wait(lock, [&lookup] { return lookup.state == JsonServiceDatabase::EntryState::READY; });
+        std::unique_lock lock(entry.mtx);
+        entry.cv.wait(lock, [&entry] { return entry.state == JsonServiceDatabase::EntryState::READY; });
     }
 
     const nlohmann::json& JsonServiceDatabase::get(const std::string& tag) const
@@ -58,6 +58,7 @@ namespace JsonService
     {
         Entry* entry;
 
+        // TODO: extract shared code with add(move)
         {
             std::lock_guard lock(mutex);
 
@@ -75,6 +76,35 @@ namespace JsonService
             std::lock_guard entryLock(entry->mtx);
 
             entry->data = std::make_unique<nlohmann::json>(json); // copy
+            entry->state = EntryState::READY;
+        }
+
+        entry->cv.notify_all();
+
+        return *entry->data;
+    }
+
+    const nlohmann::json& JsonServiceDatabase::add(const std::string& tag, const nlohmann::json&& json)
+    {
+        Entry* entry;
+
+        {
+            std::lock_guard lock(mutex);
+
+            auto [it, inserted] = database.try_emplace(tag);
+
+            if (!inserted)
+            {
+                throw LookupError("JSON Tag already exists: '"s + tag + "'");
+            }
+
+            entry = &it->second;
+        }
+
+        {
+            std::lock_guard entryLock(entry->mtx);
+
+            entry->data = std::make_unique<nlohmann::json>(std::move(json));
             entry->state = EntryState::READY;
         }
 
@@ -114,7 +144,7 @@ namespace JsonService
             if (entry->state == EntryState::DECLARED && !entry->data)
             {
                 // This thread initializes
-                entry->data = std::make_unique<nlohmann::json>(creator());
+                entry->data = std::make_unique<nlohmann::json>(std::move(creator()));
                 entry->state = EntryState::READY;
 
                 entryLock.unlock();
