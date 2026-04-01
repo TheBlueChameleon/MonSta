@@ -2,6 +2,7 @@
 using namespace std::string_literals;
 
 #include "jsonservice/jsonschemabuilder.hpp"
+#include "jsonservice/jsonservice.hpp"
 #include "jsonservice/jsonservicedatabase.hpp"
 using namespace JsonService;
 
@@ -126,7 +127,8 @@ namespace OperationModes
 
     void registerSchemaSimulation()
     {
-        auto& jsonDatabase = JsonServiceDatabase::getInstance();
+        // TODO: use JsonService directly
+        auto& jsonDatabase = JsonService::getDatabase();
 
         jsonDatabase.add(
             JTAG_SIMULATION,
@@ -197,7 +199,8 @@ namespace OperationModes
 
     void registerSchemaTemplate()
     {
-        auto& jsonDatabase = JsonServiceDatabase::getInstance();
+        // TODO: use JsonService directly
+        auto& jsonDatabase = JsonService::getDatabase();
 
         jsonDatabase.add(
             JTAG_TEMPLATE,

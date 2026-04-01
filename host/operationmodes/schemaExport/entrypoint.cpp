@@ -4,7 +4,7 @@
 
 //#include "json/schemaconstants.hpp"
 
-#include "jsonservice/jsonservicedatabase.hpp"
+#include "jsonservice/jsonservice.hpp"
 
 #include "loggerservice/loggerservice.hpp"
 
@@ -22,7 +22,7 @@ namespace SchemaExportMode
         OperationModes::setupFileService(defs, defs.outputDirectory);
 
         // TODO: remove bypass through Database
-        auto& instance = JsonService::JsonServiceDatabase::getInstance();
+        auto& instance = JsonService::getDatabase();
         auto& sim = instance.get(JTAG_SIMULATION);
         auto& tpl = instance.get(JTAG_TEMPLATE);
 

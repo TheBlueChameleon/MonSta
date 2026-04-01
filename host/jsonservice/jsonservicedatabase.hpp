@@ -26,16 +26,12 @@ namespace JsonService
                 std::unique_ptr<nlohmann::ordered_json> data;
             };
 
-        protected:
-            static JsonServiceDatabase instance;
-
+        private:
             std::mutex mutable mutex;
             std::map<std::string, Entry> database;
 
-        protected:
-            JsonServiceDatabase() = default;
-
         public:
+            JsonServiceDatabase() = default;
             static JsonServiceDatabase& getInstance();
 
             std::optional<EntryState> getState(const std::string_view tag) const;

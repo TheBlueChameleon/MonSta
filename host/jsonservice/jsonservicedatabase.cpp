@@ -7,13 +7,6 @@ using namespace std::string_literals;
 
 namespace JsonService
 {
-    JsonServiceDatabase JsonServiceDatabase::instance;
-
-    JsonServiceDatabase& JsonServiceDatabase::getInstance()
-    {
-        return instance;
-    }
-
     std::optional<JsonServiceDatabase::EntryState> JsonServiceDatabase::getState(const std::string_view tag) const
     {
         std::lock_guard lock(mutex);
@@ -33,7 +26,7 @@ namespace JsonService
         entry.cv.wait(lock, [&entry] { return entry.state == JsonServiceDatabase::EntryState::READY; });
     }
 
-    const nlohmann::ordered_json &JsonServiceDatabase::get(const std::string_view tag) const
+    const nlohmann::ordered_json& JsonServiceDatabase::get(const std::string_view tag) const
     {
         const Entry* entry;
 
@@ -54,7 +47,7 @@ namespace JsonService
         return *entry->data;
     }
 
-    const nlohmann::ordered_json &JsonServiceDatabase::add(
+    const nlohmann::ordered_json& JsonServiceDatabase::add(
         const std::string_view tag,
         const nlohmann::ordered_json& json
     )
@@ -87,7 +80,7 @@ namespace JsonService
         return *entry->data;
     }
 
-    const nlohmann::ordered_json &JsonServiceDatabase::add(const std::string_view tag, const nlohmann::ordered_json&& json)
+    const nlohmann::ordered_json& JsonServiceDatabase::add(const std::string_view tag, const nlohmann::ordered_json&& json)
     {
         Entry* entry;
 
@@ -116,7 +109,7 @@ namespace JsonService
         return *entry->data;
     }
 
-    const nlohmann::ordered_json &JsonServiceDatabase::getOrAdd(
+    const nlohmann::ordered_json& JsonServiceDatabase::getOrAdd(
         const std::string_view tag,
         std::function<nlohmann::ordered_json()> creator
     )
@@ -198,7 +191,7 @@ namespace JsonService
         return *entry->data;
     }
 
-    const nlohmann::ordered_json &JsonServiceDatabase::commit(const std::string& tag)
+    const nlohmann::ordered_json& JsonServiceDatabase::commit(const std::string& tag)
     {
         Entry* entry;
 

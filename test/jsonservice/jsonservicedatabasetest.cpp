@@ -9,36 +9,23 @@ using namespace std::literals::chrono_literals;
 
 #include "errors.hpp"
 
+#include "jsonservice/jsonservice.hpp"
 #include "jsonservice/jsonservicedatabase.hpp"
 
 #include "serviceadapters/loggerserviceadapter.hpp"
-#include "serviceadapters/jsonservicedatabaseadapter.hpp"
 
-#include "jsonservicetest.hpp"
+#include "jsonservicedatabasetest.hpp"
 
 void JsonServiceTest::SetUpTestSuite()
 {
     LoggerServiceAdapter::useOnlyTestSink();
 }
 
-void JsonServiceTest::TearDownTestSuite()
-{
-    JsonServiceDatabaseAdapter::getInstance().reset();
-}
-
-void JsonServiceTest::SetUp()
-{
-    JsonServiceDatabaseAdapter::getInstance().reset();
-}
-
-void JsonServiceTest::TearDown()
-{}
-
 TEST_F(JsonServiceTest, Database_AddGet_SingleThread)
 {
     using namespace JsonService;
 
-    auto& instance = JsonServiceDatabase::getInstance();
+    auto instance = JsonServiceDatabase();
     nlohmann::json json = R"({"key" : "value"})"_json;
     const auto tag = "tag";
     const auto nonexistent = "nonexistent";
@@ -82,11 +69,13 @@ TEST_F(JsonServiceTest, Database_AddGet_MultiThread)
     std::atomic_int readThrowCount = 0;
     std::atomic_int readCorrectCount = 0;
 
-    auto writer = [&tag, &json, &writeThrowCount](const std::chrono::milliseconds delay)
+    auto instance = JsonServiceDatabase();
+
+    auto writer = [&instance, &tag, &json, &writeThrowCount](const std::chrono::milliseconds delay)
     {
         std::this_thread::sleep_for(delay);
 
-        auto& instance = JsonServiceDatabase::getInstance();
+
         try
         {
             instance.add(tag, json);
@@ -97,11 +86,10 @@ TEST_F(JsonServiceTest, Database_AddGet_MultiThread)
         }
     };
 
-    auto reader = [&tag, &raw, &readCorrectCount, &readThrowCount](const std::chrono::milliseconds delay)
+    auto reader = [&instance, &tag, &raw, &readCorrectCount, &readThrowCount](const std::chrono::milliseconds delay)
     {
         std::this_thread::sleep_for(delay);
 
-        auto& instance = JsonServiceDatabase::getInstance();
         try
         {
             const auto result = instance.get(tag);
@@ -148,15 +136,16 @@ TEST_F(JsonServiceTest, Database_GetOrAdd)
     std::atomic_int correctReads = 0;
     std::atomic_int writeCalls = 0;
 
+    auto instance = JsonServiceDatabase();
+
     auto creator = [&raw, &writeCalls]()
     {
         ++writeCalls;
         return nlohmann::json::parse(raw);
     };
 
-    auto writer = [&tag, &raw, &creator, &correctReads]()
+    auto writer = [&instance, &tag, &raw, &creator, &correctReads]()
     {
-        auto& instance = JsonServiceDatabase::getInstance();
 
         auto json = instance.getOrAdd(tag, creator);
 
@@ -191,11 +180,12 @@ TEST_F(JsonServiceTest, Database_DeclareCommit)
     std::atomic_int readThrowCount = 0;
     std::atomic_int readCorrectCount = 0;
 
-    auto writer = [&tag, &key, &val, &json, &writeCount, &writeThrowCount](const std::chrono::milliseconds delay)
+    auto instance = JsonServiceDatabase();
+
+    auto writer = [&instance, &tag, &key, &val, &json, &writeCount, &writeThrowCount](const std::chrono::milliseconds delay)
     {
         std::this_thread::sleep_for(5ms);
 
-        auto& instance = JsonServiceDatabase::getInstance();
         auto data = instance.declare(tag);
         if (data.has_value())
         {
@@ -215,11 +205,10 @@ TEST_F(JsonServiceTest, Database_DeclareCommit)
         }
     };
 
-    auto reader = [&tag, &raw, &readCorrectCount, &readThrowCount](const std::chrono::milliseconds delay)
+    auto reader = [&instance, &tag, &raw, &readCorrectCount, &readThrowCount](const std::chrono::milliseconds delay)
     {
         std::this_thread::sleep_for(delay);
 
-        auto& instance = JsonServiceDatabase::getInstance();
         try
         {
             const auto result = instance.get(tag);
@@ -272,9 +261,10 @@ TEST_F(JsonServiceTest, Database_DeclareAdd)
     std::atomic_int addThrowCount = 0;
     std::atomic_int readCorrectCount = 0;
 
-    auto declareFirst = [&tag1, &tag2, &keyD, &val, &rawA, &declareThrowCount, &addThrowCount]()
+    auto instance = JsonServiceDatabase();
+
+    auto declareFirst = [&instance, &tag1, &tag2, &keyD, &val, &rawA, &declareThrowCount, &addThrowCount]()
     {
-        auto& instance = JsonServiceDatabase::getInstance();
         std::optional<std::reference_wrapper<nlohmann::ordered_json>> declJsonOpt;
 
         try
@@ -310,10 +300,8 @@ TEST_F(JsonServiceTest, Database_DeclareAdd)
         }
     };
 
-    auto addFirst = [&tag1, &tag2, &keyD, &val, &rawA, &declareThrowCount, &addThrowCount]()
+    auto addFirst = [&instance, &tag1, &tag2, &keyD, &val, &rawA, &declareThrowCount, &addThrowCount]()
     {
-        auto& instance = JsonServiceDatabase::getInstance();
-
         try
         {
             instance.add(tag2, nlohmann::json::parse(rawA));
@@ -342,11 +330,9 @@ TEST_F(JsonServiceTest, Database_DeclareAdd)
         }
     };
 
-    auto readBoth = [&tag1, &tag2, &rawA, &rawD, &readCorrectCount](const std::chrono::milliseconds delay)
+    auto readBoth = [&instance, &tag1, &tag2, &rawA, &rawD, &readCorrectCount](const std::chrono::milliseconds delay)
     {
         std::this_thread::sleep_for(delay);
-
-        auto& instance = JsonServiceDatabase::getInstance();
 
         auto read1 = instance.get(tag1).dump();
         auto read2 = instance.get(tag2).dump();

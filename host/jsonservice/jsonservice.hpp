@@ -3,11 +3,25 @@
 
 #include <IJsonService.hpp>
 
+#include "jsonschemabuilder.hpp"
+#include "jsonservicedatabase.hpp"
+
 namespace JsonService
 {
     enum class EntryState {NONEXISTENT, DECLARED, READY};
 
     IJsonService exportService();
+
+    JsonServiceDatabase& getDatabase();
+
+    std::optional<JsonServiceDatabase::EntryState> getState(const std::string_view tag);
+    const nlohmann::ordered_json& get(const std::string_view tag);
+    const nlohmann::ordered_json& add(const std::string_view tag, const nlohmann::ordered_json& json);
+    const nlohmann::ordered_json& add(const std::string_view tag, const nlohmann::ordered_json&& json);
+    const nlohmann::ordered_json& getOrAdd(const std::string_view tag, std::function<nlohmann::ordered_json()> creator);
+    std::optional<std::reference_wrapper<nlohmann::ordered_json> > declare(const std::string_view tag);
+    const nlohmann::ordered_json& commit(const std::string& tag);
+
 
     /* setAllowComments(bool)
      * setAllowExceptions(bool)
