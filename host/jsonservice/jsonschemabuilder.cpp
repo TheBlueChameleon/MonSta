@@ -1,6 +1,8 @@
 #include <string>
 using namespace std::string_literals;
 
+#include "errors.hpp"
+
 #include "jsonschemabuilder.hpp"
 
 using namespace nlohmann;
@@ -46,29 +48,22 @@ namespace JsonService
         switch (type)
         {
             case JsonType::VOID:
-                json["type"] = "null";
-                break;
+                return setProperty("type", "null");
             case JsonType::BOOLEAN:
-                json["type"] = "boolean";
-                break;
+                return setProperty("type", "boolean");
             case JsonType::INTEGER:
-                json["type"] = "integer";
-                break;
+                return setProperty("type", "integer");
             case JsonType::NUMBER:
-                json["type"] = "number";
-                break;
+                return setProperty("type", "number");
             case JsonType::STRING:
-                json["type"] = "string";
-                break;
+                return setProperty("type", "string");
             case JsonType::ARRAY:
-                json["type"] = "array";
-                break;
+                return setProperty("type", "array");
             case JsonType::OBJECT:
-                json["type"] = "object";
-                break;
+                return setProperty("type", "object");
         }
 
-        return *this;
+        throw IllegalStateException("Unknown Json data type: "s + std::to_string(static_cast<int>(type)));
     }
 
     JsonSchemaElementBuilder& JsonSchemaElementBuilder::setArrayOfType(const JsonType type)
@@ -80,26 +75,32 @@ namespace JsonService
 
     JsonSchemaElementBuilder& JsonSchemaElementBuilder::setDescription(const std::string_view value)
     {
-        json["description"] = value;
-        return *this;
+        return setProperty("description", value);
     }
 
     JsonSchemaElementBuilder& JsonSchemaElementBuilder::setTitle(const std::string_view value)
     {
-        json["title"] = value;
-        return *this;
+        return setProperty("title", value);
     }
 
     JsonSchemaElementBuilder& JsonSchemaElementBuilder::setDefault(const nlohmann::json& value)
     {
-        json["default"] = value;
-        return *this;
+        return setProperty("default", value);
+    }
+
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setMinimum(const nlohmann::json& value)
+    {
+        return setProperty("minimum", value);
+    }
+
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setMaximum(const nlohmann::json& value)
+    {
+        return setProperty("maximum", value);
     }
 
     JsonSchemaElementBuilder& JsonSchemaElementBuilder::setReference(const std::string_view value)
     {
-        json["$ref"] = "#/$defs/"s + value.data();
-        return *this;
+        return setProperty("$ref",  "#/$defs/"s + value.data());
     }
 
     // ====================================================================== //

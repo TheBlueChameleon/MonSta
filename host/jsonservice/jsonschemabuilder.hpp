@@ -31,6 +31,8 @@ namespace JsonService
             JsonSchemaElementBuilder& setDescription(const std::string_view value);
             JsonSchemaElementBuilder& setTitle(const std::string_view value);
             JsonSchemaElementBuilder& setDefault(const nlohmann::json& value);
+            JsonSchemaElementBuilder& setMinimum(const nlohmann::json& value);
+            JsonSchemaElementBuilder& setMaximum(const nlohmann::json& value);
             JsonSchemaElementBuilder& setReference(const std::string_view value);
     };
 
