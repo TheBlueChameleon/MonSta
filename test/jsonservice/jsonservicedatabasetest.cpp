@@ -9,7 +9,6 @@ using namespace std::literals::chrono_literals;
 
 #include "errors.hpp"
 
-#include "jsonservice/jsonservice.hpp"
 #include "jsonservice/jsonservicedatabase.hpp"
 
 #include "serviceadapters/loggerserviceadapter.hpp"

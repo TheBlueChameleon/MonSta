@@ -4,7 +4,7 @@
         "logfile": "logfile.txt"
     },
     "simulator" : {
-        "engine": "value", // comment
+        "engine": "./build-Desktop-Debug/libEngine-Gen1.so", // comment
         "inputDirectory": "value",
         "outputDirectory": "value"
     },

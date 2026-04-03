@@ -14,9 +14,10 @@ namespace SimulationMode
     void run(const SimulationModeDefinition& defs)
     {
         OperationModes::setupLoggerService(defs.logging);
+        OperationModes::setupFileService(defs, defs.simulator.outputDir);
 
         LoggerService::infoF("overwrite is {}", defs.overwrite);
 
-        ClientWrapper cw("./build-Desktop-Debug/libEngine-Gen1.so");
+        auto cw = ClientWrapper(defs.simulator.engine);
     }
 }

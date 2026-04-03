@@ -32,7 +32,7 @@ FetchContent_Declare(
 FetchContent_Declare(
   json
   GIT_REPOSITORY https://github.com/nlohmann/json
-  GIT_TAG "v3.12.0"
+  GIT_TAG ${nlohmann_json_VERSION}
   GIT_SHALLOW TRUE
   GIT_PROGRESS ON
   SYSTEM
@@ -51,7 +51,6 @@ FetchContent_Declare(
     GIT_TAG        "v1.15.3"
     GIT_SHALLOW    true
 )
-
 FetchContent_Declare(
   googletest
   GIT_REPOSITORY https://github.com/google/googletest
@@ -296,7 +295,7 @@ target_include_directories(Test
 )
 
 if (TARGET GTest::gtest_main)
-    message("found it!")
+    message("found gtest!")
 else()
     message("no gtest!")
 endif()
