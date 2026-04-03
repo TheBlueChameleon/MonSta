@@ -27,9 +27,18 @@ namespace JsonService
 
     static IJsonService::Handle toHandle(const nlohmann::ordered_json& reference)
     {
-        return IJsonService::Handle(
-                   reinterpret_cast<decltype(IJsonService::Handle::data)>(&reference)
-               );
+        return IJsonService::Handle
+        {
+            reinterpret_cast<decltype(IJsonService::Handle::data)>(&reference)
+        };
+    }
+
+    static IJsonService::ModifiableHandle toModifiableHandle(const nlohmann::ordered_json& reference)
+    {
+        return IJsonService::ModifiableHandle
+        {
+            reinterpret_cast<decltype(IJsonService::ModifiableHandle::data)>(&reference)
+        };
     }
 
     static const ordered_json& toOrderedJson(const IJsonService::Handle handle)
@@ -72,26 +81,54 @@ namespace JsonService
     }
 
     // ====================================================================== //
-    // JsonDatabase
+    // Export
 
     IJsonService exportService()
     {
         return IJsonService
         {
+            getState_dlx,
             get_dlx,
+            add_dlx,
+            getOrAdd_dlx,
+            declare_dlx,
+            commit_dlx,
+
             navigateTo_dlx,
-            contains_dlx
+            contains_dlx,
+
+            isString_dlx,
+            getAsString_dlx
         };
     }
+
+    // ====================================================================== //
+    // JsonDatabase
 
     JsonServiceDatabase& getDatabase()
     {
         return database;
     }
 
-    std::optional<JsonServiceDatabase::EntryState> getState(const std::string_view tag)
+    const IJsonService::EntryState getState(const std::string_view tag)
     {
-        return database.getState(tag);
+        const auto opt = database.getState(tag);
+        if (opt.has_value())
+        {
+            switch (opt.value())
+            {
+                case JsonServiceDatabase::EntryState::DECLARED:
+                    return IJsonService::EntryState::DECLARED;
+                case JsonServiceDatabase::EntryState::READY:
+                    return IJsonService::EntryState::READY;
+            }
+        }
+        else
+        {
+            return IJsonService::EntryState::NONEXISTENT;
+        }
+
+        throw IllegalStateException("Unknown Entry State in tag '"s + tag.data() + "'");
     }
 
     const nlohmann::ordered_json& get(const std::string_view tag)
@@ -127,10 +164,53 @@ namespace JsonService
     // ---------------------------------------------------------------------- //
     // DyLib export
 
+    const IJsonService::EntryState getState_dlx(const char* const tag)
+    {
+        assertSaneTag(tag);
+        return getState(tag);
+    }
+
     const IJsonService::Handle get_dlx(const char* const tag)
     {
         assertSaneTag(tag);
         return toHandle(get(tag));
+    }
+
+    const IJsonService::Handle add_dlx(const char* const tag, const IJsonService::Handle handle)
+    {
+        assertSaneTag(tag);
+        assertSaneHandle(handle);
+        return toHandle(
+                   add(tag, toOrderedJson(handle))
+               );
+    }
+
+    const IJsonService::Handle getOrAdd_dlx(const char* const tag, const IJsonService::Handle(*creator)())
+    {
+        assertSaneTag(tag);
+        if (creator == nullptr)
+        {
+            throw ClientRequestError("Client attempted getOrAdd with null creator");
+        }
+
+        auto convertedCreator = [&creator]()
+        {
+            return toOrderedJson(creator());
+        };
+
+        return toHandle(getOrAdd(tag, convertedCreator));
+    }
+
+    const IJsonService::ModifiableHandle declare_dlx(const char* const tag)
+    {
+        assertSaneTag(tag);
+        return toModifiableHandle(declare(tag));
+    }
+
+    const IJsonService::Handle commit_dlx(const char* const tag)
+    {
+        assertSaneTag(tag);
+        return toHandle(database.commit(tag));
     }
 
     // ====================================================================== //
@@ -161,6 +241,67 @@ namespace JsonService
         assertSaneHandle(handle);
         const ordered_json& base = toOrderedJson(handle);
         return base.contains(elementName);
+    }
+
+    const bool isNull_dlx(const IJsonService::Handle handle)
+    {
+        assertSaneHandle(handle);
+        const ordered_json& base = toOrderedJson(handle);
+        return base.is_null();
+    }
+
+    const bool isBoolean_dlx(const IJsonService::Handle handle)
+    {
+        assertSaneHandle(handle);
+        const ordered_json& base = toOrderedJson(handle);
+        return base.is_boolean();
+    }
+
+    const bool isInteger_dlx(const IJsonService::Handle handle)
+    {
+        assertSaneHandle(handle);
+        const ordered_json& base = toOrderedJson(handle);
+        return base.is_number_integer();
+    }
+
+    const bool isFloat_dlx(const IJsonService::Handle handle)
+    {
+        assertSaneHandle(handle);
+        const ordered_json& base = toOrderedJson(handle);
+        return base.is_number_float();
+    }
+
+    const bool isString_dlx(const IJsonService::Handle handle)
+    {
+        assertSaneHandle(handle);
+        const ordered_json& base = toOrderedJson(handle);
+        return base.is_string();
+    }
+
+    const bool isArray_dlx(const IJsonService::Handle handle)
+    {
+        assertSaneHandle(handle);
+        const ordered_json& base = toOrderedJson(handle);
+        return base.is_array();
+    }
+
+    const bool isObject_dlx(const IJsonService::Handle handle)
+    {
+        assertSaneHandle(handle);
+        const ordered_json& base = toOrderedJson(handle);
+        return base.is_object();
+    }
+
+    const char* const getAsString_dlx(const IJsonService::Handle handle)
+    {
+        assertSaneHandle(handle);
+        const ordered_json& base = toOrderedJson(handle);
+        if (!base.is_string())
+        {
+            throw ClientRequestError("Client attempted to read Json object as String");
+        }
+        const auto ptr = base.get_ptr<const ordered_json::string_t*>();
+        return ptr->data();
     }
 
     // ====================================================================== //

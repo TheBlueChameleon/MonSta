@@ -18,4 +18,14 @@ namespace JsonService
         return jsonService().containts(handle, elementName);
     }
 
+    const bool isString(const IJsonService::Handle handle)
+    {
+        return jsonService().isString(handle);
+    }
+
+    const char* const getAsString(const IJsonService::Handle handle)
+    {
+        return jsonService().getAsString(handle);
+    }
+
 }

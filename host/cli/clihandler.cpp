@@ -207,11 +207,9 @@ static LoggingDefinition unpackLoggingDefinition(const ordered_json& data)
     ILoggerService::LogLevel             loglevel;
     std::optional<std::filesystem::path> logfile;
 
-    if (data.is_structured())       // eqv. to is test: exists
-    {
-        fetchIfInJson(JKEY_LOGGING_LOGLEVEL, data, loglevel);
-        fetchIfInJson(JKEY_LOGGING_LOGFILE, data, logfile);
-    }
+    // JKEY_LOGGING exists due to having a default
+    fetchIfInJson(JKEY_LOGGING_LOGLEVEL, data, loglevel);
+    fetchIfInJson(JKEY_LOGGING_LOGFILE, data, logfile);
 
     return LoggingDefinition(logfile, loglevel);
 }
@@ -285,8 +283,8 @@ static std::shared_ptr<const BaseModeDefinition> unpackSimulationInput(const Cli
 
 static TemplatesDefinition unpackTemplatesDefinition(const ordered_json& data)
 {
-    std::string engine          = data[JKEY_TEMPLATES_ENGINE];                   // required to exist.
-    std::string outputDirectory = data[JKEY_TEMPLATES_OUTPUTDIRECTORY];          // required to exist.
+    std::string engine          = data[JKEY_TEMPLATES_ENGINE];                  // required to exist.
+    std::string outputDirectory = data[JKEY_TEMPLATES_OUTPUTDIRECTORY];         // required to exist.
     std::string player1Team;
     std::string player1Strategy;
     std::string player2Team;
@@ -295,17 +293,18 @@ static TemplatesDefinition unpackTemplatesDefinition(const ordered_json& data)
     std::string moveDefs;
     std::string typeDefs;
     std::string itemDefs;
-    bool writeSchemas = data[JKEY_TEMPLATES_WRITESCHEMAS];                       // exists by default
+    bool writeSchemas = data[JKEY_TEMPLATES_WRITESCHEMAS];                      // exists by default
     std::string args;
 
-    fetchIfInJson(JKEY_TEMPLATES_PLAYER1TEAM,      data, player1Team);
-    fetchIfInJson(JKEY_TEMPLATES_PLAYER1STRATEGY,  data, player1Strategy);
-    fetchIfInJson(JKEY_TEMPLATES_PLAYER2TEAM,      data, player2Team);
-    fetchIfInJson(JKEY_TEMPLATES_PLAYER2STRATEGY,  data, player2Strategy);
-    fetchIfInJson(JKEY_TEMPLATES_PKMNDEFS,         data, pkmnDefs);
-    fetchIfInJson(JKEY_TEMPLATES_MOVEDEFS,         data, moveDefs);
-    fetchIfInJson(JKEY_TEMPLATES_TYPEDEFS,         data, typeDefs);
-    fetchIfInJson(JKEY_TEMPLATES_ITEMDEFS,         data, itemDefs);
+    fetchIfInJson(JKEY_TEMPLATES_PLAYER1TEAM,       data, player1Team);
+    fetchIfInJson(JKEY_TEMPLATES_PLAYER1STRATEGY,   data, player1Strategy);
+    fetchIfInJson(JKEY_TEMPLATES_PLAYER2TEAM,       data, player2Team);
+    fetchIfInJson(JKEY_TEMPLATES_PLAYER2STRATEGY,   data, player2Strategy);
+    fetchIfInJson(JKEY_TEMPLATES_PKMNDEFS,          data, pkmnDefs);
+    fetchIfInJson(JKEY_TEMPLATES_MOVEDEFS,          data, moveDefs);
+    fetchIfInJson(JKEY_TEMPLATES_TYPEDEFS,          data, typeDefs);
+    fetchIfInJson(JKEY_TEMPLATES_ITEMDEFS,          data, itemDefs);
+    fetchIfInJson(JKEY_TEMPLATES_ARGS,              data, args);
 
     return TemplatesDefinition
     {

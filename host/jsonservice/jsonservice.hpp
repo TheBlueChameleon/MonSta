@@ -13,11 +13,9 @@ namespace JsonService
     // ---------------------------------------------------------------------- //
     // JsonDatabase
 
-    enum class EntryState {NONEXISTENT, DECLARED, READY};
-
     JsonServiceDatabase& getDatabase();
 
-    std::optional<JsonServiceDatabase::EntryState> getState(const std::string_view tag);
+    const IJsonService::EntryState getState(const std::string_view tag);
     const nlohmann::ordered_json& get(const std::string_view tag);
     const nlohmann::ordered_json& add(const std::string_view tag, const nlohmann::ordered_json& json);
     const nlohmann::ordered_json& add(const std::string_view tag, const nlohmann::ordered_json&& json);
@@ -25,13 +23,28 @@ namespace JsonService
     std::optional<std::reference_wrapper<nlohmann::ordered_json>> declare(const std::string_view tag);
     const nlohmann::ordered_json& commit(const std::string& tag);
 
+    const IJsonService::EntryState getState_dlx(const char* const tag);
     const IJsonService::Handle get_dlx(const char* const tag);
+    const IJsonService::Handle add_dlx(const char* const tag, const IJsonService::Handle handle);       // copy only
+    const IJsonService::Handle getOrAdd_dlx(const char* const tag, const IJsonService::Handle(*creator)());
+    const IJsonService::ModifiableHandle declare_dlx(const char* const tag);
+    const IJsonService::Handle commit_dlx(const char* const tag);
 
     // ---------------------------------------------------------------------- //
     // Json compatibility layer
 
     const IJsonService::Handle navigateTo_dlx(const IJsonService::Handle handle, const char* const jsonPointer);
     const bool contains_dlx(const IJsonService::Handle handle, const char* const elementName);
+
+    const bool isNull_dlx(const IJsonService::Handle handle);
+    const bool isBoolean_dlx(const IJsonService::Handle handle);
+    const bool isInteger_dlx(const IJsonService::Handle handle);
+    const bool isFloat_dlx(const IJsonService::Handle handle);
+    const bool isString_dlx(const IJsonService::Handle handle);
+    const bool isArray_dlx(const IJsonService::Handle handle);
+    const bool isObject_dlx(const IJsonService::Handle handle);
+
+    const char* const getAsString_dlx(const IJsonService::Handle handle);
 
     // ---------------------------------------------------------------------- //
     // Parsing & Validation
@@ -82,8 +95,7 @@ namespace JsonService
      * merge_patch(json, json)?  -> json
      *
      * json ops:
-     * getHandle(tag) -> Handle
-     * getHandleFromPath(tag, path) -> Handle
+     * getEmptyHandle
      * getElement(Handle, item) -> Handle
      * emplace(Handle, path, *) -> Handle
      * asString(Handle), ...

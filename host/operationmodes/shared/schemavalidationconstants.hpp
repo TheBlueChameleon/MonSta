@@ -16,7 +16,7 @@ static constexpr auto JKEY_SIMULATOR_MAXTURNS        = "maxTurns";
 static constexpr auto JKEY_SIMULATOR_THREADCOUNT     = "threadCount";
 static constexpr auto JKEY_SIMULATOR_ARGS            = "args";
 
-static constexpr auto JTAG_SIMULATION = ":storage:/host/simulation.json";
+static constexpr auto JTAG_SIMULATION = ":storage:/host/:validation:/simulation.json";
 
 static constexpr auto JKEY_MATCHDEFINITION                 = "matchDefinition";
 static constexpr auto JKEY_MATCHDEFINITION_PLAYER1TEAM     = "player1Team";
@@ -42,7 +42,7 @@ static constexpr auto JKEY_TEMPLATES_TYPEDEFS        = "typeDefs";
 static constexpr auto JKEY_TEMPLATES_ITEMDEFS        = "itemDefs";
 static constexpr auto JKEY_TEMPLATES_ARGS            = "args";
 
-static constexpr auto JTAG_TEMPLATES = ":storage:/host/templates.json";
+static constexpr auto JTAG_TEMPLATES = ":storage:/host/:validation:/templates.json";
 
 namespace OperationModes
 {

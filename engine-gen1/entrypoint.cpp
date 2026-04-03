@@ -20,7 +20,7 @@ extern "C" {
         LoggerService::info("entry into dylib");
 
         LoggerService::info("requesting by tag");
-        auto handle = JsonService::get(":storage:/host/templates.json");
+        auto handle = JsonService::get(":storage:/host/:validation:/templates.json");
         LoggerService::infoF("get returned {}", handle.data);
 
         LoggerService::infoF("contains 'properties' {}", JsonService::contains(handle, "properties"));
@@ -30,6 +30,12 @@ extern "C" {
         LoggerService::infoF("navigateTo returned {}", subHandle.data);
         LoggerService::infoF("contains '$ref'    {}", JsonService::contains(subHandle, "$ref"));
         LoggerService::infoF("contains '$foo'    {}", JsonService::contains(subHandle, "$foo"));
+
+        auto textHandle = JsonService::navigateTo(subHandle, "/$ref");
+        LoggerService::infoF("navigateTo returned    {}", textHandle.data);
+        LoggerService::infoF("text handle is string: {}", JsonService::isString(textHandle));
+        LoggerService::infoF("text handle content:   {}", JsonService::getAsString(textHandle));
+
         return ClientReturnCode::SUCCESS;
     }
 }

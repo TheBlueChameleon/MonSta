@@ -188,7 +188,6 @@ namespace OperationModes
         return result;
     }
 
-
     void registerSchemaTemplate()
     {
         JsonService::add(
