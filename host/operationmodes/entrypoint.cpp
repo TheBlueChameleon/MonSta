@@ -24,7 +24,7 @@ namespace OperationModes
                     getAsSimulationModeDefinition(runDefinition)
                 );
                 break;
-            case OperationMode::TEMPLATE:
+            case OperationMode::TEMPLATES:
                 TemplateMode::run(
                     getAsTemplateModeDefinition(runDefinition)
                 );

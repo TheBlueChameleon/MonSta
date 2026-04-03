@@ -20,11 +20,11 @@ namespace SchemaExportMode
         OperationModes::setupFileService(defs, defs.outputDirectory);
 
         auto& sim = JsonService::get(JTAG_SIMULATION);
-        auto& tpl = JsonService::get(JTAG_TEMPLATE);
+        auto& tpl = JsonService::get(JTAG_TEMPLATES);
 
         LoggerService::trace("begin writing schemas");
         FileService::write("simulation.json", sim.dump(2));
-        FileService::write("template.json", tpl.dump(2));
+        FileService::write("templates.json", tpl.dump(2));
 
         if (!defs.dryMode)
         {

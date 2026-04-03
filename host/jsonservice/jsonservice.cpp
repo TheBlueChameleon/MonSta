@@ -24,7 +24,7 @@ namespace JsonService
     // ====================================================================== //
     // Internal
 
-    static IJsonService::Handle toHandle(const nlohmann::json& reference)
+    static IJsonService::Handle toHandle(const nlohmann::ordered_json& reference)
     {
         return IJsonService::Handle(
                    reinterpret_cast<decltype(IJsonService::Handle::data)>(&reference)
@@ -77,6 +77,14 @@ namespace JsonService
     const nlohmann::ordered_json& commit(const std::string& tag)
     {
         return database.commit(tag);
+    }
+
+    // ---------------------------------------------------------------------- //
+    // DyLib export
+
+    const IJsonService::Handle get_dlx(const char* const tag)
+    {
+        return toHandle(get(tag));
     }
 
     // ====================================================================== //

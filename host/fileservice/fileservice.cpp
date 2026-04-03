@@ -63,7 +63,7 @@ namespace FileService
         return database.getInputBasePath();
     }
 
-    const char* const getInputBasePath_cstr()
+    const char* const getInputBasePath_dlx()
     {
         return getInputBasePath().c_str();
     }
@@ -73,7 +73,7 @@ namespace FileService
         return database.getOutputBasePath();
     }
 
-    const char* const getOutputBasePath_cstr()
+    const char* const getOutputBasePath_dlx()
     {
         return getOutputBasePath().c_str();
     }
@@ -87,7 +87,7 @@ namespace FileService
         }
     }
 
-    void setInputBasePath_cstr(const char* const newBase)
+    void setInputBasePath_dlx(const char* const newBase)
     {
         setInputBasePath(newBase);
     }
@@ -101,7 +101,7 @@ namespace FileService
         }
     }
 
-    void setOutputBasePath_cstr(const char* const newBase)
+    void setOutputBasePath_dlx(const char* const newBase)
     {
         setOutputBasePath(newBase);
     }
@@ -113,7 +113,7 @@ namespace FileService
         stream << content;
     }
 
-    void write_cstr(const char* const filename, const char* const content)
+    void write_dlx(const char* const filename, const char* const content)
     {
         write(filename, content);
     }
@@ -125,7 +125,7 @@ namespace FileService
         stream.write(data.data(), data.size());
     }
 
-    void writeBinary_cstr(const char* const filename, const void* const data, size_t length)
+    void writeBinary_dlx(const char* const filename, const void* const data, size_t length)
     {
         writeBinary(filename, std::span(reinterpret_cast<const std::byte*>(data), length));
     }
@@ -142,7 +142,7 @@ namespace FileService
         return result;
     }
 
-    IMemoryService::MemoryBlock read_cstr(const char* const filename)
+    IMemoryService::MemoryBlock read_dlx(const char* const filename)
     {
         auto stream = database.getReadStream(filename);
         LoggerService::traceF("reading from {}", filename);
@@ -162,13 +162,13 @@ namespace FileService
     IFileService exportService()
     {
         return IFileService(
-                   getInputBasePath_cstr,
-                   getOutputBasePath_cstr,
+                   getInputBasePath_dlx,
+                   getOutputBasePath_dlx,
 
-                   read_cstr,
+                   read_dlx,
 
-                   write_cstr,
-                   writeBinary_cstr
+                   write_dlx,
+                   writeBinary_dlx
                );
     }
 

@@ -14,6 +14,11 @@ extern "C" {
     {
         return ClientReturnCode::SUCCESS;
     }
+
+    ClientReturnCode startTemplatesMode()
+    {
+        return ClientReturnCode::SUCCESS;
+    }
 }
 
 ClientReturnCode init_engine()

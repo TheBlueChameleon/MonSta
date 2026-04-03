@@ -16,8 +16,6 @@ namespace SimulationMode
         OperationModes::setupLoggerService(defs.logging);
         OperationModes::setupFileService(defs, defs.simulator.outputDir);
 
-        LoggerService::infoF("overwrite is {}", defs.overwrite);
-
         auto cw = ClientWrapper(defs.simulator.engine);
     }
 }

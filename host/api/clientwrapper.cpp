@@ -90,6 +90,7 @@ void ClientWrapper::extractSymbols()
     FETCH(hasFeature);
     FETCH(hangUp);
     FETCH(terminateAbnormally);
+    FETCH(startTemplatesMode);
 
     LoggerService::trace("... SUCCESS!");
 }
@@ -244,4 +245,9 @@ Version ClientWrapper::getMaxHostVersion() const
 void ClientWrapper::terminateAbnormally()
 {
     _terminateAbnormally();
+}
+
+ClientReturnCode ClientWrapper::startTemplatesMode()
+{
+    return _startTemplatesMode();
 }

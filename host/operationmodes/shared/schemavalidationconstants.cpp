@@ -138,36 +138,36 @@ namespace OperationModes
 
     static const JsonSubSchemaBuilder makeTemplateDefinitionSubSchema()
     {
-        auto result = JsonSubSchemaBuilder(JKEY_TEMPLATE)
+        auto result = JsonSubSchemaBuilder(JKEY_TEMPLATES)
                       .setRequired(
         {
-            JKEY_TEMPLATE_ENGINE, JKEY_TEMPLATE_OUTPUTDIRECTORY
+            JKEY_TEMPLATES_ENGINE, JKEY_TEMPLATES_OUTPUTDIRECTORY
         });
 
-        result.addProperty(JKEY_TEMPLATE_ENGINE, JsonType::STRING);
+        result.addProperty(JKEY_TEMPLATES_ENGINE, JsonType::STRING);
 
-        result.addProperty(JKEY_TEMPLATE_OUTPUTDIRECTORY, JsonType::STRING);
+        result.addProperty(JKEY_TEMPLATES_OUTPUTDIRECTORY, JsonType::STRING);
 
-        result.addProperty(JKEY_TEMPLATE_WRITESCHEMAS, JsonType::BOOLEAN)
+        result.addProperty(JKEY_TEMPLATES_WRITESCHEMAS, JsonType::BOOLEAN)
         .setDefault(true);
 
-        result.addProperty(JKEY_TEMPLATE_PLAYER1TEAM, JsonType::STRING);
+        result.addProperty(JKEY_TEMPLATES_PLAYER1TEAM, JsonType::STRING);
 
-        result.addProperty(JKEY_TEMPLATE_PLAYER1STRATEGY, JsonType::STRING);
+        result.addProperty(JKEY_TEMPLATES_PLAYER1STRATEGY, JsonType::STRING);
 
-        result.addProperty(JKEY_TEMPLATE_PLAYER2TEAM, JsonType::STRING);
+        result.addProperty(JKEY_TEMPLATES_PLAYER2TEAM, JsonType::STRING);
 
-        result.addProperty(JKEY_TEMPLATE_PLAYER2STRATEGY, JsonType::STRING);
+        result.addProperty(JKEY_TEMPLATES_PLAYER2STRATEGY, JsonType::STRING);
 
-        result.addProperty(JKEY_TEMPLATE_PKMNDEFS, JsonType::STRING);
+        result.addProperty(JKEY_TEMPLATES_PKMNDEFS, JsonType::STRING);
 
-        result.addProperty(JKEY_TEMPLATE_MOVEDEFS, JsonType::STRING);
+        result.addProperty(JKEY_TEMPLATES_MOVEDEFS, JsonType::STRING);
 
-        result.addProperty(JKEY_TEMPLATE_TYPEDEFS, JsonType::STRING);
+        result.addProperty(JKEY_TEMPLATES_TYPEDEFS, JsonType::STRING);
 
-        result.addProperty(JKEY_TEMPLATE_ITEMDEFS, JsonType::STRING);
+        result.addProperty(JKEY_TEMPLATES_ITEMDEFS, JsonType::STRING);
 
-        result.addProperty(JKEY_TEMPLATE_ARGS, JsonType::STRING);
+        result.addProperty(JKEY_TEMPLATES_ARGS, JsonType::STRING);
 
         return result;
     }
@@ -179,10 +179,10 @@ namespace OperationModes
     {
         auto result = JsonSchemaBuilder()
                       .addReference(JKEY_LOGGING, makeLoggingSubSchema())
-                      .addReference(JKEY_TEMPLATE, makeTemplateDefinitionSubSchema())
+                      .addReference(JKEY_TEMPLATES, makeTemplateDefinitionSubSchema())
                       .setRequired(
         {
-            JKEY_TEMPLATE
+            JKEY_TEMPLATES
         });
 
         return result;
@@ -192,7 +192,7 @@ namespace OperationModes
     void registerSchemaTemplate()
     {
         JsonService::add(
-            JTAG_TEMPLATE,
+            JTAG_TEMPLATES,
             std::move(makeTemplateSchema().build())
         );
     }

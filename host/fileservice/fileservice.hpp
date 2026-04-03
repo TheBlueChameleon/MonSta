@@ -37,25 +37,25 @@ namespace FileService
     void setDryMode(bool newDryMode);
 
     std::filesystem::path getInputBasePath();
-    const char* const getInputBasePath_cstr();
+    const char* const getInputBasePath_dlx();
 
     std::filesystem::path getOutputBasePath();
-    const char* const getOutputBasePath_cstr();
+    const char* const getOutputBasePath_dlx();
 
     void setInputBasePath(const std::filesystem::path& newBase);
-    void setInputBasePath_cstr(const char* const newBase);
+    void setInputBasePath_dlx(const char* const newBase);
 
     void setOutputBasePath(const std::filesystem::path& newBase);
-    void setOutputBasePath_cstr(const char* const newBase);
+    void setOutputBasePath_dlx(const char* const newBase);
 
     void write(const std::filesystem::path& filename, const std::string_view content);
-    void write_cstr(const char* const filename, const char* const content);
+    void write_dlx(const char* const filename, const char* const content);
 
     void writeBinary(const std::filesystem::path& filename, const std::span<const std::byte> data);
-    void writeBinary_cstr(const char* const filename, const void* const data, size_t length);
+    void writeBinary_dlx(const char* const filename, const void* const data, size_t length);
 
     std::string read(const std::filesystem::path& filename);
-    IMemoryService::MemoryBlock read_cstr(const char* const filename);
+    IMemoryService::MemoryBlock read_dlx(const char* const filename);
 
     const std::list<CreatedFileInfo>& getCreatedFileInfo();
 }

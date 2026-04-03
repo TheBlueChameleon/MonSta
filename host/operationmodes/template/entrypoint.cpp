@@ -2,6 +2,8 @@
 
 #include "loggerservice/loggerservice.hpp"
 
+#include "api/clientwrapper.hpp"
+
 #include "operationmodes/shared/utils.hpp"
 
 #include "entrypoint.hpp"
@@ -13,6 +15,8 @@ namespace TemplateMode
     {
         OperationModes::setupLoggerService(defs.logging);
         OperationModes::setupFileService(defs, defs.templates.outputDirectory);
+
+        auto cw = ClientWrapper(defs.templates.engine);
 
         LoggerService::info("Template mode not implemented yet.");
         std::exit(0);

@@ -14,7 +14,7 @@ struct CliInput
     static constexpr auto DRY_MODE           = "dryMode";
 
     static constexpr auto SIMULATION   = "SIMULATION";
-    static constexpr auto TEMPLATE     = "TEMPLATE";
+    static constexpr auto TEMPLATES    = "TEMPLATES";
     static constexpr auto SCHEMAEXPORT = "SCHEMAEXPORT";
     static constexpr auto REMOTE       = "REMOTE";
     static constexpr auto HELP         = "HELP";

@@ -16,7 +16,7 @@ namespace HelpMode
                 std::cout << "'data' has to be the path to a run definition JSON file." << std::endl;
                 std::cout << "Refer to the documentation for the structure of a run definition JSON file." << std::endl;
                 break;
-            case OperationMode::TEMPLATE:
+            case OperationMode::TEMPLATES:
                 std::cout << "Generates a template for a run definition JSON file and the files to be referenced therein." << std::endl;
                 std::cout << "'data' has to be the path to a template definition JSON file." << std::endl;
                 std::cout << "Refer to the documentation for the structure of a template definition JSON file." << std::endl;

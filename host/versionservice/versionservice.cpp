@@ -18,7 +18,7 @@ namespace VersionService
                    lessOrEqual,
                    greaterThan,
                    greaterOrEqual,
-                   to_string_cstr
+                   to_string_dlx
                );
     }
 
@@ -85,7 +85,7 @@ namespace VersionService
         return s.str();
     }
 
-    IMemoryService::MemoryBlock to_string_cstr(const Version& v)
+    IMemoryService::MemoryBlock to_string_dlx(const Version& v)
     {
         std::stringstream s;
         streamInto(s, v);

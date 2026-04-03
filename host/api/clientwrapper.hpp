@@ -65,6 +65,8 @@ class ClientWrapper
         bool (*_hasFeature)(const char* const featureTag);
         void (*_terminateAbnormally)();
 
+        ClientReturnCode(*_startTemplatesMode)();
+
         // ------------------------------------------------------------------ //
         // Private Interface
 
@@ -91,6 +93,8 @@ class ClientWrapper
         Version getMaxHostVersion() const;
 
         void terminateAbnormally();
+
+        ClientReturnCode startTemplatesMode();
 };
 
 #endif // CLIENTWRAPPER_HPP

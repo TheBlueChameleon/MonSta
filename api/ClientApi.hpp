@@ -17,6 +17,8 @@ extern "C" {
 
     bool hasFeature(const char* const featureTag);
     void terminateAbnormally();
+
+    ClientReturnCode startTemplatesMode();
 }
 
 // -------------------------------------------------------------------------- //

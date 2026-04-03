@@ -25,6 +25,8 @@ namespace JsonService
     std::optional<std::reference_wrapper<nlohmann::ordered_json>> declare(const std::string_view tag);
     const nlohmann::ordered_json& commit(const std::string& tag);
 
+    const IJsonService::Handle get_dlx(const char* const tag);
+
     // ---------------------------------------------------------------------- //
     // Parsing & Validation
 
@@ -70,20 +72,8 @@ namespace JsonService
     // ---------------------------------------------------------------------- //
     // Schema Builder Operations
 
-
-
-
-    /* read(file)    -> json
-     * public readAndRegister(tag, file)
-     * validate(json, json) -> json
-     * validate(json, tag)  -> json
-     * patch(json, json) -> json
+    /* patch(json, json) -> json
      * merge_patch(json, json)?  -> json
-     *
-     * readValidateAndPatch(file, json)
-     * parseValidateAndPatch(file, json)
-     * public readValidateAndPatch(file, tag)
-     * public parseValidateAndPatch(file, tag)
      *
      * json ops:
      * getHandle(tag) -> Handle

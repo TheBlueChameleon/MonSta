@@ -41,7 +41,7 @@ static void configureParser(ArgParser& parser)
     .help("Sets the operation mode.\n"
           "One of "s +
           CliInput::SIMULATION + ", " +
-          CliInput::TEMPLATE + ", " +
+          CliInput::TEMPLATES + ", " +
           CliInput::SCHEMAEXPORT + ", " +
           CliInput::REMOTE + ", " +
           CliInput::HELP + "."
@@ -99,7 +99,7 @@ static OperationMode modeFromString(const std::string_view modeString)
 {
     // *INDENT-OFF*
     if (modeString == CliInput::SIMULATION  ) return OperationMode::SIMULATION;
-    if (modeString == CliInput::TEMPLATE    ) return OperationMode::TEMPLATE;
+    if (modeString == CliInput::TEMPLATES    ) return OperationMode::TEMPLATES;
     if (modeString == CliInput::SCHEMAEXPORT) return OperationMode::SCHEMAEXPORT;
     if (modeString == CliInput::REMOTE      ) return OperationMode::REMOTE;
     if (modeString == CliInput::HELP        ) return OperationMode::HELP;
@@ -162,7 +162,7 @@ static CliInput readAndValidateParser(const ArgParser& parser)
     switch (mode)
     {
         case OperationMode::SIMULATION:
-        case OperationMode::TEMPLATE:
+        case OperationMode::TEMPLATES:
             validateAsInputFile(data);
             break;
         case OperationMode::SCHEMAEXPORT:
@@ -285,8 +285,8 @@ static std::shared_ptr<const BaseModeDefinition> unpackSimulationInput(const Cli
 
 static TemplatesDefinition unpackTemplatesDefinition(const ordered_json& data)
 {
-    std::string engine          = data[JKEY_TEMPLATE_ENGINE];                   // required to exist.
-    std::string outputDirectory = data[JKEY_TEMPLATE_OUTPUTDIRECTORY];          // required to exist.
+    std::string engine          = data[JKEY_TEMPLATES_ENGINE];                   // required to exist.
+    std::string outputDirectory = data[JKEY_TEMPLATES_OUTPUTDIRECTORY];          // required to exist.
     std::string player1Team;
     std::string player1Strategy;
     std::string player2Team;
@@ -295,17 +295,17 @@ static TemplatesDefinition unpackTemplatesDefinition(const ordered_json& data)
     std::string moveDefs;
     std::string typeDefs;
     std::string itemDefs;
-    bool writeSchemas = data[JKEY_TEMPLATE_WRITESCHEMAS];                       // exists by default
+    bool writeSchemas = data[JKEY_TEMPLATES_WRITESCHEMAS];                       // exists by default
     std::string args;
 
-    fetchIfInJson(JKEY_TEMPLATE_PLAYER1TEAM,      data, player1Team);
-    fetchIfInJson(JKEY_TEMPLATE_PLAYER1STRATEGY,  data, player1Strategy);
-    fetchIfInJson(JKEY_TEMPLATE_PLAYER2TEAM,      data, player2Team);
-    fetchIfInJson(JKEY_TEMPLATE_PLAYER2STRATEGY,  data, player2Strategy);
-    fetchIfInJson(JKEY_TEMPLATE_PKMNDEFS,         data, pkmnDefs);
-    fetchIfInJson(JKEY_TEMPLATE_MOVEDEFS,         data, moveDefs);
-    fetchIfInJson(JKEY_TEMPLATE_TYPEDEFS,         data, typeDefs);
-    fetchIfInJson(JKEY_TEMPLATE_ITEMDEFS,         data, itemDefs);
+    fetchIfInJson(JKEY_TEMPLATES_PLAYER1TEAM,      data, player1Team);
+    fetchIfInJson(JKEY_TEMPLATES_PLAYER1STRATEGY,  data, player1Strategy);
+    fetchIfInJson(JKEY_TEMPLATES_PLAYER2TEAM,      data, player2Team);
+    fetchIfInJson(JKEY_TEMPLATES_PLAYER2STRATEGY,  data, player2Strategy);
+    fetchIfInJson(JKEY_TEMPLATES_PKMNDEFS,         data, pkmnDefs);
+    fetchIfInJson(JKEY_TEMPLATES_MOVEDEFS,         data, moveDefs);
+    fetchIfInJson(JKEY_TEMPLATES_TYPEDEFS,         data, typeDefs);
+    fetchIfInJson(JKEY_TEMPLATES_ITEMDEFS,         data, itemDefs);
 
     return TemplatesDefinition
     {
@@ -330,13 +330,13 @@ static std::shared_ptr<const BaseModeDefinition> unpackTemplateInput(const CliIn
     auto data = JsonService::readValidateByTagPatchAndAdd(
                     std::string(JTAG_BASE) + source.data(),
                     source,
-                    JTAG_TEMPLATE
+                    JTAG_TEMPLATES
                 );
 
     return std::make_shared<TemplateModeDefinition>(
                cliInput,
                unpackLoggingDefinition(data[JKEY_LOGGING]),
-               unpackTemplatesDefinition(data[JKEY_TEMPLATE])
+               unpackTemplatesDefinition(data[JKEY_TEMPLATES])
            );
 }
 
@@ -387,7 +387,7 @@ std::shared_ptr<const BaseModeDefinition> unpackCliInput(const CliInput& cliInpu
     {
         case OperationMode::SIMULATION:
             return unpackSimulationInput(cliInput);
-        case OperationMode::TEMPLATE:
+        case OperationMode::TEMPLATES:
             return unpackTemplateInput(cliInput);
         case OperationMode::SCHEMAEXPORT:
             return unpackSchemaExportInput(cliInput);
