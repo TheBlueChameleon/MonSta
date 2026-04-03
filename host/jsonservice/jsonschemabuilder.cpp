@@ -37,7 +37,7 @@ namespace JsonService
         return name;
     }
 
-    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setProperty(const std::string_view key, const nlohmann::json& value)
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setProperty(const std::string_view key, const ordered_json &value)
     {
         json[key] = value;
         return *this;
@@ -83,17 +83,17 @@ namespace JsonService
         return setProperty("title", value);
     }
 
-    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setDefault(const nlohmann::json& value)
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setDefault(const ordered_json &value)
     {
         return setProperty("default", value);
     }
 
-    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setMinimum(const nlohmann::json& value)
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setMinimum(const ordered_json &value)
     {
         return setProperty("minimum", value);
     }
 
-    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setMaximum(const nlohmann::json& value)
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setMaximum(const ordered_json &value)
     {
         return setProperty("maximum", value);
     }
@@ -106,7 +106,7 @@ namespace JsonService
     // ====================================================================== //
     // JsonSubSchemaBuilder
 
-    std::string JsonSubSchemaBuilder::getName() const
+    const std::string_view JsonSubSchemaBuilder::getName() const
     {
         return name;
     }
@@ -121,7 +121,7 @@ namespace JsonService
         return *this;
     }
 
-    JsonSubSchemaBuilder& JsonSubSchemaBuilder::setRequired(const std::initializer_list<std::string>& required)
+    JsonSubSchemaBuilder& JsonSubSchemaBuilder::setRequired(const std::list<std::string> &required)
     {
         this->required = required;
         return *this;
@@ -176,7 +176,7 @@ namespace JsonService
         return *this;
     }
 
-    JsonSchemaBuilder& JsonSchemaBuilder::setRequired(const std::initializer_list<std::string>& required)
+    JsonSchemaBuilder& JsonSchemaBuilder::setRequired(const std::list<std::string> &required)
     {
         this->required = required;
         return *this;

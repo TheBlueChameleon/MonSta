@@ -25,14 +25,14 @@ namespace JsonService
             const nlohmann::ordered_json& getJson() const;
             const std::string_view getName() const;
 
-            JsonSchemaElementBuilder& setProperty(const std::string_view key, const nlohmann::json& value);
+            JsonSchemaElementBuilder& setProperty(const std::string_view key, const nlohmann::ordered_json& value);
             JsonSchemaElementBuilder& setType(const JsonType type);
             JsonSchemaElementBuilder& setArrayOfType(const JsonType type);
             JsonSchemaElementBuilder& setDescription(const std::string_view value);
             JsonSchemaElementBuilder& setTitle(const std::string_view value);
-            JsonSchemaElementBuilder& setDefault(const nlohmann::json& value);
-            JsonSchemaElementBuilder& setMinimum(const nlohmann::json& value);
-            JsonSchemaElementBuilder& setMaximum(const nlohmann::json& value);
+            JsonSchemaElementBuilder& setDefault(const nlohmann::ordered_json& value);
+            JsonSchemaElementBuilder& setMinimum(const nlohmann::ordered_json& value);
+            JsonSchemaElementBuilder& setMaximum(const nlohmann::ordered_json& value);
             JsonSchemaElementBuilder& setReference(const std::string_view value);
     };
 
@@ -47,10 +47,10 @@ namespace JsonService
         public:
             JsonSubSchemaBuilder(const std::string_view name);
 
-            std::string getName() const;
+            const std::string_view getName() const;
 
             JsonSubSchemaBuilder& setAdditionalProperties(bool additionalProperties);
-            JsonSubSchemaBuilder& setRequired(const std::initializer_list<std::string>& required);
+            JsonSubSchemaBuilder& setRequired(const std::list<std::string>& required);
 
             JsonSubSchemaBuilder&     addReference(const std::string_view name, const std::string_view description = "");
             JsonSchemaElementBuilder& addProperty(const std::string_view name);
@@ -71,7 +71,7 @@ namespace JsonService
             JsonSchemaBuilder() = default;
 
             JsonSchemaBuilder& setAdditionalProperties(bool additionalProperties);
-            JsonSchemaBuilder& setRequired(const std::initializer_list<std::string>& required);
+            JsonSchemaBuilder& setRequired(const std::list<std::string>& required);
 
             JsonSchemaBuilder&          addReference(const std::string_view name, const std::string_view description = "");
             JsonSchemaBuilder&          addSubSchema(const JsonSubSchemaBuilder& subSchema);
