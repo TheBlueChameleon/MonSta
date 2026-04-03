@@ -43,12 +43,14 @@ TEST_F(JsonSchemaBuilderTest, SubSchemaBuilder_All_InOrder)
     // when
     std::string result = builder.build().dump(2);
     std::string expected = R"({
-  "property": {},
-  "typedProperty": {
-    "type": "boolean"
-  },
-  "ref": {
-    "$ref": "#/$defs/ref"
+  "properties": {
+    "property": {},
+    "typedProperty": {
+      "type": "boolean"
+    },
+    "ref": {
+      "$ref": "#/$defs/ref"
+    }
   },
   "required": [
     "foo"
@@ -72,14 +74,16 @@ TEST_F(JsonSchemaBuilderTest, SubSchemaBuilder_AutoDefaults)
     // when
     std::string result = builder.build().dump(2);
     std::string expected = R"({
-  "empty": {},
-  "defaulted": {
-    "default": "value"
-  },
-  "recursive": {
-    "$ref": "#/$defs/recursive",
-    "default": {
-      "defaulted": "value"
+  "properties": {
+    "empty": {},
+    "defaulted": {
+      "default": "value"
+    },
+    "recursive": {
+      "$ref": "#/$defs/recursive",
+      "default": {
+        "defaulted": "value"
+      }
     }
   },
   "additionalProperties": false
@@ -128,8 +132,10 @@ TEST_F(JsonSchemaBuilderTest, SchemaBuilder_AutoDefaults)
   },
   "$defs": {
     "subSchema": {
-      "prop": {
-        "default": "default"
+      "properties": {
+        "prop": {
+          "default": "default"
+        }
       },
       "additionalProperties": false
     }

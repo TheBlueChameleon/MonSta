@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include <string>
 using namespace std::string_literals;
 
@@ -207,9 +209,10 @@ namespace JsonService
 
         if (!elements.empty())
         {
+            auto& properties = result["properties"] = ordered_json::object();
             for (const auto& element : elements)
             {
-                result[element.getName()] = element.getJson();
+                properties[element.getName()] = element.getJson();
             }
         }
 
@@ -302,7 +305,7 @@ namespace JsonService
 
         if (!elements.empty())
         {
-            auto& properties = result["properties"] = json::object();
+            auto& properties = result["properties"] = ordered_json::object();
             for (const auto& element : elements)
             {
                 properties[element.getName()] = element.getJson();
