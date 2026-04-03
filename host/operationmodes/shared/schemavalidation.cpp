@@ -25,7 +25,8 @@ namespace OperationModes
 
         logging.addProperty(JKEY_LOGGING_LOGLEVEL, JsonType::INTEGER)
         .setMinimum(0)
-        .setMaximum(6);
+        .setMaximum(6)
+        .setDefault(2);
 
         return logging;
     }
@@ -110,12 +111,9 @@ namespace OperationModes
     static const JsonSchemaBuilder makeSimulationSchema()
     {
         auto simulation = JsonSchemaBuilder()
-                          .addReference(JKEY_LOGGING)
-                          .addReference(JKEY_SIMULATOR)
-                          .addReference(JKEY_MATCHDEFINITION)
-                          .addSubSchema(makeLoggingSubSchema())
-                          .addSubSchema(makeSimulatorSubSchema())
-                          .addSubSchema(makeMatchDefinitionSubSchema())
+                          .addReference(JKEY_LOGGING, makeLoggingSubSchema())
+                          .addReference(JKEY_SIMULATOR, makeSimulatorSubSchema())
+                          .addReference(JKEY_MATCHDEFINITION, makeMatchDefinitionSubSchema())
                           .setRequired(
         {
             JKEY_SIMULATOR, JKEY_MATCHDEFINITION
@@ -180,10 +178,8 @@ namespace OperationModes
     static const JsonSchemaBuilder makeTemplateSchema()
     {
         auto result = JsonSchemaBuilder()
-                      .addReference(JKEY_LOGGING)
-                      .addReference(JKEY_TEMPLATE)
-                      .addSubSchema(makeLoggingSubSchema())
-                      .addSubSchema(makeTemplateDefinitionSubSchema())
+                      .addReference(JKEY_LOGGING, makeLoggingSubSchema())
+                      .addReference(JKEY_TEMPLATE, makeTemplateDefinitionSubSchema())
                       .setRequired(
         {
             JKEY_TEMPLATE
