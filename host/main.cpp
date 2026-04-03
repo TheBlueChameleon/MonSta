@@ -66,7 +66,15 @@ int main(const int argc, const char* const argv[])
     catch (const IllegalStateException& e)
     {
         std::cerr << e.what() << std::endl;
-        std::cerr << "This means <the dev> fucked up. Please report what you did to them with a stern look." << std::endl;
+        std::cerr << "This means <the host dev> fucked up." << std::endl;
+        std::cerr << "Please report to them what you were doing when this error occurred and give them a stern look." << std::endl;
+        return -1;
+    }
+    catch (const ClientError& e)
+    {
+        std::cerr << e.what() << std::endl;
+        std::cerr << "This means <the plugin dev> fucked up." << std::endl;
+        std::cerr << "Please report to them what you were doing when this error occurred and give them a stern look." << std::endl;
         return -1;
     }
 

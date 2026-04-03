@@ -148,16 +148,13 @@ void ClientWrapper::initAndAssertCompatibility()
     }
 
     LoggerService::trace("  ... Initializing client");
-    const auto connected = init(&hostApi);
-    if (connected != ClientReturnCode::SUCCESS)
-    {
-        LoggerService::trace("  ... Client accepted connection.");
-    }
-    else
+    const auto connectionStatus = init(&hostApi);
+    if (connectionStatus != ClientReturnCode::SUCCESS)
     {
         LoggerService::critical("Client refused the connection!");
-        throw CriticalAbort("Error when connecting to client");
+        throw ClientError(connectionStatus);
     }
+    LoggerService::trace("  ... Client accepted connection.");
 
     bool allCriticalFeaturesAvailable = true;
     for (const auto& feature: features)
@@ -191,9 +188,11 @@ ClientWrapper::ClientWrapper(
 
 ClientWrapper::~ClientWrapper()
 {
-    if (hangUp() != ClientReturnCode::SUCCESS)
+    auto operationStatus = hangUp();
+    if (operationStatus != ClientReturnCode::SUCCESS)
     {
         LoggerService::critical("Error in shutdwon process of client");
+        LoggerService::criticalF("Error Code: {}", static_cast<int>(operationStatus));
         std::exit(-1);
     }
 
