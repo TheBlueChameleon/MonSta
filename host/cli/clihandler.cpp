@@ -9,16 +9,16 @@ using namespace std::string_literals;
 using ArgParser = argparse::ArgumentParser;
 
 #include <nlohmann/json.hpp>
+using namespace nlohmann;
 #include <nlohmann/json-schema.hpp>
-using Json = nlohmann::json;
-using JsonValidator = nlohmann::json_schema::json_validator;
+using namespace nlohmann::json_schema;
 
 #include "constants.hpp"
 #include "errors.hpp"
 
 #include "fileservice/fileservice.hpp"
 
-#include "json/jsonservice.hpp"
+#include "jsonservice/jsonservice.hpp"
 
 #include "loggerservice/loggerservice.hpp"
 
@@ -27,6 +27,7 @@ using JsonValidator = nlohmann::json_schema::json_validator;
 #include "operationmodes/schemaExport/schemaexportmodedefinition.hpp"
 #include "operationmodes/simulation/simulationmodedefinition.hpp"
 #include "operationmodes/template/templatemodedefinition.hpp"
+#include "operationmodes/shared/schemavalidationconstants.hpp"
 
 #include "clihandler.hpp"
 
@@ -193,7 +194,7 @@ CliInput readCliInput(const int argc, const char* const argv[])
 // shared
 
 template<typename T>
-static void fetchIfInJson(const char* const jsonKey, const Json& data, T& target)
+static void fetchIfInJson(const char* const jsonKey, const ordered_json& data, T& target)
 {
     if (data.contains(jsonKey))
     {
@@ -201,7 +202,7 @@ static void fetchIfInJson(const char* const jsonKey, const Json& data, T& target
     }
 }
 
-static LoggingDefinition unpackLoggingDefinition(const Json& data)
+static LoggingDefinition unpackLoggingDefinition(const ordered_json& data)
 {
     ILoggerService::LogLevel             loglevel;
     std::optional<std::filesystem::path> logfile;
@@ -218,7 +219,7 @@ static LoggingDefinition unpackLoggingDefinition(const Json& data)
 // .......................................................................... //
 // simulation
 
-static SimulatorDefinition unpackSimulatorDefinition(const Json& data)
+static SimulatorDefinition unpackSimulatorDefinition(const ordered_json& data)
 {
     std::string engine = data[JKEY_SIMULATOR_ENGINE];   // required to exist.
     std::string inputDir;
@@ -247,7 +248,7 @@ static SimulatorDefinition unpackSimulatorDefinition(const Json& data)
     };
 }
 
-static MatchDefinition unpackMatchDefinition(const Json& data)
+static MatchDefinition unpackMatchDefinition(const ordered_json& data)
 {
     // all entries required
     return MatchDefinition(
@@ -265,8 +266,11 @@ static MatchDefinition unpackMatchDefinition(const Json& data)
 static std::shared_ptr<const BaseModeDefinition> unpackSimulationInput(const CliInput& cliInput)
 {
     const std::string_view source = cliInput.data;
-    Json data = JsonService::readJsonFile(source.data());
-    JsonService::validateJsonAgainstJson(data, SCHEMA_SIMULATION, source.data());
+    auto data = JsonService::readValidateByTagPatchAndAdd(
+                    std::string(JTAG_BASE) + source.data(),
+                    source,
+                    JTAG_SIMULATION
+                );
 
     return std::make_shared<SimulationModeDefinition>(
                cliInput,
@@ -279,10 +283,10 @@ static std::shared_ptr<const BaseModeDefinition> unpackSimulationInput(const Cli
 // .......................................................................... //
 // template
 
-static TemplatesDefinition unpackTemplatesDefinition(const Json& data)
+static TemplatesDefinition unpackTemplatesDefinition(const ordered_json& data)
 {
-    std::string engine          = data[JKEY_TEMPLATES_ENGINE];                  // required to exist.
-    std::string outputDirectory = data[JKEY_TEMPLATES_OUTPUTDIRECTORY];         // required to exist.
+    std::string engine          = data[JKEY_TEMPLATE_ENGINE];                   // required to exist.
+    std::string outputDirectory = data[JKEY_TEMPLATE_OUTPUTDIRECTORY];          // required to exist.
     std::string player1Team;
     std::string player1Strategy;
     std::string player2Team;
@@ -291,17 +295,17 @@ static TemplatesDefinition unpackTemplatesDefinition(const Json& data)
     std::string moveDefs;
     std::string typeDefs;
     std::string itemDefs;
-    bool writeSchemas = data[JKEY_TEMPLATES_WRITESCHEMAS];                      // exists by default
+    bool writeSchemas = data[JKEY_TEMPLATE_WRITESCHEMAS];                       // exists by default
     std::string args;
 
-    fetchIfInJson(JKEY_TEMPLATES_PLAYER1TEAM,      data, player1Team);
-    fetchIfInJson(JKEY_TEMPLATES_PLAYER1STRATEGY,  data, player1Strategy);
-    fetchIfInJson(JKEY_TEMPLATES_PLAYER2TEAM,      data, player2Team);
-    fetchIfInJson(JKEY_TEMPLATES_PLAYER2STRATEGY,  data, player2Strategy);
-    fetchIfInJson(JKEY_TEMPLATES_PKMNDEFS,         data, pkmnDefs);
-    fetchIfInJson(JKEY_TEMPLATES_MOVEDEFS,         data, moveDefs);
-    fetchIfInJson(JKEY_TEMPLATES_TYPEDEFS,         data, typeDefs);
-    fetchIfInJson(JKEY_TEMPLATES_ITEMDEFS,         data, itemDefs);
+    fetchIfInJson(JKEY_TEMPLATE_PLAYER1TEAM,      data, player1Team);
+    fetchIfInJson(JKEY_TEMPLATE_PLAYER1STRATEGY,  data, player1Strategy);
+    fetchIfInJson(JKEY_TEMPLATE_PLAYER2TEAM,      data, player2Team);
+    fetchIfInJson(JKEY_TEMPLATE_PLAYER2STRATEGY,  data, player2Strategy);
+    fetchIfInJson(JKEY_TEMPLATE_PKMNDEFS,         data, pkmnDefs);
+    fetchIfInJson(JKEY_TEMPLATE_MOVEDEFS,         data, moveDefs);
+    fetchIfInJson(JKEY_TEMPLATE_TYPEDEFS,         data, typeDefs);
+    fetchIfInJson(JKEY_TEMPLATE_ITEMDEFS,         data, itemDefs);
 
     return TemplatesDefinition
     {
@@ -323,13 +327,16 @@ static TemplatesDefinition unpackTemplatesDefinition(const Json& data)
 static std::shared_ptr<const BaseModeDefinition> unpackTemplateInput(const CliInput& cliInput)
 {
     const std::string_view source = cliInput.data;
-    Json data = JsonService::readJsonFile(source.data());
-    JsonService::validateJsonAgainstJson(data, SCHEMA_TEMPLATE, source.data());
+    auto data = JsonService::readValidateByTagPatchAndAdd(
+                    std::string(JTAG_BASE) + source.data(),
+                    source,
+                    JTAG_TEMPLATE
+                );
 
     return std::make_shared<TemplateModeDefinition>(
                cliInput,
                unpackLoggingDefinition(data[JKEY_LOGGING]),
-               unpackTemplatesDefinition(data[JKEY_TEMPLATES])
+               unpackTemplatesDefinition(data[JKEY_TEMPLATE])
            );
 }
 

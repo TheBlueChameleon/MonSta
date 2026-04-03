@@ -1,5 +1,7 @@
-#ifndef SCHEMACONSTANTS_HPP
-#define SCHEMACONSTANTS_HPP
+#ifndef SCHEMAVALIDATIONCONSTANTS_HPP
+#define SCHEMAVALIDATIONCONSTANTS_HPP
+
+static constexpr auto JTAG_BASE = ":storage:/host/";
 
 static constexpr auto JKEY_LOGGING          = "logging";
 static constexpr auto JKEY_LOGGING_LOGFILE  = "logfile";

@@ -26,12 +26,46 @@ namespace JsonService
     const nlohmann::ordered_json& commit(const std::string& tag);
 
     // ---------------------------------------------------------------------- //
-    // Parsing
+    // Parsing & Validation
 
+    void setAllowComments(bool value);
+    void setAllowExceptions(bool value);
 
-    // ---------------------------------------------------------------------- //
-    // Validation
+    nlohmann::ordered_json          parse(const std::string_view data);
+    const nlohmann::ordered_json&   parseAndAdd(const std::string_view tag, const std::string_view data);
 
+    nlohmann::json validate(
+        const nlohmann::ordered_json& data,
+        const nlohmann::ordered_json& schema,
+        const std::string_view origin
+    );
+    nlohmann::ordered_json validateAndPatch(
+        const nlohmann::ordered_json& data,
+        const nlohmann::ordered_json& schema,
+        const std::string_view origin
+    );
+    const nlohmann::ordered_json& validatePatchAndAdd(
+        const std::string_view tag,
+        const nlohmann::ordered_json& data,
+        const nlohmann::ordered_json& schema
+    );
+
+    nlohmann::ordered_json          read(const std::filesystem::path& file);
+    const nlohmann::ordered_json    readAndAdd(const std::string_view tag, const std::filesystem::path& file);
+
+    nlohmann::ordered_json readValidateAndPatch(
+        const std::filesystem::path& file,
+        const nlohmann::ordered_json& schema
+    );
+    nlohmann::ordered_json readValidateByTagAndPatch(
+        const std::filesystem::path& file,
+        const std::string_view validationSchemaTag
+    );
+    const nlohmann::ordered_json& readValidateByTagPatchAndAdd(
+        const std::string_view tag,
+        const std::filesystem::path& file,
+        const std::string_view validationSchemaTag
+    );
 
     // ---------------------------------------------------------------------- //
     // Schema Builder Operations
@@ -39,12 +73,7 @@ namespace JsonService
 
 
 
-    /* setAllowComments(bool)
-     * setAllowExceptions(bool)
-     *
-     * parse(string) -> json
-     * public parseAndRegister(tag, string)
-     * read(file)    -> json
+    /* read(file)    -> json
      * public readAndRegister(tag, file)
      * validate(json, json) -> json
      * validate(json, tag)  -> json

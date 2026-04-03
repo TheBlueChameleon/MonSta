@@ -5,8 +5,6 @@
 
 #include <Version.hpp>
 
-#include "json/schemaconstants.hpp"
-
 extern const std::string APP_NAME;
 extern const std::string APP_VERSION;
 

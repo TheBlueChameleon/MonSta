@@ -124,6 +124,10 @@ target_include_directories(Host-JsonService
     PUBLIC "${json-schema-validator_SOURCE_DIR}/src/"
 )
 
+target_link_libraries(Host-JsonService
+    nlohmann_json_schema_validator
+)
+
 # ............................................................................ #
 # LoggerService
 
@@ -176,10 +180,6 @@ add_executable(Host
 
     host/cli/clihandler.hpp host/cli/clihandler.cpp
     host/cli/cliinput.hpp
-
-    host/json/jsonservice.hpp            host/json/jsonservice.cpp
-    host/json/schemaconstants.hpp        host/json/schemaconstants.cpp
-    host/json/schemaconstantsbuilder.hpp host/json/schemaconstantsbuilder.cpp
 
     host/operationmodes/operationmode.hpp
     host/operationmodes/entrypoint.hpp host/operationmodes/entrypoint.cpp
