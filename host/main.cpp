@@ -43,7 +43,7 @@ int main(const int argc, const char* const argv[])
         std::cerr << "Please report to them what you were doing when this error occurred and give them a stern look." << std::endl;
         return -1;
     }
-    catch (const ClientError& e)
+    catch (const ClientSideError& e)
     {
         std::cerr << e.what() << std::endl;
         std::cerr << "This means <the plugin dev> fucked up." << std::endl;

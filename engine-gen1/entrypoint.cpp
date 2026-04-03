@@ -18,9 +18,18 @@ extern "C" {
     ClientReturnCode startTemplatesMode()
     {
         LoggerService::info("entry into dylib");
+
         LoggerService::info("requesting by tag");
         auto handle = JsonService::get(":storage:/host/templates.json");
         LoggerService::infoF("get returned {}", handle.data);
+
+        LoggerService::infoF("contains 'properties' {}", JsonService::contains(handle, "properties"));
+        LoggerService::infoF("contains 'foo'        {}", JsonService::contains(handle, "foo"));
+
+        auto subHandle = JsonService::navigateTo(handle, "/properties/logging");
+        LoggerService::infoF("navigateTo returned {}", subHandle.data);
+        LoggerService::infoF("contains '$ref'    {}", JsonService::contains(subHandle, "$ref"));
+        LoggerService::infoF("contains '$foo'    {}", JsonService::contains(subHandle, "$foo"));
         return ClientReturnCode::SUCCESS;
     }
 }

@@ -7,4 +7,15 @@ namespace JsonService
     {
         return jsonService().get(tag);
     }
+
+    const IJsonService::Handle navigateTo(const IJsonService::Handle handle, const char* const jsonPointer)
+    {
+        return jsonService().navigateTo(handle, jsonPointer);
+    }
+
+    const bool contains(const IJsonService::Handle handle, const char* const elementName)
+    {
+        return jsonService().containts(handle, elementName);
+    }
+
 }

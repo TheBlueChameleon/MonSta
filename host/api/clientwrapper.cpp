@@ -153,7 +153,7 @@ void ClientWrapper::initAndAssertCompatibility()
     if (connectionStatus != ClientReturnCode::SUCCESS)
     {
         LoggerService::critical("Client refused the connection!");
-        throw ClientError(connectionStatus);
+        throw ClientSideError(connectionStatus);
     }
     LoggerService::trace("  ... Client accepted connection.");
 
@@ -164,7 +164,7 @@ void ClientWrapper::initAndAssertCompatibility()
     }
     if (!allCriticalFeaturesAvailable)
     {
-        throw ClientError("Critical feature not implemented by client");
+        throw ClientSideError("Critical feature not implemented by client");
     }
 
     LoggerService::trace("  ... Version check successful.");

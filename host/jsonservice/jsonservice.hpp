@@ -28,6 +28,12 @@ namespace JsonService
     const IJsonService::Handle get_dlx(const char* const tag);
 
     // ---------------------------------------------------------------------- //
+    // Json compatibility layer
+
+    const IJsonService::Handle navigateTo_dlx(const IJsonService::Handle handle, const char* const jsonPointer);
+    const bool contains_dlx(const IJsonService::Handle handle, const char* const elementName);
+
+    // ---------------------------------------------------------------------- //
     // Parsing & Validation
 
     void setAllowComments(bool value);

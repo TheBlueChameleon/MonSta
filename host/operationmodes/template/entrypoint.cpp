@@ -9,6 +9,11 @@
 #include "entrypoint.hpp"
 #include "templatemodedefinition.hpp"
 
+
+
+#include "../shared/schemavalidationconstants.hpp"
+#include "jsonservice/jsonservice.hpp"
+
 namespace TemplateMode
 {
     void run(const TemplateModeDefinition& defs)
@@ -18,8 +23,5 @@ namespace TemplateMode
 
         auto cw = ClientWrapper(defs.templates.engine);
         cw.startTemplatesMode();
-
-        LoggerService::info("Template mode not implemented yet.");
-        std::exit(0);
     }
 }

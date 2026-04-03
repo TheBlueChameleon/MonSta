@@ -1,3 +1,4 @@
+#include <cstring>
 #include <filesystem>
 #include <fstream>
 
@@ -31,6 +32,45 @@ namespace JsonService
                );
     }
 
+    static const ordered_json& toOrderedJson(const IJsonService::Handle handle)
+    {
+        return *reinterpret_cast<const ordered_json*>(handle.data);
+    }
+
+    static void assertSaneHandle(const IJsonService::Handle handle)
+    {
+        if (handle.data == nullptr)
+        {
+            throw ClientRequestError("Client attempted operation on null Json Handle");
+        }
+    }
+
+    static void assertSaneTag(const char* const tag)
+    {
+        if (tag == nullptr)
+        {
+            throw ClientRequestError("Client attempted operation on null Json Tag");
+        }
+
+        if (std::strlen(tag) == 0)
+        {
+            throw ClientRequestError("Client attempted operation on empty Json Tag");
+        }
+    }
+
+    static void assertSaneJsonPointer(const char* const jsonPointer)
+    {
+        if (jsonPointer == nullptr)
+        {
+            throw ClientRequestError("Client attempted operation on null Json Pointer");
+        }
+
+        if (std::strlen(jsonPointer) == 0)
+        {
+            throw ClientRequestError("Client attempted operation on empty Json Pointer");
+        }
+    }
+
     // ====================================================================== //
     // JsonDatabase
 
@@ -38,7 +78,9 @@ namespace JsonService
     {
         return IJsonService
         {
-            get_dlx
+            get_dlx,
+            navigateTo_dlx,
+            contains_dlx
         };
     }
 
@@ -87,7 +129,38 @@ namespace JsonService
 
     const IJsonService::Handle get_dlx(const char* const tag)
     {
+        assertSaneTag(tag);
         return toHandle(get(tag));
+    }
+
+    // ====================================================================== //
+    // Json compatibility layer
+
+    const IJsonService::Handle navigateTo_dlx(const IJsonService::Handle handle, const char* const jsonPointer)
+    {
+        assertSaneHandle(handle);
+        const auto& base = toOrderedJson(handle);
+
+        assertSaneJsonPointer(jsonPointer);
+
+        if (jsonPointer[0] == '/')
+        {
+            const auto jptr = ordered_json::json_pointer(jsonPointer);
+            const ordered_json& target = base.at(jptr);
+            return toHandle(target);
+        }
+        else
+        {
+            const auto& target = base.at(jsonPointer);
+            return toHandle(target);
+        }
+    }
+
+    const bool contains_dlx(const IJsonService::Handle handle, const char* const elementName)
+    {
+        assertSaneHandle(handle);
+        const ordered_json& base = toOrderedJson(handle);
+        return base.contains(elementName);
     }
 
     // ====================================================================== //

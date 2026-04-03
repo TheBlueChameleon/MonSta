@@ -37,7 +37,17 @@ class LookupError : public std::runtime_error
         {}
 };
 
-class ClientError : public std::runtime_error
+class ClientRequestError : public std::runtime_error
+{
+    public:
+        using std::runtime_error::runtime_error;
+
+        ClientRequestError() :
+            std::runtime_error("Client requested illegal operation. See the logs for possible reasons.")
+        {}
+};
+
+class ClientSideError : public std::runtime_error
 {
     protected:
         ClientReturnCode errorCode;
@@ -45,13 +55,13 @@ class ClientError : public std::runtime_error
     public:
         using std::runtime_error::runtime_error;
 
-        ClientError(ClientReturnCode errorCode) :
+        ClientSideError(ClientReturnCode errorCode) :
             std::runtime_error("Client side abort, error code "s +
                                std::to_string(static_cast<int>(errorCode)) + "\n" +
                                "See the logs for possible reasons.")
         {}
 
-        ClientError(
+        ClientSideError(
             ClientReturnCode errorCode,
             std::string_view message
         ) :
