@@ -7,3 +7,8 @@ const ILoggerService& loggerService()
 {
     return Globals::hostApi->loggerService;
 }
+
+const IJsonService& jsonService()
+{
+    return Globals::hostApi->jsonService;
+}

@@ -36,7 +36,10 @@ namespace JsonService
 
     IJsonService exportService()
     {
-        return IJsonService();
+        return IJsonService
+        {
+            get_dlx
+        };
     }
 
     JsonServiceDatabase& getDatabase()

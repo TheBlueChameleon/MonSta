@@ -42,7 +42,7 @@ static constexpr auto JKEY_TEMPLATES_TYPEDEFS        = "typeDefs";
 static constexpr auto JKEY_TEMPLATES_ITEMDEFS        = "itemDefs";
 static constexpr auto JKEY_TEMPLATES_ARGS            = "args";
 
-static constexpr auto JTAG_TEMPLATES = ":storage:/host/template.json";
+static constexpr auto JTAG_TEMPLATES = ":storage:/host/templates.json";
 
 namespace OperationModes
 {

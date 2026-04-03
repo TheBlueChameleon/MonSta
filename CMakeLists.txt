@@ -212,7 +212,7 @@ add_executable(Host
     host/main.cpp
 
     inputs/config/simulation.json
-    inputs/config/template.json
+    inputs/config/templates.json
 )
 
 target_include_directories(Host
@@ -244,6 +244,7 @@ add_library(Engine-Base STATIC
 
     engine-base/services.hpp        engine-base/services.cpp
     engine-base/loggerservice.hpp   engine-base/loggerservice.cpp
+    engine-base/jsonservice.hpp     engine-base/jsonservice.cpp
 )
 
 target_include_directories(Engine-Base

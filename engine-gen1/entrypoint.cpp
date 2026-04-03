@@ -17,6 +17,10 @@ extern "C" {
 
     ClientReturnCode startTemplatesMode()
     {
+        LoggerService::info("entry into dylib");
+        LoggerService::info("requesting by tag");
+        auto handle = JsonService::get(":storage:/host/templates.json");
+        LoggerService::infoF("get returned {}", handle.data);
         return ClientReturnCode::SUCCESS;
     }
 }

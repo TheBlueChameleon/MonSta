@@ -17,6 +17,7 @@ namespace TemplateMode
         OperationModes::setupFileService(defs, defs.templates.outputDirectory);
 
         auto cw = ClientWrapper(defs.templates.engine);
+        cw.startTemplatesMode();
 
         LoggerService::info("Template mode not implemented yet.");
         std::exit(0);
