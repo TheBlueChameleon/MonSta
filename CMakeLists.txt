@@ -284,6 +284,8 @@ add_executable(Test
     test/fileservice/fileservicedatabasetest.hpp            test/fileservice/fileservicedatabasetest.cpp
 
     test/jsonservice/jsonservicedatabasetest.hpp            test/jsonservice/jsonservicedatabasetest.cpp
+    test/jsonservice/jsonschemabuildertest.hpp              test/jsonservice/jsonschemabuildertest.cpp
+
     test/versionservice/versionservicetest.hpp              test/versionservice/versionservicetest.cpp
 
     test/serviceadapters/loggerserviceadapter.hpp           test/serviceadapters/loggerserviceadapter.cpp

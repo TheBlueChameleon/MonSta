@@ -10,11 +10,41 @@ using namespace nlohmann;
 namespace JsonService
 {
     // ====================================================================== //
+    // shared auto build defaults code
+
+    static ordered_json getDefault(const JsonSchemaElementBuilder& elementBuilder)
+    {
+        const auto& data = elementBuilder.getJson();
+        auto it = data.find("default");
+        if (it == data.end())
+        {
+            return ordered_json();
+        }
+
+        return *it;
+    }
+
+    static ordered_json getDefaults(const JsonSubSchemaBuilder& subSchemaBuilder)
+    {
+        auto result = ordered_json();
+
+        for (const auto& element : subSchemaBuilder.getElements())
+        {
+            const auto elementDefault = getDefault(element);
+            if (!elementDefault.is_null())
+            {
+                result[element.getName()] = elementDefault;
+            }
+        }
+
+        return result;
+    }
+
+    // ====================================================================== //
     // JsonSchemaElementBuilder
 
     JsonSchemaElementBuilder::JsonSchemaElementBuilder() :
-        name(""),
-        json(json::object())
+        JsonSchemaElementBuilder("")
     {}
 
     JsonSchemaElementBuilder::JsonSchemaElementBuilder(const std::string_view name) :
@@ -37,7 +67,7 @@ namespace JsonService
         return name;
     }
 
-    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setProperty(const std::string_view key, const ordered_json &value)
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setProperty(const std::string_view key, const ordered_json& value)
     {
         json[key] = value;
         return *this;
@@ -83,17 +113,17 @@ namespace JsonService
         return setProperty("title", value);
     }
 
-    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setDefault(const ordered_json &value)
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setDefault(const ordered_json& value)
     {
         return setProperty("default", value);
     }
 
-    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setMinimum(const ordered_json &value)
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setMinimum(const ordered_json& value)
     {
         return setProperty("minimum", value);
     }
 
-    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setMaximum(const ordered_json &value)
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setMaximum(const ordered_json& value)
     {
         return setProperty("maximum", value);
     }
@@ -111,26 +141,24 @@ namespace JsonService
         return name;
     }
 
+    const std::list<JsonSchemaElementBuilder>& JsonSubSchemaBuilder::getElements() const
+    {
+        return elements;
+    }
+
     JsonSubSchemaBuilder::JsonSubSchemaBuilder(const std::string_view name) :
         name(name)
     {}
 
-    JsonSubSchemaBuilder& JsonSubSchemaBuilder::setAdditionalProperties(bool additionalProperties)
+    JsonSubSchemaBuilder& JsonSubSchemaBuilder::setAdditionalProperties(const ordered_json& additionalProperties)
     {
         this->additionalProperties = additionalProperties;
         return *this;
     }
 
-    JsonSubSchemaBuilder& JsonSubSchemaBuilder::setRequired(const std::list<std::string> &required)
+    JsonSubSchemaBuilder& JsonSubSchemaBuilder::setRequired(const std::list<std::string>& required)
     {
         this->required = required;
-        return *this;
-    }
-
-    JsonSubSchemaBuilder& JsonSubSchemaBuilder::addReference(const std::string_view name, const std::string_view description)
-    {
-        elements.emplace_back(name);
-        elements.back().setReference(name);
         return *this;
     }
 
@@ -147,14 +175,35 @@ namespace JsonService
         return elements.back();
     }
 
+    JsonSubSchemaBuilder& JsonSubSchemaBuilder::addReference(const std::string_view name)
+    {
+        elements.emplace_back(name);
+        elements.back().setReference(name);
+        return *this;
+    }
+
+    JsonSubSchemaBuilder& JsonSubSchemaBuilder::addReference(
+        const std::string_view name,
+        const JsonSubSchemaBuilder& subSchema,
+        bool setDefaults
+    )
+    {
+        elements.emplace_back(name);
+        elements.back().setReference(name);
+        if (setDefaults)
+        {
+            const auto defaults = getDefaults(subSchema);
+            if (!defaults.is_null())
+            {
+                elements.back().setDefault(defaults);
+            }
+        }
+        return *this;
+    }
+
     ordered_json JsonSubSchemaBuilder::build() const
     {
-        ordered_json result = {{"additionalProperties", additionalProperties}};
-
-        if (!required.empty())
-        {
-            result["required"] = required;
-        }
+        ordered_json result = json::object();
 
         if (!elements.empty())
         {
@@ -164,31 +213,51 @@ namespace JsonService
             }
         }
 
+        if (!required.empty())
+        {
+            result["required"] = required;
+        }
+
+        result["additionalProperties"] = additionalProperties;
+
         return result;
     }
 
     // ====================================================================== //
     // JsonSchemaBuilder
 
-    JsonSchemaBuilder& JsonSchemaBuilder::setAdditionalProperties(bool additionalProperties)
+    JsonSchemaBuilder& JsonSchemaBuilder::setAdditionalProperties(const nlohmann::ordered_json& additionalProperties)
     {
         this->additionalProperties = additionalProperties;
         return *this;
     }
 
-    JsonSchemaBuilder& JsonSchemaBuilder::setRequired(const std::list<std::string> &required)
+    JsonSchemaBuilder& JsonSchemaBuilder::setRequired(const std::list<std::string>& required)
     {
         this->required = required;
         return *this;
     }
 
-    JsonSchemaBuilder& JsonSchemaBuilder::addReference(const std::string_view name, const std::string_view description)
+    JsonSchemaBuilder& JsonSchemaBuilder::addReference(const std::string_view name)
     {
         elements.emplace_back(name);
         elements.back().setReference(name);
-        if (!description.empty())
+        return *this;
+    }
+
+    JsonSchemaBuilder& JsonSchemaBuilder::addReference(const std::string_view name, const JsonSubSchemaBuilder& subSchema, bool setDefaults)
+    {
+        subSchemas.push_back(subSchema);
+
+        elements.emplace_back(name);
+        elements.back().setReference(subSchema.getName());
+        if (setDefaults)
         {
-            elements.back().setDescription(description);
+            const auto defaults = getDefaults(subSchema);
+            if (!defaults.is_null())
+            {
+                elements.back().setDefault(defaults);
+            }
         }
         return *this;
     }
@@ -228,8 +297,7 @@ namespace JsonService
     {
         ordered_json result =
         {
-            {"$schema", "http://json-schema.org/draft-07/schema#"},
-            {"additionalProperties", additionalProperties}
+            {"$schema", "http://json-schema.org/draft-07/schema#"}
         };
 
         if (!elements.empty())
@@ -254,6 +322,8 @@ namespace JsonService
                 defs[def.getName()] = def.build();
             }
         }
+
+        result["additionalProperties"] = additionalProperties;
 
         return result;
     }

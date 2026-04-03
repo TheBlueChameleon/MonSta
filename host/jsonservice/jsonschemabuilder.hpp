@@ -40,21 +40,27 @@ namespace JsonService
     {
         private:
             std::string                         name;
-            bool                                additionalProperties = false;
+            nlohmann::ordered_json              additionalProperties = false;
             std::list<std::string>              required;
             std::list<JsonSchemaElementBuilder> elements;
 
         public:
             JsonSubSchemaBuilder(const std::string_view name);
 
-            const std::string_view getName() const;
+            const std::string_view                      getName() const;
+            const std::list<JsonSchemaElementBuilder>&  getElements() const;
 
-            JsonSubSchemaBuilder& setAdditionalProperties(bool additionalProperties);
+            JsonSubSchemaBuilder& setAdditionalProperties(const nlohmann::ordered_json& additionalProperties);
             JsonSubSchemaBuilder& setRequired(const std::list<std::string>& required);
 
-            JsonSubSchemaBuilder&     addReference(const std::string_view name, const std::string_view description = "");
             JsonSchemaElementBuilder& addProperty(const std::string_view name);
             JsonSchemaElementBuilder& addProperty(const std::string_view name, JsonType type);
+            JsonSubSchemaBuilder&     addReference(const std::string_view name);
+            JsonSubSchemaBuilder&     addReference(
+                const std::string_view name,
+                const JsonSubSchemaBuilder& subSchema,
+                bool setDefaults = true
+            );
 
             nlohmann::ordered_json build() const;
     };
@@ -62,7 +68,7 @@ namespace JsonService
     class JsonSchemaBuilder
     {
         private:
-            bool additionalProperties = false;
+            nlohmann::ordered_json              additionalProperties = false;
             std::list<std::string>              required;
             std::list<JsonSchemaElementBuilder> elements;
             std::list<JsonSubSchemaBuilder>     subSchemas;
@@ -70,10 +76,15 @@ namespace JsonService
         public:
             JsonSchemaBuilder() = default;
 
-            JsonSchemaBuilder& setAdditionalProperties(bool additionalProperties);
+            JsonSchemaBuilder& setAdditionalProperties(const nlohmann::ordered_json& additionalProperties);
             JsonSchemaBuilder& setRequired(const std::list<std::string>& required);
 
-            JsonSchemaBuilder&          addReference(const std::string_view name, const std::string_view description = "");
+            JsonSchemaBuilder&          addReference(const std::string_view name);
+            JsonSchemaBuilder&          addReference(
+                const std::string_view name,
+                const JsonSubSchemaBuilder& subSchema,
+                bool setDefaults = true
+            );
             JsonSchemaBuilder&          addSubSchema(const JsonSubSchemaBuilder& subSchema);
             JsonSchemaBuilder&          addSubSchema(JsonSubSchemaBuilder&& subSchema);
             JsonSubSchemaBuilder&       addSubSchema(const std::string_view name);
