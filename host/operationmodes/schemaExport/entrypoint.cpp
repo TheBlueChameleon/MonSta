@@ -6,7 +6,7 @@
 
 #include "loggerservice/loggerservice.hpp"
 
-#include "operationmodes/shared/schemavalidation.hpp"
+#include "operationmodes/shared/schemavalidationconstants.hpp"
 #include "operationmodes/shared/utils.hpp"
 
 #include "entrypoint.hpp"

@@ -5,7 +5,7 @@ using namespace std::string_literals;
 #include "jsonservice/jsonservice.hpp"
 using namespace JsonService;
 
-#include "schemavalidation.hpp"
+#include "schemavalidationconstants.hpp"
 
 using Json = nlohmann::json;
 

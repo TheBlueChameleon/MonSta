@@ -3,7 +3,7 @@
 #include "cli/clihandler.hpp"
 
 #include "operationmodes/entrypoint.hpp"
-#include "operationmodes/shared/schemavalidation.hpp"
+#include "operationmodes/shared/schemavalidationconstants.hpp"
 
 #include "errors.hpp"
 

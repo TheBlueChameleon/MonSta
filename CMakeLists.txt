@@ -195,7 +195,7 @@ add_executable(Host
 
     host/operationmodes/shared/defs/loggingdefinition.hpp
     host/operationmodes/shared/basemodedefinition.hpp
-    host/operationmodes/shared/schemavalidation.hpp host/operationmodes/shared/schemavalidation.cpp
+    host/operationmodes/shared/schemavalidationconstants.hpp host/operationmodes/shared/schemavalidationconstants.cpp
     host/operationmodes/shared/utils.hpp            host/operationmodes/shared/utils.cpp
 
     host/operationmodes/simulation/entrypoint.hpp   host/operationmodes/simulation/entrypoint.cpp
