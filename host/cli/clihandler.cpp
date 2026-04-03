@@ -194,24 +194,25 @@ CliInput readCliInput(const int argc, const char* const argv[])
 // shared
 
 template<typename T>
-static void fetchIfInJson(const char* const jsonKey, const ordered_json& data, T& target)
+static const T fetchIfInJson(const ordered_json& data, const char* const jsonKey, const T& defaultValue)
 {
     if (data.contains(jsonKey))
     {
-        target = data[jsonKey];
+        return data[jsonKey];
+    }
+    else
+    {
+        return defaultValue;
     }
 }
 
 static LoggingDefinition unpackLoggingDefinition(const ordered_json& data)
 {
-    ILoggerService::LogLevel             loglevel;
-    std::optional<std::filesystem::path> logfile;
-
     // JKEY_LOGGING exists due to having a default
-    fetchIfInJson(JKEY_LOGGING_LOGLEVEL, data, loglevel);
-    fetchIfInJson(JKEY_LOGGING_LOGFILE, data, logfile);
-
-    return LoggingDefinition(logfile, loglevel);
+    return LoggingDefinition(
+               fetchIfInJson(data, JKEY_LOGGING_LOGFILE, std::filesystem::path{}),
+               fetchIfInJson(data, JKEY_LOGGING_LOGLEVEL, ILoggerService::LogLevel{})
+           );
 }
 
 // .......................................................................... //
@@ -219,30 +220,15 @@ static LoggingDefinition unpackLoggingDefinition(const ordered_json& data)
 
 static SimulatorDefinition unpackSimulatorDefinition(const ordered_json& data)
 {
-    std::string engine = data[JKEY_SIMULATOR_ENGINE];   // required to exist.
-    std::string inputDir;
-    std::string outputDir;
-    int repetitions;
-    int maxTurns;
-    int threadCount;
-    std::string args;
-
-    fetchIfInJson(JKEY_SIMULATOR_INPUTDIRECTORY,  data, inputDir);
-    fetchIfInJson(JKEY_SIMULATOR_OUTPUTDIRECTORY, data, outputDir);
-    fetchIfInJson(JKEY_SIMULATOR_REPETITIONS,     data, repetitions);
-    fetchIfInJson(JKEY_SIMULATOR_MAXTURNS,        data, maxTurns);
-    fetchIfInJson(JKEY_SIMULATOR_THREADCOUNT,     data, threadCount);
-    fetchIfInJson(JKEY_SIMULATOR_ARGS,            data, args);
-
     return SimulatorDefinition
     {
-        engine,
-        inputDir,
-        outputDir,
-        repetitions,
-        maxTurns,
-        threadCount,
-        args
+        data               [JKEY_SIMULATOR_ENGINE],
+        fetchIfInJson(data, JKEY_SIMULATOR_INPUTDIRECTORY,  std::filesystem::path {}),
+        fetchIfInJson(data, JKEY_SIMULATOR_OUTPUTDIRECTORY, std::filesystem::path {}),
+        data               [JKEY_SIMULATOR_REPETITIONS],
+        data               [JKEY_SIMULATOR_MAXTURNS],
+        data               [JKEY_SIMULATOR_THREADCOUNT],
+        fetchIfInJson(data, JKEY_SIMULATOR_OUTPUTDIRECTORY, std::string {}),
     };
 }
 
@@ -283,43 +269,20 @@ static std::shared_ptr<const BaseModeDefinition> unpackSimulationInput(const Cli
 
 static TemplatesDefinition unpackTemplatesDefinition(const ordered_json& data)
 {
-    std::string engine          = data[JKEY_TEMPLATES_ENGINE];                  // required to exist.
-    std::string outputDirectory = data[JKEY_TEMPLATES_OUTPUTDIRECTORY];         // required to exist.
-    std::string player1Team;
-    std::string player1Strategy;
-    std::string player2Team;
-    std::string player2Strategy;
-    std::string pkmnDefs;
-    std::string moveDefs;
-    std::string typeDefs;
-    std::string itemDefs;
-    bool writeSchemas = data[JKEY_TEMPLATES_WRITESCHEMAS];                      // exists by default
-    std::string args;
-
-    fetchIfInJson(JKEY_TEMPLATES_PLAYER1TEAM,       data, player1Team);
-    fetchIfInJson(JKEY_TEMPLATES_PLAYER1STRATEGY,   data, player1Strategy);
-    fetchIfInJson(JKEY_TEMPLATES_PLAYER2TEAM,       data, player2Team);
-    fetchIfInJson(JKEY_TEMPLATES_PLAYER2STRATEGY,   data, player2Strategy);
-    fetchIfInJson(JKEY_TEMPLATES_PKMNDEFS,          data, pkmnDefs);
-    fetchIfInJson(JKEY_TEMPLATES_MOVEDEFS,          data, moveDefs);
-    fetchIfInJson(JKEY_TEMPLATES_TYPEDEFS,          data, typeDefs);
-    fetchIfInJson(JKEY_TEMPLATES_ITEMDEFS,          data, itemDefs);
-    fetchIfInJson(JKEY_TEMPLATES_ARGS,              data, args);
-
     return TemplatesDefinition
     {
-        engine,
-        outputDirectory,
-        player1Team,
-        player1Strategy,
-        player2Team,
-        player2Strategy,
-        pkmnDefs,
-        moveDefs,
-        typeDefs,
-        itemDefs,
-        writeSchemas,
-        args
+        data               [JKEY_TEMPLATES_ENGINE],
+        data               [JKEY_TEMPLATES_OUTPUTDIRECTORY],
+        fetchIfInJson(data, JKEY_TEMPLATES_PLAYER1TEAM, std::filesystem::path {}),
+        fetchIfInJson(data, JKEY_TEMPLATES_PLAYER1STRATEGY, std::filesystem::path {}),
+        fetchIfInJson(data, JKEY_TEMPLATES_PLAYER2TEAM, std::filesystem::path {}),
+        fetchIfInJson(data, JKEY_TEMPLATES_PLAYER2STRATEGY, std::filesystem::path {}),
+        fetchIfInJson(data, JKEY_TEMPLATES_PKMNDEFS, std::filesystem::path {}),
+        fetchIfInJson(data, JKEY_TEMPLATES_MOVEDEFS, std::filesystem::path {}),
+        fetchIfInJson(data, JKEY_TEMPLATES_TYPEDEFS, std::filesystem::path {}),
+        fetchIfInJson(data, JKEY_TEMPLATES_ITEMDEFS, std::filesystem::path {}),
+        data               [JKEY_TEMPLATES_WRITESCHEMAS],
+        fetchIfInJson(data, JKEY_TEMPLATES_ARGS, std::filesystem::path {}),
     };
 }
 
