@@ -74,6 +74,7 @@ FetchContent_MakeAvailable(googletest)
 
 set(apiHeaders
     api/ClientApi.hpp
+    api/ClientReturnCodes.hpp
     api/FeatureTags.hpp
     api/HostApi.hpp
     api/Version.hpp
@@ -170,8 +171,8 @@ target_include_directories(Host-VersionService
 add_executable(Host
     ${apiHeaders}
 
-    host/api/clientwrapper.hpp  host/api/clientwrapper.cpp
-    host/api/hostapiwrapper.hpp host/api/hostapiwrapper.cpp
+    host/api/clientwrapper.hpp      host/api/clientwrapper.cpp
+    host/api/hostapiprovider.hpp    host/api/hostapiprovider.cpp
 
     host/cli/clihandler.hpp host/cli/clihandler.cpp
     host/cli/cliinput.hpp

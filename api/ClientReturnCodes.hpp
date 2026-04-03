@@ -1,0 +1,9 @@
+#ifndef CLIENTRETURNCODES_HPP
+#define CLIENTRETURNCODES_HPP
+
+enum class ClientReturnCode
+{
+    SUCCESS, INVALID_ARGUMENT
+};
+
+#endif // CLIENTRETURNCODES_HPP

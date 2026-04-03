@@ -10,13 +10,13 @@ extern "C" {
     const Version MIN_HOST_VERSION(0,1,0,0);
     const Version MAX_HOST_VERSION(2,0,0,0);
 
-    bool hangUp()
+    ClientReturnCode hangUp()
     {
-        return true;
+        return ClientReturnCode::SUCCESS;
     }
 }
 
-bool init_engine()
+ClientReturnCode init_engine()
 {
     Globals::supportedFeatures =
     {
@@ -24,5 +24,5 @@ bool init_engine()
         FEATURE_TEMPLATEMODE_V1_0
     };
 
-    return true;
+    return ClientReturnCode::SUCCESS;
 }

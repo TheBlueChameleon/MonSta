@@ -4,58 +4,87 @@
 #include <filesystem>
 #include <set>
 
+#include <ClientReturnCodes.hpp>
 #include <FeatureTags.hpp>
+#include <HostApi.hpp>
 #include <Version.hpp>
+
+#include "hostapiprovider.hpp"
 
 class HostApi;
 
 class ClientWrapper
 {
     private:
+        // ------------------------------------------------------------------ //
+        // DyLib Handle
+
+#ifdef _WIN32
+        HINSTANCE handler;
+#else
+        void* handler = nullptr;
+#endif
+
+        // ------------------------------------------------------------------ //
+        // Feature Requirements
+
         enum class FeatureCriticality {WARN, CRITICAL};
         using FeatureCheckParams = std::tuple<const char* const, std::string, FeatureCriticality>;
+
         const std::initializer_list<FeatureCheckParams> features =
         {
             {FEATURE_SIMULATIONMODE_V1_0, "simulation mode v1.0", FeatureCriticality::CRITICAL},
             {FEATURE_TEMPLATEMODE_V1_0,   "template mode v1.0",   FeatureCriticality::WARN}
         };
 
-    private:
-#ifdef _WIN32
-        HINSTANCE handler;
-#else
-        void* handler = nullptr;
-#endif
+        // ------------------------------------------------------------------ //
+        // Internal Logic
+
+        template<typename T>
+        void fetchCheckAndTransfer(T ClientWrapper::* offset, const char* const symbol);
+        void* findSymbol(const char* const symbolName);
+
+        void loadEngine(const std::filesystem::path& enginePath);
+        void extractSymbols();
+        bool checkForFeatures(const FeatureCheckParams& featureDesc);
+        void initAndAssertCompatibility();
+
+        // ------------------------------------------------------------------ //
+        // State
+
+        std::set<std::string> featureSet;
+        HostApi               hostApi;
+
         const Version* _CLIENT_VERSION;
         const Version* _MIN_HOST_VERSION;
         const Version* _MAX_HOST_VERSION;
 
-        std::set<std::string> featureSet;
+        ClientReturnCode(*_init)(HostApi* hostApi);
+        ClientReturnCode(*_hangUp)();
 
-        bool (*_init)(HostApi* hostApi);
         bool (*_hasFeature)(const char* const featureTag);
-        bool (*_hangUp)();
         void (*_terminateAbnormally)();
 
-        template<typename T>
-        void fetchCheckAndTransfer(T ClientWrapper::* offset, const char* const symbol);
+        // ------------------------------------------------------------------ //
+        // Private Interface
 
-        void loadEngine(const std::filesystem::path& enginePath);
-        void extractSymbols();
-        void assertVersionsCompatible();
-        bool checkForFeatures(const FeatureCheckParams& featureDesc);
+        ClientReturnCode init(HostApi* hostApi) const;
+        ClientReturnCode hangUp();
 
-    protected:
-        void* findSymbol(const char* const symbolName);
-        bool init(HostApi* hostApi) const;
-        bool hangUp();
-
+        // ------------------------------------------------------------------ //
+        // Public Interface
     public:
-        ClientWrapper(const std::filesystem::path& enginePath);
+        ClientWrapper(
+            const std::filesystem::path& enginePath,
+            const HostApi&               hostApi = HostApiProvider::createHostApi()
+        );
         ~ClientWrapper();
 
+        ClientWrapper& operator=(const ClientWrapper&) = delete;
+        ClientWrapper& operator=(ClientWrapper&&) = delete;
+
         const std::set<std::string>& getFeatureSet() const;
-        bool hasFeature(const char* const featureTag);
+        bool hasFeature(const std::string_view featureTag);
 
         Version getClientVersion() const;
         Version getMinHostVersion() const;

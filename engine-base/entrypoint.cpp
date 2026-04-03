@@ -46,18 +46,18 @@ static bool allVersionServicesPresent(const IVersionService& vu)
 }
 
 extern "C" {
-    bool init(HostApi* hostApi)
+    ClientReturnCode init(HostApi* hostApi)
     {
         if (!allLoggerServicesPresent(hostApi->loggerService))
         {
             std::cerr << "Logger was not initialized!" << std::endl;
-            return false;
+            return ClientReturnCode::INVALID_ARGUMENT;
         }
 
         if (!allVersionServicesPresent(hostApi->versionService))
         {
             hostApi->loggerService.critical("Not all VersionUtils have been initialized!");
-            return false;
+            return ClientReturnCode::INVALID_ARGUMENT;
         }
 
         Globals::hostApi = hostApi;
