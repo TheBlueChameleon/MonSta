@@ -27,7 +27,10 @@ struct IJsonService
         const EntryState(*getState)(const IJsonService::JsonTag tag);
         const JsonHandle(*get)(const IJsonService::JsonTag tag);
         const JsonHandle(*add)(const IJsonService::JsonTag tag, const JsonHandle handle);
-        const JsonHandle(*getOrAdd)(const IJsonService::JsonTag tag, const IJsonService::JsonHandle(*creator)());
+        const JsonHandle(*getOrAdd)(
+            const IJsonService::JsonTag tag,
+            const void(*creator)(const ModifiableJsonHandle)
+        );
         const ModifiableJsonHandle(*declare)(const IJsonService::JsonTag tag);
         const JsonHandle(*commit)(const IJsonService::JsonTag tag);
 

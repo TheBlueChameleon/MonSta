@@ -153,7 +153,7 @@ namespace JsonService
         return database.add(tag, std::move(json));
     }
 
-    const nlohmann::ordered_json& getOrAdd(const IJsonService::JsonTag tag, std::function<nlohmann::ordered_json()> creator)
+    const nlohmann::ordered_json& getOrAdd(const IJsonService::JsonTag tag, std::function<void(nlohmann::ordered_json&)> creator)
     {
         return database.getOrAdd(tag, creator);
     }
@@ -192,7 +192,10 @@ namespace JsonService
                );
     }
 
-    const IJsonService::JsonHandle getOrAdd_dlx(const IJsonService::JsonTag tag, const IJsonService::JsonHandle(*creator)())
+    const IJsonService::JsonHandle getOrAdd_dlx(
+        const IJsonService::JsonTag tag,
+        const void(*creator)(const IJsonService::ModifiableJsonHandle)
+    )
     {
         assertSaneTag(tag);
         if (creator == nullptr)
@@ -200,9 +203,9 @@ namespace JsonService
             throw ClientRequestError("Client attempted getOrAdd with null creator");
         }
 
-        auto convertedCreator = [&creator]()
+        auto convertedCreator = [&creator](ordered_json& json)
         {
-            return toOrderedJson(creator());
+            creator(toModifiableHandle(json));
         };
 
         return toHandle(getOrAdd(tag, convertedCreator));
@@ -437,7 +440,7 @@ namespace JsonService
     void setToHandle_dlx(const IJsonService::ModifiableJsonHandle handle, const IJsonService::JsonHandle source)
     {
         assertSaneHandle(source);
-        ordered_json& base = toModifiableOrderedJson(source);
+        ordered_json& base = toModifiableOrderedJson(handle);
         base = toOrderedJson(source);
     }
 

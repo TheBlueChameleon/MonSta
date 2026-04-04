@@ -81,6 +81,7 @@ TEST_F(JsonSchemaBuilderTest, SubSchemaBuilder_AutoDefaults)
     },
     "recursive": {
       "$ref": "#/$defs/recursive",
+      "type": "object",
       "default": {
         "defaulted": "value"
       }
@@ -125,6 +126,7 @@ TEST_F(JsonSchemaBuilderTest, SchemaBuilder_AutoDefaults)
   "properties": {
     "property": {
       "$ref": "#/$defs/subSchema",
+      "type": "object",
       "default": {
         "prop": "default"
       }

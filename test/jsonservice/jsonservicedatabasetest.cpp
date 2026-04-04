@@ -137,10 +137,10 @@ TEST_F(JsonServiceTest, Database_GetOrAdd)
 
     auto instance = JsonServiceDatabase();
 
-    auto creator = [&raw, &writeCalls]()
+    auto creator = [&raw, &writeCalls](nlohmann::ordered_json& target)
     {
         ++writeCalls;
-        return nlohmann::json::parse(raw);
+        target = nlohmann::ordered_json::parse(raw);
     };
 
     auto writer = [&instance, &tag, &raw, &creator, &correctReads]()

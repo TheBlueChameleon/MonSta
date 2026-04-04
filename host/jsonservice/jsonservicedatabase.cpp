@@ -111,7 +111,7 @@ namespace JsonService
 
     const nlohmann::ordered_json& JsonServiceDatabase::getOrAdd(
         const IJsonService::JsonTag tag,
-        std::function<nlohmann::ordered_json()> creator
+        std::function<void (nlohmann::ordered_json&)> creator
     )
     {
         Entry* entry;
@@ -140,7 +140,9 @@ namespace JsonService
             if (entry->state == EntryState::DECLARED && !entry->data)
             {
                 // This thread initializes
-                entry->data = std::make_unique<nlohmann::ordered_json>(std::move(creator()));
+                nlohmann::ordered_json createdJson;
+                creator(createdJson);
+                entry->data = std::make_unique<nlohmann::ordered_json>(std::move(createdJson));
                 entry->state = EntryState::READY;
 
                 entryLock.unlock();

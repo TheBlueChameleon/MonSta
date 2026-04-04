@@ -19,14 +19,17 @@ namespace JsonService
     const nlohmann::ordered_json& get(const IJsonService::JsonTag tag);
     const nlohmann::ordered_json& add(const IJsonService::JsonTag tag, const nlohmann::ordered_json& json);
     const nlohmann::ordered_json& add(const IJsonService::JsonTag tag, const nlohmann::ordered_json&& json);
-    const nlohmann::ordered_json& getOrAdd(const IJsonService::JsonTag tag, std::function<nlohmann::ordered_json()> creator);
+    const nlohmann::ordered_json& getOrAdd(const IJsonService::JsonTag tag, std::function<void(nlohmann::ordered_json&)> creator);
     std::optional<std::reference_wrapper<nlohmann::ordered_json>> declare(const IJsonService::JsonTag tag);
     const nlohmann::ordered_json& commit(const IJsonService::JsonTag tag);
 
     const IJsonService::EntryState getState_dlx(const IJsonService::JsonTag tag);
     const IJsonService::JsonHandle get_dlx(const IJsonService::JsonTag tag);
     const IJsonService::JsonHandle add_dlx(const IJsonService::JsonTag tag, const IJsonService::JsonHandle handle);       // copy only
-    const IJsonService::JsonHandle getOrAdd_dlx(const IJsonService::JsonTag tag, const IJsonService::JsonHandle(*creator)());
+    const IJsonService::JsonHandle getOrAdd_dlx(
+        const IJsonService::JsonTag tag,
+        const void(*creator)(const IJsonService::ModifiableJsonHandle)
+    );
     const IJsonService::ModifiableJsonHandle declare_dlx(const IJsonService::JsonTag tag);
     const IJsonService::JsonHandle commit_dlx(const IJsonService::JsonTag tag);
 
@@ -61,6 +64,7 @@ namespace JsonService
     void setToUnsigned_dlx(const IJsonService::ModifiableJsonHandle handle, const unsigned value);
     void setToFloat_dlx(const IJsonService::ModifiableJsonHandle handle, const double value);
     void setToString_dlx(const IJsonService::ModifiableJsonHandle handle, const char* const value);
+    void setToHandle_dlx(const IJsonService::ModifiableJsonHandle handle, const IJsonService::JsonHandle source);
     void setToArray_dlx(const IJsonService::ModifiableJsonHandle handle, const IJsonService::JsonHandle source);
     void setToObject_dlx(const IJsonService::ModifiableJsonHandle handle, const IJsonService::JsonHandle source);
 
