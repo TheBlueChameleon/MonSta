@@ -31,6 +31,8 @@ using namespace nlohmann::json_schema;
 
 #include "clihandler.hpp"
 
+using namespace OperationModes;
+
 // ========================================================================== //
 // readCliInput
 
@@ -252,7 +254,7 @@ static MatchDefinition unpackMatchDefinition(const ordered_json& data)
 static std::shared_ptr<const BaseModeDefinition> unpackSimulationInput(const CliInput& cliInput)
 {
     const std::string_view source = cliInput.data;
-    const std::string tag = std::string(JTAG_BASE) + source.data();
+    const std::string tag = std::string(JTAG_BASE.name) + source.data();
     auto data = JsonService::readValidateByTagPatchAndAdd(
                     tag.data(),
                     source,
@@ -292,7 +294,7 @@ static TemplatesDefinition unpackTemplatesDefinition(const ordered_json& data)
 static std::shared_ptr<const BaseModeDefinition> unpackTemplateInput(const CliInput& cliInput)
 {
     const std::string_view source = cliInput.data;
-    const std::string tag = std::string(JTAG_BASE) + source.data();
+    const std::string tag = std::string(JTAG_BASE.name) + source.data();
     auto data = JsonService::readValidateByTagPatchAndAdd(
                     tag.data(),
                     source,
