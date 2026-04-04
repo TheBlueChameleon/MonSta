@@ -36,18 +36,33 @@ namespace JsonService
     const IJsonService::JsonHandle navigateTo_dlx(const IJsonService::JsonHandle handle, const char* const jsonPointer);
     const bool contains_dlx(const IJsonService::JsonHandle handle, const char* const elementName);
 
+    const IJsonService::JsonType getType(const IJsonService::JsonHandle handle);
     const bool isNull_dlx(const IJsonService::JsonHandle handle);
     const bool isBoolean_dlx(const IJsonService::JsonHandle handle);
     const bool isInteger_dlx(const IJsonService::JsonHandle handle);
+    const bool isUnsigned_dlx(const IJsonService::JsonHandle handle);
     const bool isFloat_dlx(const IJsonService::JsonHandle handle);
     const bool isString_dlx(const IJsonService::JsonHandle handle);
     const bool isArray_dlx(const IJsonService::JsonHandle handle);
     const bool isObject_dlx(const IJsonService::JsonHandle handle);
 
-    // int arraySize
-    // Handle getArrayItem(idx)
-
+    const bool getAsBool_dlx(const IJsonService::JsonHandle handle);
+    const int getAsInteger_dlx(const IJsonService::JsonHandle handle);
+    const unsigned long long getAsUnsigned_dlx(const IJsonService::JsonHandle handle);
+    const double getAsFloat_dlx(const IJsonService::JsonHandle handle);
     const char* const getAsString_dlx(const IJsonService::JsonHandle handle);
+
+    const int getArraySize_dlx(const IJsonService::JsonHandle handle);
+    const IJsonService::JsonHandle getArrayItem_dlx(const IJsonService::JsonHandle handle, const int index);
+
+    void setToNull_dlx(const IJsonService::ModifiableJsonHandle handle);
+    void setToBool_dlx(const IJsonService::ModifiableJsonHandle handle, const bool value);
+    void setToInteger_dlx(const IJsonService::ModifiableJsonHandle handle, const int value);
+    void setToUnsigned_dlx(const IJsonService::ModifiableJsonHandle handle, const unsigned value);
+    void setToFloat_dlx(const IJsonService::ModifiableJsonHandle handle, const double value);
+    void setToString_dlx(const IJsonService::ModifiableJsonHandle handle, const char* const value);
+    void setToArray_dlx(const IJsonService::ModifiableJsonHandle handle, const IJsonService::JsonHandle source);
+    void setToObject_dlx(const IJsonService::ModifiableJsonHandle handle, const IJsonService::JsonHandle source);
 
     // ---------------------------------------------------------------------- //
     // Parsing & Validation

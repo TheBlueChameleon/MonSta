@@ -4,6 +4,7 @@
 struct IJsonService
 {
         enum class EntryState {NONEXISTENT, DECLARED, READY};
+        enum class JsonType {VOID, OBJECT, ARRAY, STRING, BOOLEAN, INTEGER, UNSIGNED, FLOAT, BINARY, DISCARDED};
 
         struct JsonHandle
         {

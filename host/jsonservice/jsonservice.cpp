@@ -46,6 +46,13 @@ namespace JsonService
         return *reinterpret_cast<const ordered_json*>(handle.data);
     }
 
+    static ordered_json& toModifiableOrderedJson(const IJsonService::ModifiableJsonHandle handle)
+    {
+        return *reinterpret_cast<ordered_json*>(
+                   const_cast<void*>(handle.data)
+               );
+    }
+
     static void assertSaneHandle(const IJsonService::JsonHandle handle)
     {
         if (handle.data == nullptr)
@@ -243,6 +250,13 @@ namespace JsonService
         return base.contains(elementName);
     }
 
+    const IJsonService::JsonType getType(const IJsonService::JsonHandle handle)
+    {
+        assertSaneHandle(handle);
+        const ordered_json& base = toOrderedJson(handle);
+        return static_cast<IJsonService::JsonType>(base.type());
+    }
+
     const bool isNull_dlx(const IJsonService::JsonHandle handle)
     {
         assertSaneHandle(handle);
@@ -262,6 +276,13 @@ namespace JsonService
         assertSaneHandle(handle);
         const ordered_json& base = toOrderedJson(handle);
         return base.is_number_integer();
+    }
+
+    const bool isUnsigned_dlx(const IJsonService::JsonHandle handle)
+    {
+        assertSaneHandle(handle);
+        const ordered_json& base = toOrderedJson(handle);
+        return base.is_number_unsigned();
     }
 
     const bool isFloat_dlx(const IJsonService::JsonHandle handle)
@@ -292,16 +313,144 @@ namespace JsonService
         return base.is_object();
     }
 
+    const bool getAsBool_dlx(const IJsonService::JsonHandle handle)
+    {
+        assertSaneHandle(handle);
+        const ordered_json& base = toOrderedJson(handle);
+        if (!base.is_boolean())
+        {
+            throw ClientRequestError("Client attempted to read non-boolean Json object as boolean");
+        }
+        return base.get<bool>();
+    }
+
+    const int getAsInteger_dlx(const IJsonService::JsonHandle handle)
+    {
+        assertSaneHandle(handle);
+        const ordered_json& base = toOrderedJson(handle);
+        if (!base.is_number_integer())
+        {
+            throw ClientRequestError("Client attempted to read non-integer Json object as integer");
+        }
+        return base.get<int>();
+    }
+
+    const unsigned long long getAsUnsigned_dlx(const IJsonService::JsonHandle handle)
+    {
+        assertSaneHandle(handle);
+        const ordered_json& base = toOrderedJson(handle);
+        if (!base.is_number_unsigned())
+        {
+            throw ClientRequestError("Client attempted to read non-unsigned Json object as unsigned");
+        }
+        return base.get<unsigned long long>();
+    }
+
+    const double getAsFloat_dlx(const IJsonService::JsonHandle handle)
+    {
+        assertSaneHandle(handle);
+        const ordered_json& base = toOrderedJson(handle);
+        if (!base.is_number_float())
+        {
+            throw ClientRequestError("Client attempted to read non-float Json object as float");
+        }
+        return base.get<double>();
+    }
+
     const char* const getAsString_dlx(const IJsonService::JsonHandle handle)
     {
         assertSaneHandle(handle);
         const ordered_json& base = toOrderedJson(handle);
         if (!base.is_string())
         {
-            throw ClientRequestError("Client attempted to read Json object as String");
+            throw ClientRequestError("Client attempted to read non-string Json object as string");
         }
         const auto ptr = base.get_ptr<const ordered_json::string_t*>();
         return ptr->data();
+    }
+
+    const int getArraySize_dlx(const IJsonService::JsonHandle handle)
+    {
+        assertSaneHandle(handle);
+        const ordered_json& base = toOrderedJson(handle);
+        return base.size();
+    }
+
+    const IJsonService::JsonHandle getArrayItem_dlx(const IJsonService::JsonHandle handle, const int index)
+    {
+        assertSaneHandle(handle);
+        const ordered_json& base = toOrderedJson(handle);
+        if (!base.is_array())
+        {
+            throw ClientRequestError("Client attempted array operation on non-array Json element");
+        }
+        if (index < 0 ||index >= base.size())
+        {
+            throw ClientRequestError("Client attempted array operation with out-of-bounds index "s + std::to_string(index));
+        }
+
+        return toHandle(base.at(index));
+    }
+
+    void setToNull_dlx(const IJsonService::ModifiableJsonHandle handle)
+    {
+        assertSaneHandle(handle);
+        ordered_json& base = toModifiableOrderedJson(handle);
+        base = ordered_json();
+    }
+
+    void setToBool_dlx(const IJsonService::ModifiableJsonHandle handle, const bool value)
+    {
+        assertSaneHandle(handle);
+        ordered_json& base = toModifiableOrderedJson(handle);
+        base = value;
+    }
+
+    void setToInteger_dlx(const IJsonService::ModifiableJsonHandle handle, const int value)
+    {
+        assertSaneHandle(handle);
+        ordered_json& base = toModifiableOrderedJson(handle);
+        base = value;
+    }
+
+    void setToUnsigned_dlx(const IJsonService::ModifiableJsonHandle handle, const unsigned int value)
+    {
+        assertSaneHandle(handle);
+        ordered_json& base = toModifiableOrderedJson(handle);
+        base = value;
+    }
+
+    void setToFloat_dlx(const IJsonService::ModifiableJsonHandle handle, const double value)
+    {
+        assertSaneHandle(handle);
+        ordered_json& base = toModifiableOrderedJson(handle);
+        base = value;
+    }
+
+    void setToString_dlx(const IJsonService::ModifiableJsonHandle handle, const char* const value)
+    {
+        assertSaneHandle(handle);
+        ordered_json& base = toModifiableOrderedJson(handle);
+        base = value;
+    }
+
+    void setToHandle_dlx(const IJsonService::ModifiableJsonHandle handle, const IJsonService::JsonHandle source)
+    {
+        assertSaneHandle(source);
+        ordered_json& base = toModifiableOrderedJson(source);
+        base = toOrderedJson(source);
+    }
+
+    // TODO: maybe type check source is Array?
+    void setToArray_dlx(const IJsonService::ModifiableJsonHandle handle, const IJsonService::JsonHandle source)
+    {
+        setToHandle_dlx(handle, source);
+    }
+
+    // TODO: maybe type check source is Object?
+    void setToObject_dlx(const IJsonService::ModifiableJsonHandle handle, const IJsonService::JsonHandle source)
+    {
+        setToHandle_dlx(handle, source);
     }
 
     // ====================================================================== //
