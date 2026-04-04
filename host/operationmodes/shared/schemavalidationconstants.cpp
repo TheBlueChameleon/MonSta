@@ -1,6 +1,8 @@
 #include <string>
 using namespace std::string_literals;
 
+#include <ILoggerService.hpp>
+
 #include "jsonservice/jsonschemabuilder.hpp"
 #include "jsonservice/jsonservice.hpp"
 using namespace JsonService;
@@ -23,10 +25,18 @@ namespace OperationModes
 
         logging.addProperty(JKEY_LOGGING_LOGFILE, JsonType::STRING);
 
-        logging.addProperty(JKEY_LOGGING_LOGLEVEL, JsonType::INTEGER)
-        .setMinimum(0)
-        .setMaximum(6)
-        .setDefault(2);
+        logging.addProperty(JKEY_LOGGING_LOGLEVEL, JsonType::STRING)
+        .addEnum(
+        {
+            ILoggerService::LOGLEVELNAME_TRACE,
+            ILoggerService::LOGLEVELNAME_DEBUG,
+            ILoggerService::LOGLEVELNAME_INFO,
+            ILoggerService::LOGLEVELNAME_WARNING,
+            ILoggerService::LOGLEVELNAME_ERROR,
+            ILoggerService::LOGLEVELNAME_CRITICAL,
+            ILoggerService::LOGLEVELNAME_OFF
+        })
+        .addDefault(ILoggerService::LOGLEVELNAME_INFO);
 
         return logging;
     }
@@ -52,16 +62,16 @@ namespace OperationModes
         simulator.addProperty(JKEY_SIMULATOR_OUTPUTDIRECTORY, JsonType::STRING);
 
         simulator.addProperty(JKEY_SIMULATOR_REPETITIONS, JsonType::INTEGER)
-        .setMinimum(1)
-        .setDefault(100);
+        .addMinimum(1)
+        .addDefault(100);
 
         simulator.addProperty(JKEY_SIMULATOR_MAXTURNS, JsonType::INTEGER)
-        .setMinimum(1)
-        .setDefault(100);
+        .addMinimum(1)
+        .addDefault(100);
 
         simulator.addProperty(JKEY_SIMULATOR_THREADCOUNT, JsonType::INTEGER)
-        .setMinimum(1)
-        .setDefault(1);
+        .addMinimum(1)
+        .addDefault(1);
 
         simulator.addProperty(JKEY_SIMULATOR_ARGS, JsonType::STRING);
 
@@ -149,7 +159,7 @@ namespace OperationModes
         result.addProperty(JKEY_TEMPLATES_OUTPUTDIRECTORY, JsonType::STRING);
 
         result.addProperty(JKEY_TEMPLATES_WRITESCHEMAS, JsonType::BOOLEAN)
-        .setDefault(true);
+        .addDefault(true);
 
         result.addProperty(JKEY_TEMPLATES_PLAYER1TEAM, JsonType::STRING);
 

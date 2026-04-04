@@ -12,9 +12,9 @@ TEST_F(JsonSchemaBuilderTest, ElementBuilder_setProperty_InOrder)
     // setup
     auto builder = JsonSchemaElementBuilder();
 
-    builder.setProperty("key", "value");
-    builder.setProperty("number", 42);
-    builder.setProperty("complex", json::parse("{}"));
+    builder.addProperty("key", "value");
+    builder.addProperty("number", 42);
+    builder.addProperty("complex", json::parse("{}"));
 
     // when
     std::string result = builder.getJson().dump(2);
@@ -68,7 +68,7 @@ TEST_F(JsonSchemaBuilderTest, SubSchemaBuilder_AutoDefaults)
     auto builder = JsonSubSchemaBuilder("ignored");
 
     builder.addProperty("empty");
-    builder.addProperty("defaulted").setDefault("value");
+    builder.addProperty("defaulted").addDefault("value");
     builder.addReference("recursive", builder);
 
     // when
@@ -113,7 +113,7 @@ TEST_F(JsonSchemaBuilderTest, SchemaBuilder_AutoDefaults)
 {
     // setup
     auto subSchema = JsonSubSchemaBuilder("subSchema");
-    subSchema.addProperty("prop").setDefault("default");
+    subSchema.addProperty("prop").addDefault("default");
 
     auto builder = JsonSchemaBuilder();
     builder.addReference("property", subSchema);

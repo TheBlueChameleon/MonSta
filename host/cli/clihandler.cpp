@@ -211,7 +211,9 @@ static LoggingDefinition unpackLoggingDefinition(const ordered_json& data)
     // JKEY_LOGGING exists due to having a default
     return LoggingDefinition(
                fetchIfInJson(data, JKEY_LOGGING_LOGFILE, std::filesystem::path{}),
-               fetchIfInJson(data, JKEY_LOGGING_LOGLEVEL, ILoggerService::LogLevel{})
+               LoggerService::getLogLevelFromName(
+                   fetchIfInJson(data, JKEY_LOGGING_LOGLEVEL, std::string(ILoggerService::LOGLEVELNAME_OFF))
+               )
            );
 }
 

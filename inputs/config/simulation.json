@@ -1,6 +1,6 @@
 {
     "logging": {
-        "loglevel" : 0,
+        "loglevel" : "trace",
         "logfile": "logfile.txt"
     },
     "simulator" : {

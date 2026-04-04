@@ -3,6 +3,14 @@
 
 struct ILoggerService
 {
+    static constexpr auto LOGLEVELNAME_TRACE    = "trace";
+    static constexpr auto LOGLEVELNAME_DEBUG    = "debug";
+    static constexpr auto LOGLEVELNAME_INFO     = "info";
+    static constexpr auto LOGLEVELNAME_WARNING  = "warning";
+    static constexpr auto LOGLEVELNAME_ERROR    = "error";
+    static constexpr auto LOGLEVELNAME_CRITICAL = "critical";
+    static constexpr auto LOGLEVELNAME_OFF      = "off";
+
     enum class LogLevel : int
     {
         TRACE    = 0,

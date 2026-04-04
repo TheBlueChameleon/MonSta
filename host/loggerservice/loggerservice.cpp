@@ -1,3 +1,8 @@
+#include <string>
+using namespace std::string_literals;
+
+#include "errors.hpp"
+
 #include "loggerservice.hpp"
 
 namespace LoggerService
@@ -19,6 +24,21 @@ namespace LoggerService
     Logger& getInstance()
     {
         return instance;
+    }
+
+    ILoggerService::LogLevel getLogLevelFromName(const std::string_view name)
+    {
+        // *INDENT-OFF*
+        if (name == ILoggerService::LOGLEVELNAME_TRACE)    {return ILoggerService::LogLevel::TRACE;}
+        if (name == ILoggerService::LOGLEVELNAME_DEBUG)    {return ILoggerService::LogLevel::DEBUG;}
+        if (name == ILoggerService::LOGLEVELNAME_INFO)     {return ILoggerService::LogLevel::INFO;}
+        if (name == ILoggerService::LOGLEVELNAME_WARNING)  {return ILoggerService::LogLevel::WARN;}
+        if (name == ILoggerService::LOGLEVELNAME_ERROR)    {return ILoggerService::LogLevel::ERROR;}
+        if (name == ILoggerService::LOGLEVELNAME_CRITICAL) {return ILoggerService::LogLevel::CRITICAL;}
+        if (name == ILoggerService::LOGLEVELNAME_OFF)      {return ILoggerService::LogLevel::OFF;}
+        // *INDENT-ON*
+
+        throw IllegalStateException("Unknown log level: "s + name.data());
     }
 
     void setLogLevel(const ILoggerService::LogLevel level)
@@ -60,4 +80,5 @@ namespace LoggerService
     {
         instance.critical(msg);
     }
+
 }

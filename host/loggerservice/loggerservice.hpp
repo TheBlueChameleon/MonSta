@@ -2,6 +2,7 @@
 #define LOGGERSERVICE_HPP
 
 #include <filesystem>
+#include <string_view>
 
 #include <ILoggerService.hpp>
 
@@ -12,6 +13,8 @@ namespace LoggerService
     ILoggerService exportService();
 
     Logger& getInstance();
+
+    ILoggerService::LogLevel getLogLevelFromName(const std::string_view name);
 
     void setLogLevel(const ILoggerService::LogLevel level);
     void setLogFile(const std::filesystem::path filename);

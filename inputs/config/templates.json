@@ -1,10 +1,10 @@
 {
      // comments are allowed
 
-    // "logging": {
-    //     "loglevel" : 0,
-    //     "logfile": "logfile.txt"
-    // },
+    "logging": {
+        "loglevel" : "trace",
+        "logfile": "logfile.txt"
+    },
     "templates" : {
         "engine": "./build-Desktop-Debug/libEngine-Gen1.so",
         "outputDirectory": "outputs"
