@@ -79,6 +79,7 @@ set(apiHeaders
     api/HostApi.hpp
     api/Version.hpp
 
+    api/IErrorService.hpp
     api/IFileService.hpp
     api/IJsonService.hpp
     api/ILoggerService.hpp
@@ -88,6 +89,18 @@ set(apiHeaders
 
 # ---------------------------------------------------------------------------- #
 # Main App
+
+# ............................................................................ #
+# ErrorService
+
+add_library(Host-ErrorService STATIC
+    host/errorservice/errorservice.hpp  host/errorservice/errorservice.cpp
+)
+
+target_include_directories(Host-ErrorService
+    PUBLIC host
+    PUBLIC api
+)
 
 # ............................................................................ #
 # FileService
@@ -226,6 +239,7 @@ target_include_directories(Host
 target_link_libraries(Host
     nlohmann_json::nlohmann_json
     nlohmann_json_schema_validator
+    Host-ErrorService
     Host-FileService
     Host-JsonService
     Host-LoggerService
