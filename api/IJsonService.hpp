@@ -5,27 +5,36 @@ struct IJsonService
 {
         enum class EntryState {NONEXISTENT, DECLARED, READY};
 
-        struct Handle
+        struct JsonHandle
         {
             const void* data;
         };
 
-        struct ModifiableHandle :
-            public Handle
+        struct ModifiableJsonHandle :
+            public JsonHandle
         {};
 
-        const EntryState(*getState)(const char* const tag);
-        const Handle(*get)(const char* const tag);
-        const Handle(*add)(const char* const tag, const Handle handle);
-        const Handle(*getOrAdd)(const char* const tag, const IJsonService::Handle(*creator)());
-        const ModifiableHandle(*declare)(const char* const tag);
-        const Handle(*commit)(const char* const tag);
+        struct JsonTag
+        {
+            const char* const name;
 
-        const Handle(*navigateTo)(const Handle, const char* const jsonPointer);
-        const bool (*containts)(const Handle, const char* const elementName);
+            JsonTag(const char* const name) :
+                name(name)
+            {}
+        };
 
-        const bool (*isString)(const Handle);
-        const char* const(*getAsString)(const Handle);
+        const EntryState(*getState)(const IJsonService::JsonTag tag);
+        const JsonHandle(*get)(const IJsonService::JsonTag tag);
+        const JsonHandle(*add)(const IJsonService::JsonTag tag, const JsonHandle handle);
+        const JsonHandle(*getOrAdd)(const IJsonService::JsonTag tag, const IJsonService::JsonHandle(*creator)());
+        const ModifiableJsonHandle(*declare)(const IJsonService::JsonTag tag);
+        const JsonHandle(*commit)(const IJsonService::JsonTag tag);
+
+        const JsonHandle(*navigateTo)(const JsonHandle, const char* const jsonPointer);
+        const bool (*containts)(const JsonHandle, const char* const elementName);
+
+        const bool (*isString)(const JsonHandle);
+        const char* const(*getAsString)(const JsonHandle);
 };
 
 #endif // IJSONSERVICE_HPP

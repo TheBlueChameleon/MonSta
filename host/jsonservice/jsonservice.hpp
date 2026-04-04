@@ -15,36 +15,39 @@ namespace JsonService
 
     JsonServiceDatabase& getDatabase();
 
-    const IJsonService::EntryState getState(const std::string_view tag);
-    const nlohmann::ordered_json& get(const std::string_view tag);
-    const nlohmann::ordered_json& add(const std::string_view tag, const nlohmann::ordered_json& json);
-    const nlohmann::ordered_json& add(const std::string_view tag, const nlohmann::ordered_json&& json);
-    const nlohmann::ordered_json& getOrAdd(const std::string_view tag, std::function<nlohmann::ordered_json()> creator);
-    std::optional<std::reference_wrapper<nlohmann::ordered_json>> declare(const std::string_view tag);
-    const nlohmann::ordered_json& commit(const std::string& tag);
+    const IJsonService::EntryState getState(const IJsonService::JsonTag tag);
+    const nlohmann::ordered_json& get(const IJsonService::JsonTag tag);
+    const nlohmann::ordered_json& add(const IJsonService::JsonTag tag, const nlohmann::ordered_json& json);
+    const nlohmann::ordered_json& add(const IJsonService::JsonTag tag, const nlohmann::ordered_json&& json);
+    const nlohmann::ordered_json& getOrAdd(const IJsonService::JsonTag tag, std::function<nlohmann::ordered_json()> creator);
+    std::optional<std::reference_wrapper<nlohmann::ordered_json>> declare(const IJsonService::JsonTag tag);
+    const nlohmann::ordered_json& commit(const IJsonService::JsonTag tag);
 
-    const IJsonService::EntryState getState_dlx(const char* const tag);
-    const IJsonService::Handle get_dlx(const char* const tag);
-    const IJsonService::Handle add_dlx(const char* const tag, const IJsonService::Handle handle);       // copy only
-    const IJsonService::Handle getOrAdd_dlx(const char* const tag, const IJsonService::Handle(*creator)());
-    const IJsonService::ModifiableHandle declare_dlx(const char* const tag);
-    const IJsonService::Handle commit_dlx(const char* const tag);
+    const IJsonService::EntryState getState_dlx(const IJsonService::JsonTag tag);
+    const IJsonService::JsonHandle get_dlx(const IJsonService::JsonTag tag);
+    const IJsonService::JsonHandle add_dlx(const IJsonService::JsonTag tag, const IJsonService::JsonHandle handle);       // copy only
+    const IJsonService::JsonHandle getOrAdd_dlx(const IJsonService::JsonTag tag, const IJsonService::JsonHandle(*creator)());
+    const IJsonService::ModifiableJsonHandle declare_dlx(const IJsonService::JsonTag tag);
+    const IJsonService::JsonHandle commit_dlx(const IJsonService::JsonTag tag);
 
     // ---------------------------------------------------------------------- //
     // Json compatibility layer
 
-    const IJsonService::Handle navigateTo_dlx(const IJsonService::Handle handle, const char* const jsonPointer);
-    const bool contains_dlx(const IJsonService::Handle handle, const char* const elementName);
+    const IJsonService::JsonHandle navigateTo_dlx(const IJsonService::JsonHandle handle, const char* const jsonPointer);
+    const bool contains_dlx(const IJsonService::JsonHandle handle, const char* const elementName);
 
-    const bool isNull_dlx(const IJsonService::Handle handle);
-    const bool isBoolean_dlx(const IJsonService::Handle handle);
-    const bool isInteger_dlx(const IJsonService::Handle handle);
-    const bool isFloat_dlx(const IJsonService::Handle handle);
-    const bool isString_dlx(const IJsonService::Handle handle);
-    const bool isArray_dlx(const IJsonService::Handle handle);
-    const bool isObject_dlx(const IJsonService::Handle handle);
+    const bool isNull_dlx(const IJsonService::JsonHandle handle);
+    const bool isBoolean_dlx(const IJsonService::JsonHandle handle);
+    const bool isInteger_dlx(const IJsonService::JsonHandle handle);
+    const bool isFloat_dlx(const IJsonService::JsonHandle handle);
+    const bool isString_dlx(const IJsonService::JsonHandle handle);
+    const bool isArray_dlx(const IJsonService::JsonHandle handle);
+    const bool isObject_dlx(const IJsonService::JsonHandle handle);
 
-    const char* const getAsString_dlx(const IJsonService::Handle handle);
+    // int arraySize
+    // Handle getArrayItem(idx)
+
+    const char* const getAsString_dlx(const IJsonService::JsonHandle handle);
 
     // ---------------------------------------------------------------------- //
     // Parsing & Validation
@@ -53,7 +56,7 @@ namespace JsonService
     void setAllowExceptions(bool value);
 
     nlohmann::ordered_json          parse(const std::string_view data);
-    const nlohmann::ordered_json&   parseAndAdd(const std::string_view tag, const std::string_view data);
+    const nlohmann::ordered_json&   parseAndAdd(const IJsonService::JsonTag tag, const std::string_view data);
 
     nlohmann::json validate(
         const nlohmann::ordered_json& data,
@@ -66,13 +69,13 @@ namespace JsonService
         const std::string_view origin
     );
     const nlohmann::ordered_json& validatePatchAndAdd(
-        const std::string_view tag,
+        const IJsonService::JsonTag tag,
         const nlohmann::ordered_json& data,
         const nlohmann::ordered_json& schema
     );
 
     nlohmann::ordered_json          read(const std::filesystem::path& file);
-    const nlohmann::ordered_json    readAndAdd(const std::string_view tag, const std::filesystem::path& file);
+    const nlohmann::ordered_json    readAndAdd(const IJsonService::JsonTag tag, const std::filesystem::path& file);
 
     nlohmann::ordered_json readValidateAndPatch(
         const std::filesystem::path& file,
@@ -80,12 +83,12 @@ namespace JsonService
     );
     nlohmann::ordered_json readValidateByTagAndPatch(
         const std::filesystem::path& file,
-        const std::string_view validationSchemaTag
+        const IJsonService::JsonTag validationSchemaTag
     );
     const nlohmann::ordered_json& readValidateByTagPatchAndAdd(
-        const std::string_view tag,
+        const IJsonService::JsonTag tag,
         const std::filesystem::path& file,
-        const std::string_view validationSchemaTag
+        const IJsonService::JsonTag validationSchemaTag
     );
 
     // ---------------------------------------------------------------------- //

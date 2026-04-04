@@ -252,8 +252,9 @@ static MatchDefinition unpackMatchDefinition(const ordered_json& data)
 static std::shared_ptr<const BaseModeDefinition> unpackSimulationInput(const CliInput& cliInput)
 {
     const std::string_view source = cliInput.data;
+    const std::string tag = std::string(JTAG_BASE) + source.data();
     auto data = JsonService::readValidateByTagPatchAndAdd(
-                    std::string(JTAG_BASE) + source.data(),
+                    tag.data(),
                     source,
                     JTAG_SIMULATION
                 );
@@ -291,8 +292,9 @@ static TemplatesDefinition unpackTemplatesDefinition(const ordered_json& data)
 static std::shared_ptr<const BaseModeDefinition> unpackTemplateInput(const CliInput& cliInput)
 {
     const std::string_view source = cliInput.data;
+    const std::string tag = std::string(JTAG_BASE) + source.data();
     auto data = JsonService::readValidateByTagPatchAndAdd(
-                    std::string(JTAG_BASE) + source.data(),
+                    tag.data(),
                     source,
                     JTAG_TEMPLATES
                 );

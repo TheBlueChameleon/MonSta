@@ -25,28 +25,28 @@ namespace JsonService
     // ====================================================================== //
     // Internal
 
-    static IJsonService::Handle toHandle(const nlohmann::ordered_json& reference)
+    static IJsonService::JsonHandle toHandle(const nlohmann::ordered_json& reference)
     {
-        return IJsonService::Handle
+        return IJsonService::JsonHandle
         {
-            reinterpret_cast<decltype(IJsonService::Handle::data)>(&reference)
+            reinterpret_cast<decltype(IJsonService::JsonHandle::data)>(&reference)
         };
     }
 
-    static IJsonService::ModifiableHandle toModifiableHandle(const nlohmann::ordered_json& reference)
+    static IJsonService::ModifiableJsonHandle toModifiableHandle(const nlohmann::ordered_json& reference)
     {
-        return IJsonService::ModifiableHandle
+        return IJsonService::ModifiableJsonHandle
         {
-            reinterpret_cast<decltype(IJsonService::ModifiableHandle::data)>(&reference)
+            reinterpret_cast<decltype(IJsonService::ModifiableJsonHandle::data)>(&reference)
         };
     }
 
-    static const ordered_json& toOrderedJson(const IJsonService::Handle handle)
+    static const ordered_json& toOrderedJson(const IJsonService::JsonHandle handle)
     {
         return *reinterpret_cast<const ordered_json*>(handle.data);
     }
 
-    static void assertSaneHandle(const IJsonService::Handle handle)
+    static void assertSaneHandle(const IJsonService::JsonHandle handle)
     {
         if (handle.data == nullptr)
         {
@@ -54,14 +54,14 @@ namespace JsonService
         }
     }
 
-    static void assertSaneTag(const char* const tag)
+    static void assertSaneTag(const IJsonService::JsonTag tag)
     {
-        if (tag == nullptr)
+        if (tag.name == nullptr)
         {
             throw ClientRequestError("Client attempted operation on null Json Tag");
         }
 
-        if (std::strlen(tag) == 0)
+        if (std::strlen(tag.name) == 0)
         {
             throw ClientRequestError("Client attempted operation on empty Json Tag");
         }
@@ -110,7 +110,7 @@ namespace JsonService
         return database;
     }
 
-    const IJsonService::EntryState getState(const std::string_view tag)
+    const IJsonService::EntryState getState(const IJsonService::JsonTag tag)
     {
         const auto opt = database.getState(tag);
         if (opt.has_value())
@@ -128,35 +128,35 @@ namespace JsonService
             return IJsonService::EntryState::NONEXISTENT;
         }
 
-        throw IllegalStateException("Unknown Entry State in tag '"s + tag.data() + "'");
+        throw IllegalStateException("Unknown Entry State in tag '"s + tag.name + "'");
     }
 
-    const nlohmann::ordered_json& get(const std::string_view tag)
+    const nlohmann::ordered_json& get(const IJsonService::JsonTag tag)
     {
-        return database.get(tag);
+        return database.get(tag.name);
     }
 
-    const nlohmann::ordered_json& add(const std::string_view tag, const nlohmann::ordered_json& json)
+    const nlohmann::ordered_json& add(const IJsonService::JsonTag tag, const nlohmann::ordered_json& json)
     {
         return database.add(tag, json);
     }
 
-    const nlohmann::ordered_json& add(const std::string_view tag, const nlohmann::ordered_json&& json)
+    const nlohmann::ordered_json& add(const IJsonService::JsonTag tag, const nlohmann::ordered_json&& json)
     {
         return database.add(tag, std::move(json));
     }
 
-    const nlohmann::ordered_json& getOrAdd(const std::string_view tag, std::function<nlohmann::ordered_json()> creator)
+    const nlohmann::ordered_json& getOrAdd(const IJsonService::JsonTag tag, std::function<nlohmann::ordered_json()> creator)
     {
         return database.getOrAdd(tag, creator);
     }
 
-    std::optional<std::reference_wrapper<nlohmann::ordered_json> > declare(const std::string_view tag)
+    std::optional<std::reference_wrapper<nlohmann::ordered_json> > declare(const IJsonService::JsonTag tag)
     {
         return database.declare(tag);
     }
 
-    const nlohmann::ordered_json& commit(const std::string& tag)
+    const nlohmann::ordered_json& commit(const IJsonService::JsonTag tag)
     {
         return database.commit(tag);
     }
@@ -164,19 +164,19 @@ namespace JsonService
     // ---------------------------------------------------------------------- //
     // DyLib export
 
-    const IJsonService::EntryState getState_dlx(const char* const tag)
+    const IJsonService::EntryState getState_dlx(const IJsonService::JsonTag tag)
     {
         assertSaneTag(tag);
         return getState(tag);
     }
 
-    const IJsonService::Handle get_dlx(const char* const tag)
+    const IJsonService::JsonHandle get_dlx(const IJsonService::JsonTag tag)
     {
         assertSaneTag(tag);
         return toHandle(get(tag));
     }
 
-    const IJsonService::Handle add_dlx(const char* const tag, const IJsonService::Handle handle)
+    const IJsonService::JsonHandle add_dlx(const IJsonService::JsonTag tag, const IJsonService::JsonHandle handle)
     {
         assertSaneTag(tag);
         assertSaneHandle(handle);
@@ -185,7 +185,7 @@ namespace JsonService
                );
     }
 
-    const IJsonService::Handle getOrAdd_dlx(const char* const tag, const IJsonService::Handle(*creator)())
+    const IJsonService::JsonHandle getOrAdd_dlx(const IJsonService::JsonTag tag, const IJsonService::JsonHandle(*creator)())
     {
         assertSaneTag(tag);
         if (creator == nullptr)
@@ -201,13 +201,13 @@ namespace JsonService
         return toHandle(getOrAdd(tag, convertedCreator));
     }
 
-    const IJsonService::ModifiableHandle declare_dlx(const char* const tag)
+    const IJsonService::ModifiableJsonHandle declare_dlx(const IJsonService::JsonTag tag)
     {
         assertSaneTag(tag);
         return toModifiableHandle(declare(tag));
     }
 
-    const IJsonService::Handle commit_dlx(const char* const tag)
+    const IJsonService::JsonHandle commit_dlx(const IJsonService::JsonTag tag)
     {
         assertSaneTag(tag);
         return toHandle(database.commit(tag));
@@ -216,7 +216,7 @@ namespace JsonService
     // ====================================================================== //
     // Json compatibility layer
 
-    const IJsonService::Handle navigateTo_dlx(const IJsonService::Handle handle, const char* const jsonPointer)
+    const IJsonService::JsonHandle navigateTo_dlx(const IJsonService::JsonHandle handle, const char* const jsonPointer)
     {
         assertSaneHandle(handle);
         const auto& base = toOrderedJson(handle);
@@ -236,63 +236,63 @@ namespace JsonService
         }
     }
 
-    const bool contains_dlx(const IJsonService::Handle handle, const char* const elementName)
+    const bool contains_dlx(const IJsonService::JsonHandle handle, const char* const elementName)
     {
         assertSaneHandle(handle);
         const ordered_json& base = toOrderedJson(handle);
         return base.contains(elementName);
     }
 
-    const bool isNull_dlx(const IJsonService::Handle handle)
+    const bool isNull_dlx(const IJsonService::JsonHandle handle)
     {
         assertSaneHandle(handle);
         const ordered_json& base = toOrderedJson(handle);
         return base.is_null();
     }
 
-    const bool isBoolean_dlx(const IJsonService::Handle handle)
+    const bool isBoolean_dlx(const IJsonService::JsonHandle handle)
     {
         assertSaneHandle(handle);
         const ordered_json& base = toOrderedJson(handle);
         return base.is_boolean();
     }
 
-    const bool isInteger_dlx(const IJsonService::Handle handle)
+    const bool isInteger_dlx(const IJsonService::JsonHandle handle)
     {
         assertSaneHandle(handle);
         const ordered_json& base = toOrderedJson(handle);
         return base.is_number_integer();
     }
 
-    const bool isFloat_dlx(const IJsonService::Handle handle)
+    const bool isFloat_dlx(const IJsonService::JsonHandle handle)
     {
         assertSaneHandle(handle);
         const ordered_json& base = toOrderedJson(handle);
         return base.is_number_float();
     }
 
-    const bool isString_dlx(const IJsonService::Handle handle)
+    const bool isString_dlx(const IJsonService::JsonHandle handle)
     {
         assertSaneHandle(handle);
         const ordered_json& base = toOrderedJson(handle);
         return base.is_string();
     }
 
-    const bool isArray_dlx(const IJsonService::Handle handle)
+    const bool isArray_dlx(const IJsonService::JsonHandle handle)
     {
         assertSaneHandle(handle);
         const ordered_json& base = toOrderedJson(handle);
         return base.is_array();
     }
 
-    const bool isObject_dlx(const IJsonService::Handle handle)
+    const bool isObject_dlx(const IJsonService::JsonHandle handle)
     {
         assertSaneHandle(handle);
         const ordered_json& base = toOrderedJson(handle);
         return base.is_object();
     }
 
-    const char* const getAsString_dlx(const IJsonService::Handle handle)
+    const char* const getAsString_dlx(const IJsonService::JsonHandle handle)
     {
         assertSaneHandle(handle);
         const ordered_json& base = toOrderedJson(handle);
@@ -322,7 +322,7 @@ namespace JsonService
         return ordered_json::parse(data, nullptr, allowExceptions, allowComments);
     }
 
-    const ordered_json& parseAndAdd(const std::string_view tag, const std::string_view data)
+    const ordered_json& parseAndAdd(const IJsonService::JsonTag tag, const std::string_view data)
     {
         return add(tag, parse(data));
     }
@@ -359,15 +359,19 @@ namespace JsonService
         }
     }
 
-    ordered_json validateAndPatch(const nlohmann::ordered_json& data, const nlohmann::ordered_json& schema, const std::string_view origin)
+    ordered_json validateAndPatch(
+        const nlohmann::ordered_json& data,
+        const nlohmann::ordered_json& schema,
+        const std::string_view origin
+    )
     {
         const auto patch = validate(data, schema, origin);
         return data.patch(patch);
     }
 
-    const ordered_json& validatePatchAndAdd(const std::string_view tag, const nlohmann::ordered_json& data, const nlohmann::ordered_json& schema)
+    const ordered_json& validatePatchAndAdd(const IJsonService::JsonTag tag, const nlohmann::ordered_json& data, const nlohmann::ordered_json& schema)
     {
-        const auto validatedData = validateAndPatch(data, schema, tag);
+        const auto validatedData = validateAndPatch(data, schema, tag.name);
         return add(tag, validatedData);
     }
 
@@ -388,7 +392,7 @@ namespace JsonService
         }
     }
 
-    const ordered_json readAndAdd(const std::string_view tag, const std::filesystem::path& file)
+    const ordered_json readAndAdd(const IJsonService::JsonTag tag, const std::filesystem::path& file)
     {
         return add(tag, read(file));
     }
@@ -399,15 +403,15 @@ namespace JsonService
         return validateAndPatch(rawJson, schema, file.c_str());
     }
 
-    ordered_json readValidateByTagAndPatch(const std::filesystem::path& file, const std::string_view validationSchemaTag)
+    ordered_json readValidateByTagAndPatch(const std::filesystem::path& file, const IJsonService::JsonTag validationSchemaTag)
     {
         return readValidateAndPatch(file, get(validationSchemaTag));
     }
 
     const ordered_json& readValidateByTagPatchAndAdd(
-        const std::string_view tag,
+        const IJsonService::JsonTag tag,
         const std::filesystem::path& file,
-        const std::string_view validationSchemaTag
+        const IJsonService::JsonTag validationSchemaTag
     )
     {
         const auto validatedJson = readValidateByTagAndPatch(file, validationSchemaTag);
