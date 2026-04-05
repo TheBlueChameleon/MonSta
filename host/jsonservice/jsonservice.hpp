@@ -39,7 +39,7 @@ namespace JsonService
     const IJsonService::JsonHandle navigateTo_dlx(const IJsonService::JsonHandle handle, const char* const jsonPointer);
     const bool contains_dlx(const IJsonService::JsonHandle handle, const char* const elementName);
 
-    const IJsonService::JsonType getType(const IJsonService::JsonHandle handle);
+    const IJsonService::JsonType getType_dlx(const IJsonService::JsonHandle handle);
     const bool isNull_dlx(const IJsonService::JsonHandle handle);
     const bool isBoolean_dlx(const IJsonService::JsonHandle handle);
     const bool isInteger_dlx(const IJsonService::JsonHandle handle);
@@ -108,6 +108,17 @@ namespace JsonService
     const nlohmann::ordered_json& readValidateByTagPatchAndAdd(
         const IJsonService::JsonTag tag,
         const std::filesystem::path& file,
+        const IJsonService::JsonTag validationSchemaTag
+    );
+
+    const IJsonService::JsonHandle validatePatchAndAdd_dlx(
+        const IJsonService::JsonTag     tag,
+        const IJsonService::JsonHandle& data,
+        const IJsonService::JsonTag     validationSchemaTag
+    );
+    const IJsonService::JsonHandle readValidatePatchAndAdd_dlx(
+        const IJsonService::JsonTag tag,
+        const char* const file,
         const IJsonService::JsonTag validationSchemaTag
     );
 

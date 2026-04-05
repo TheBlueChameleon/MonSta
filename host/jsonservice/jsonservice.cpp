@@ -301,7 +301,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION(false)
     }
 
-    const IJsonService::JsonType getType(const IJsonService::JsonHandle handle)
+    const IJsonService::JsonType getType_dlx(const IJsonService::JsonHandle handle)
     {
         try
         {
@@ -631,9 +631,15 @@ namespace JsonService
 
     void setToParseable_dlx(const IJsonService::ModifiableJsonHandle handle, const char* const source)
     {
-        assertSaneHandle(handle);
-        ordered_json& base = toModifiableOrderedJson(handle);
-        base = parse(source);
+        try
+        {
+            assertSaneHandle(handle);
+            ordered_json& base = toModifiableOrderedJson(handle);
+            base = parse(source);
+        }
+        CATCH_ABSTRACT_ERROR()
+        CATCH_JSON_ERROR()
+        CATCH_STD_EXCEPTION()
     }
 
     // ====================================================================== //
@@ -651,7 +657,14 @@ namespace JsonService
 
     nlohmann::ordered_json parse(const std::string_view data)
     {
-        return ordered_json::parse(data, nullptr, allowExceptions, allowComments);
+        try
+        {
+            return ordered_json::parse(data, nullptr, allowExceptions, allowComments);
+        }
+        catch (const nlohmann::ordered_json::exception& e)
+        {
+            throw JsonError(e.what());
+        }
     }
 
     const ordered_json& parseAndAdd(const IJsonService::JsonTag tag, const std::string_view data)
@@ -697,11 +710,22 @@ namespace JsonService
         const std::string_view origin
     )
     {
-        const auto patch = validate(data, schema, origin);
-        return data.patch(patch);
+        try
+        {
+            const auto patch = validate(data, schema, origin);
+            return data.patch(patch);
+        }
+        catch (const nlohmann::ordered_json::exception& e)
+        {
+            throw JsonError(e.what());
+        }
     }
 
-    const ordered_json& validatePatchAndAdd(const IJsonService::JsonTag tag, const nlohmann::ordered_json& data, const nlohmann::ordered_json& schema)
+    const ordered_json& validatePatchAndAdd(
+        const IJsonService::JsonTag tag,
+        const nlohmann::ordered_json& data,
+        const nlohmann::ordered_json& schema
+    )
     {
         const auto validatedData = validateAndPatch(data, schema, tag.name);
         return add(tag, validatedData);
@@ -748,6 +772,48 @@ namespace JsonService
     {
         const auto validatedJson = readValidateByTagAndPatch(file, validationSchemaTag);
         return add(tag, validatedJson);
+    }
+
+    const IJsonService::JsonHandle validatePatchAndAdd_dlx(
+        const IJsonService::JsonTag tag,
+        const IJsonService::JsonHandle& data,
+        const IJsonService::JsonTag validationSchemaTag
+    )
+    {
+        try
+        {
+            return toHandle(
+                       validatePatchAndAdd(
+                           tag,
+                           toOrderedJson(data),
+                           get(validationSchemaTag)
+                       )
+                   );
+        }
+        CATCH_ABSTRACT_ERROR(IJsonService::JsonHandle(nullptr))
+        CATCH_JSON_ERROR(IJsonService::JsonHandle(nullptr))
+        CATCH_STD_EXCEPTION(IJsonService::JsonHandle(nullptr))
+    }
+
+    const IJsonService::JsonHandle readValidatePatchAndAdd_dlx(
+        const IJsonService::JsonTag tag,
+        const char* const file,
+        const IJsonService::JsonTag validationSchemaTag
+    )
+    {
+        try
+        {
+            return toHandle(
+                       readValidateByTagPatchAndAdd(
+                           tag,
+                           file,
+                           validationSchemaTag
+                       )
+                   );
+        }
+        CATCH_ABSTRACT_ERROR(IJsonService::JsonHandle(nullptr))
+        CATCH_JSON_ERROR(IJsonService::JsonHandle(nullptr))
+        CATCH_STD_EXCEPTION(IJsonService::JsonHandle(nullptr))
     }
 
 }
