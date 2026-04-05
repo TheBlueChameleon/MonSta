@@ -22,7 +22,7 @@ namespace VersionService
                );
     }
 
-    bool equal(const Version& lhs, const Version& rhs)
+    bool equal(const Version lhs, const Version rhs)
     {
         // *INDENT-OFF*
         if (lhs.major != rhs.major) return false;
@@ -34,12 +34,12 @@ namespace VersionService
         return true;
     }
 
-    bool notEqual(const Version& lhs, const Version& rhs)
+    bool notEqual(const Version lhs, const Version rhs)
     {
         return !equal(lhs, rhs);
     }
 
-    bool lessThan(const Version& lhs, const Version& rhs)
+    bool lessThan(const Version lhs, const Version rhs)
     {
         // *INDENT-OFF*
         if      (lhs.major < rhs.major) return true;
@@ -58,17 +58,17 @@ namespace VersionService
         return false;
     }
 
-    bool lessOrEqual(const Version& lhs, const Version& rhs)
+    bool lessOrEqual(const Version lhs, const Version rhs)
     {
         return lessThan(lhs, rhs) || equal(lhs, rhs);
     }
 
-    bool greaterThan(const Version& lhs, const Version& rhs)
+    bool greaterThan(const Version lhs, const Version rhs)
     {
         return !lessOrEqual(lhs, rhs);
     }
 
-    bool greaterOrEqual(const Version& lhs, const Version& rhs)
+    bool greaterOrEqual(const Version lhs, const Version rhs)
     {
         return !lessThan(lhs, rhs);
     }

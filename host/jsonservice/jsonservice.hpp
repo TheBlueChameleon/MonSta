@@ -130,6 +130,13 @@ namespace JsonService
     // ---------------------------------------------------------------------- //
     // Schema Builder Operations
 
+    const IJsonService::JsonSchemaBuilderHandle    instantiateSchemaBuilder_dlx();
+    const IJsonService::JsonSubSchemaBuilderHandle instantiateSubSchemaBuilder_dlx();
+    const IJsonService::JsonElementBuilderHandle   instantiateElementBuilder_dlx();
+
+    void freeSchemaBuilder_dlx(const IJsonService::JsonSchemaBuilderHandle*);
+    void freeSubSchemaBuilder_dlx(const IJsonService::JsonSubSchemaBuilderHandle*);
+    void freeElementBuilder_dlx(const IJsonService::JsonElementBuilderHandle*);
     /*
      * json schema builder ops:
      * ???
