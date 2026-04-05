@@ -31,7 +31,7 @@ namespace JsonService
     // ====================================================================== //
     // Internal
 
-    static IJsonService::JsonHandle toHandle(const nlohmann::ordered_json& reference)
+    static IJsonService::JsonHandle toJsonHandle(const nlohmann::ordered_json& reference)
     {
         return IJsonService::JsonHandle
         {
@@ -39,7 +39,7 @@ namespace JsonService
         };
     }
 
-    static IJsonService::ModifiableJsonHandle toModifiableHandle(const nlohmann::ordered_json& reference)
+    static IJsonService::ModifiableJsonHandle toModifiableJsonHandle(const nlohmann::ordered_json& reference)
     {
         return IJsonService::ModifiableJsonHandle
         {
@@ -102,16 +102,46 @@ namespace JsonService
         {
             getState_dlx,
             get_dlx,
-            add_dlx,
             getOrAdd_dlx,
+            getOrParse_dlx,
             declare_dlx,
             commit_dlx,
 
             navigateTo_dlx,
             contains_dlx,
 
+            getType_dlx,
+            isNull_dlx,
+            isBoolean_dlx,
+            isInteger_dlx,
+            isUnsigned_dlx,
+            isFloat_dlx,
             isString_dlx,
-            getAsString_dlx
+            isArray_dlx,
+            isObject_dlx,
+
+            getAsBool_dlx,
+            getAsInteger_dlx,
+            getAsUnsigned_dlx,
+            getAsFloat_dlx,
+            getAsString_dlx,
+
+            getArraySize_dlx,
+            getArrayItem_dlx,
+
+            setToNull_dlx,
+            setToBool_dlx,
+            setToInteger_dlx,
+            setToUnsigned_dlx,
+            setToFloat_dlx,
+            setToString_dlx,
+            setToHandle_dlx,
+            setToArray_dlx,
+            setToObject_dlx,
+            setToParseable_dlx,
+
+            parseValidatePatchAndAdd_dlx,
+            readValidatePatchAndAdd_dlx
         };
     }
 
@@ -154,7 +184,7 @@ namespace JsonService
         return database.add(tag, json);
     }
 
-    const nlohmann::ordered_json& add(const IJsonService::JsonTag tag, const nlohmann::ordered_json&& json)
+    const nlohmann::ordered_json& add(const IJsonService::JsonTag tag, ordered_json&& json)
     {
         return database.add(tag, std::move(json));
     }
@@ -164,7 +194,17 @@ namespace JsonService
         return database.getOrAdd(tag, creator);
     }
 
-    std::optional<std::reference_wrapper<nlohmann::ordered_json> > declare(const IJsonService::JsonTag tag)
+    const ordered_json& getOrAdd(const IJsonService::JsonTag tag, const nlohmann::ordered_json& json)
+    {
+        return database.getOrAdd(tag, json);
+    }
+
+    const ordered_json& getOrAdd(const IJsonService::JsonTag tag, nlohmann::ordered_json&& json)
+    {
+        return database.getOrAdd(tag, std::move(json));
+    }
+
+    std::optional<std::reference_wrapper<nlohmann::ordered_json>> declare(const IJsonService::JsonTag tag)
     {
         return database.declare(tag);
     }
@@ -193,21 +233,7 @@ namespace JsonService
         try
         {
             assertSaneTag(tag);
-            return toHandle(get(tag));
-        }
-        CATCH_ABSTRACT_ERROR(IJsonService::JsonHandle(nullptr))
-        CATCH_STD_EXCEPTION(IJsonService::JsonHandle(nullptr))
-    }
-
-    const IJsonService::JsonHandle add_dlx(const IJsonService::JsonTag tag, const IJsonService::JsonHandle handle)
-    {
-        try
-        {
-            assertSaneTag(tag);
-            assertSaneHandle(handle);
-            return toHandle(
-                       add(tag, toOrderedJson(handle))
-                   );
+            return toJsonHandle(get(tag));
         }
         CATCH_ABSTRACT_ERROR(IJsonService::JsonHandle(nullptr))
         CATCH_STD_EXCEPTION(IJsonService::JsonHandle(nullptr))
@@ -229,13 +255,29 @@ namespace JsonService
 
             auto convertedCreator = [&creator](ordered_json& json)
             {
-                creator(toModifiableHandle(json));
+                creator(toModifiableJsonHandle(json));
             };
 
-            return toHandle(getOrAdd(tag, convertedCreator));
+            return toJsonHandle(getOrAdd(tag, convertedCreator));
         }
         CATCH_ABSTRACT_ERROR(IJsonService::JsonHandle(nullptr))
+        CATCH_JSON_ERROR(IJsonService::JsonHandle(nullptr))
         CATCH_STD_EXCEPTION(IJsonService::JsonHandle(nullptr))
+    }
+
+    const IJsonService::JsonHandle getOrParse_dlx(const IJsonService::JsonTag tag, const char* const json)
+    {
+        try
+        {
+            assertSaneTag(tag);
+            return toJsonHandle(
+                       getOrAdd(tag, parse(json))
+                   );
+        }
+        CATCH_ABSTRACT_ERROR(IJsonService::JsonHandle(nullptr))
+        CATCH_JSON_ERROR(IJsonService::JsonHandle(nullptr))
+        CATCH_STD_EXCEPTION(IJsonService::JsonHandle(nullptr))
+
     }
 
     const IJsonService::ModifiableJsonHandle declare_dlx(const IJsonService::JsonTag tag)
@@ -243,7 +285,16 @@ namespace JsonService
         try
         {
             assertSaneTag(tag);
-            return toModifiableHandle(declare(tag));
+            std::optional<std::reference_wrapper<ordered_json>> opt = declare(tag);
+            if (opt.has_value())
+            {
+                return toModifiableJsonHandle(opt.value());
+            }
+            else
+            {
+                return IJsonService::ModifiableJsonHandle(nullptr);
+            }
+
         }
         CATCH_ABSTRACT_ERROR(IJsonService::ModifiableJsonHandle(nullptr))
         CATCH_STD_EXCEPTION(IJsonService::ModifiableJsonHandle(nullptr))
@@ -254,7 +305,7 @@ namespace JsonService
         try
         {
             assertSaneTag(tag);
-            return toHandle(database.commit(tag));
+            return toJsonHandle(database.commit(tag));
         }
         CATCH_ABSTRACT_ERROR(IJsonService::JsonHandle(nullptr))
         CATCH_STD_EXCEPTION(IJsonService::JsonHandle(nullptr))
@@ -276,12 +327,12 @@ namespace JsonService
             {
                 const auto jptr = ordered_json::json_pointer(jsonPointer);
                 const ordered_json& target = base.at(jptr);
-                return toHandle(target);
+                return toJsonHandle(target);
             }
             else
             {
                 const auto& target = base.at(jsonPointer);
-                return toHandle(target);
+                return toJsonHandle(target);
             }
         }
         CATCH_ABSTRACT_ERROR(IJsonService::JsonHandle(nullptr))
@@ -526,7 +577,7 @@ namespace JsonService
                 return IJsonService::JsonHandle(nullptr);
             }
 
-            return toHandle(base.at(index));
+            return toJsonHandle(base.at(index));
         }
         CATCH_ABSTRACT_ERROR(IJsonService::JsonHandle(nullptr))
         CATCH_JSON_ERROR(IJsonService::JsonHandle(nullptr))
@@ -774,18 +825,18 @@ namespace JsonService
         return add(tag, validatedJson);
     }
 
-    const IJsonService::JsonHandle validatePatchAndAdd_dlx(
+    const IJsonService::JsonHandle parseValidatePatchAndAdd_dlx(
         const IJsonService::JsonTag tag,
-        const IJsonService::JsonHandle& data,
+        const char* const json,
         const IJsonService::JsonTag validationSchemaTag
     )
     {
         try
         {
-            return toHandle(
+            return toJsonHandle(
                        validatePatchAndAdd(
                            tag,
-                           toOrderedJson(data),
+                           parse(json),
                            get(validationSchemaTag)
                        )
                    );
@@ -803,7 +854,7 @@ namespace JsonService
     {
         try
         {
-            return toHandle(
+            return toJsonHandle(
                        readValidateByTagPatchAndAdd(
                            tag,
                            file,

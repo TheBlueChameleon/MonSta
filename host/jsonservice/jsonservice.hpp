@@ -116,9 +116,9 @@ namespace JsonService
         const IJsonService::JsonTag validationSchemaTag
     );
 
-    const IJsonService::JsonHandle validatePatchAndAdd_dlx(
+    const IJsonService::JsonHandle parseValidatePatchAndAdd_dlx(
         const IJsonService::JsonTag     tag,
-        const IJsonService::JsonHandle& data,
+        const char* const               json,
         const IJsonService::JsonTag     validationSchemaTag
     );
     const IJsonService::JsonHandle readValidatePatchAndAdd_dlx(
