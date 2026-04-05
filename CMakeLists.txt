@@ -256,6 +256,9 @@ add_library(Engine-Base STATIC
     ${apiHeaders}
 
     engine-base/entrypoint.cpp
+
+    engine-base/errors.hpp                  engine-base/errors.cpp
+    engine-base/enginebase.hpp              engine-base/enginebase.cpp
     engine-base/globals.hpp                 engine-base/globals.cpp
 
     engine-base/services/services.hpp       engine-base/services/services.cpp

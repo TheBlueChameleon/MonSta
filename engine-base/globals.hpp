@@ -11,6 +11,8 @@ namespace Globals
     extern HostApi* hostApi;
 
     extern std::set<std::string> supportedFeatures;
+
+    extern bool abnormalTerminationRequest;
 }
 
 #endif // GLOBALS_HPP
