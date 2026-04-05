@@ -291,135 +291,215 @@ namespace JsonService
 
     const bool contains_dlx(const IJsonService::JsonHandle handle, const char* const elementName)
     {
-        assertSaneHandle(handle);
-        const ordered_json& base = toOrderedJson(handle);
-        return base.contains(elementName);
+        try
+        {
+            assertSaneHandle(handle);
+            const ordered_json& base = toOrderedJson(handle);
+            return base.contains(elementName);
+        }
+        CATCH_ABSTRACT_ERROR(false)
+        CATCH_STD_EXCEPTION(false)
     }
 
     const IJsonService::JsonType getType(const IJsonService::JsonHandle handle)
     {
-        assertSaneHandle(handle);
-        const ordered_json& base = toOrderedJson(handle);
-        return static_cast<IJsonService::JsonType>(base.type());
+        try
+        {
+            assertSaneHandle(handle);
+            const ordered_json& base = toOrderedJson(handle);
+            return static_cast<IJsonService::JsonType>(base.type());
+        }
+        CATCH_ABSTRACT_ERROR(IJsonService::JsonType::VOID)
+        CATCH_STD_EXCEPTION(IJsonService::JsonType::VOID)
     }
 
     const bool isNull_dlx(const IJsonService::JsonHandle handle)
     {
-        assertSaneHandle(handle);
-        const ordered_json& base = toOrderedJson(handle);
-        return base.is_null();
+        try
+        {
+            assertSaneHandle(handle);
+            const ordered_json& base = toOrderedJson(handle);
+            return base.is_null();
+        }
+        CATCH_ABSTRACT_ERROR(false)
+        CATCH_STD_EXCEPTION(false)
     }
 
     const bool isBoolean_dlx(const IJsonService::JsonHandle handle)
     {
-        assertSaneHandle(handle);
-        const ordered_json& base = toOrderedJson(handle);
-        return base.is_boolean();
+        try
+        {
+            assertSaneHandle(handle);
+            const ordered_json& base = toOrderedJson(handle);
+            return base.is_boolean();
+        }
+        CATCH_ABSTRACT_ERROR(false)
+        CATCH_STD_EXCEPTION(false)
     }
 
     const bool isInteger_dlx(const IJsonService::JsonHandle handle)
     {
-        assertSaneHandle(handle);
-        const ordered_json& base = toOrderedJson(handle);
-        return base.is_number_integer();
+        try
+        {
+            assertSaneHandle(handle);
+            const ordered_json& base = toOrderedJson(handle);
+            return base.is_number_integer();
+        }
+        CATCH_ABSTRACT_ERROR(false)
+        CATCH_STD_EXCEPTION(false)
     }
 
     const bool isUnsigned_dlx(const IJsonService::JsonHandle handle)
     {
-        assertSaneHandle(handle);
-        const ordered_json& base = toOrderedJson(handle);
-        return base.is_number_unsigned();
+        try
+        {
+            assertSaneHandle(handle);
+            const ordered_json& base = toOrderedJson(handle);
+            return base.is_number_unsigned();
+        }
+        CATCH_ABSTRACT_ERROR(false)
+        CATCH_STD_EXCEPTION(false)
     }
 
     const bool isFloat_dlx(const IJsonService::JsonHandle handle)
     {
-        assertSaneHandle(handle);
-        const ordered_json& base = toOrderedJson(handle);
-        return base.is_number_float();
+        try
+        {
+            assertSaneHandle(handle);
+            const ordered_json& base = toOrderedJson(handle);
+            return base.is_number_float();
+        }
+        CATCH_ABSTRACT_ERROR(false)
+        CATCH_STD_EXCEPTION(false)
     }
 
     const bool isString_dlx(const IJsonService::JsonHandle handle)
     {
-        assertSaneHandle(handle);
-        const ordered_json& base = toOrderedJson(handle);
-        return base.is_string();
+        try
+        {
+            assertSaneHandle(handle);
+            const ordered_json& base = toOrderedJson(handle);
+            return base.is_string();
+        }
+        CATCH_ABSTRACT_ERROR(false)
+        CATCH_STD_EXCEPTION(false)
     }
 
     const bool isArray_dlx(const IJsonService::JsonHandle handle)
     {
-        assertSaneHandle(handle);
-        const ordered_json& base = toOrderedJson(handle);
-        return base.is_array();
+        try
+        {
+            assertSaneHandle(handle);
+            const ordered_json& base = toOrderedJson(handle);
+            return base.is_array();
+        }
+        CATCH_ABSTRACT_ERROR(false)
+        CATCH_STD_EXCEPTION(false)
     }
 
     const bool isObject_dlx(const IJsonService::JsonHandle handle)
     {
-        assertSaneHandle(handle);
-        const ordered_json& base = toOrderedJson(handle);
-        return base.is_object();
+        try
+        {
+            assertSaneHandle(handle);
+            const ordered_json& base = toOrderedJson(handle);
+            return base.is_object();
+        }
+        CATCH_ABSTRACT_ERROR(false)
+        CATCH_STD_EXCEPTION(false)
     }
 
     const bool getAsBool_dlx(const IJsonService::JsonHandle handle)
     {
-        assertSaneHandle(handle);
-        const ordered_json& base = toOrderedJson(handle);
-        if (!base.is_boolean())
+        try
         {
-            throw ClientRequestError("Client attempted to read non-boolean Json object as boolean");
+            assertSaneHandle(handle);
+            const ordered_json& base = toOrderedJson(handle);
+            if (!base.is_boolean())
+            {
+                throw ClientRequestError("Client attempted to read non-boolean Json object as boolean");
+            }
+            return base.get<bool>();
         }
-        return base.get<bool>();
+        CATCH_ABSTRACT_ERROR(false)
+        CATCH_STD_EXCEPTION(false)
     }
 
     const int getAsInteger_dlx(const IJsonService::JsonHandle handle)
     {
-        assertSaneHandle(handle);
-        const ordered_json& base = toOrderedJson(handle);
-        if (!base.is_number_integer())
+        try
         {
-            throw ClientRequestError("Client attempted to read non-integer Json object as integer");
+            assertSaneHandle(handle);
+            const ordered_json& base = toOrderedJson(handle);
+            if (!base.is_number_integer())
+            {
+                throw ClientRequestError("Client attempted to read non-integer Json object as integer");
+            }
+            return base.get<int>();
         }
-        return base.get<int>();
+        CATCH_ABSTRACT_ERROR(0)
+        CATCH_STD_EXCEPTION(0)
     }
 
     const unsigned long long getAsUnsigned_dlx(const IJsonService::JsonHandle handle)
     {
-        assertSaneHandle(handle);
-        const ordered_json& base = toOrderedJson(handle);
-        if (!base.is_number_unsigned())
+        try
         {
-            throw ClientRequestError("Client attempted to read non-unsigned Json object as unsigned");
+            assertSaneHandle(handle);
+            const ordered_json& base = toOrderedJson(handle);
+            if (!base.is_number_unsigned())
+            {
+                throw ClientRequestError("Client attempted to read non-unsigned Json object as unsigned");
+            }
+            return base.get<unsigned long long>();
         }
-        return base.get<unsigned long long>();
+        CATCH_ABSTRACT_ERROR(0)
+        CATCH_STD_EXCEPTION(0)
     }
 
     const double getAsFloat_dlx(const IJsonService::JsonHandle handle)
     {
-        assertSaneHandle(handle);
-        const ordered_json& base = toOrderedJson(handle);
-        if (!base.is_number_float())
+        try
         {
-            throw ClientRequestError("Client attempted to read non-float Json object as float");
+            assertSaneHandle(handle);
+            const ordered_json& base = toOrderedJson(handle);
+            if (!base.is_number_float())
+            {
+                throw ClientRequestError("Client attempted to read non-float Json object as float");
+            }
+            return base.get<double>();
         }
-        return base.get<double>();
+        CATCH_ABSTRACT_ERROR(false)
+        CATCH_STD_EXCEPTION(false)
     }
 
     const char* const getAsString_dlx(const IJsonService::JsonHandle handle)
     {
-        assertSaneHandle(handle);
-        const ordered_json& base = toOrderedJson(handle);
-        if (!base.is_string())
+        try
         {
-            throw ClientRequestError("Client attempted to read non-string Json object as string");
+            assertSaneHandle(handle);
+            const ordered_json& base = toOrderedJson(handle);
+            if (!base.is_string())
+            {
+                throw ClientRequestError("Client attempted to read non-string Json object as string");
+            }
+            const auto ptr = base.get_ptr<const ordered_json::string_t*>();
+            return ptr->data();
         }
-        const auto ptr = base.get_ptr<const ordered_json::string_t*>();
-        return ptr->data();
+        CATCH_ABSTRACT_ERROR("")
+        CATCH_STD_EXCEPTION("")
     }
 
     const int getArraySize_dlx(const IJsonService::JsonHandle handle)
     {
-        assertSaneHandle(handle);
-        const ordered_json& base = toOrderedJson(handle);
-        return base.size();
+        try
+        {
+            assertSaneHandle(handle);
+            const ordered_json& base = toOrderedJson(handle);
+            return base.size();
+        }
+        CATCH_ABSTRACT_ERROR(-1)
+        CATCH_STD_EXCEPTION(-1)
     }
 
     const IJsonService::JsonHandle getArrayItem_dlx(const IJsonService::JsonHandle handle, const int index)
@@ -455,51 +535,86 @@ namespace JsonService
 
     void setToNull_dlx(const IJsonService::ModifiableJsonHandle handle)
     {
-        assertSaneHandle(handle);
-        ordered_json& base = toModifiableOrderedJson(handle);
-        base = ordered_json();
+        try
+        {
+            assertSaneHandle(handle);
+            ordered_json& base = toModifiableOrderedJson(handle);
+            base = ordered_json();
+        }
+        CATCH_ABSTRACT_ERROR()
+        CATCH_STD_EXCEPTION()
     }
 
     void setToBool_dlx(const IJsonService::ModifiableJsonHandle handle, const bool value)
     {
-        assertSaneHandle(handle);
-        ordered_json& base = toModifiableOrderedJson(handle);
-        base = value;
+        try
+        {
+            assertSaneHandle(handle);
+            ordered_json& base = toModifiableOrderedJson(handle);
+            base = value;
+        }
+        CATCH_ABSTRACT_ERROR()
+        CATCH_STD_EXCEPTION()
     }
 
     void setToInteger_dlx(const IJsonService::ModifiableJsonHandle handle, const int value)
     {
-        assertSaneHandle(handle);
-        ordered_json& base = toModifiableOrderedJson(handle);
-        base = value;
+        try
+        {
+            assertSaneHandle(handle);
+            ordered_json& base = toModifiableOrderedJson(handle);
+            base = value;
+        }
+        CATCH_ABSTRACT_ERROR()
+        CATCH_STD_EXCEPTION()
     }
 
     void setToUnsigned_dlx(const IJsonService::ModifiableJsonHandle handle, const unsigned int value)
     {
-        assertSaneHandle(handle);
-        ordered_json& base = toModifiableOrderedJson(handle);
-        base = value;
+        try
+        {
+            assertSaneHandle(handle);
+            ordered_json& base = toModifiableOrderedJson(handle);
+            base = value;
+        }
+        CATCH_ABSTRACT_ERROR()
+        CATCH_STD_EXCEPTION()
     }
 
     void setToFloat_dlx(const IJsonService::ModifiableJsonHandle handle, const double value)
     {
-        assertSaneHandle(handle);
-        ordered_json& base = toModifiableOrderedJson(handle);
-        base = value;
+        try
+        {
+            assertSaneHandle(handle);
+            ordered_json& base = toModifiableOrderedJson(handle);
+            base = value;
+        }
+        CATCH_ABSTRACT_ERROR()
+        CATCH_STD_EXCEPTION()
     }
 
     void setToString_dlx(const IJsonService::ModifiableJsonHandle handle, const char* const value)
     {
-        assertSaneHandle(handle);
-        ordered_json& base = toModifiableOrderedJson(handle);
-        base = value;
+        try
+        {
+            assertSaneHandle(handle);
+            ordered_json& base = toModifiableOrderedJson(handle);
+            base = value;
+        }
+        CATCH_ABSTRACT_ERROR()
+        CATCH_STD_EXCEPTION()
     }
 
     void setToHandle_dlx(const IJsonService::ModifiableJsonHandle handle, const IJsonService::JsonHandle source)
     {
-        assertSaneHandle(source);
-        ordered_json& base = toModifiableOrderedJson(handle);
-        base = toOrderedJson(source);
+        try
+        {
+            assertSaneHandle(source);
+            ordered_json& base = toModifiableOrderedJson(handle);
+            base = toOrderedJson(source);
+        }
+        CATCH_ABSTRACT_ERROR()
+        CATCH_STD_EXCEPTION()
     }
 
     // TODO: maybe type check source is Array?
@@ -600,7 +715,7 @@ namespace JsonService
             auto data = ordered_json::parse(hFile, nullptr, allowExceptions, allowComments);
             return data;
         }
-        catch (const nlohmann::ordered_json::parse_error& err)
+        catch (const nlohmann::ordered_json::exception& err)
         {
             throw JsonError(
                 "Error parsing JSON file '"s + file.c_str() + "'\n" +
