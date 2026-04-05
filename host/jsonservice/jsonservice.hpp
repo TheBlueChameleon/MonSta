@@ -18,17 +18,22 @@ namespace JsonService
     const IJsonService::EntryState getState(const IJsonService::JsonTag tag);
     const nlohmann::ordered_json& get(const IJsonService::JsonTag tag);
     const nlohmann::ordered_json& add(const IJsonService::JsonTag tag, const nlohmann::ordered_json& json);
-    const nlohmann::ordered_json& add(const IJsonService::JsonTag tag, const nlohmann::ordered_json&& json);
+    const nlohmann::ordered_json& add(const IJsonService::JsonTag tag, nlohmann::ordered_json&& json);
     const nlohmann::ordered_json& getOrAdd(const IJsonService::JsonTag tag, std::function<void(nlohmann::ordered_json&)> creator);
+    const nlohmann::ordered_json& getOrAdd(const IJsonService::JsonTag tag, const nlohmann::ordered_json& json);
+    const nlohmann::ordered_json& getOrAdd(const IJsonService::JsonTag tag, nlohmann::ordered_json&& json);
     std::optional<std::reference_wrapper<nlohmann::ordered_json>> declare(const IJsonService::JsonTag tag);
     const nlohmann::ordered_json& commit(const IJsonService::JsonTag tag);
 
     const IJsonService::EntryState getState_dlx(const IJsonService::JsonTag tag);
     const IJsonService::JsonHandle get_dlx(const IJsonService::JsonTag tag);
-    const IJsonService::JsonHandle add_dlx(const IJsonService::JsonTag tag, const IJsonService::JsonHandle handle);       // copy only
     const IJsonService::JsonHandle getOrAdd_dlx(
         const IJsonService::JsonTag tag,
         const void(*creator)(const IJsonService::ModifiableJsonHandle)
+    );
+    const IJsonService::JsonHandle getOrParse_dlx(
+        const IJsonService::JsonTag tag,
+        const char* const json
     );
     const IJsonService::ModifiableJsonHandle declare_dlx(const IJsonService::JsonTag tag);
     const IJsonService::JsonHandle commit_dlx(const IJsonService::JsonTag tag);
@@ -125,17 +130,17 @@ namespace JsonService
     // ---------------------------------------------------------------------- //
     // Schema Builder Operations
 
-    /* patch(json, json) -> json
-     * merge_patch(json, json)?  -> json
-     *
-     * json ops:
-     * getEmptyHandle
-     * getElement(Handle, item) -> Handle
-     * emplace(Handle, path, *) -> Handle
-     * asString(Handle), ...
-     *
+    /*
      * json schema builder ops:
      * ???
+     */
+
+    // ---------------------------------------------------------------------- //
+    // Other
+
+    /*
+     * patch(json, json) -> json
+     * merge_patch(json, json)?  -> json
      */
 }
 

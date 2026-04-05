@@ -28,12 +28,30 @@ struct IJsonService
             {}
         };
 
+        struct JsonElementBuilderHandle
+        {
+            const void* data;
+        };
+
+        struct JsonSubSchemaBuilderHandle
+        {
+            const void* data;
+        };
+
+        struct JsonSchemaBuilder
+        {
+            const void* data;
+        };
+
         const EntryState(*getState)(const IJsonService::JsonTag tag);
         const JsonHandle(*get)(const IJsonService::JsonTag tag);
-        const JsonHandle(*add)(const IJsonService::JsonTag tag, const JsonHandle handle);
         const JsonHandle(*getOrAdd)(
             const IJsonService::JsonTag tag,
             const void(*creator)(const ModifiableJsonHandle)
+        );
+        const JsonHandle(*getOrParse)(
+            const IJsonService::JsonTag tag,
+            const char* const json
         );
         const ModifiableJsonHandle(*declare)(const IJsonService::JsonTag tag);
         const JsonHandle(*commit)(const IJsonService::JsonTag tag);

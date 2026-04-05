@@ -5,6 +5,8 @@ using namespace std::string_literals;
 
 #include "jsonservicedatabase.hpp"
 
+// TODO: de-duplicate some of the code
+
 namespace JsonService
 {
     std::optional<JsonServiceDatabase::EntryState> JsonServiceDatabase::getState(const IJsonService::JsonTag tag) const
@@ -143,6 +145,100 @@ namespace JsonService
                 nlohmann::ordered_json createdJson;
                 creator(createdJson);
                 entry->data = std::make_unique<nlohmann::ordered_json>(std::move(createdJson));
+                entry->state = EntryState::READY;
+
+                entryLock.unlock();
+                entry->cv.notify_all();
+
+                return *entry->data;
+            }
+
+            // Otherwise: wait for someone else
+            entry->cv.wait(entryLock, [&entry]
+            {
+                return entry->state == EntryState::READY;
+            });
+
+            return *entry->data;
+        }
+    }
+
+    const nlohmann::ordered_json& JsonServiceDatabase::getOrAdd(const IJsonService::JsonTag tag, const nlohmann::ordered_json& json)
+    {
+        Entry* entry;
+
+        {
+            std::lock_guard lock(mutex);
+
+            auto [it, inserted] = database.try_emplace(tag.name);
+            entry = &it->second;
+
+            if (inserted)
+            {
+                std::lock_guard entryLock(entry->mtx);
+                entry->state = EntryState::DECLARED;
+            }
+        }
+
+        {
+            std::unique_lock entryLock(entry->mtx);
+
+            if (entry->state == EntryState::READY)
+            {
+                return *entry->data;
+            }
+
+            if (entry->state == EntryState::DECLARED && !entry->data)
+            {
+                // This thread initializes
+                entry->data = std::make_unique<nlohmann::ordered_json>(json);
+                entry->state = EntryState::READY;
+
+                entryLock.unlock();
+                entry->cv.notify_all();
+
+                return *entry->data;
+            }
+
+            // Otherwise: wait for someone else
+            entry->cv.wait(entryLock, [&entry]
+            {
+                return entry->state == EntryState::READY;
+            });
+
+            return *entry->data;
+        }
+    }
+
+    const nlohmann::ordered_json& JsonServiceDatabase::getOrAdd(const IJsonService::JsonTag tag, nlohmann::ordered_json&& json)
+    {
+        Entry* entry;
+
+        {
+            std::lock_guard lock(mutex);
+
+            auto [it, inserted] = database.try_emplace(tag.name);
+            entry = &it->second;
+
+            if (inserted)
+            {
+                std::lock_guard entryLock(entry->mtx);
+                entry->state = EntryState::DECLARED;
+            }
+        }
+
+        {
+            std::unique_lock entryLock(entry->mtx);
+
+            if (entry->state == EntryState::READY)
+            {
+                return *entry->data;
+            }
+
+            if (entry->state == EntryState::DECLARED && !entry->data)
+            {
+                // This thread initializes
+                entry->data = std::make_unique<nlohmann::ordered_json>(std::move(json));
                 entry->state = EntryState::READY;
 
                 entryLock.unlock();

@@ -44,6 +44,10 @@ namespace JsonService
 
             const nlohmann::ordered_json& getOrAdd(const IJsonService::JsonTag tag, std::function<void (nlohmann::ordered_json&)> creator);
 
+            const nlohmann::ordered_json& getOrAdd(const IJsonService::JsonTag tag, const nlohmann::ordered_json& json);
+
+            const nlohmann::ordered_json& getOrAdd(const IJsonService::JsonTag tag, nlohmann::ordered_json&& json);
+
             std::optional<std::reference_wrapper<nlohmann::ordered_json>> declare(const IJsonService::JsonTag tag);
 
             const nlohmann::ordered_json& commit(const IJsonService::JsonTag tag);
