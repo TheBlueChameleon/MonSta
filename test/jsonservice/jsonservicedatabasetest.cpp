@@ -7,7 +7,7 @@ using namespace std::literals::chrono_literals;
 
 #include <nlohmann/json.hpp>
 
-#include "errors.hpp"
+#include "errorservice/errors.hpp"
 
 #include "jsonservice/jsonservicedatabase.hpp"
 

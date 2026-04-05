@@ -2,7 +2,7 @@
 
 namespace ErrorService
 {
-    ClientReturnCode errorCode = ClientReturnCode::SUCCESS;
+    ApiStatusCode errorCode = ApiStatusCode::SUCCESS;
     std::string errorMessage;
 
     const IErrorService exportService()
@@ -10,7 +10,7 @@ namespace ErrorService
         return IErrorService
         {
             clearError,
-            setError,
+            setError_dlx,
             getErrorCode,
             getErrorMessage,
         };
@@ -18,17 +18,22 @@ namespace ErrorService
 
     void clearError()
     {
-        errorCode = ClientReturnCode::SUCCESS;
+        errorCode = ApiStatusCode::SUCCESS;
         errorMessage.clear();
     }
 
-    void setError(const ClientReturnCode code, const char* const message)
+    void setError(const ApiStatusCode code, const std::string_view message)
     {
         errorCode = code;
         errorMessage = message;
     }
 
-    ClientReturnCode getErrorCode()
+    void setError_dlx(const ApiStatusCode code, const char* const message)
+    {
+        setError(code, message);
+    }
+
+    ApiStatusCode getErrorCode()
     {
         return errorCode;
     }
@@ -37,4 +42,5 @@ namespace ErrorService
     {
         return errorMessage.data();
     }
+
 }

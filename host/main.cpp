@@ -2,10 +2,10 @@
 
 #include "cli/clihandler.hpp"
 
+#include "errorservice/errors.hpp"
+
 #include "operationmodes/entrypoint.hpp"
 #include "operationmodes/shared/schemavalidationconstants.hpp"
-
-#include "errors.hpp"
 
 void registerSchemas()
 {
@@ -23,31 +23,31 @@ void run(const int argc, const char* const argv[])
 
 int main(const int argc, const char* const argv[])
 {
-    // playground();
-    // std::exit(0);
-
     try
     {
         registerSchemas();
         run(argc, argv);
     }
-    catch (const CriticalAbort& e)
+    catch (const InvalidUserInput& e)
     {
         std::cerr << e.what() << std::endl;
         return -1;
     }
-    catch (const IllegalStateException& e)
+    catch (const IllegalHostStateException& e)
     {
         std::cerr << e.what() << std::endl;
         std::cerr << "This means <the host dev> fucked up." << std::endl;
         std::cerr << "Please report to them what you were doing when this error occurred and give them a stern look." << std::endl;
         return -1;
     }
+    catch (const HostSideError& e)
+    {
+        std::cerr << e.what() << std::endl;
+        return -1;
+    }
     catch (const ClientSideError& e)
     {
         std::cerr << e.what() << std::endl;
-        std::cerr << "This means <the plugin dev> fucked up." << std::endl;
-        std::cerr << "Please report to them what you were doing when this error occurred and give them a stern look." << std::endl;
         return -1;
     }
 

@@ -7,7 +7,9 @@
 #include <Version.hpp>
 
 #include "constants.hpp"
-#include "errors.hpp"
+
+#include "errorservice/errors.hpp"
+#include "errorservice/errorservice.hpp"
 
 #include "loggerservice/loggerservice.hpp"
 
@@ -25,8 +27,7 @@ void ClientWrapper::fetchCheckAndTransfer(T ClientWrapper::*offset, const char* 
 
     if (target == nullptr)
     {
-        LoggerService::criticalF("COULD NOT EXTRACT FUNCTION {}", symbol);
-        throw CriticalAbort();
+        throw ClientInitializationError("COULD NOT EXTRACT FUNCTION "s + symbol);
     }
     else
     {
@@ -70,9 +71,10 @@ void ClientWrapper::loadEngine(const std::filesystem::__cxx11::path& enginePath)
 
     if (!handler)
     {
-        LoggerService::criticalF("COULD NOT LOAD {}", enginePath.c_str());
-        LoggerService::critical(dlerror());
-        throw CriticalAbort();
+        throw CriticalAbort(
+            "COULD NOT LOAD "s + enginePath.c_str() + "\n" +
+            dlerror()
+        );
     }
 
     LoggerService::trace("... SUCCESS!");
@@ -118,7 +120,7 @@ bool ClientWrapper::checkForFeatures(const FeatureCheckParams& featureDesc)
                                         );
                 return false;
         }
-        throw IllegalStateException("Unknown criticality level");
+        throw IllegalHostStateException("Unknown criticality level");
     }
 }
 
@@ -150,10 +152,11 @@ void ClientWrapper::initAndAssertCompatibility()
 
     LoggerService::trace("  ... Initializing client");
     const auto connectionStatus = init(&hostApi);
-    if (connectionStatus != ClientReturnCode::SUCCESS)
+    if (!connectionStatus)
     {
         LoggerService::critical("Client refused the connection!");
-        throw ClientSideError(connectionStatus);
+        // TODO: avoid "failed successfully" meme on <fail before init error service>
+        throw ClientSideError(ErrorService::getErrorCode(), ErrorService::getErrorMessage());
     }
     LoggerService::trace("  ... Client accepted connection.");
 
@@ -189,11 +192,13 @@ ClientWrapper::ClientWrapper(
 
 ClientWrapper::~ClientWrapper()
 {
-    auto operationStatus = hangUp();
-    if (operationStatus != ClientReturnCode::SUCCESS)
+    hangUp();
+    auto operationStatus = ErrorService::getErrorCode();
+    if (operationStatus != ApiStatusCode::SUCCESS)
     {
         LoggerService::critical("Error in shutdwon process of client");
         LoggerService::criticalF("Error Code: {}", static_cast<int>(operationStatus));
+        LoggerService::criticalF("Error Message: {}", ErrorService::getErrorMessage());
         std::exit(-1);
     }
 
@@ -212,12 +217,12 @@ const std::set<std::string>& ClientWrapper::getFeatureSet() const
     return featureSet;
 }
 
-ClientReturnCode ClientWrapper::init(HostApi* hostApi) const
+bool ClientWrapper::init(HostApi* hostApi) const
 {
     return _init(hostApi);
 }
 
-ClientReturnCode ClientWrapper::hangUp()
+void ClientWrapper::hangUp()
 {
     return _hangUp();
 }
@@ -247,7 +252,7 @@ void ClientWrapper::terminateAbnormally()
     _terminateAbnormally();
 }
 
-ClientReturnCode ClientWrapper::startTemplatesMode()
+void ClientWrapper::startTemplatesMode()
 {
     return _startTemplatesMode();
 }

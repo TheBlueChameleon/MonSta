@@ -4,7 +4,7 @@
 #include <filesystem>
 #include <set>
 
-#include <ClientReturnCodes.hpp>
+#include <ApiStatusCode.hpp>
 #include <FeatureTags.hpp>
 #include <HostApi.hpp>
 #include <Version.hpp>
@@ -59,19 +59,19 @@ class ClientWrapper
         const Version* _MIN_HOST_VERSION;
         const Version* _MAX_HOST_VERSION;
 
-        ClientReturnCode(*_init)(HostApi* hostApi);
-        ClientReturnCode(*_hangUp)();
+        bool(*_init)(HostApi* hostApi);
+        void(*_hangUp)();
 
         bool (*_hasFeature)(const char* const featureTag);
         void (*_terminateAbnormally)();
 
-        ClientReturnCode(*_startTemplatesMode)();
+        void(*_startTemplatesMode)();
 
         // ------------------------------------------------------------------ //
         // Private Interface
 
-        ClientReturnCode init(HostApi* hostApi) const;
-        ClientReturnCode hangUp();
+        bool init(HostApi* hostApi) const;
+        void hangUp();
 
         // ------------------------------------------------------------------ //
         // Public Interface
@@ -94,7 +94,7 @@ class ClientWrapper
 
         void terminateAbnormally();
 
-        ClientReturnCode startTemplatesMode();
+        void startTemplatesMode();
 };
 
 #endif // CLIENTWRAPPER_HPP

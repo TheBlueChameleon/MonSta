@@ -5,7 +5,7 @@
 #include <string>
 using namespace std::string_literals;
 
-#include "errors.hpp"
+#include "errorservice/errors.hpp"
 
 #include "loggerservice/loggerservice.hpp"
 
@@ -197,7 +197,7 @@ namespace FileService
                 return std::make_pair(nullptr, false);
         }
 
-        throw IllegalStateException("Unknown target type: '"s + path.c_str() + "'");
+        throw IllegalHostStateException("Unknown target type: '"s + path.c_str() + "'");
     }
 
     size_t getFileSize(std::ifstream& stream)

@@ -67,6 +67,7 @@ namespace JsonService
     void setToHandle_dlx(const IJsonService::ModifiableJsonHandle handle, const IJsonService::JsonHandle source);
     void setToArray_dlx(const IJsonService::ModifiableJsonHandle handle, const IJsonService::JsonHandle source);
     void setToObject_dlx(const IJsonService::ModifiableJsonHandle handle, const IJsonService::JsonHandle source);
+    void setToParseable_dlx(const IJsonService::ModifiableJsonHandle handle, const char* const source);
 
     // ---------------------------------------------------------------------- //
     // Parsing & Validation

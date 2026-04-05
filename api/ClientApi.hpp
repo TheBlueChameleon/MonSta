@@ -1,7 +1,7 @@
 #ifndef CLIENTAPI_HPP
 #define CLIENTAPI_HPP
 
-#include <ClientReturnCodes.hpp>
+#include <ApiStatusCode.hpp>
 #include <HostApi.hpp>
 
 // ========================================================================== //
@@ -12,13 +12,13 @@ extern "C" {
     extern const Version MIN_HOST_VERSION;
     extern const Version MAX_HOST_VERSION;
 
-    ClientReturnCode init(HostApi* hostApi);
-    ClientReturnCode hangUp();
+    bool init(HostApi* hostApi);
+    void hangUp();
 
     bool hasFeature(const char* const featureTag);
     void terminateAbnormally();
 
-    ClientReturnCode startTemplatesMode();
+    void startTemplatesMode();
 }
 
 // -------------------------------------------------------------------------- //
@@ -35,7 +35,7 @@ static void force_link()
 // ========================================================================== //
 // called internally
 
-ClientReturnCode init_engine();
+bool init_engine();
 
 
 #endif // CLIENTAPI_HPP

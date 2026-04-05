@@ -14,7 +14,8 @@ using namespace nlohmann;
 using namespace nlohmann::json_schema;
 
 #include "constants.hpp"
-#include "errors.hpp"
+
+#include "errorservice/errors.hpp"
 
 #include "fileservice/fileservice.hpp"
 
@@ -76,7 +77,7 @@ static void handleError(const std::string_view errorMessage, const ArgParser& pa
     ss << std::endl;
     ss << parser << std::endl;
 
-    throw CriticalAbort(ss.str());
+    throw InvalidUserInput(ss.str());
 }
 
 static void runParser(ArgParser& parser, const int argc, const char* const argv[])
@@ -107,7 +108,7 @@ static OperationMode modeFromString(const std::string_view modeString)
     if (modeString == CliInput::HELP        ) return OperationMode::HELP;
     // *INDENT-ON*
 
-    throw IllegalStateException("Invalid mode identifier: '"s + modeString.data() + "'");
+    throw IllegalHostStateException("Invalid mode identifier: '"s + modeString.data() + "'");
 }
 
 static void validateAsInputFile(const std::string_view data)
@@ -116,13 +117,13 @@ static void validateAsInputFile(const std::string_view data)
 
     if (!std::filesystem::exists(path))
     {
-        throw CriticalAbort("'"s + data.data() + "' does not exist.");
+        throw InvalidUserInput("'"s + data.data() + "' does not exist.");
     }
 
     // TODO: check if this also works with symlinks
     if (!std::filesystem::is_regular_file(path))
     {
-        throw CriticalAbort("'"s + data.data() + "' is not a file.");
+        throw InvalidUserInput("'"s + data.data() + "' is not a file.");
     }
 }
 
@@ -139,7 +140,7 @@ static void validateAsOutputDirectory(const std::string_view data)
     {
         if (!std::filesystem::is_directory(path))
         {
-            throw CriticalAbort("'"s + data.data() + "' is not a directory.");
+            throw InvalidUserInput("'"s + data.data() + "' is not a directory.");
         }
     }
 }
@@ -340,9 +341,9 @@ static std::shared_ptr<const BaseModeDefinition> unpackHelpInput(const CliInput&
         const auto mode = modeFromString(target);
         return std::make_shared<HelpModeDefinition>(cliInput, mode);
     }
-    catch (const IllegalStateException& err)
+    catch (const IllegalHostStateException& err)
     {
-        throw CriticalAbort("No help available for unknown mode '"s + target.data() + "'");
+        throw InvalidUserInput("No help available for unknown mode '"s + target.data() + "'");
     }
 }
 
@@ -365,7 +366,7 @@ std::shared_ptr<const BaseModeDefinition> unpackCliInput(const CliInput& cliInpu
             return unpackHelpInput(cliInput);
     }
 
-    throw IllegalStateException(
+    throw IllegalHostStateException(
         "Unrecognized mode id "s + std::to_string(static_cast<int>(cliInput.mode))
     );
 }

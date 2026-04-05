@@ -3,7 +3,7 @@
 #include <string>
 using namespace std::string_literals;
 
-#include "errors.hpp"
+#include "errorservice/errors.hpp"
 
 #include "loggerservice/loggerservice.hpp"
 
@@ -104,7 +104,7 @@ namespace FileService
                                             );
             if (!newlyCreated)
             {
-                throw IllegalStateException("Encountered a previously existing stream for '"s + filename.c_str() + "'");
+                throw IllegalHostStateException("Encountered a previously existing stream for '"s + filename.c_str() + "'");
             }
 
             return *iterator->second;

@@ -1,7 +1,7 @@
 #include <string>
 using namespace std::string_literals;
 
-#include "errors.hpp"
+#include "errorservice/errors.hpp"
 
 #include "jsonservicedatabase.hpp"
 
@@ -213,12 +213,12 @@ namespace JsonService
             std::lock_guard entryLock(entry->mtx);
             if (entry->state != EntryState::DECLARED)
             {
-                throw LookupError("Unknown JSON tag: '"s + tag.name + "' has already been committed!");
+                throw LookupError("Invalid JSON tag: '"s + tag.name + "' has already been committed!");
             }
 
             if (!entry->data)
             {
-                throw IllegalStateException("Commit on uninitialized JSON");
+                throw IllegalHostStateException("Commit on uninitialized JSON");
             }
 
 

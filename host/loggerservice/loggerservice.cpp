@@ -1,7 +1,7 @@
 #include <string>
 using namespace std::string_literals;
 
-#include "errors.hpp"
+#include "errorservice/errors.hpp"
 
 #include "loggerservice.hpp"
 
@@ -38,7 +38,7 @@ namespace LoggerService
         if (name == ILoggerService::LOGLEVELNAME_OFF)      {return ILoggerService::LogLevel::OFF;}
         // *INDENT-ON*
 
-        throw IllegalStateException("Unknown log level: "s + name.data());
+        throw IllegalHostStateException("Unknown log level: "s + name.data());
     }
 
     void setLogLevel(const ILoggerService::LogLevel level)

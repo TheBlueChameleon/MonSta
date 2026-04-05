@@ -10,12 +10,10 @@ extern "C" {
     const Version MIN_HOST_VERSION(0,1,0,0);
     const Version MAX_HOST_VERSION(2,0,0,0);
 
-    ClientReturnCode hangUp()
-    {
-        return ClientReturnCode::SUCCESS;
-    }
+    void hangUp()
+    {}
 
-    ClientReturnCode startTemplatesMode()
+    void startTemplatesMode()
     {
         LoggerService::info("entry into dylib");
 
@@ -35,12 +33,10 @@ extern "C" {
         LoggerService::infoF("navigateTo returned    {}", textHandle.data);
         LoggerService::infoF("text handle is string: {}", JsonService::isString(textHandle));
         LoggerService::infoF("text handle content:   {}", JsonService::getAsString(textHandle));
-
-        return ClientReturnCode::SUCCESS;
     }
 }
 
-ClientReturnCode init_engine()
+bool init_engine()
 {
     Globals::supportedFeatures =
     {
@@ -48,5 +44,5 @@ ClientReturnCode init_engine()
         FEATURE_TEMPLATEMODE_V1_0
     };
 
-    return ClientReturnCode::SUCCESS;
+    return true;
 }

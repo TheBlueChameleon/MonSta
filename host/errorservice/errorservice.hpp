@@ -2,21 +2,23 @@
 #define ERRORSERVICE_HPP
 
 #include <string>
+#include <string_view>
 
 #include <IErrorService.hpp>
 
 namespace ErrorService
 {
-    extern ClientReturnCode errorCode;
+    extern ApiStatusCode errorCode;
     extern std::string errorMessage;
 
     const IErrorService exportService();
 
     void clearError();
 
-    void setError(const ClientReturnCode code, const char* const message);
+    void setError(const ApiStatusCode code, const std::string_view message);
+    void setError_dlx(const ApiStatusCode code, const char* const message);
 
-    ClientReturnCode getErrorCode();
+    ApiStatusCode getErrorCode();
     const char* const getErrorMessage();
 }
 

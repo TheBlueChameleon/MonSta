@@ -1,7 +1,7 @@
 #include <string>
 using namespace std::string_literals;
 
-#include "errors.hpp"
+#include "errorservice/errors.hpp"
 
 #include "fileservice/fileservice.hpp"
 
@@ -27,7 +27,7 @@ namespace OperationModes
         }
         else
         {
-            throw IllegalStateException("Invalid cast: passed definition is not a "s + typeName);
+            throw IllegalHostStateException("Invalid cast: passed definition is not a "s + typeName);
         }
     }
 

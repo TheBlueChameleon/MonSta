@@ -74,7 +74,7 @@ FetchContent_MakeAvailable(googletest)
 
 set(apiHeaders
     api/ClientApi.hpp
-    api/ClientReturnCodes.hpp
+    api/ApiStatusCode.hpp
     api/FeatureTags.hpp
     api/HostApi.hpp
     api/Version.hpp
@@ -94,6 +94,8 @@ set(apiHeaders
 # ErrorService
 
 add_library(Host-ErrorService STATIC
+    host/errorservice/catchmacros.hpp
+    host/errorservice/errors.hpp        host/errorservice/errors.cpp
     host/errorservice/errorservice.hpp  host/errorservice/errorservice.cpp
 )
 
@@ -139,6 +141,7 @@ target_include_directories(Host-JsonService
 
 target_link_libraries(Host-JsonService
     nlohmann_json_schema_validator
+    Host-ErrorService
 )
 
 # ............................................................................ #
@@ -221,7 +224,6 @@ add_executable(Host
     host/operationmodes/template/defs/templatesdefinition.hpp
 
     host/constants.hpp host/constants.cpp
-    host/errors.hpp
     host/main.cpp
 
     inputs/config/simulation.json
@@ -322,6 +324,7 @@ target_link_libraries(Test
     GTest::gtest_main
     nlohmann_json::nlohmann_json
     nlohmann_json_schema_validator
+    Host-ErrorService
     Host-FileService
     Host-JsonService
     Host-LoggerService

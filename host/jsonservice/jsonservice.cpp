@@ -9,9 +9,15 @@ using namespace nlohmann::json_schema;
 
 #include <IJsonService.hpp>
 
-#include "errors.hpp"
+#include "errorservice/catchmacros.hpp"
+#include "errorservice/errors.hpp"
+#include "errorservice/errorservice.hpp"
 
 #include "jsonservice.hpp"
+
+
+// ========================================================================== //
+// Code Proper
 
 namespace JsonService
 {
@@ -135,7 +141,7 @@ namespace JsonService
             return IJsonService::EntryState::NONEXISTENT;
         }
 
-        throw IllegalStateException("Unknown Entry State in tag '"s + tag.name + "'");
+        throw IllegalHostStateException("Unknown Entry State in tag '"s + tag.name + "'");
     }
 
     const nlohmann::ordered_json& get(const IJsonService::JsonTag tag)
@@ -173,23 +179,40 @@ namespace JsonService
 
     const IJsonService::EntryState getState_dlx(const IJsonService::JsonTag tag)
     {
-        assertSaneTag(tag);
-        return getState(tag);
+        try
+        {
+            assertSaneTag(tag);
+            return getState(tag);
+        }
+        CATCH_CLIENT_REQUEST_ERROR(IJsonService::EntryState::ERROR)
+        CATCH_STD_EXCEPTION(IJsonService::EntryState::ERROR)
     }
 
     const IJsonService::JsonHandle get_dlx(const IJsonService::JsonTag tag)
     {
-        assertSaneTag(tag);
-        return toHandle(get(tag));
+        try
+        {
+            assertSaneTag(tag);
+            return toHandle(get(tag));
+        }
+        CATCH_CLIENT_REQUEST_ERROR(IJsonService::JsonHandle(nullptr))
+        CATCH_LOOKUP_ERROR(IJsonService::JsonHandle(nullptr))
+        CATCH_STD_EXCEPTION(IJsonService::JsonHandle(nullptr))
     }
 
     const IJsonService::JsonHandle add_dlx(const IJsonService::JsonTag tag, const IJsonService::JsonHandle handle)
     {
-        assertSaneTag(tag);
-        assertSaneHandle(handle);
-        return toHandle(
-                   add(tag, toOrderedJson(handle))
-               );
+        try
+        {
+            assertSaneTag(tag);
+            assertSaneHandle(handle);
+            return toHandle(
+                       add(tag, toOrderedJson(handle))
+                   );
+        }
+        CATCH_CLIENT_REQUEST_ERROR(IJsonService::JsonHandle(nullptr))
+        CATCH_LOOKUP_ERROR(IJsonService::JsonHandle(nullptr))
+        CATCH_STD_EXCEPTION(IJsonService::JsonHandle(nullptr))
     }
 
     const IJsonService::JsonHandle getOrAdd_dlx(
@@ -197,30 +220,49 @@ namespace JsonService
         const void(*creator)(const IJsonService::ModifiableJsonHandle)
     )
     {
-        assertSaneTag(tag);
-        if (creator == nullptr)
+        try
         {
-            throw ClientRequestError("Client attempted getOrAdd with null creator");
+            assertSaneTag(tag);
+            if (creator == nullptr)
+            {
+                ErrorService::setError(ApiStatusCode::INVALID_REQUEST_BY_CLIENT, "Client attempted getOrAdd with null creator");
+                return IJsonService::JsonHandle(nullptr);
+            }
+
+            auto convertedCreator = [&creator](ordered_json& json)
+            {
+                creator(toModifiableHandle(json));
+            };
+
+            return toHandle(getOrAdd(tag, convertedCreator));
         }
-
-        auto convertedCreator = [&creator](ordered_json& json)
-        {
-            creator(toModifiableHandle(json));
-        };
-
-        return toHandle(getOrAdd(tag, convertedCreator));
+        CATCH_CLIENT_REQUEST_ERROR(IJsonService::JsonHandle(nullptr))
+        CATCH_LOOKUP_ERROR(IJsonService::JsonHandle(nullptr))
+        CATCH_STD_EXCEPTION(IJsonService::JsonHandle(nullptr))
     }
 
     const IJsonService::ModifiableJsonHandle declare_dlx(const IJsonService::JsonTag tag)
     {
-        assertSaneTag(tag);
-        return toModifiableHandle(declare(tag));
+        try
+        {
+            assertSaneTag(tag);
+            return toModifiableHandle(declare(tag));
+        }
+        CATCH_CLIENT_REQUEST_ERROR(IJsonService::ModifiableJsonHandle(nullptr))
+        CATCH_LOOKUP_ERROR(IJsonService::ModifiableJsonHandle(nullptr))
+        CATCH_STD_EXCEPTION(IJsonService::ModifiableJsonHandle(nullptr))
     }
 
     const IJsonService::JsonHandle commit_dlx(const IJsonService::JsonTag tag)
     {
-        assertSaneTag(tag);
-        return toHandle(database.commit(tag));
+        try
+        {
+            assertSaneTag(tag);
+            return toHandle(database.commit(tag));
+        }
+        CATCH_CLIENT_REQUEST_ERROR(IJsonService::JsonHandle(nullptr))
+        CATCH_LOOKUP_ERROR(IJsonService::JsonHandle(nullptr))
+        CATCH_STD_EXCEPTION(IJsonService::JsonHandle(nullptr))
     }
 
     // ====================================================================== //
@@ -228,22 +270,29 @@ namespace JsonService
 
     const IJsonService::JsonHandle navigateTo_dlx(const IJsonService::JsonHandle handle, const char* const jsonPointer)
     {
-        assertSaneHandle(handle);
-        const auto& base = toOrderedJson(handle);
-
-        assertSaneJsonPointer(jsonPointer);
-
-        if (jsonPointer[0] == '/')
+        try
         {
-            const auto jptr = ordered_json::json_pointer(jsonPointer);
-            const ordered_json& target = base.at(jptr);
-            return toHandle(target);
+            assertSaneHandle(handle);
+            const auto& base = toOrderedJson(handle);
+
+            assertSaneJsonPointer(jsonPointer);
+
+            if (jsonPointer[0] == '/')
+            {
+                const auto jptr = ordered_json::json_pointer(jsonPointer);
+                const ordered_json& target = base.at(jptr);
+                return toHandle(target);
+            }
+            else
+            {
+                const auto& target = base.at(jsonPointer);
+                return toHandle(target);
+            }
         }
-        else
-        {
-            const auto& target = base.at(jsonPointer);
-            return toHandle(target);
-        }
+        CATCH_CLIENT_REQUEST_ERROR(IJsonService::JsonHandle(nullptr))
+        CATCH_JSON_ERROR(IJsonService::JsonHandle(nullptr))
+        CATCH_LOOKUP_ERROR(IJsonService::JsonHandle(nullptr))
+        CATCH_STD_EXCEPTION(IJsonService::JsonHandle(nullptr))
     }
 
     const bool contains_dlx(const IJsonService::JsonHandle handle, const char* const elementName)
@@ -381,18 +430,34 @@ namespace JsonService
 
     const IJsonService::JsonHandle getArrayItem_dlx(const IJsonService::JsonHandle handle, const int index)
     {
-        assertSaneHandle(handle);
-        const ordered_json& base = toOrderedJson(handle);
-        if (!base.is_array())
+        try
         {
-            throw ClientRequestError("Client attempted array operation on non-array Json element");
-        }
-        if (index < 0 ||index >= base.size())
-        {
-            throw ClientRequestError("Client attempted array operation with out-of-bounds index "s + std::to_string(index));
-        }
+            assertSaneHandle(handle);
+            const ordered_json& base = toOrderedJson(handle);
+            if (!base.is_array())
+            {
+                ErrorService::setError(
+                    ApiStatusCode::INVALID_REQUEST_BY_CLIENT,
+                    "Client attempted array operation on non-array Json element"
+                );
+                return IJsonService::JsonHandle(nullptr);
+            }
+            if (index < 0 ||index >= base.size())
+            {
+                ErrorService::setError(
+                    ApiStatusCode::INVALID_REQUEST_BY_CLIENT,
+                    "Client attempted array operation with out-of-bounds index "s +
+                    std::to_string(index)
+                );
+                return IJsonService::JsonHandle(nullptr);
+            }
 
-        return toHandle(base.at(index));
+            return toHandle(base.at(index));
+        }
+        CATCH_CLIENT_REQUEST_ERROR(IJsonService::JsonHandle(nullptr))
+        CATCH_JSON_ERROR(IJsonService::JsonHandle(nullptr))
+        CATCH_LOOKUP_ERROR(IJsonService::JsonHandle(nullptr))
+        CATCH_STD_EXCEPTION(IJsonService::JsonHandle(nullptr))
     }
 
     void setToNull_dlx(const IJsonService::ModifiableJsonHandle handle)
@@ -456,6 +521,13 @@ namespace JsonService
         setToHandle_dlx(handle, source);
     }
 
+    void setToParseable_dlx(const IJsonService::ModifiableJsonHandle handle, const char* const source)
+    {
+        assertSaneHandle(handle);
+        ordered_json& base = toModifiableOrderedJson(handle);
+        base = parse(source);
+    }
+
     // ====================================================================== //
     // Parsing & Validation
 
@@ -492,7 +564,7 @@ namespace JsonService
         }
         catch (const std::invalid_argument& e)
         {
-            throw CriticalAbort(
+            throw JsonError(
                 "Invalid state of simulation schema:\n"s +
                 e.what()
             );
@@ -504,7 +576,7 @@ namespace JsonService
         }
         catch (const std::invalid_argument& e)
         {
-            throw CriticalAbort(
+            throw JsonError(
                 "JSON data from '"s + origin.data() + "' are invalid:\n" +
                 e.what()
             );
@@ -537,7 +609,7 @@ namespace JsonService
         }
         catch (const nlohmann::ordered_json::parse_error& err)
         {
-            throw CriticalAbort(
+            throw JsonError(
                 "Error parsing JSON file '"s + file.c_str() + "'\n" +
                 err.what()
             );

@@ -3,7 +3,7 @@
 #include <string>
 using namespace std::string_literals;
 
-#include "errors.hpp"
+#include "errorservice/errors.hpp"
 
 #include "jsonschemabuilder.hpp"
 
@@ -97,7 +97,7 @@ namespace JsonService
                 return addProperty("type", "object");
         }
 
-        throw IllegalStateException("Unknown Json data type: "s + std::to_string(static_cast<int>(type)));
+        throw IllegalHostStateException("Unknown Json data type: "s + std::to_string(static_cast<int>(type)));
     }
 
     JsonSchemaElementBuilder& JsonSchemaElementBuilder::addTypedArray(const JsonType type)

@@ -1,8 +1,8 @@
-#include "errors.hpp"
+#include "api/clientwrapper.hpp"
+
+#include "errorservice/errors.hpp"
 
 #include "loggerservice/loggerservice.hpp"
-
-#include "api/clientwrapper.hpp"
 
 #include "operationmodes/shared/utils.hpp"
 

@@ -3,7 +3,7 @@
 
 struct IJsonService
 {
-        enum class EntryState {NONEXISTENT, DECLARED, READY};
+        enum class EntryState {NONEXISTENT, DECLARED, READY, ERROR};
         enum class JsonType {VOID, OBJECT, ARRAY, STRING, BOOLEAN, INTEGER, UNSIGNED, FLOAT, BINARY, DISCARDED};
 
         struct JsonHandle
@@ -13,7 +13,11 @@ struct IJsonService
 
         struct ModifiableJsonHandle :
             public JsonHandle
-        {};
+        {
+            ModifiableJsonHandle(const void* const data):
+                JsonHandle(data)
+            {}
+        };
 
         struct JsonTag
         {
