@@ -2,6 +2,8 @@
 #include <cstring>
 #include <fstream>
 
+#include "errorservice/errorservice.hpp"
+
 #include "loggerservice/loggerservice.hpp"
 
 #include "fileservice.hpp"
@@ -115,7 +117,14 @@ namespace FileService
 
     void write_dlx(const char* const filename, const char* const content)
     {
-        write(filename, content);
+        try
+        {
+            write(filename, content);
+        }
+        catch (const std::exception& e)
+        {
+            ErrorService::setError(ApiStatusCode::IO_ERROR, e.what());
+        }
     }
 
     void writeBinary(const std::filesystem::__cxx11::path& filename, const std::span<const std::byte> data)
@@ -127,7 +136,14 @@ namespace FileService
 
     void writeBinary_dlx(const char* const filename, const void* const data, size_t length)
     {
-        writeBinary(filename, std::span(reinterpret_cast<const std::byte*>(data), length));
+        try
+        {
+            writeBinary(filename, std::span(reinterpret_cast<const std::byte*>(data), length));
+        }
+        catch (const std::exception& e)
+        {
+            ErrorService::setError(ApiStatusCode::IO_ERROR, e.what());
+        }
     }
 
     std::string read(const std::filesystem::__cxx11::path& filename)
@@ -144,14 +160,22 @@ namespace FileService
 
     IMemoryService::MemoryBlock read_dlx(const char* const filename)
     {
-        auto stream = database.getReadStream(filename);
-        LoggerService::traceF("reading from {}", filename);
-        const auto size = getFileSize(stream);
+        try
+        {
+            auto stream = database.getReadStream(filename);
+            LoggerService::traceF("reading from {}", filename);
+            const auto size = getFileSize(stream);
 
-        IMemoryService::MemoryBlock result = MemoryService::allocate(size);
-        stream.read(result.data, size);
+            IMemoryService::MemoryBlock result = MemoryService::allocate(size);
+            stream.read(result.data, size);
 
-        return result;
+            return result;
+        }
+        catch (const std::exception& e)
+        {
+            ErrorService::setError(ApiStatusCode::IO_ERROR, e.what());
+            return IMemoryService::MemoryBlock {nullptr, 0};
+        }
     }
 
     const std::list<CreatedFileInfo>& getCreatedFileInfo()

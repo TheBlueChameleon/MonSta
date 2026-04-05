@@ -184,7 +184,7 @@ namespace JsonService
             assertSaneTag(tag);
             return getState(tag);
         }
-        CATCH_CLIENT_REQUEST_ERROR(IJsonService::EntryState::ERROR)
+        CATCH_ABSTRACT_ERROR(IJsonService::EntryState::ERROR)
         CATCH_STD_EXCEPTION(IJsonService::EntryState::ERROR)
     }
 
@@ -195,8 +195,7 @@ namespace JsonService
             assertSaneTag(tag);
             return toHandle(get(tag));
         }
-        CATCH_CLIENT_REQUEST_ERROR(IJsonService::JsonHandle(nullptr))
-        CATCH_LOOKUP_ERROR(IJsonService::JsonHandle(nullptr))
+        CATCH_ABSTRACT_ERROR(IJsonService::JsonHandle(nullptr))
         CATCH_STD_EXCEPTION(IJsonService::JsonHandle(nullptr))
     }
 
@@ -210,8 +209,7 @@ namespace JsonService
                        add(tag, toOrderedJson(handle))
                    );
         }
-        CATCH_CLIENT_REQUEST_ERROR(IJsonService::JsonHandle(nullptr))
-        CATCH_LOOKUP_ERROR(IJsonService::JsonHandle(nullptr))
+        CATCH_ABSTRACT_ERROR(IJsonService::JsonHandle(nullptr))
         CATCH_STD_EXCEPTION(IJsonService::JsonHandle(nullptr))
     }
 
@@ -236,8 +234,7 @@ namespace JsonService
 
             return toHandle(getOrAdd(tag, convertedCreator));
         }
-        CATCH_CLIENT_REQUEST_ERROR(IJsonService::JsonHandle(nullptr))
-        CATCH_LOOKUP_ERROR(IJsonService::JsonHandle(nullptr))
+        CATCH_ABSTRACT_ERROR(IJsonService::JsonHandle(nullptr))
         CATCH_STD_EXCEPTION(IJsonService::JsonHandle(nullptr))
     }
 
@@ -248,8 +245,7 @@ namespace JsonService
             assertSaneTag(tag);
             return toModifiableHandle(declare(tag));
         }
-        CATCH_CLIENT_REQUEST_ERROR(IJsonService::ModifiableJsonHandle(nullptr))
-        CATCH_LOOKUP_ERROR(IJsonService::ModifiableJsonHandle(nullptr))
+        CATCH_ABSTRACT_ERROR(IJsonService::ModifiableJsonHandle(nullptr))
         CATCH_STD_EXCEPTION(IJsonService::ModifiableJsonHandle(nullptr))
     }
 
@@ -260,8 +256,7 @@ namespace JsonService
             assertSaneTag(tag);
             return toHandle(database.commit(tag));
         }
-        CATCH_CLIENT_REQUEST_ERROR(IJsonService::JsonHandle(nullptr))
-        CATCH_LOOKUP_ERROR(IJsonService::JsonHandle(nullptr))
+        CATCH_ABSTRACT_ERROR(IJsonService::JsonHandle(nullptr))
         CATCH_STD_EXCEPTION(IJsonService::JsonHandle(nullptr))
     }
 
@@ -289,9 +284,8 @@ namespace JsonService
                 return toHandle(target);
             }
         }
-        CATCH_CLIENT_REQUEST_ERROR(IJsonService::JsonHandle(nullptr))
+        CATCH_ABSTRACT_ERROR(IJsonService::JsonHandle(nullptr))
         CATCH_JSON_ERROR(IJsonService::JsonHandle(nullptr))
-        CATCH_LOOKUP_ERROR(IJsonService::JsonHandle(nullptr))
         CATCH_STD_EXCEPTION(IJsonService::JsonHandle(nullptr))
     }
 
@@ -454,9 +448,8 @@ namespace JsonService
 
             return toHandle(base.at(index));
         }
-        CATCH_CLIENT_REQUEST_ERROR(IJsonService::JsonHandle(nullptr))
+        CATCH_ABSTRACT_ERROR(IJsonService::JsonHandle(nullptr))
         CATCH_JSON_ERROR(IJsonService::JsonHandle(nullptr))
-        CATCH_LOOKUP_ERROR(IJsonService::JsonHandle(nullptr))
         CATCH_STD_EXCEPTION(IJsonService::JsonHandle(nullptr))
     }
 

@@ -5,19 +5,12 @@
 
 #include <ApiStatusCode.hpp>
 
+#include "errorservice/errors.hpp"
 #include "errorservice/errorservice.hpp"
 
-#define CATCH_CLIENT_REQUEST_ERROR(errorValue) \
-    catch (const ClientRequestError& e) { \
+#define CATCH_ABSTRACT_ERROR(errorValue) \
+    catch (const AbstractError& e) { \
         ErrorService::setError( e.getErrorCode(), \
-                                e.what() \
-                              ); \
-        return errorValue; \
-    }
-
-#define CATCH_LOOKUP_ERROR(errorValue) \
-    catch (const LookupError& e) { \
-        ErrorService::setError( ApiStatusCode::LOOKUP_ERROR, \
                                 e.what() \
                               ); \
         return errorValue; \

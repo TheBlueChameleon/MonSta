@@ -17,6 +17,7 @@ enum class ApiStatusCode
     ILLEGAL_CLIENT_STATE,
     ILLEGAL_HOST_STATE,
 
+    IO_ERROR,
     LOOKUP_ERROR,
     JSON_ERROR,
 };
