@@ -1,7 +1,7 @@
 #include <string>
 using namespace std::string_literals;
 
-#include <ILoggerService.hpp>
+#include <services/ILoggerService.hpp>
 
 #include "jsonservice/jsonschemabuilder.hpp"
 #include "jsonservice/jsonservice.hpp"

@@ -1,7 +1,7 @@
 #ifndef VERSIONSERVICE_H
 #define VERSIONSERVICE_H
 
-#include <IVersionService.hpp>
+#include <services/IVersionService.hpp>
 
 namespace VersionService
 {

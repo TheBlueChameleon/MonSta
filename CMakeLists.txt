@@ -79,12 +79,12 @@ set(apiHeaders
     api/HostApi.hpp
     api/Version.hpp
 
-    api/IErrorService.hpp
-    api/IFileService.hpp
-    api/IJsonService.hpp
-    api/ILoggerService.hpp
-    api/IMemoryService.hpp
-    api/IVersionService.hpp
+    api/services/IErrorService.hpp
+    api/services/IFileService.hpp
+    api/services/IJsonService.hpp
+    api/services/ILoggerService.hpp
+    api/services/IMemoryService.hpp
+    api/services/IVersionService.hpp
 )
 
 # ---------------------------------------------------------------------------- #

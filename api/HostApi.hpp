@@ -3,12 +3,12 @@
 
 #include "Version.hpp"
 
-#include "IErrorService.hpp"
-#include "IFileService.hpp"
-#include "IJsonService.hpp"
-#include "IMemoryService.hpp"
-#include "ILoggerService.hpp"
-#include "IVersionService.hpp"
+#include "services/IErrorService.hpp"
+#include "services/IFileService.hpp"
+#include "services/IJsonService.hpp"
+#include "services/IMemoryService.hpp"
+#include "services/ILoggerService.hpp"
+#include "services/IVersionService.hpp"
 
 struct HostApi
 {

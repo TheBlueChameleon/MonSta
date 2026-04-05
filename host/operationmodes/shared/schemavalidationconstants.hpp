@@ -1,7 +1,7 @@
 #ifndef SCHEMAVALIDATIONCONSTANTS_HPP
 #define SCHEMAVALIDATIONCONSTANTS_HPP
 
-#include <IJsonService.hpp>
+#include <services/IJsonService.hpp>
 
 namespace OperationModes
 {

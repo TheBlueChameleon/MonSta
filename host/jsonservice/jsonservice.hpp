@@ -1,7 +1,7 @@
 #ifndef JSONSERVICE_HPP
 #define JSONSERVICE_HPP
 
-#include <IJsonService.hpp>
+#include <services/IJsonService.hpp>
 
 #include "jsonschemabuilder.hpp"
 #include "jsonservicedatabase.hpp"

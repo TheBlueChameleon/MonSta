@@ -1,7 +1,7 @@
 #ifndef IVERSIONSERVICE_H
 #define IVERSIONSERVICE_H
 
-#include <IMemoryService.hpp>
+#include <services/IMemoryService.hpp>
 #include <Version.hpp>
 
 struct IVersionService

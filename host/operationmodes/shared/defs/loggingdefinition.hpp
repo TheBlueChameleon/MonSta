@@ -4,7 +4,7 @@
 #include <filesystem>
 #include <optional>
 
-#include <ILoggerService.hpp>
+#include <services/ILoggerService.hpp>
 
 struct LoggingDefinition
 {

@@ -1,8 +1,8 @@
 #include <HostApi.hpp>
 
-#include <IFileService.hpp>
-#include <IJsonService.hpp>
-#include <IVersionService.hpp>
+#include <services/IFileService.hpp>
+#include <services/IJsonService.hpp>
+#include <services/IVersionService.hpp>
 #include <Version.hpp>
 
 #include "constants.hpp"

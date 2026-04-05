@@ -7,7 +7,7 @@ using namespace nlohmann;
 #include <nlohmann/json-schema.hpp>
 using namespace nlohmann::json_schema;
 
-#include <IJsonService.hpp>
+#include <services/IJsonService.hpp>
 
 #include "errorservice/catchmacros.hpp"
 #include "errorservice/errors.hpp"

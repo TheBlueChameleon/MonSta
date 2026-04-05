@@ -10,7 +10,7 @@
 
 #include <nlohmann/json.hpp>
 
-#include <IJsonService.hpp>
+#include <services/IJsonService.hpp>
 
 namespace JsonService
 {

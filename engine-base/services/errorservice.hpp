@@ -1,7 +1,7 @@
 #ifndef ERRORSERVICE_HPP
 #define ERRORSERVICE_HPP
 
-#include <IErrorService.hpp>
+#include <services/IErrorService.hpp>
 
 namespace ErrorService
 {
