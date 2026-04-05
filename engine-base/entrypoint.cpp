@@ -4,7 +4,8 @@
 #include <HostApi.hpp>
 #include <ClientApi.hpp>
 
-#include "services.hpp"
+#include "services/services.hpp"
+
 #include "globals.hpp"
 
 static bool allLoggerServicesPresent(const ILoggerService& ls)

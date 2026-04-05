@@ -3,6 +3,7 @@
 
 #include "Version.hpp"
 
+#include "IErrorService.hpp"
 #include "IFileService.hpp"
 #include "IJsonService.hpp"
 #include "IMemoryService.hpp"
@@ -11,13 +12,14 @@
 
 struct HostApi
 {
-		const Version         hostVersion;
+    const Version           hostVersion;
 
-		const IFileService    fileService;
-		const IJsonService    jsonService;
-		const ILoggerService  loggerService;
-		const IMemoryService  memoryService;
-		const IVersionService versionService;
+    const IErrorService     errorService;
+    const IFileService      fileService;
+    const IJsonService      jsonService;
+    const ILoggerService    loggerService;
+    const IMemoryService    memoryService;
+    const IVersionService   versionService;
 };
 
 #endif // HOSTAPI_HPP

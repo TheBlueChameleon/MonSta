@@ -256,15 +256,17 @@ add_library(Engine-Base STATIC
     ${apiHeaders}
 
     engine-base/entrypoint.cpp
-    engine-base/globals.hpp         engine-base/globals.cpp
+    engine-base/globals.hpp                 engine-base/globals.cpp
 
-    engine-base/services.hpp        engine-base/services.cpp
-    engine-base/loggerservice.hpp   engine-base/loggerservice.cpp
-    engine-base/jsonservice.hpp     engine-base/jsonservice.cpp
+    engine-base/services/services.hpp       engine-base/services/services.cpp
+    engine-base/services/errorservice.hpp   engine-base/services/errorservice.cpp
+    engine-base/services/jsonservice.hpp    engine-base/services/jsonservice.cpp
+    engine-base/services/loggerservice.hpp  engine-base/services/loggerservice.cpp
 )
 
 target_include_directories(Engine-Base
     PUBLIC api
+    PUBLIC engine-base
 )
 
 set_target_properties(Engine-Base PROPERTIES POSITION_INDEPENDENT_CODE ON)

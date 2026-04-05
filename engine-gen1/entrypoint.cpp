@@ -2,8 +2,9 @@
 #include <FeatureTags.hpp>
 #include <Version.hpp>
 
+#include "services/services.hpp"
+
 #include "globals.hpp"
-#include "services.hpp"
 
 extern "C" {
     const Version CLIENT_VERSION(0,1,0,0);

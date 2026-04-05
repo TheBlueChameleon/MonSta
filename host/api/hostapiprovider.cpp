@@ -7,6 +7,7 @@
 
 #include "constants.hpp"
 
+#include "errorservice/errorservice.hpp"
 #include "fileservice/fileservice.hpp"
 #include "jsonservice/jsonservice.hpp"
 #include "loggerservice/loggerservice.hpp"
@@ -22,6 +23,7 @@ namespace HostApiProvider
         {
             HOST_VERSION,
 
+            ErrorService::exportService(),
             FileService::exportService(),
             JsonService::exportService(),
             LoggerService::exportService(),
