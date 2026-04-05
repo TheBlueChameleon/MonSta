@@ -96,8 +96,9 @@ set(apiHeaders
 
 add_library(Host-ErrorService STATIC
     host/errorservice/catchmacros.hpp
-    host/errorservice/errors.hpp        host/errorservice/errors.cpp
-    host/errorservice/errorservice.hpp  host/errorservice/errorservice.cpp
+    host/errorservice/errors.hpp            host/errorservice/errors.cpp
+    host/errorservice/errorservice.hpp      host/errorservice/errorservice.cpp
+    host/errorservice/errorservice_dlx.hpp  host/errorservice/errorservice_dlx.cpp
 )
 
 target_include_directories(Host-ErrorService

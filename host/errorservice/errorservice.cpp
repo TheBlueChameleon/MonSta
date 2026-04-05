@@ -1,4 +1,7 @@
+#include <string>
+
 #include "errorservice.hpp"
+#include "errorservice_dlx.hpp"
 
 namespace ErrorService
 {
@@ -9,10 +12,10 @@ namespace ErrorService
     {
         return IErrorService
         {
-            clearError,
+            clearError_dlx,
             setError_dlx,
-            getErrorCode,
-            getErrorMessage,
+            getErrorCode_dlx,
+            getErrorMessage_dlx,
         };
     }
 
@@ -28,19 +31,13 @@ namespace ErrorService
         errorMessage = message;
     }
 
-    void setError_dlx(const ApiStatusCode code, const char* const message)
-    {
-        setError(code, message);
-    }
-
     ApiStatusCode getErrorCode()
     {
         return errorCode;
     }
 
-    const char* const getErrorMessage()
+    const std::string_view getErrorMessage()
     {
-        return errorMessage.data();
+        return errorMessage;
     }
-
 }
