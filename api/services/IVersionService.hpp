@@ -1,19 +1,21 @@
 #ifndef IVERSIONSERVICE_H
 #define IVERSIONSERVICE_H
 
-#include <services/IMemoryService.hpp>
+#include <CallingConventions.hpp>
 #include <Version.hpp>
+
+#include <services/IMemoryService.hpp>
 
 struct IVersionService
 {
-    bool (*const equal)(const Version lhs, const Version rhs);
-    bool (*const notEqual)(const Version lhs, const Version rhs);
-    bool (*const lessThan)(const Version lhs, const Version rhs);
-    bool (*const lessOrEqual)(const Version lhs, const Version rhs);
-    bool (*const greaterThan)(const Version lhs, const Version rhs);
-    bool (*const greaterOrEqual)(const Version lhs, const Version rhs);
+    bool (HOST_API_CALL* const equal)(const Version lhs, const Version rhs);
+    bool (HOST_API_CALL* const notEqual)(const Version lhs, const Version rhs);
+    bool (HOST_API_CALL* const lessThan)(const Version lhs, const Version rhs);
+    bool (HOST_API_CALL* const lessOrEqual)(const Version lhs, const Version rhs);
+    bool (HOST_API_CALL* const greaterThan)(const Version lhs, const Version rhs);
+    bool (HOST_API_CALL* const greaterOrEqual)(const Version lhs, const Version rhs);
 
-    IMemoryService::MemoryBlock(*const to_string)(const Version& v);
+    IMemoryService::MemoryBlock(HOST_API_CALL* const to_string)(const Version v);
 };
 
 #endif // IVERSIONSERVICE_H

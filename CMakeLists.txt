@@ -73,6 +73,7 @@ FetchContent_MakeAvailable(googletest)
 # Shared
 
 set(apiHeaders
+    api/CallingConventions.hpp
     api/ClientApi.hpp
     api/ApiStatusCode.hpp
     api/FeatureTags.hpp
@@ -178,6 +179,7 @@ target_include_directories(Host-MemoryService
 
 add_library(Host-VersionService STATIC
     host/versionservice/versionservice.hpp     host/versionservice/versionservice.cpp
+    host/versionservice/versionservice_dlx.hpp host/versionservice/versionservice_dlx.cpp
 )
 
 target_include_directories(Host-VersionService
