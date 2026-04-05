@@ -83,9 +83,9 @@ TEST_F(FileServiceTest, SpecialPaths)
     EXPECT_EQ(false, FileService::isSpecialPath("C:\\"));
     EXPECT_EQ(false, FileService::isSpecialPath("relative/path"));
 
-    EXPECT_EQ(true, FileService::isSpecialPath(STDOUTSTREAM));
-    EXPECT_EQ(true, FileService::isSpecialPath(DEBUGSTREAM));
-    EXPECT_EQ(true, FileService::isSpecialPath(NULLSTREAM));
+    EXPECT_EQ(true, FileService::isSpecialPath(IFileService::STDOUTSTREAM));
+    EXPECT_EQ(true, FileService::isSpecialPath(IFileService::DEBUGSTREAM));
+    EXPECT_EQ(true, FileService::isSpecialPath(IFileService::NULLSTREAM));
 
     EXPECT_EQ(true, FileService::isSpecialPath(":stdout:/title"));
     EXPECT_EQ(true, FileService::isSpecialPath("home/:stdout:"));
@@ -98,16 +98,15 @@ TEST_F(FileServiceTest, SpecialPaths)
     EXPECT_EQ(OutputStreamType::INVALID, outputStreamTypeFromFileName("::"));
     EXPECT_EQ(OutputStreamType::INVALID, outputStreamTypeFromFileName(":unknown_symbol:"));
 
-    EXPECT_EQ(OutputStreamType::STDOUT,     outputStreamTypeFromFileName(STDOUTSTREAM));
-    EXPECT_EQ(OutputStreamType::DEBUG,      outputStreamTypeFromFileName(DEBUGSTREAM));
-    EXPECT_EQ(OutputStreamType::NULLSTREAM, outputStreamTypeFromFileName(NULLSTREAM));
+    EXPECT_EQ(OutputStreamType::STDOUT,     outputStreamTypeFromFileName(IFileService::STDOUTSTREAM));
+    EXPECT_EQ(OutputStreamType::DEBUG,      outputStreamTypeFromFileName(IFileService::DEBUGSTREAM));
+    EXPECT_EQ(OutputStreamType::NULLSTREAM, outputStreamTypeFromFileName(IFileService::NULLSTREAM));
 
     std::filesystem::path nullpath;
     std::filesystem::path residual = "residual";
-    std::filesystem::path debug = DEBUGSTREAM;
-    std::filesystem::path prefixed = std::filesystem::path(DEBUGSTREAM) / residual;
-    std::filesystem::path postfixed = std::filesystem::path("home") / DEBUGSTREAM;
-    std::filesystem::path infixed = std::filesystem::path("home") / DEBUGSTREAM / residual;
+    std::filesystem::path prefixed = std::filesystem::path(IFileService::DEBUGSTREAM) / residual;
+    std::filesystem::path postfixed = std::filesystem::path("home") / IFileService::DEBUGSTREAM;
+    std::filesystem::path infixed = std::filesystem::path("home") / IFileService::DEBUGSTREAM / residual;
 
     EXPECT_EQ(
         std::make_pair(OutputStreamType::INVALID, nullpath),

@@ -25,17 +25,17 @@ namespace FileService
             return OutputStreamType::INVALID;
         }
 
-        if (filename == STDOUTSTREAM)
+        if (filename == IFileService::STDOUTSTREAM)
         {
             return OutputStreamType::STDOUT;
         }
 
-        if (filename == DEBUGSTREAM)
+        if (filename == IFileService::DEBUGSTREAM)
         {
             return OutputStreamType::DEBUG;
         }
 
-        if (filename == NULLSTREAM)
+        if (filename == IFileService::NULLSTREAM)
         {
             return OutputStreamType::NULLSTREAM;
         }

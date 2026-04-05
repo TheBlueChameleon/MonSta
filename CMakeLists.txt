@@ -112,6 +112,7 @@ target_include_directories(Host-ErrorService
 add_library(Host-FileService STATIC
     host/fileservice/debugstream.hpp
     host/fileservice/fileservice.hpp            host/fileservice/fileservice.cpp
+    host/fileservice/fileservice_dlx.hpp        host/fileservice/fileservice_dlx.cpp
     host/fileservice/fileservicedatabase.hpp    host/fileservice/fileservicedatabase.cpp
     host/fileservice/fileserviceoperations.hpp  host/fileservice/fileserviceoperations.cpp
     host/fileservice/nullstream.hpp

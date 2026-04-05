@@ -1,12 +1,9 @@
-#include <algorithm>
-#include <cstring>
 #include <fstream>
-
-#include "errorservice/errorservice.hpp"
 
 #include "loggerservice/loggerservice.hpp"
 
 #include "fileservice.hpp"
+#include "fileservice_dlx.hpp"
 #include "fileservicedatabase.hpp"
 #include "fileserviceoperations.hpp"
 #include "synchronizedostream.hpp"
@@ -15,7 +12,30 @@ namespace FileService
 {
     static FileServiceDatabase database;
 
-    static const std::set<std::string> specialNames = {STDOUTSTREAM, DEBUGSTREAM, NULLSTREAM};
+    static const std::set<std::string> specialNames =
+    {
+        IFileService::STDOUTSTREAM,
+        IFileService::DEBUGSTREAM,
+        IFileService::NULLSTREAM
+    };
+
+    IFileService exportService()
+    {
+        return IFileService(
+                   getInputBasePath_dlx,
+                   getOutputBasePath_dlx,
+
+                   read_dlx,
+
+                   write_dlx,
+                   writeBinary_dlx
+               );
+    }
+
+    FileServiceDatabase& getDatabase()
+    {
+        return database;
+    }
 
     bool isSpecialPath(const std::filesystem::path& path)
     {
@@ -65,19 +85,9 @@ namespace FileService
         return database.getInputBasePath();
     }
 
-    const char* const getInputBasePath_dlx()
-    {
-        return getInputBasePath().c_str();
-    }
-
     std::filesystem::__cxx11::path getOutputBasePath()
     {
         return database.getOutputBasePath();
-    }
-
-    const char* const getOutputBasePath_dlx()
-    {
-        return getOutputBasePath().c_str();
     }
 
     void setInputBasePath(const std::filesystem::__cxx11::path& newBase)
@@ -89,11 +99,6 @@ namespace FileService
         }
     }
 
-    void setInputBasePath_dlx(const char* const newBase)
-    {
-        setInputBasePath(newBase);
-    }
-
     void setOutputBasePath(const std::filesystem::__cxx11::path& newBase)
     {
         if (makeDirectoriesOrLog(newBase, getCreateDirectories()))
@@ -103,11 +108,6 @@ namespace FileService
         }
     }
 
-    void setOutputBasePath_dlx(const char* const newBase)
-    {
-        setOutputBasePath(newBase);
-    }
-
     void write(const std::filesystem::__cxx11::path& filename, const std::string_view content)
     {
         auto& stream = database.getOrCreateStream(filename);
@@ -115,35 +115,11 @@ namespace FileService
         stream << content;
     }
 
-    void write_dlx(const char* const filename, const char* const content)
-    {
-        try
-        {
-            write(filename, content);
-        }
-        catch (const std::exception& e)
-        {
-            ErrorService::setError(ApiStatusCode::IO_ERROR, e.what());
-        }
-    }
-
     void writeBinary(const std::filesystem::__cxx11::path& filename, const std::span<const std::byte> data)
     {
         auto& stream = database.getOrCreateStream(filename);
         LoggerService::traceF("writing into {}", filename.c_str());
         stream.write(data.data(), data.size());
-    }
-
-    void writeBinary_dlx(const char* const filename, const void* const data, size_t length)
-    {
-        try
-        {
-            writeBinary(filename, std::span(reinterpret_cast<const std::byte*>(data), length));
-        }
-        catch (const std::exception& e)
-        {
-            ErrorService::setError(ApiStatusCode::IO_ERROR, e.what());
-        }
     }
 
     std::string read(const std::filesystem::__cxx11::path& filename)
@@ -158,47 +134,8 @@ namespace FileService
         return result;
     }
 
-    IMemoryService::MemoryBlock read_dlx(const char* const filename)
-    {
-        try
-        {
-            auto stream = database.getReadStream(filename);
-            LoggerService::traceF("reading from {}", filename);
-            const auto size = getFileSize(stream);
-
-            IMemoryService::MemoryBlock result = MemoryService::allocate(size);
-            stream.read(result.data, size);
-
-            return result;
-        }
-        catch (const std::exception& e)
-        {
-            ErrorService::setError(ApiStatusCode::IO_ERROR, e.what());
-            return IMemoryService::MemoryBlock {nullptr, 0};
-        }
-    }
-
     const std::list<CreatedFileInfo>& getCreatedFileInfo()
     {
         return database.getCreatedFileInfo();
     }
-
-    IFileService exportService()
-    {
-        return IFileService(
-                   getInputBasePath_dlx,
-                   getOutputBasePath_dlx,
-
-                   read_dlx,
-
-                   write_dlx,
-                   writeBinary_dlx
-               );
-    }
-
-    FileServiceDatabase& getDatabase()
-    {
-        return database;
-    }
-
 }

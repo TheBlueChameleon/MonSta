@@ -11,6 +11,7 @@
 #include "fileservice/fileservice.hpp"
 #include "jsonservice/jsonservice.hpp"
 #include "loggerservice/loggerservice.hpp"
+#include "memoryservice/memoryservice.hpp"
 #include "versionservice/versionservice.hpp"
 
 #include "hostapiprovider.hpp"

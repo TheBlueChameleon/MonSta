@@ -3,23 +3,16 @@
 
 #include <filesystem>
 #include <list>
-#include <memory>
 #include <set>
 #include <span>
 
 #include <services/IFileService.hpp>
-
-#include "memoryservice/memoryservice.hpp"
 
 #include "types.hpp"
 
 namespace FileService
 {
     class FileServiceDatabase;
-
-    static constexpr auto STDOUTSTREAM = ":stdout:";
-    static constexpr auto DEBUGSTREAM  = ":debug:";
-    static constexpr auto NULLSTREAM   = ":null:";
 
     IFileService exportService();
 
@@ -37,25 +30,15 @@ namespace FileService
     void setDryMode(bool newDryMode);
 
     std::filesystem::path getInputBasePath();
-    const char* const getInputBasePath_dlx();
-
     std::filesystem::path getOutputBasePath();
-    const char* const getOutputBasePath_dlx();
 
     void setInputBasePath(const std::filesystem::path& newBase);
-    void setInputBasePath_dlx(const char* const newBase);
-
     void setOutputBasePath(const std::filesystem::path& newBase);
-    void setOutputBasePath_dlx(const char* const newBase);
 
     void write(const std::filesystem::path& filename, const std::string_view content);
-    void write_dlx(const char* const filename, const char* const content);
-
     void writeBinary(const std::filesystem::path& filename, const std::span<const std::byte> data);
-    void writeBinary_dlx(const char* const filename, const void* const data, size_t length);
 
     std::string read(const std::filesystem::path& filename);
-    IMemoryService::MemoryBlock read_dlx(const char* const filename);
 
     const std::list<CreatedFileInfo>& getCreatedFileInfo();
 }
