@@ -1,6 +1,7 @@
 #ifndef MEMORYSERVICE_H
 #define MEMORYSERVICE_H
 
+#include <span>
 #include <string_view>
 
 #include <services/IMemoryService.hpp>
@@ -13,9 +14,9 @@ namespace MemoryService
 
     IMemoryService::MemoryBlock createFromView(const std::string_view view);
 
-    IMemoryService::MemoryBlock createFromCstr(const char* const data);
+    IMemoryService::MemoryBlock createFromView(const std::span<std::byte> view);
 
-    void free(IMemoryService::MemoryBlock* stringData);
+    void free(IMemoryService::MemoryBlock* data);
 }
 
 #endif // MEMORYSERVICE_H

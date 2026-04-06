@@ -38,12 +38,12 @@ void HostApiProxy::rethrowHostError()
     }
 }
 
-const IErrorService errorService()
+const IErrorService& errorService()
 {
     return HostApiProxy().get().errorService;
 }
 
-const IFileService fileService()
+const IFileService& fileService()
 {
     return HostApiProxy().get().fileService;
 }
@@ -56,4 +56,9 @@ const IJsonService& jsonService()
 const ILoggerService& loggerService()
 {
     return HostApiProxy().get().loggerService;
+}
+
+const IMemoryService& memoryService()
+{
+    return HostApiProxy().get().memoryService;
 }

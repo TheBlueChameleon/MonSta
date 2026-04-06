@@ -170,7 +170,8 @@ target_link_libraries(Host-LoggerService
 # MemoryService
 
 add_library(Host-MemoryService STATIC
-    host/memoryservice/memoryservice.hpp host/memoryservice/memoryservice.cpp
+    host/memoryservice/memoryservice.hpp        host/memoryservice/memoryservice.cpp
+    host/memoryservice/memoryservice_dlx.hpp    host/memoryservice/memoryservice_dlx.cpp
 )
 
 target_include_directories(Host-MemoryService
@@ -272,6 +273,7 @@ add_library(Engine-Base STATIC
     engine-base/services/fileservice.hpp    engine-base/services/fileservice.cpp
     engine-base/services/jsonservice.hpp    engine-base/services/jsonservice.cpp
     engine-base/services/loggerservice.hpp  engine-base/services/loggerservice.cpp
+    engine-base/services/memoryservice.hpp  engine-base/services/memoryservice.cpp
 )
 
 target_include_directories(Engine-Base

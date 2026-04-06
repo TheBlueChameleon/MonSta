@@ -1,6 +1,7 @@
 #include <cstring>
 
 #include "memoryservice.hpp"
+#include "memoryservice_dlx.hpp"
 
 namespace MemoryService
 {
@@ -8,9 +9,9 @@ namespace MemoryService
     {
         return IMemoryService
         {
-            allocate,
-            createFromCstr,
-            free
+            allocate_dlx,
+            create_dlx,
+            free_dlx
         };
     }
 
@@ -32,20 +33,20 @@ namespace MemoryService
         return result;
     }
 
-    IMemoryService::MemoryBlock createFromCstr(const char* const data)
+    IMemoryService::MemoryBlock createFromView(const std::span<std::byte> view)
     {
-        const auto size = std::strlen(data);
+        const auto size = view.size();
         IMemoryService::MemoryBlock result = allocate(size);
-        std::strncpy(result.data, data, size);
+        std::memcpy(result.data, view.data(), size);
 
         return result;
     }
 
-    void free(IMemoryService::MemoryBlock* stringData)
+    void free(IMemoryService::MemoryBlock* data)
     {
-        delete stringData->data;
-        stringData->data = nullptr;
-        stringData->size = 0;
+        delete data->data;
+        data->data = nullptr;
+        data->size = 0;
     }
 
 }

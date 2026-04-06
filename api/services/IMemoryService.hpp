@@ -3,6 +3,8 @@
 
 #include <stddef.h>
 
+#include <CallingConventions.hpp>
+
 struct IMemoryService
 {
     struct MemoryBlock
@@ -11,9 +13,9 @@ struct IMemoryService
         size_t size;
     };
 
-    MemoryBlock(*const allocate)(const size_t size);
-    MemoryBlock(*const create)(const char* const data);
-    void (*const free)(MemoryBlock* stringData);
+    MemoryBlock(*const HOST_API_CALL allocate)(const size_t size);
+    MemoryBlock(*const HOST_API_CALL create)(const char* const data, size_t size);
+    void (*const HOST_API_CALL free)(MemoryBlock* stringData);
 };
 
 #endif // IMEMORYSERVICE_H
