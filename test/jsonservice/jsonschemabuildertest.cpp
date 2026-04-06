@@ -37,7 +37,7 @@ TEST_F(JsonSchemaBuilderTest, SubSchemaBuilder_All_InOrder)
     builder.setAdditionalProperties(json::object());
 
     builder.addProperty("property");
-    builder.addProperty("typedProperty", JsonType::BOOLEAN);
+    builder.addProperty("typedProperty", IJsonServiceTypes::JsonType::BOOLEAN);
     builder.addReference("ref");
 
     // when

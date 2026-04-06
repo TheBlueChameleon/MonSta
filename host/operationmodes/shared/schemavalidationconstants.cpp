@@ -9,8 +9,6 @@ using namespace JsonService;
 
 #include "schemavalidationconstants.hpp"
 
-using Json = nlohmann::json;
-
 namespace OperationModes
 {
     // ====================================================================== //
@@ -30,9 +28,9 @@ namespace OperationModes
     {
         auto logging = JsonSubSchemaBuilder(JKEY_LOGGING);
 
-        logging.addProperty(JKEY_LOGGING_LOGFILE, JsonType::STRING);
+        logging.addProperty(JKEY_LOGGING_LOGFILE, IJsonServiceTypes::JsonType::STRING);
 
-        logging.addProperty(JKEY_LOGGING_LOGLEVEL, JsonType::STRING)
+        logging.addProperty(JKEY_LOGGING_LOGLEVEL, IJsonServiceTypes::JsonType::STRING)
         .addEnum(
         {
             ILoggerService::LOGLEVELNAME_TRACE,
@@ -62,25 +60,25 @@ namespace OperationModes
             JKEY_SIMULATOR_ENGINE, JKEY_SIMULATOR_INPUTDIRECTORY, JKEY_SIMULATOR_OUTPUTDIRECTORY
         });
 
-        simulator.addProperty(JKEY_SIMULATOR_ENGINE, JsonType::STRING);
+        simulator.addProperty(JKEY_SIMULATOR_ENGINE, IJsonServiceTypes::JsonType::STRING);
 
-        simulator.addProperty(JKEY_SIMULATOR_INPUTDIRECTORY, JsonType::STRING);
+        simulator.addProperty(JKEY_SIMULATOR_INPUTDIRECTORY, IJsonServiceTypes::JsonType::STRING);
 
-        simulator.addProperty(JKEY_SIMULATOR_OUTPUTDIRECTORY, JsonType::STRING);
+        simulator.addProperty(JKEY_SIMULATOR_OUTPUTDIRECTORY, IJsonServiceTypes::JsonType::STRING);
 
-        simulator.addProperty(JKEY_SIMULATOR_REPETITIONS, JsonType::INTEGER)
+        simulator.addProperty(JKEY_SIMULATOR_REPETITIONS, IJsonServiceTypes::JsonType::INTEGER)
         .addMinimum(1)
         .addDefault(100);
 
-        simulator.addProperty(JKEY_SIMULATOR_MAXTURNS, JsonType::INTEGER)
+        simulator.addProperty(JKEY_SIMULATOR_MAXTURNS, IJsonServiceTypes::JsonType::INTEGER)
         .addMinimum(1)
         .addDefault(100);
 
-        simulator.addProperty(JKEY_SIMULATOR_THREADCOUNT, JsonType::INTEGER)
+        simulator.addProperty(JKEY_SIMULATOR_THREADCOUNT, IJsonServiceTypes::JsonType::INTEGER)
         .addMinimum(1)
         .addDefault(1);
 
-        simulator.addProperty(JKEY_SIMULATOR_ARGS, JsonType::STRING);
+        simulator.addProperty(JKEY_SIMULATOR_ARGS, IJsonServiceTypes::JsonType::STRING);
 
         return simulator;
     }
@@ -103,21 +101,21 @@ namespace OperationModes
             JKEY_MATCHDEFINITION_ITEMDEFS
         });
 
-        matchDefinition.addProperty(JKEY_MATCHDEFINITION_PLAYER1STRATETY, JsonType::STRING);
+        matchDefinition.addProperty(JKEY_MATCHDEFINITION_PLAYER1STRATETY, IJsonServiceTypes::JsonType::STRING);
 
-        matchDefinition.addProperty(JKEY_MATCHDEFINITION_PLAYER2STRATETY, JsonType::STRING);
+        matchDefinition.addProperty(JKEY_MATCHDEFINITION_PLAYER2STRATETY, IJsonServiceTypes::JsonType::STRING);
 
-        matchDefinition.addProperty(JKEY_MATCHDEFINITION_PLAYER1TEAM, JsonType::STRING);
+        matchDefinition.addProperty(JKEY_MATCHDEFINITION_PLAYER1TEAM, IJsonServiceTypes::JsonType::STRING);
 
-        matchDefinition.addProperty(JKEY_MATCHDEFINITION_PLAYER2TEAM, JsonType::STRING);
+        matchDefinition.addProperty(JKEY_MATCHDEFINITION_PLAYER2TEAM, IJsonServiceTypes::JsonType::STRING);
 
-        matchDefinition.addProperty(JKEY_MATCHDEFINITION_PKMNDEFS, JsonType::STRING);
+        matchDefinition.addProperty(JKEY_MATCHDEFINITION_PKMNDEFS, IJsonServiceTypes::JsonType::STRING);
 
-        matchDefinition.addProperty(JKEY_MATCHDEFINITION_MOVEDEFS, JsonType::STRING);
+        matchDefinition.addProperty(JKEY_MATCHDEFINITION_MOVEDEFS, IJsonServiceTypes::JsonType::STRING);
 
-        matchDefinition.addProperty(JKEY_MATCHDEFINITION_TYPEDEFS, JsonType::STRING);
+        matchDefinition.addProperty(JKEY_MATCHDEFINITION_TYPEDEFS, IJsonServiceTypes::JsonType::STRING);
 
-        matchDefinition.addProperty(JKEY_MATCHDEFINITION_ITEMDEFS, JsonType::STRING);
+        matchDefinition.addProperty(JKEY_MATCHDEFINITION_ITEMDEFS, IJsonServiceTypes::JsonType::STRING);
 
         return matchDefinition;
     }
@@ -161,30 +159,30 @@ namespace OperationModes
             JKEY_TEMPLATES_ENGINE, JKEY_TEMPLATES_OUTPUTDIRECTORY
         });
 
-        result.addProperty(JKEY_TEMPLATES_ENGINE, JsonType::STRING);
+        result.addProperty(JKEY_TEMPLATES_ENGINE, IJsonServiceTypes::JsonType::STRING);
 
-        result.addProperty(JKEY_TEMPLATES_OUTPUTDIRECTORY, JsonType::STRING);
+        result.addProperty(JKEY_TEMPLATES_OUTPUTDIRECTORY, IJsonServiceTypes::JsonType::STRING);
 
-        result.addProperty(JKEY_TEMPLATES_WRITESCHEMAS, JsonType::BOOLEAN)
+        result.addProperty(JKEY_TEMPLATES_WRITESCHEMAS, IJsonServiceTypes::JsonType::BOOLEAN)
         .addDefault(true);
 
-        result.addProperty(JKEY_TEMPLATES_PLAYER1TEAM, JsonType::STRING);
+        result.addProperty(JKEY_TEMPLATES_PLAYER1TEAM, IJsonServiceTypes::JsonType::STRING);
 
-        result.addProperty(JKEY_TEMPLATES_PLAYER1STRATEGY, JsonType::STRING);
+        result.addProperty(JKEY_TEMPLATES_PLAYER1STRATEGY, IJsonServiceTypes::JsonType::STRING);
 
-        result.addProperty(JKEY_TEMPLATES_PLAYER2TEAM, JsonType::STRING);
+        result.addProperty(JKEY_TEMPLATES_PLAYER2TEAM, IJsonServiceTypes::JsonType::STRING);
 
-        result.addProperty(JKEY_TEMPLATES_PLAYER2STRATEGY, JsonType::STRING);
+        result.addProperty(JKEY_TEMPLATES_PLAYER2STRATEGY, IJsonServiceTypes::JsonType::STRING);
 
-        result.addProperty(JKEY_TEMPLATES_PKMNDEFS, JsonType::STRING);
+        result.addProperty(JKEY_TEMPLATES_PKMNDEFS, IJsonServiceTypes::JsonType::STRING);
 
-        result.addProperty(JKEY_TEMPLATES_MOVEDEFS, JsonType::STRING);
+        result.addProperty(JKEY_TEMPLATES_MOVEDEFS, IJsonServiceTypes::JsonType::STRING);
 
-        result.addProperty(JKEY_TEMPLATES_TYPEDEFS, JsonType::STRING);
+        result.addProperty(JKEY_TEMPLATES_TYPEDEFS, IJsonServiceTypes::JsonType::STRING);
 
-        result.addProperty(JKEY_TEMPLATES_ITEMDEFS, JsonType::STRING);
+        result.addProperty(JKEY_TEMPLATES_ITEMDEFS, IJsonServiceTypes::JsonType::STRING);
 
-        result.addProperty(JKEY_TEMPLATES_ARGS, JsonType::STRING);
+        result.addProperty(JKEY_TEMPLATES_ARGS, IJsonServiceTypes::JsonType::STRING);
 
         return result;
     }

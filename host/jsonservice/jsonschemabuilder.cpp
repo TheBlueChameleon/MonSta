@@ -75,34 +75,38 @@ namespace JsonService
         return *this;
     }
 
-    JsonSchemaElementBuilder& JsonSchemaElementBuilder::addType(const JsonType type)
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::addType(const IJsonServiceTypes::JsonType type)
     {
         switch (type)
         {
-            case JsonType::ANY:
-                return *this;
-            case JsonType::VOID:
+            case IJsonServiceTypes::JsonType::VOID:
                 return addProperty("type", "null");
-            case JsonType::BOOLEAN:
-                return addProperty("type", "boolean");
-            case JsonType::INTEGER:
-                return addProperty("type", "integer");
-            case JsonType::NUMBER:
-                return addProperty("type", "number");
-            case JsonType::STRING:
-                return addProperty("type", "string");
-            case JsonType::ARRAY:
-                return addProperty("type", "array");
-            case JsonType::OBJECT:
+            case IJsonServiceTypes::JsonType::OBJECT:
                 return addProperty("type", "object");
+            case IJsonServiceTypes::JsonType::ARRAY:
+                return addProperty("type", "array");
+            case IJsonServiceTypes::JsonType::STRING:
+                return addProperty("type", "string");
+            case IJsonServiceTypes::JsonType::BOOLEAN:
+                return addProperty("type", "boolean");
+            case IJsonServiceTypes::JsonType::INTEGER:
+                return addProperty("type", "integer");
+            case IJsonServiceTypes::JsonType::UNSIGNED:
+                return addProperty("type", "unsigned");
+            case IJsonServiceTypes::JsonType::FLOAT:
+                return addProperty("type", "number");
+            case IJsonServiceTypes::JsonType::BINARY:
+                return addProperty("type", "binary");
+            case IJsonServiceTypes::JsonType::DISCARDED:
+                break;
         }
 
         throw IllegalHostStateException("Unknown Json data type: "s + std::to_string(static_cast<int>(type)));
     }
 
-    JsonSchemaElementBuilder& JsonSchemaElementBuilder::addTypedArray(const JsonType type)
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::addTypedArray(const IJsonServiceTypes::JsonType type)
     {
-        return addType(JsonType::ARRAY)
+        return addType(IJsonServiceTypes::JsonType::ARRAY)
                .addProperty("items",
                             JsonSchemaElementBuilder().addType(type).getJson()
                            );
@@ -178,7 +182,7 @@ namespace JsonService
         return elements.back();
     }
 
-    JsonSchemaElementBuilder& JsonSubSchemaBuilder::addProperty(const std::string_view name, JsonType type)
+    JsonSchemaElementBuilder& JsonSubSchemaBuilder::addProperty(const std::string_view name, IJsonServiceTypes::JsonType type)
     {
         elements.emplace_back(name);
         elements.back().addType(type);
@@ -194,7 +198,7 @@ namespace JsonService
 
     JsonSubSchemaBuilder& JsonSubSchemaBuilder::addReference(
         const std::string_view name,
-        const JsonSubSchemaBuilder& subSchema, const JsonType type,
+        const JsonSubSchemaBuilder& subSchema, const IJsonServiceTypes::JsonType type,
         bool setDefaults
     )
     {
@@ -260,7 +264,7 @@ namespace JsonService
     JsonSchemaBuilder& JsonSchemaBuilder::addReference(
         const std::string_view name,
         const JsonSubSchemaBuilder& subSchema,
-        const JsonType type,
+        const IJsonServiceTypes::JsonType type,
         bool setDefaults
     )
     {
@@ -304,7 +308,7 @@ namespace JsonService
         return elements.back();
     }
 
-    JsonSchemaElementBuilder& JsonSchemaBuilder::addProperty(const std::string_view name, JsonType type)
+    JsonSchemaElementBuilder& JsonSchemaBuilder::addProperty(const std::string_view name, IJsonServiceTypes::JsonType type)
     {
         elements.emplace_back(name);
         elements.back().addType(type);

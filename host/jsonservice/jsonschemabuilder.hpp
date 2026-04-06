@@ -7,10 +7,10 @@
 
 #include <nlohmann/json.hpp>
 
+#include <services/JsonService/IJsonService_Types.hpp>
+
 namespace JsonService
 {
-    enum class JsonType {ANY, VOID, BOOLEAN, INTEGER, NUMBER, STRING, ARRAY, OBJECT};
-
     class JsonSchemaElementBuilder
     {
         private:
@@ -26,8 +26,8 @@ namespace JsonService
             const std::string_view getName() const;
 
             JsonSchemaElementBuilder& addProperty(const std::string_view key, const nlohmann::ordered_json& value);
-            JsonSchemaElementBuilder& addType(const JsonType type);
-            JsonSchemaElementBuilder& addTypedArray(const JsonType type);
+            JsonSchemaElementBuilder& addType(const IJsonServiceTypes::JsonType type);
+            JsonSchemaElementBuilder& addTypedArray(const IJsonServiceTypes::JsonType type);
             JsonSchemaElementBuilder& addEnum(const std::list<nlohmann::ordered_json>& items);
             JsonSchemaElementBuilder& addDescription(const std::string_view value);
             JsonSchemaElementBuilder& addTitle(const std::string_view value);
@@ -55,12 +55,12 @@ namespace JsonService
             JsonSubSchemaBuilder& setRequired(const std::list<std::string>& required);
 
             JsonSchemaElementBuilder& addProperty(const std::string_view name);
-            JsonSchemaElementBuilder& addProperty(const std::string_view name, JsonType type);
+            JsonSchemaElementBuilder& addProperty(const std::string_view name, IJsonServiceTypes::JsonType type);
             JsonSchemaElementBuilder& addReference(const std::string_view name);
             JsonSubSchemaBuilder&     addReference(
                 const std::string_view name,
                 const JsonSubSchemaBuilder& subSchema,
-                const JsonType type = JsonType::OBJECT,
+                const IJsonServiceTypes::JsonType type = IJsonServiceTypes::JsonType::OBJECT,
                 bool setDefaults = true
             );
 
@@ -85,14 +85,14 @@ namespace JsonService
             JsonSchemaBuilder&          addReference(
                 const std::string_view name,
                 const JsonSubSchemaBuilder& subSchema,
-                const JsonType type = JsonType::OBJECT,
+                const IJsonServiceTypes::JsonType type = IJsonServiceTypes::JsonType::OBJECT,
                 bool setDefaults = true
             );
             JsonSubSchemaBuilder&       addSubSchema(const std::string_view name);
             JsonSchemaBuilder&          addSubSchema(const JsonSubSchemaBuilder& subSchema);
             JsonSchemaBuilder&          addSubSchema(JsonSubSchemaBuilder&& subSchema);
             JsonSchemaElementBuilder&   addProperty(const std::string_view name);
-            JsonSchemaElementBuilder&   addProperty(const std::string_view name, JsonType type);
+            JsonSchemaElementBuilder&   addProperty(const std::string_view name, IJsonServiceTypes::JsonType type);
 
             nlohmann::ordered_json build() const;
     };

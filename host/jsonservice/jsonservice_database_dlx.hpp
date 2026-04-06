@@ -10,18 +10,18 @@ namespace JsonService
     // ---------------------------------------------------------------------- //
     // JsonDatabase
 
-    const HOST_API_CALL IJsonServiceTypes::EntryState getState_dlx(const IJsonServiceTypes::JsonTag tag);
-    const HOST_API_CALL IJsonServiceTypes::JsonHandle get_dlx(const IJsonServiceTypes::JsonTag tag);
-    const HOST_API_CALL IJsonServiceTypes::JsonHandle getOrAdd_dlx(
+    const IJsonServiceTypes::EntryState HOST_API_CALL getState_dlx(const IJsonServiceTypes::JsonTag tag);
+    const IJsonServiceTypes::JsonHandle HOST_API_CALL get_dlx(const IJsonServiceTypes::JsonTag tag);
+    const IJsonServiceTypes::JsonHandle HOST_API_CALL getOrAdd_dlx(
         const IJsonServiceTypes::JsonTag tag,
         const void(*creator)(const IJsonServiceTypes::ModifiableJsonHandle)
     );
-    const HOST_API_CALL IJsonServiceTypes::JsonHandle getOrParse_dlx(
+    const IJsonServiceTypes::JsonHandle HOST_API_CALL getOrParse_dlx(
         const IJsonServiceTypes::JsonTag tag,
         const char* const json
     );
-    const HOST_API_CALL IJsonServiceTypes::ModifiableJsonHandle declare_dlx(const IJsonServiceTypes::JsonTag tag);
-    const HOST_API_CALL IJsonServiceTypes::JsonHandle commit_dlx(const IJsonServiceTypes::JsonTag tag);
+    const IJsonServiceTypes::ModifiableJsonHandle HOST_API_CALL declare_dlx(const IJsonServiceTypes::JsonTag tag);
+    const IJsonServiceTypes::JsonHandle HOST_API_CALL commit_dlx(const IJsonServiceTypes::JsonTag tag);
 
     // ---------------------------------------------------------------------- //
     // Parsing & Validation
