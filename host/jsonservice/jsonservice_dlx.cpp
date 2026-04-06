@@ -13,7 +13,7 @@ namespace JsonService
     // ====================================================================== //
     // JsonDatabase
 
-    const IJsonService::EntryState getState_dlx(const IJsonService::JsonTag tag)
+    const IJsonService::EntryState HOST_API_CALL getState_dlx(const IJsonService::JsonTag tag)
     {
         try
         {
@@ -24,7 +24,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION(IJsonService::EntryState::ERROR)
     }
 
-    const IJsonService::JsonHandle get_dlx(const IJsonService::JsonTag tag)
+    const IJsonService::JsonHandle HOST_API_CALL get_dlx(const IJsonService::JsonTag tag)
     {
         try
         {
@@ -35,7 +35,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION(IJsonService::JsonHandle(nullptr))
     }
 
-    const IJsonService::JsonHandle getOrAdd_dlx(
+    const IJsonService::JsonHandle HOST_API_CALL getOrAdd_dlx(
         const IJsonService::JsonTag tag,
         const void(*creator)(const IJsonService::ModifiableJsonHandle)
     )
@@ -61,7 +61,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION(IJsonService::JsonHandle(nullptr))
     }
 
-    const IJsonService::JsonHandle getOrParse_dlx(const IJsonService::JsonTag tag, const char* const json)
+    const IJsonService::JsonHandle HOST_API_CALL getOrParse_dlx(const IJsonService::JsonTag tag, const char* const json)
     {
         try
         {
@@ -76,7 +76,7 @@ namespace JsonService
 
     }
 
-    const IJsonService::ModifiableJsonHandle declare_dlx(const IJsonService::JsonTag tag)
+    const IJsonService::ModifiableJsonHandle HOST_API_CALL declare_dlx(const IJsonService::JsonTag tag)
     {
         try
         {
@@ -96,7 +96,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION(IJsonService::ModifiableJsonHandle(nullptr))
     }
 
-    const IJsonService::JsonHandle commit_dlx(const IJsonService::JsonTag tag)
+    const IJsonService::JsonHandle HOST_API_CALL commit_dlx(const IJsonService::JsonTag tag)
     {
         try
         {
@@ -110,7 +110,7 @@ namespace JsonService
     // ====================================================================== //
     // Json compatibility layer
 
-    const IJsonService::JsonHandle navigateTo_dlx(const IJsonService::JsonHandle handle, const char* const jsonPointer)
+    const IJsonService::JsonHandle HOST_API_CALL navigateTo_dlx(const IJsonService::JsonHandle handle, const char* const jsonPointer)
     {
         try
         {
@@ -136,7 +136,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION(IJsonService::JsonHandle(nullptr))
     }
 
-    const bool contains_dlx(const IJsonService::JsonHandle handle, const char* const elementName)
+    const bool HOST_API_CALL contains_dlx(const IJsonService::JsonHandle handle, const char* const elementName)
     {
         try
         {
@@ -148,7 +148,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION(false)
     }
 
-    const IJsonService::JsonType getType_dlx(const IJsonService::JsonHandle handle)
+    const IJsonService::JsonType HOST_API_CALL getType_dlx(const IJsonService::JsonHandle handle)
     {
         try
         {
@@ -160,7 +160,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION(IJsonService::JsonType::VOID)
     }
 
-    const bool isNull_dlx(const IJsonService::JsonHandle handle)
+    const bool HOST_API_CALL isNull_dlx(const IJsonService::JsonHandle handle)
     {
         try
         {
@@ -172,7 +172,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION(false)
     }
 
-    const bool isBoolean_dlx(const IJsonService::JsonHandle handle)
+    const bool HOST_API_CALL isBoolean_dlx(const IJsonService::JsonHandle handle)
     {
         try
         {
@@ -184,7 +184,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION(false)
     }
 
-    const bool isInteger_dlx(const IJsonService::JsonHandle handle)
+    const bool HOST_API_CALL isInteger_dlx(const IJsonService::JsonHandle handle)
     {
         try
         {
@@ -196,7 +196,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION(false)
     }
 
-    const bool isUnsigned_dlx(const IJsonService::JsonHandle handle)
+    const bool HOST_API_CALL isUnsigned_dlx(const IJsonService::JsonHandle handle)
     {
         try
         {
@@ -208,7 +208,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION(false)
     }
 
-    const bool isFloat_dlx(const IJsonService::JsonHandle handle)
+    const bool HOST_API_CALL isFloat_dlx(const IJsonService::JsonHandle handle)
     {
         try
         {
@@ -220,7 +220,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION(false)
     }
 
-    const bool isString_dlx(const IJsonService::JsonHandle handle)
+    const bool HOST_API_CALL isString_dlx(const IJsonService::JsonHandle handle)
     {
         try
         {
@@ -232,7 +232,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION(false)
     }
 
-    const bool isArray_dlx(const IJsonService::JsonHandle handle)
+    const bool HOST_API_CALL isArray_dlx(const IJsonService::JsonHandle handle)
     {
         try
         {
@@ -244,7 +244,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION(false)
     }
 
-    const bool isObject_dlx(const IJsonService::JsonHandle handle)
+    const bool HOST_API_CALL isObject_dlx(const IJsonService::JsonHandle handle)
     {
         try
         {
@@ -256,7 +256,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION(false)
     }
 
-    const bool getAsBool_dlx(const IJsonService::JsonHandle handle)
+    const bool HOST_API_CALL getAsBool_dlx(const IJsonService::JsonHandle handle)
     {
         try
         {
@@ -272,7 +272,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION(false)
     }
 
-    const int getAsInteger_dlx(const IJsonService::JsonHandle handle)
+    const int HOST_API_CALL getAsInteger_dlx(const IJsonService::JsonHandle handle)
     {
         try
         {
@@ -288,7 +288,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION(0)
     }
 
-    const unsigned long long getAsUnsigned_dlx(const IJsonService::JsonHandle handle)
+    const unsigned long long HOST_API_CALL getAsUnsigned_dlx(const IJsonService::JsonHandle handle)
     {
         try
         {
@@ -304,7 +304,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION(0)
     }
 
-    const double getAsFloat_dlx(const IJsonService::JsonHandle handle)
+    const double HOST_API_CALL getAsFloat_dlx(const IJsonService::JsonHandle handle)
     {
         try
         {
@@ -320,7 +320,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION(false)
     }
 
-    const char* const getAsString_dlx(const IJsonService::JsonHandle handle)
+    const char* const HOST_API_CALL getAsString_dlx(const IJsonService::JsonHandle handle)
     {
         try
         {
@@ -337,7 +337,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION("")
     }
 
-    const int getArraySize_dlx(const IJsonService::JsonHandle handle)
+    const int HOST_API_CALL getArraySize_dlx(const IJsonService::JsonHandle handle)
     {
         try
         {
@@ -349,7 +349,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION(-1)
     }
 
-    const IJsonService::JsonHandle getArrayItem_dlx(const IJsonService::JsonHandle handle, const int index)
+    const IJsonService::JsonHandle HOST_API_CALL getArrayItem_dlx(const IJsonService::JsonHandle handle, const int index)
     {
         try
         {
@@ -380,7 +380,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION(IJsonService::JsonHandle(nullptr))
     }
 
-    void setToNull_dlx(const IJsonService::ModifiableJsonHandle handle)
+    void HOST_API_CALL setToNull_dlx(const IJsonService::ModifiableJsonHandle handle)
     {
         try
         {
@@ -392,7 +392,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION()
     }
 
-    void setToBool_dlx(const IJsonService::ModifiableJsonHandle handle, const bool value)
+    void HOST_API_CALL setToBool_dlx(const IJsonService::ModifiableJsonHandle handle, const bool value)
     {
         try
         {
@@ -404,7 +404,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION()
     }
 
-    void setToInteger_dlx(const IJsonService::ModifiableJsonHandle handle, const int value)
+    void HOST_API_CALL setToInteger_dlx(const IJsonService::ModifiableJsonHandle handle, const int value)
     {
         try
         {
@@ -416,7 +416,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION()
     }
 
-    void setToUnsigned_dlx(const IJsonService::ModifiableJsonHandle handle, const unsigned int value)
+    void HOST_API_CALL setToUnsigned_dlx(const IJsonService::ModifiableJsonHandle handle, const unsigned int value)
     {
         try
         {
@@ -428,7 +428,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION()
     }
 
-    void setToFloat_dlx(const IJsonService::ModifiableJsonHandle handle, const double value)
+    void HOST_API_CALL setToFloat_dlx(const IJsonService::ModifiableJsonHandle handle, const double value)
     {
         try
         {
@@ -440,7 +440,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION()
     }
 
-    void setToString_dlx(const IJsonService::ModifiableJsonHandle handle, const char* const value)
+    void HOST_API_CALL setToString_dlx(const IJsonService::ModifiableJsonHandle handle, const char* const value)
     {
         try
         {
@@ -452,7 +452,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION()
     }
 
-    void setToHandle_dlx(const IJsonService::ModifiableJsonHandle handle, const IJsonService::JsonHandle source)
+    void HOST_API_CALL setToHandle_dlx(const IJsonService::ModifiableJsonHandle handle, const IJsonService::JsonHandle source)
     {
         try
         {
@@ -465,18 +465,18 @@ namespace JsonService
     }
 
     // TODO: maybe type check source is Array?
-    void setToArray_dlx(const IJsonService::ModifiableJsonHandle handle, const IJsonService::JsonHandle source)
+    void HOST_API_CALL setToArray_dlx(const IJsonService::ModifiableJsonHandle handle, const IJsonService::JsonHandle source)
     {
         setToHandle_dlx(handle, source);
     }
 
     // TODO: maybe type check source is Object?
-    void setToObject_dlx(const IJsonService::ModifiableJsonHandle handle, const IJsonService::JsonHandle source)
+    void HOST_API_CALL setToObject_dlx(const IJsonService::ModifiableJsonHandle handle, const IJsonService::JsonHandle source)
     {
         setToHandle_dlx(handle, source);
     }
 
-    void setToParseable_dlx(const IJsonService::ModifiableJsonHandle handle, const char* const source)
+    void HOST_API_CALL setToParseable_dlx(const IJsonService::ModifiableJsonHandle handle, const char* const source)
     {
         try
         {
@@ -492,7 +492,7 @@ namespace JsonService
     // ====================================================================== //
     // Parsing & Validation
 
-    const IJsonService::JsonHandle parseValidatePatchAndAdd_dlx(
+    const IJsonService::JsonHandle HOST_API_CALL parseValidatePatchAndAdd_dlx(
         const IJsonService::JsonTag tag,
         const char* const json,
         const IJsonService::JsonTag validationSchemaTag
@@ -513,7 +513,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION(IJsonService::JsonHandle(nullptr))
     }
 
-    const IJsonService::JsonHandle readValidatePatchAndAdd_dlx(
+    const IJsonService::JsonHandle HOST_API_CALL readValidatePatchAndAdd_dlx(
         const IJsonService::JsonTag tag,
         const char* const file,
         const IJsonService::JsonTag validationSchemaTag
