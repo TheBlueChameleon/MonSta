@@ -6,7 +6,9 @@
 #include "errorservice/errors.hpp"
 
 #include "jsonservice.hpp"
-#include "jsonservice_dlx.hpp"
+#include "jsonservice_database_dlx.hpp"
+#include "jsonservice_itemaccess_dlx.hpp"
+#include "jsonservice_schemabuilder_dlx.hpp"
 
 using namespace nlohmann;
 using namespace nlohmann::json_schema;
@@ -27,54 +29,52 @@ namespace JsonService
     {
         return IJsonService
         {
-            // .............................................................. //
-            // Database
-            getState_dlx,
-            get_dlx,
-            getOrAdd_dlx,
-            getOrParse_dlx,
-            declare_dlx,
-            commit_dlx,
+            IJsonService_Database{
+                getState_dlx,
+                get_dlx,
+                getOrAdd_dlx,
+                getOrParse_dlx,
+                declare_dlx,
+                commit_dlx,
 
-            // .............................................................. //
-            // nlohmann compatibility layer
-            navigateTo_dlx,
-            contains_dlx,
+                parseValidatePatchAndAdd_dlx,
+                readValidatePatchAndAdd_dlx
+            },
 
-            getType_dlx,
-            isNull_dlx,
-            isBoolean_dlx,
-            isInteger_dlx,
-            isUnsigned_dlx,
-            isFloat_dlx,
-            isString_dlx,
-            isArray_dlx,
-            isObject_dlx,
+            IJsonService_ItemAccess{
+                navigateTo_dlx,
+                contains_dlx,
 
-            getAsBool_dlx,
-            getAsInteger_dlx,
-            getAsUnsigned_dlx,
-            getAsFloat_dlx,
-            getAsString_dlx,
+                getType_dlx,
+                isNull_dlx,
+                isBoolean_dlx,
+                isInteger_dlx,
+                isUnsigned_dlx,
+                isFloat_dlx,
+                isString_dlx,
+                isArray_dlx,
+                isObject_dlx,
 
-            getArraySize_dlx,
-            getArrayItem_dlx,
+                getAsBool_dlx,
+                getAsInteger_dlx,
+                getAsUnsigned_dlx,
+                getAsFloat_dlx,
+                getAsString_dlx,
 
-            setToNull_dlx,
-            setToBool_dlx,
-            setToInteger_dlx,
-            setToUnsigned_dlx,
-            setToFloat_dlx,
-            setToString_dlx,
-            setToHandle_dlx,
-            setToArray_dlx,
-            setToObject_dlx,
-            setToParseable_dlx,
+                getArraySize_dlx,
+                getArrayItem_dlx,
 
-            // .............................................................. //
-            // read & parse
-            parseValidatePatchAndAdd_dlx,
-            readValidatePatchAndAdd_dlx
+                setToNull_dlx,
+                setToBool_dlx,
+                setToInteger_dlx,
+                setToUnsigned_dlx,
+                setToFloat_dlx,
+                setToString_dlx,
+                setToHandle_dlx,
+                setToArray_dlx,
+                setToObject_dlx,
+                setToParseable_dlx
+            }
         };
     }
 
@@ -86,7 +86,7 @@ namespace JsonService
         return database;
     }
 
-    const IJsonService::EntryState getState(const IJsonService::JsonTag tag)
+    const IJsonServiceTypes::EntryState getState(const IJsonServiceTypes::JsonTag tag)
     {
         const auto opt = database.getState(tag);
         if (opt.has_value())
@@ -94,55 +94,55 @@ namespace JsonService
             switch (opt.value())
             {
                 case JsonServiceDatabase::EntryState::DECLARED:
-                    return IJsonService::EntryState::DECLARED;
+                    return IJsonServiceTypes::EntryState::DECLARED;
                 case JsonServiceDatabase::EntryState::READY:
-                    return IJsonService::EntryState::READY;
+                    return IJsonServiceTypes::EntryState::READY;
             }
         }
         else
         {
-            return IJsonService::EntryState::NONEXISTENT;
+            return IJsonServiceTypes::EntryState::NONEXISTENT;
         }
 
         throw IllegalHostStateException("Unknown Entry State in tag '"s + tag.name + "'");
     }
 
-    const nlohmann::ordered_json& get(const IJsonService::JsonTag tag)
+    const nlohmann::ordered_json& get(const IJsonServiceTypes::JsonTag tag)
     {
         return database.get(tag.name);
     }
 
-    const nlohmann::ordered_json& add(const IJsonService::JsonTag tag, const nlohmann::ordered_json& json)
+    const nlohmann::ordered_json& add(const IJsonServiceTypes::JsonTag tag, const nlohmann::ordered_json& json)
     {
         return database.add(tag, json);
     }
 
-    const nlohmann::ordered_json& add(const IJsonService::JsonTag tag, ordered_json&& json)
+    const nlohmann::ordered_json& add(const IJsonServiceTypes::JsonTag tag, ordered_json&& json)
     {
         return database.add(tag, std::move(json));
     }
 
-    const nlohmann::ordered_json& getOrAdd(const IJsonService::JsonTag tag, std::function<void(nlohmann::ordered_json&)> creator)
+    const nlohmann::ordered_json& getOrAdd(const IJsonServiceTypes::JsonTag tag, std::function<void(nlohmann::ordered_json&)> creator)
     {
         return database.getOrAdd(tag, creator);
     }
 
-    const ordered_json& getOrAdd(const IJsonService::JsonTag tag, const nlohmann::ordered_json& json)
+    const ordered_json& getOrAdd(const IJsonServiceTypes::JsonTag tag, const nlohmann::ordered_json& json)
     {
         return database.getOrAdd(tag, json);
     }
 
-    const ordered_json& getOrAdd(const IJsonService::JsonTag tag, nlohmann::ordered_json&& json)
+    const ordered_json& getOrAdd(const IJsonServiceTypes::JsonTag tag, nlohmann::ordered_json&& json)
     {
         return database.getOrAdd(tag, std::move(json));
     }
 
-    std::optional<std::reference_wrapper<nlohmann::ordered_json>> declare(const IJsonService::JsonTag tag)
+    std::optional<std::reference_wrapper<nlohmann::ordered_json>> declare(const IJsonServiceTypes::JsonTag tag)
     {
         return database.declare(tag);
     }
 
-    const nlohmann::ordered_json& commit(const IJsonService::JsonTag tag)
+    const nlohmann::ordered_json& commit(const IJsonServiceTypes::JsonTag tag)
     {
         return database.commit(tag);
     }
@@ -172,7 +172,7 @@ namespace JsonService
         }
     }
 
-    const ordered_json& parseAndAdd(const IJsonService::JsonTag tag, const std::string_view data)
+    const ordered_json& parseAndAdd(const IJsonServiceTypes::JsonTag tag, const std::string_view data)
     {
         return getOrAdd(tag, parse(data));
     }
@@ -227,7 +227,7 @@ namespace JsonService
     }
 
     const ordered_json& validatePatchAndAdd(
-        const IJsonService::JsonTag tag,
+        const IJsonServiceTypes::JsonTag tag,
         const nlohmann::ordered_json& data,
         const nlohmann::ordered_json& schema
     )
@@ -252,7 +252,7 @@ namespace JsonService
         }
     }
 
-    const ordered_json readAndAdd(const IJsonService::JsonTag tag, const std::filesystem::path& file)
+    const ordered_json readAndAdd(const IJsonServiceTypes::JsonTag tag, const std::filesystem::path& file)
     {
         return getOrAdd(tag, read(file));
     }
@@ -263,15 +263,15 @@ namespace JsonService
         return validateAndPatch(rawJson, schema, file.c_str());
     }
 
-    ordered_json readValidateByTagAndPatch(const std::filesystem::path& file, const IJsonService::JsonTag validationSchemaTag)
+    ordered_json readValidateByTagAndPatch(const std::filesystem::path& file, const IJsonServiceTypes::JsonTag validationSchemaTag)
     {
         return readValidateAndPatch(file, get(validationSchemaTag));
     }
 
     const ordered_json& readValidateByTagPatchAndAdd(
-        const IJsonService::JsonTag tag,
+        const IJsonServiceTypes::JsonTag tag,
         const std::filesystem::path& file,
-        const IJsonService::JsonTag validationSchemaTag
+        const IJsonServiceTypes::JsonTag validationSchemaTag
     )
     {
         const auto validatedJson = readValidateByTagAndPatch(file, validationSchemaTag);

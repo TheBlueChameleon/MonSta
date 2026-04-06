@@ -11,15 +11,14 @@ using namespace JsonService;
 
 using Json = nlohmann::json;
 
-
 namespace OperationModes
 {
     // ====================================================================== //
     // TAGS
 
-    const IJsonService::JsonTag JTAG_BASE       = ":storage:/host/";
-    const IJsonService::JsonTag JTAG_SIMULATION = ":storage:/host/:validation:/simulation.json";
-    const IJsonService::JsonTag JTAG_TEMPLATES  = ":storage:/host/:validation:/templates.json";
+    const IJsonServiceTypes::JsonTag JTAG_BASE       = ":storage:/host/";
+    const IJsonServiceTypes::JsonTag JTAG_SIMULATION = ":storage:/host/:validation:/simulation.json";
+    const IJsonServiceTypes::JsonTag JTAG_TEMPLATES  = ":storage:/host/:validation:/templates.json";
 
     // ====================================================================== //
     // SHARED

@@ -3,31 +3,31 @@
 
 namespace JsonService
 {
-    const IJsonService::JsonHandle get(const IJsonService::JsonTag tag)
+    const IJsonServiceTypes::JsonHandle get(const IJsonServiceTypes::JsonTag tag)
     {
-        return jsonService().get(tag);
+        return jsonService().database.get(tag);
     }
 
-    const IJsonService::JsonHandle navigateTo(
-        const IJsonService::JsonHandle handle,
+    const IJsonServiceTypes::JsonHandle navigateTo(
+        const IJsonServiceTypes::JsonHandle handle,
         const std::string_view jsonPointer)
     {
-        return jsonService().navigateTo(handle, jsonPointer.data());
+        return jsonService().itemAccess.navigateTo(handle, jsonPointer.data());
     }
 
-    const bool contains(const IJsonService::JsonHandle handle, const std::string_view elementName)
+    const bool contains(const IJsonServiceTypes::JsonHandle handle, const std::string_view elementName)
     {
-        return jsonService().containts(handle, elementName.data());
+        return jsonService().itemAccess.containts(handle, elementName.data());
     }
 
-    const bool isString(const IJsonService::JsonHandle handle)
+    const bool isString(const IJsonServiceTypes::JsonHandle handle)
     {
-        return jsonService().isString(handle);
+        return jsonService().itemAccess.isString(handle);
     }
 
-    const std::string_view getAsString(const IJsonService::JsonHandle handle)
+    const std::string_view getAsString(const IJsonServiceTypes::JsonHandle handle)
     {
-        return jsonService().getAsString(handle);
+        return jsonService().itemAccess.getAsString(handle);
     }
 
 }

@@ -42,9 +42,9 @@ namespace OperationModes
     static constexpr auto JKEY_TEMPLATES_ITEMDEFS        = "itemDefs";
     static constexpr auto JKEY_TEMPLATES_ARGS            = "args";
 
-    extern const IJsonService::JsonTag JTAG_BASE;
-    extern const IJsonService::JsonTag JTAG_SIMULATION;
-    extern const IJsonService::JsonTag JTAG_TEMPLATES;
+    extern const IJsonServiceTypes::JsonTag JTAG_BASE;
+    extern const IJsonServiceTypes::JsonTag JTAG_SIMULATION;
+    extern const IJsonServiceTypes::JsonTag JTAG_TEMPLATES;
 
     void registerSchemaSimulation();
     void registerSchemaTemplate();

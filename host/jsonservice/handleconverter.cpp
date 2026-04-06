@@ -6,35 +6,35 @@ using namespace nlohmann;
 
 namespace JsonService
 {
-    IJsonService::JsonHandle toJsonHandle(const nlohmann::ordered_json& reference)
+    IJsonServiceTypes::JsonHandle toJsonHandle(const nlohmann::ordered_json& reference)
     {
-        return IJsonService::JsonHandle
+        return IJsonServiceTypes::JsonHandle
         {
-            reinterpret_cast<decltype(IJsonService::JsonHandle::data)>(&reference)
+            reinterpret_cast<decltype(IJsonServiceTypes::JsonHandle::data)>(&reference)
         };
     }
 
-    IJsonService::ModifiableJsonHandle toModifiableJsonHandle(const nlohmann::ordered_json& reference)
+    IJsonServiceTypes::ModifiableJsonHandle toModifiableJsonHandle(const nlohmann::ordered_json& reference)
     {
-        return IJsonService::ModifiableJsonHandle
+        return IJsonServiceTypes::ModifiableJsonHandle
         {
-            reinterpret_cast<decltype(IJsonService::ModifiableJsonHandle::data)>(&reference)
+            reinterpret_cast<decltype(IJsonServiceTypes::ModifiableJsonHandle::data)>(&reference)
         };
     }
 
-    const nlohmann::ordered_json& toOrderedJson(const IJsonService::JsonHandle handle)
+    const nlohmann::ordered_json& toOrderedJson(const IJsonServiceTypes::JsonHandle handle)
     {
         return *reinterpret_cast<const ordered_json*>(handle.data);
     }
 
-    nlohmann::ordered_json& toModifiableOrderedJson(const IJsonService::ModifiableJsonHandle handle)
+    nlohmann::ordered_json& toModifiableOrderedJson(const IJsonServiceTypes::ModifiableJsonHandle handle)
     {
         return *reinterpret_cast<ordered_json*>(
                    const_cast<void*>(handle.data)
                );
     }
 
-    void assertSaneHandle(const IJsonService::JsonHandle handle)
+    void assertSaneHandle(const IJsonServiceTypes::JsonHandle handle)
     {
         if (handle.data == nullptr)
         {
@@ -42,7 +42,7 @@ namespace JsonService
         }
     }
 
-    void assertSaneTag(const IJsonService::JsonTag tag)
+    void assertSaneTag(const IJsonServiceTypes::JsonTag tag)
     {
         if (tag.name == nullptr)
         {

@@ -86,6 +86,10 @@ set(apiHeaders
     api/services/ILoggerService.hpp
     api/services/IMemoryService.hpp
     api/services/IVersionService.hpp
+
+    api/services/JsonService/IJsonService_Database.hpp
+    api/services/JsonService/IJsonService_ItemAccess.hpp
+    api/services/JsonService/IJsonService_Types.hpp
 )
 
 # ---------------------------------------------------------------------------- #
@@ -130,11 +134,13 @@ target_include_directories(Host-FileService
 # JsonService
 
 add_library(Host-JsonService STATIC
-    host/jsonservice/handleconverter.hpp        host/jsonservice/handleconverter.cpp
-    host/jsonservice/jsonservice.hpp            host/jsonservice/jsonservice.cpp
-    host/jsonservice/jsonservice_dlx.hpp        host/jsonservice/jsonservice_dlx.cpp
-    host/jsonservice/jsonservicedatabase.hpp    host/jsonservice/jsonservicedatabase.cpp
-    host/jsonservice/jsonschemabuilder.hpp      host/jsonservice/jsonschemabuilder.cpp
+    host/jsonservice/handleconverter.hpp                host/jsonservice/handleconverter.cpp
+    host/jsonservice/jsonservice.hpp                    host/jsonservice/jsonservice.cpp
+    host/jsonservice/jsonservice_database_dlx.hpp       host/jsonservice/jsonservice_database_dlx.cpp
+    host/jsonservice/jsonservice_itemaccess_dlx.hpp     host/jsonservice/jsonservice_itemaccess_dlx.cpp
+    host/jsonservice/jsonservice_schemabuilder_dlx.hpp  host/jsonservice/jsonservice_schemabuilder_dlx.cpp
+    host/jsonservice/jsonservicedatabase.hpp            host/jsonservice/jsonservicedatabase.cpp
+    host/jsonservice/jsonschemabuilder.hpp              host/jsonservice/jsonschemabuilder.cpp
 )
 
 target_include_directories(Host-JsonService

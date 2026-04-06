@@ -7,17 +7,17 @@
 
 namespace JsonService
 {
-    IJsonService::JsonHandle toJsonHandle(const nlohmann::ordered_json& reference);
+    IJsonServiceTypes::JsonHandle toJsonHandle(const nlohmann::ordered_json& reference);
 
-    IJsonService::ModifiableJsonHandle toModifiableJsonHandle(const nlohmann::ordered_json& reference);
+    IJsonServiceTypes::ModifiableJsonHandle toModifiableJsonHandle(const nlohmann::ordered_json& reference);
 
-    const nlohmann::ordered_json& toOrderedJson(const IJsonService::JsonHandle handle);
+    const nlohmann::ordered_json& toOrderedJson(const IJsonServiceTypes::JsonHandle handle);
 
-    nlohmann::ordered_json& toModifiableOrderedJson(const IJsonService::ModifiableJsonHandle handle);
+    nlohmann::ordered_json& toModifiableOrderedJson(const IJsonServiceTypes::ModifiableJsonHandle handle);
 
-    void assertSaneHandle(const IJsonService::JsonHandle handle);
+    void assertSaneHandle(const IJsonServiceTypes::JsonHandle handle);
 
-    void assertSaneTag(const IJsonService::JsonTag tag);
+    void assertSaneTag(const IJsonServiceTypes::JsonTag tag);
 
     void assertSaneJsonPointer(const char* const jsonPointer);
 }

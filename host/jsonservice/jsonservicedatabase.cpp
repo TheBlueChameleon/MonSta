@@ -9,7 +9,7 @@ using namespace std::string_literals;
 
 namespace JsonService
 {
-    std::optional<JsonServiceDatabase::EntryState> JsonServiceDatabase::getState(const IJsonService::JsonTag tag) const
+    std::optional<JsonServiceDatabase::EntryState> JsonServiceDatabase::getState(const IJsonServiceTypes::JsonTag tag) const
     {
         std::lock_guard lock(mutex);
 
@@ -28,7 +28,7 @@ namespace JsonService
         entry.cv.wait(lock, [&entry] { return entry.state == JsonServiceDatabase::EntryState::READY; });
     }
 
-    const nlohmann::ordered_json& JsonServiceDatabase::get(const IJsonService::JsonTag tag) const
+    const nlohmann::ordered_json& JsonServiceDatabase::get(const IJsonServiceTypes::JsonTag tag) const
     {
         const Entry* entry;
 
@@ -50,7 +50,7 @@ namespace JsonService
     }
 
     const nlohmann::ordered_json& JsonServiceDatabase::add(
-        const IJsonService::JsonTag tag,
+        const IJsonServiceTypes::JsonTag tag,
         const nlohmann::ordered_json& json
     )
     {
@@ -82,7 +82,7 @@ namespace JsonService
         return *entry->data;
     }
 
-    const nlohmann::ordered_json& JsonServiceDatabase::add(const IJsonService::JsonTag tag, const nlohmann::ordered_json&& json)
+    const nlohmann::ordered_json& JsonServiceDatabase::add(const IJsonServiceTypes::JsonTag tag, const nlohmann::ordered_json&& json)
     {
         Entry* entry;
 
@@ -112,7 +112,7 @@ namespace JsonService
     }
 
     const nlohmann::ordered_json& JsonServiceDatabase::getOrAdd(
-        const IJsonService::JsonTag tag,
+        const IJsonServiceTypes::JsonTag tag,
         std::function<void (nlohmann::ordered_json&)> creator
     )
     {
@@ -163,7 +163,7 @@ namespace JsonService
         }
     }
 
-    const nlohmann::ordered_json& JsonServiceDatabase::getOrAdd(const IJsonService::JsonTag tag, const nlohmann::ordered_json& json)
+    const nlohmann::ordered_json& JsonServiceDatabase::getOrAdd(const IJsonServiceTypes::JsonTag tag, const nlohmann::ordered_json& json)
     {
         Entry* entry;
 
@@ -210,7 +210,7 @@ namespace JsonService
         }
     }
 
-    const nlohmann::ordered_json& JsonServiceDatabase::getOrAdd(const IJsonService::JsonTag tag, nlohmann::ordered_json&& json)
+    const nlohmann::ordered_json& JsonServiceDatabase::getOrAdd(const IJsonServiceTypes::JsonTag tag, nlohmann::ordered_json&& json)
     {
         Entry* entry;
 
@@ -257,7 +257,7 @@ namespace JsonService
         }
     }
 
-    std::optional<std::reference_wrapper<nlohmann::ordered_json>> JsonServiceDatabase::declare(const IJsonService::JsonTag tag)
+    std::optional<std::reference_wrapper<nlohmann::ordered_json>> JsonServiceDatabase::declare(const IJsonServiceTypes::JsonTag tag)
     {
         Entry* entry;
 
@@ -289,7 +289,7 @@ namespace JsonService
         return *entry->data;
     }
 
-    const nlohmann::ordered_json& JsonServiceDatabase::commit(const IJsonService::JsonTag tag)
+    const nlohmann::ordered_json& JsonServiceDatabase::commit(const IJsonServiceTypes::JsonTag tag)
     {
         Entry* entry;
 
