@@ -31,7 +31,7 @@ namespace OperationModes
         logging.addProperty(JKEY_LOGGING_LOGFILE, IJsonServiceTypes::JsonType::STRING);
 
         logging.addProperty(JKEY_LOGGING_LOGLEVEL, IJsonServiceTypes::JsonType::STRING)
-        .addEnum(
+        .setEnum(
         {
             ILoggerService::LOGLEVELNAME_TRACE,
             ILoggerService::LOGLEVELNAME_DEBUG,
@@ -41,7 +41,7 @@ namespace OperationModes
             ILoggerService::LOGLEVELNAME_CRITICAL,
             ILoggerService::LOGLEVELNAME_OFF
         })
-        .addDefault(ILoggerService::LOGLEVELNAME_INFO);
+        .setDefault(ILoggerService::LOGLEVELNAME_INFO);
 
         return logging;
     }
@@ -67,16 +67,16 @@ namespace OperationModes
         simulator.addProperty(JKEY_SIMULATOR_OUTPUTDIRECTORY, IJsonServiceTypes::JsonType::STRING);
 
         simulator.addProperty(JKEY_SIMULATOR_REPETITIONS, IJsonServiceTypes::JsonType::INTEGER)
-        .addMinimum(1)
-        .addDefault(100);
+        .setMinimum(1)
+        .setDefault(100);
 
         simulator.addProperty(JKEY_SIMULATOR_MAXTURNS, IJsonServiceTypes::JsonType::INTEGER)
-        .addMinimum(1)
-        .addDefault(100);
+        .setMinimum(1)
+        .setDefault(100);
 
         simulator.addProperty(JKEY_SIMULATOR_THREADCOUNT, IJsonServiceTypes::JsonType::INTEGER)
-        .addMinimum(1)
-        .addDefault(1);
+        .setMinimum(1)
+        .setDefault(1);
 
         simulator.addProperty(JKEY_SIMULATOR_ARGS, IJsonServiceTypes::JsonType::STRING);
 
@@ -164,7 +164,7 @@ namespace OperationModes
         result.addProperty(JKEY_TEMPLATES_OUTPUTDIRECTORY, IJsonServiceTypes::JsonType::STRING);
 
         result.addProperty(JKEY_TEMPLATES_WRITESCHEMAS, IJsonServiceTypes::JsonType::BOOLEAN)
-        .addDefault(true);
+        .setDefault(true);
 
         result.addProperty(JKEY_TEMPLATES_PLAYER1TEAM, IJsonServiceTypes::JsonType::STRING);
 

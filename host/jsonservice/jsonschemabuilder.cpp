@@ -69,82 +69,83 @@ namespace JsonService
         return name;
     }
 
-    JsonSchemaElementBuilder& JsonSchemaElementBuilder::addProperty(const std::string_view key, const ordered_json& value)
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setProperty(const std::string_view key, const ordered_json& value)
     {
         json[key] = value;
         return *this;
     }
 
-    JsonSchemaElementBuilder& JsonSchemaElementBuilder::addType(const IJsonServiceTypes::JsonType type)
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setType(const IJsonServiceTypes::JsonType type)
     {
         switch (type)
         {
             case IJsonServiceTypes::JsonType::VOID:
-                return addProperty("type", "null");
+                return setProperty("type", "null");
             case IJsonServiceTypes::JsonType::OBJECT:
-                return addProperty("type", "object");
+                return setProperty("type", "object");
             case IJsonServiceTypes::JsonType::ARRAY:
-                return addProperty("type", "array");
+                return setProperty("type", "array");
             case IJsonServiceTypes::JsonType::STRING:
-                return addProperty("type", "string");
+                return setProperty("type", "string");
             case IJsonServiceTypes::JsonType::BOOLEAN:
-                return addProperty("type", "boolean");
+                return setProperty("type", "boolean");
             case IJsonServiceTypes::JsonType::INTEGER:
-                return addProperty("type", "integer");
+                return setProperty("type", "integer");
             case IJsonServiceTypes::JsonType::UNSIGNED:
-                return addProperty("type", "unsigned");
+                return setProperty("type", "unsigned");
             case IJsonServiceTypes::JsonType::FLOAT:
-                return addProperty("type", "number");
+                return setProperty("type", "number");
             case IJsonServiceTypes::JsonType::BINARY:
-                return addProperty("type", "binary");
+                return setProperty("type", "binary");
             case IJsonServiceTypes::JsonType::DISCARDED:
+                // TODO: use this to erase type
                 break;
         }
 
         throw IllegalHostStateException("Unknown Json data type: "s + std::to_string(static_cast<int>(type)));
     }
 
-    JsonSchemaElementBuilder& JsonSchemaElementBuilder::addTypedArray(const IJsonServiceTypes::JsonType type)
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setTypedArray(const IJsonServiceTypes::JsonType type)
     {
-        return addType(IJsonServiceTypes::JsonType::ARRAY)
-               .addProperty("items",
-                            JsonSchemaElementBuilder().addType(type).getJson()
+        return setType(IJsonServiceTypes::JsonType::ARRAY)
+               .setProperty("items",
+                            JsonSchemaElementBuilder().setType(type).getJson()
                            );
     }
 
-    JsonSchemaElementBuilder& JsonSchemaElementBuilder::addEnum(const std::list<nlohmann::ordered_json>& items)
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setEnum(const std::list<nlohmann::ordered_json>& items)
     {
-        return addProperty("enum", items);
+        return setProperty("enum", items);
     }
 
-    JsonSchemaElementBuilder& JsonSchemaElementBuilder::addDescription(const std::string_view value)
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setDescription(const std::string_view value)
     {
-        return addProperty("description", value);
+        return setProperty("description", value);
     }
 
-    JsonSchemaElementBuilder& JsonSchemaElementBuilder::addTitle(const std::string_view value)
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setTitle(const std::string_view value)
     {
-        return addProperty("title", value);
+        return setProperty("title", value);
     }
 
-    JsonSchemaElementBuilder& JsonSchemaElementBuilder::addDefault(const ordered_json& value)
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setDefault(const ordered_json& value)
     {
-        return addProperty("default", value);
+        return setProperty("default", value);
     }
 
-    JsonSchemaElementBuilder& JsonSchemaElementBuilder::addMinimum(const ordered_json& value)
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setMinimum(const ordered_json& value)
     {
-        return addProperty("minimum", value);
+        return setProperty("minimum", value);
     }
 
-    JsonSchemaElementBuilder& JsonSchemaElementBuilder::addMaximum(const ordered_json& value)
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setMaximum(const ordered_json& value)
     {
-        return addProperty("maximum", value);
+        return setProperty("maximum", value);
     }
 
-    JsonSchemaElementBuilder& JsonSchemaElementBuilder::addReference(const std::string_view value)
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setReference(const std::string_view value)
     {
-        return addProperty("$ref",  "#/$defs/"s + value.data());
+        return setProperty("$ref",  "#/$defs/"s + value.data());
     }
 
     // ====================================================================== //
@@ -176,6 +177,12 @@ namespace JsonService
         return *this;
     }
 
+    JsonSubSchemaBuilder& JsonSubSchemaBuilder::addRequired(const std::string_view required)
+    {
+        this->required.push_back(required.data());
+        return *this;
+    }
+
     JsonSchemaElementBuilder& JsonSubSchemaBuilder::addProperty(const std::string_view name)
     {
         elements.emplace_back(name);
@@ -185,14 +192,14 @@ namespace JsonService
     JsonSchemaElementBuilder& JsonSubSchemaBuilder::addProperty(const std::string_view name, IJsonServiceTypes::JsonType type)
     {
         elements.emplace_back(name);
-        elements.back().addType(type);
+        elements.back().setType(type);
         return elements.back();
     }
 
     JsonSchemaElementBuilder& JsonSubSchemaBuilder::addReference(const std::string_view name)
     {
         elements.emplace_back(name);
-        elements.back().addReference(name);
+        elements.back().setReference(name);
         return elements.back();
     }
 
@@ -203,14 +210,14 @@ namespace JsonService
     )
     {
         elements.emplace_back(name);
-        elements.back().addReference(name);
-        elements.back().addType(type);
+        elements.back().setReference(name);
+        elements.back().setType(type);
         if (setDefaults)
         {
             const auto defaults = getDefaults(subSchema);
             if (!defaults.is_null())
             {
-                elements.back().addDefault(defaults);
+                elements.back().setDefault(defaults);
             }
         }
         return *this;
@@ -254,10 +261,16 @@ namespace JsonService
         return *this;
     }
 
+    JsonSchemaBuilder& JsonSchemaBuilder::addRequired(const std::string_view required)
+    {
+        this->required.push_back(required.data());
+        return *this;
+    }
+
     JsonSchemaBuilder& JsonSchemaBuilder::addReference(const std::string_view name)
     {
         elements.emplace_back(name);
-        elements.back().addReference(name);
+        elements.back().setReference(name);
         return *this;
     }
 
@@ -271,14 +284,14 @@ namespace JsonService
         subSchemas.push_back(subSchema);
 
         elements.emplace_back(name);
-        elements.back().addReference(subSchema.getName());
-        elements.back().addType(type);
+        elements.back().setReference(subSchema.getName());
+        elements.back().setType(type);
         if (setDefaults)
         {
             const auto defaults = getDefaults(subSchema);
             if (!defaults.is_null())
             {
-                elements.back().addDefault(defaults);
+                elements.back().setDefault(defaults);
             }
         }
         return *this;
@@ -311,7 +324,7 @@ namespace JsonService
     JsonSchemaElementBuilder& JsonSchemaBuilder::addProperty(const std::string_view name, IJsonServiceTypes::JsonType type)
     {
         elements.emplace_back(name);
-        elements.back().addType(type);
+        elements.back().setType(type);
         return elements.back();
     }
 
