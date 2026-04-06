@@ -2,7 +2,7 @@
 
 namespace Globals
 {
-    HostApi* hostApi;
+    HostApi* _hostApi;
 
     std::set<std::string> supportedFeatures = {};
 

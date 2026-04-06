@@ -5,6 +5,21 @@
 #include "jsonservice.hpp"
 #include "loggerservice.hpp"
 
+class HostApi;
+
+class HostApiProxy
+{
+    private:
+        HostApi* hostApi;
+
+    public:
+        HostApiProxy();
+        ~HostApiProxy();
+
+        HostApi& get();
+        void rethrowHostError();
+};
+
 const IErrorService   errorService();
 const IJsonService&   jsonService();
 const ILoggerService& loggerService();

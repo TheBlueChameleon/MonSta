@@ -37,5 +37,4 @@ static void force_link()
 
 bool init_engine();
 
-
 #endif // CLIENTAPI_HPP

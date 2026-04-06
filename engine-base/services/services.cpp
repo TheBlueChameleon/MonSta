@@ -7,13 +7,32 @@
 #include "errors.hpp"
 #include "globals.hpp"
 
-void autoThrow()
+namespace Globals
 {
-    const auto errCode = Globals::hostApi->errorService.getErrorCode();
+    extern HostApi* _hostApi;
+}
+
+HostApiProxy::HostApiProxy() :
+    hostApi(Globals::_hostApi)
+{}
+
+HostApiProxy::~HostApiProxy()
+{
+    rethrowHostError();
+}
+
+HostApi& HostApiProxy::get()
+{
+    return *hostApi;
+}
+
+void HostApiProxy::rethrowHostError()
+{
+    const auto errCode = hostApi->errorService.getErrorCode();
     if (errCode != ApiStatusCode::SUCCESS)
     {
-        std::string errorMessage = Globals::hostApi->errorService.getErrorMessage();
-        Globals::hostApi->errorService.clearError();
+        std::string errorMessage = hostApi->errorService.getErrorMessage();
+        hostApi->errorService.clearError();
 
         throw EngineError(errCode, errorMessage.data());
     }
@@ -21,18 +40,15 @@ void autoThrow()
 
 const IErrorService errorService()
 {
-    autoThrow();
-    return Globals::hostApi->errorService;
+    return HostApiProxy().get().errorService;
 }
 
 const IJsonService& jsonService()
 {
-    autoThrow();
-    return Globals::hostApi->jsonService;
+    return HostApiProxy().get().jsonService;
 }
 
 const ILoggerService& loggerService()
 {
-    autoThrow();
-    return Globals::hostApi->loggerService;
+    return HostApiProxy().get().loggerService;
 }

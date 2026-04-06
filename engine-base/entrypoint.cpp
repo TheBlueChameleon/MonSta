@@ -8,6 +8,11 @@
 
 #include "globals.hpp"
 
+namespace Globals
+{
+    extern HostApi* _hostApi;
+}
+
 static bool allErrorServicesPresent(const IErrorService& es)
 {
     // *INDENT-OFF*
@@ -73,7 +78,7 @@ extern "C" {
             return abortInit(hostApi, "Not all VersionUtils have been initialized!");
         }
 
-        Globals::hostApi = hostApi;
+        Globals::_hostApi = hostApi;
 
         return init_engine();
     }
