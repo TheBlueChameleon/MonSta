@@ -261,7 +261,7 @@ target_link_libraries(Host
 add_library(Engine-Base STATIC
     ${apiHeaders}
 
-    engine-base/entrypoint.cpp
+    engine-base/clientapi.cpp
 
     engine-base/errors.hpp                  engine-base/errors.cpp
     engine-base/enginebase.hpp              engine-base/enginebase.cpp
@@ -287,7 +287,7 @@ set_target_properties(Engine-Base PROPERTIES POSITION_INDEPENDENT_CODE ON)
 add_library(Engine-Gen1 SHARED
     ${apiHeaders}
 
-    engine-gen1/entrypoint.cpp
+    engine-gen1/clientapi.cpp
 )
 
 target_link_libraries(Engine-Gen1 PUBLIC

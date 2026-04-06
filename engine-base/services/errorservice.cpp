@@ -8,9 +8,9 @@ namespace ErrorService
         errorService().clearError();
     }
 
-    void setError(const ApiStatusCode code, const char* const message)
+    void setError(const ApiStatusCode code, const std::string_view message)
     {
-        errorService().setError(code, message);
+        errorService().setError(code, message.data());
     }
 
     ApiStatusCode getErrorCode()
@@ -18,7 +18,7 @@ namespace ErrorService
         return errorService().getErrorCode();
     }
 
-    const char* const getErrorMessage()
+    const std::string_view getErrorMessage()
     {
         return errorService().getErrorMessage();
     }

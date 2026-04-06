@@ -5,33 +5,33 @@
 
 namespace LoggerService
 {
-    void trace(const char* const msg)
+    void trace(const std::string_view msg)
     {
-        loggerService().trace(msg);
+        loggerService().trace(msg.data());
     }
 
-    void debug(const char* const msg)
+    void debug(const std::string_view msg)
     {
-        loggerService().trace(msg);
+        loggerService().trace(msg.data());
     }
 
-    void info(const char* const msg)
+    void info(const std::string_view msg)
     {
-        loggerService().info(msg);
+        loggerService().info(msg.data());
     }
 
-    void warn(const char* const msg)
+    void warn(const std::string_view msg)
     {
-        loggerService().warn(msg);
+        loggerService().warn(msg.data());
     }
 
-    void error(const char* const msg)
+    void error(const std::string_view msg)
     {
-        loggerService().error(msg);
+        loggerService().error(msg.data());
     }
 
-    void critical(const char* const msg)
+    void critical(const std::string_view msg)
     {
-        loggerService().critical(msg);
+        loggerService().critical(msg.data());
     }
 }
