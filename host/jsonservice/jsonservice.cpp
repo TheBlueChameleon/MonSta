@@ -174,7 +174,7 @@ namespace JsonService
 
     const ordered_json& parseAndAdd(const IJsonService::JsonTag tag, const std::string_view data)
     {
-        return add(tag, parse(data));
+        return getOrAdd(tag, parse(data));
     }
 
     json validate(
@@ -233,7 +233,7 @@ namespace JsonService
     )
     {
         const auto validatedData = validateAndPatch(data, schema, tag.name);
-        return add(tag, validatedData);
+        return getOrAdd(tag, validatedData);
     }
 
     ordered_json read(const std::filesystem::path& file)
@@ -241,8 +241,7 @@ namespace JsonService
         try
         {
             std::ifstream hFile(file);
-            auto data = ordered_json::parse(hFile, nullptr, allowExceptions, allowComments);
-            return data;
+            return ordered_json::parse(hFile, nullptr, allowExceptions, allowComments);
         }
         catch (const nlohmann::ordered_json::exception& err)
         {
@@ -255,7 +254,7 @@ namespace JsonService
 
     const ordered_json readAndAdd(const IJsonService::JsonTag tag, const std::filesystem::path& file)
     {
-        return add(tag, read(file));
+        return getOrAdd(tag, read(file));
     }
 
     ordered_json readValidateAndPatch(const std::filesystem::path& file, const nlohmann::ordered_json& schema)
@@ -276,7 +275,7 @@ namespace JsonService
     )
     {
         const auto validatedJson = readValidateByTagAndPatch(file, validationSchemaTag);
-        return add(tag, validatedJson);
+        return getOrAdd(tag, validatedJson);
     }
 
 }

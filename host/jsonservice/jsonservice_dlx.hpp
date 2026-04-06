@@ -64,13 +64,16 @@ namespace JsonService
 
     /* TODO:
      * read without validation?
-     * rewrite existing with underlying getOrAdd?
      */
 
     const IJsonService::JsonHandle HOST_API_CALL parseValidatePatchAndAdd_dlx(
         const IJsonService::JsonTag     tag,
         const char* const               json,
         const IJsonService::JsonTag     validationSchemaTag
+    );
+    const IJsonService::JsonHandle HOST_API_CALL readAndAdd_dlx(
+        const IJsonService::JsonTag tag,
+        const char* const file
     );
     const IJsonService::JsonHandle HOST_API_CALL readValidatePatchAndAdd_dlx(
         const IJsonService::JsonTag tag,

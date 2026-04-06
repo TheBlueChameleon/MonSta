@@ -31,8 +31,6 @@ namespace JsonService
     // ---------------------------------------------------------------------- //
     // Parsing & Validation
 
-    // TODO: ...AndAdd functions should use getOrAdd
-
     void setAllowComments(bool value);
     void setAllowExceptions(bool value);
 

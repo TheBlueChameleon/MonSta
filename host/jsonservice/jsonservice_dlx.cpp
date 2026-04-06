@@ -513,6 +513,19 @@ namespace JsonService
         CATCH_STD_EXCEPTION(IJsonService::JsonHandle(nullptr))
     }
 
+    const IJsonService::JsonHandle readAndAdd_dlx(const IJsonService::JsonTag tag, const char* const file)
+    {
+        try
+        {
+            return toJsonHandle(
+                       readAndAdd(tag, file)
+                   );
+        }
+        CATCH_ABSTRACT_ERROR(IJsonService::JsonHandle(nullptr))
+        CATCH_JSON_ERROR(IJsonService::JsonHandle(nullptr))
+        CATCH_STD_EXCEPTION(IJsonService::JsonHandle(nullptr))
+    }
+
     const IJsonService::JsonHandle HOST_API_CALL readValidatePatchAndAdd_dlx(
         const IJsonService::JsonTag tag,
         const char* const file,
