@@ -35,10 +35,10 @@ namespace FileService
     void setInputBasePath(const std::filesystem::path& newBase);
     void setOutputBasePath(const std::filesystem::path& newBase);
 
+    std::string read(const std::filesystem::path& filename);
+
     void write(const std::filesystem::path& filename, const std::string_view content);
     void writeBinary(const std::filesystem::path& filename, const std::span<const std::byte> data);
-
-    std::string read(const std::filesystem::path& filename);
 
     const std::list<CreatedFileInfo>& getCreatedFileInfo();
 }

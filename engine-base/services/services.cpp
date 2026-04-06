@@ -43,6 +43,11 @@ const IErrorService errorService()
     return HostApiProxy().get().errorService;
 }
 
+const IFileService fileService()
+{
+    return HostApiProxy().get().fileService;
+}
+
 const IJsonService& jsonService()
 {
     return HostApiProxy().get().jsonService;

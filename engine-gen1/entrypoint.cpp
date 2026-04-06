@@ -8,15 +8,16 @@
 #include "errors.hpp"
 #include "globals.hpp"
 
-extern "C" {
+HOST_API_EXPORT
+{
     const Version CLIENT_VERSION(0, 1, 0, 0);
     const Version MIN_HOST_VERSION(0, 1, 0, 0);
     const Version MAX_HOST_VERSION(2, 0, 0, 0);
 
-    void hangUp()
+    void HOST_API_CALL hangUp()
     {}
 
-    void startTemplatesMode()
+    void HOST_API_CALL startTemplatesMode()
     {
         try
         {

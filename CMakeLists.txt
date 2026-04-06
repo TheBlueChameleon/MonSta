@@ -269,6 +269,7 @@ add_library(Engine-Base STATIC
 
     engine-base/services/services.hpp       engine-base/services/services.cpp
     engine-base/services/errorservice.hpp   engine-base/services/errorservice.cpp
+    engine-base/services/fileservice.hpp    engine-base/services/fileservice.cpp
     engine-base/services/jsonservice.hpp    engine-base/services/jsonservice.cpp
     engine-base/services/loggerservice.hpp  engine-base/services/loggerservice.cpp
 )

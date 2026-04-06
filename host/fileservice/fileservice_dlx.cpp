@@ -31,30 +31,6 @@ namespace FileService
         setOutputBasePath(newBase);
     }
 
-    void HOST_API_CALL write_dlx(const char* const filename, const char* const content)
-    {
-        try
-        {
-            write(filename, content);
-        }
-        catch (const std::exception& e)
-        {
-            ErrorService::setError(ApiStatusCode::IO_ERROR, e.what());
-        }
-    }
-
-    void HOST_API_CALL writeBinary_dlx(const char* const filename, const void* const data, size_t length)
-    {
-        try
-        {
-            writeBinary(filename, std::span(reinterpret_cast<const std::byte*>(data), length));
-        }
-        catch (const std::exception& e)
-        {
-            ErrorService::setError(ApiStatusCode::IO_ERROR, e.what());
-        }
-    }
-
     IMemoryService::MemoryBlock HOST_API_CALL read_dlx(const char* const filename)
     {
         try
@@ -72,6 +48,33 @@ namespace FileService
         {
             ErrorService::setError(ApiStatusCode::IO_ERROR, e.what());
             return IMemoryService::MemoryBlock {nullptr, 0};
+        }
+    }
+
+    void HOST_API_CALL write_dlx(const char* const filename, const char* const content)
+    {
+        try
+        {
+            write(filename, content);
+        }
+        catch (const std::exception& e)
+        {
+            ErrorService::setError(ApiStatusCode::IO_ERROR, e.what());
+        }
+    }
+
+    void HOST_API_CALL writeBinary_dlx(const char* const filename, const void* const data, size_t length)
+    {
+        try
+        {
+            writeBinary(
+                filename,
+                std::span(reinterpret_cast<const std::byte*>(data), length)
+            );
+        }
+        catch (const std::exception& e)
+        {
+            ErrorService::setError(ApiStatusCode::IO_ERROR, e.what());
         }
     }
 

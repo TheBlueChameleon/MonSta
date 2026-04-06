@@ -13,10 +13,10 @@ namespace FileService
     void HOST_API_CALL setInputBasePath_dlx(const char* const newBase);
     void HOST_API_CALL setOutputBasePath_dlx(const char* const newBase);
 
+    IMemoryService::MemoryBlock HOST_API_CALL read_dlx(const char* const filename);
+
     void HOST_API_CALL write_dlx(const char* const filename, const char* const content);
     void HOST_API_CALL writeBinary_dlx(const char* const filename, const void* const data, size_t length);
-
-    IMemoryService::MemoryBlock HOST_API_CALL read_dlx(const char* const filename);
 }
 
 #endif // FILESERVICE_DLX_HPP

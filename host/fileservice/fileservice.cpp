@@ -108,6 +108,18 @@ namespace FileService
         }
     }
 
+    std::string read(const std::filesystem::__cxx11::path& filename)
+    {
+        auto stream = database.getReadStream(filename);
+        LoggerService::traceF("reading from {}", filename.c_str());
+        const auto size = getFileSize(stream);
+
+        std::string result(size, '\0');
+        stream.read(&result[0], size);
+
+        return result;
+    }
+
     void write(const std::filesystem::__cxx11::path& filename, const std::string_view content)
     {
         auto& stream = database.getOrCreateStream(filename);
@@ -120,18 +132,6 @@ namespace FileService
         auto& stream = database.getOrCreateStream(filename);
         LoggerService::traceF("writing into {}", filename.c_str());
         stream.write(data.data(), data.size());
-    }
-
-    std::string read(const std::filesystem::__cxx11::path& filename)
-    {
-        auto stream = database.getReadStream(filename);
-        LoggerService::traceF("reading from {}", filename.c_str());
-        const auto size = getFileSize(stream);
-
-        std::string result(size, '\0');
-        stream.read(&result[0], size);
-
-        return result;
     }
 
     const std::list<CreatedFileInfo>& getCreatedFileInfo()

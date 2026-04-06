@@ -2,6 +2,7 @@
 #include <string>
 
 #include <HostApi.hpp>
+#include <CallingConventions.hpp>
 #include <ClientApi.hpp>
 
 #include "services/services.hpp"
@@ -54,8 +55,9 @@ static bool abortInit(const HostApi* hostApi, const char* const msg)
     return false;
 }
 
-extern "C" {
-    bool init(HostApi* hostApi)
+HOST_API_EXPORT
+{
+    bool HOST_API_CALL init(HostApi* hostApi)
     {
         if (!allErrorServicesPresent(hostApi->errorService))
         {
@@ -83,12 +85,12 @@ extern "C" {
         return init_engine();
     }
 
-    bool hasFeature(const char* const featureTag)
+    bool HOST_API_CALL hasFeature(const char* const featureTag)
     {
         return Globals::supportedFeatures.contains(featureTag);
     }
 
-    void terminateAbnormally()
+    void HOST_API_CALL terminateAbnormally()
     {
         Globals::abnormalTerminationRequest = true;
     }

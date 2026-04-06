@@ -2,6 +2,7 @@
 #define SERVICES_HPP
 
 #include "errorservice.hpp"
+#include "fileservice.hpp"
 #include "jsonservice.hpp"
 #include "loggerservice.hpp"
 
@@ -21,6 +22,7 @@ class HostApiProxy
 };
 
 const IErrorService   errorService();
+const IFileService    fileService();
 const IJsonService&   jsonService();
 const ILoggerService& loggerService();
 

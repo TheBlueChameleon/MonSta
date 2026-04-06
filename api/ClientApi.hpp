@@ -2,23 +2,25 @@
 #define CLIENTAPI_HPP
 
 #include <ApiStatusCode.hpp>
+#include <CallingConventions.hpp>
 #include <HostApi.hpp>
 
 // ========================================================================== //
 // exported to host
 
-extern "C" {
+HOST_API_EXPORT
+{
     extern const Version CLIENT_VERSION;
     extern const Version MIN_HOST_VERSION;
     extern const Version MAX_HOST_VERSION;
 
-    bool init(HostApi* hostApi);
-    void hangUp();
+    bool HOST_API_CALL init(HostApi* hostApi);
+    void HOST_API_CALL hangUp();
 
-    bool hasFeature(const char* const featureTag);
-    void terminateAbnormally();
+    bool HOST_API_CALL hasFeature(const char* const featureTag);
+    void HOST_API_CALL terminateAbnormally();
 
-    void startTemplatesMode();
+    void HOST_API_CALL startTemplatesMode();
 }
 
 // -------------------------------------------------------------------------- //
