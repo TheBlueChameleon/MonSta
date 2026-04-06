@@ -14,10 +14,11 @@ namespace MemoryService
             IMemoryService::MemoryBlock data;
 
         public:
-            MemoryBlock(IMemoryService::MemoryBlock& data);
+            MemoryBlock(IMemoryService::MemoryBlock&& data);
             ~MemoryBlock();
 
             MemoryBlock() = delete;
+            MemoryBlock(const IMemoryService::MemoryBlock& data) = delete;
             MemoryBlock(const MemoryBlock&) = delete;
 
             MemoryBlock(const size_t size);

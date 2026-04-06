@@ -13,9 +13,11 @@ namespace FileService
         return fileService().getOutputBase();
     }
 
-    IMemoryService::MemoryBlock read(const std::filesystem::__cxx11::path& filename)
+    MemoryService::MemoryBlock read(const std::filesystem::__cxx11::path& filename)
     {
-        return fileService().read(filename.c_str());
+        return MemoryService::MemoryBlock(
+                   fileService().read(filename.c_str())
+               );
     }
 
     void write(const std::filesystem::__cxx11::path& filename, const std::string_view content)
