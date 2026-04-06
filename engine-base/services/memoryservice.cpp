@@ -3,13 +3,6 @@
 
 namespace MemoryService
 {
-    MemoryBlock::MemoryBlock(IMemoryService::MemoryBlock&& data) :
-        data(data)
-    {
-        data.data = nullptr;
-        data.size = 0;
-    }
-
     MemoryBlock::MemoryBlock(const size_t size) :
         data(memoryService().allocate(size))
     {}
@@ -24,6 +17,20 @@ namespace MemoryService
                  data.size())
             )
     {}
+
+    MemoryBlock::MemoryBlock(MemoryService::MemoryBlock&& other):
+        data(other.data)
+    {
+        other.data.data = nullptr;
+        other.data.size = 0;
+    }
+
+    MemoryBlock::MemoryBlock(IMemoryService::MemoryBlock&& data) :
+        data(data)
+    {
+        data.data = nullptr;
+        data.size = 0;
+    }
 
     MemoryBlock::~MemoryBlock()
     {

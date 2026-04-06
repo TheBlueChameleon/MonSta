@@ -14,6 +14,11 @@ namespace MemoryService
             IMemoryService::MemoryBlock data;
 
         public:
+            MemoryBlock(const size_t size);
+            MemoryBlock(std::string_view data);
+            MemoryBlock(std::span<std::byte> data);
+
+            MemoryBlock(MemoryService::MemoryBlock&& other);
             MemoryBlock(IMemoryService::MemoryBlock&& data);
             ~MemoryBlock();
 
@@ -21,9 +26,8 @@ namespace MemoryService
             MemoryBlock(const IMemoryService::MemoryBlock& data) = delete;
             MemoryBlock(const MemoryBlock&) = delete;
 
-            MemoryBlock(const size_t size);
-            MemoryBlock(std::string_view data);
-            MemoryBlock(std::span<std::byte> data);
+            MemoryBlock& operator=(const MemoryBlock&) = delete;
+            MemoryBlock& operator=(MemoryBlock&&) = delete;
 
             bool isValid() const;
             int getSize() const;
