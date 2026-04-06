@@ -28,19 +28,19 @@ namespace IJsonServiceTypes
         {}
     };
 
-    struct JsonElementBuilderHandle
+    struct JsonSchemaBuilderHandle
     {
-        const void* data;
+        void* data;
     };
 
     struct JsonSubSchemaBuilderHandle
     {
-        const void* data;
+        void* data;
     };
 
-    struct JsonSchemaBuilderHandle
+    struct JsonSchemaElementBuilderHandle
     {
-        const void* data;
+        void* data;
     };
 }
 

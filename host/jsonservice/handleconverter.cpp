@@ -6,6 +6,9 @@ using namespace nlohmann;
 
 namespace JsonService
 {
+    // ---------------------------------------------------------------------- //
+    // nlohmann handles
+
     IJsonServiceTypes::JsonHandle toJsonHandle(const nlohmann::ordered_json& reference)
     {
         return IJsonServiceTypes::JsonHandle
@@ -65,6 +68,72 @@ namespace JsonService
         if (std::strlen(jsonPointer) == 0)
         {
             throw ClientRequestError("Client attempted operation on empty Json Pointer");
+        }
+    }
+
+    // ---------------------------------------------------------------------- //
+    // JsonSchemaBuilder handles
+
+    IJsonServiceTypes::JsonSchemaBuilderHandle toJsonSchemaBuilderHandle(JsonSchemaBuilder& reference)
+    {
+        return IJsonServiceTypes::JsonSchemaBuilderHandle
+        {
+            reinterpret_cast<decltype(IJsonServiceTypes::JsonSchemaBuilderHandle::data)>(&reference)
+        };
+    }
+
+    IJsonServiceTypes::JsonSubSchemaBuilderHandle toJsonSubSchemaBuilderHandle(JsonSubSchemaBuilder& reference)
+    {
+        return IJsonServiceTypes::JsonSubSchemaBuilderHandle
+        {
+            reinterpret_cast<decltype(IJsonServiceTypes::JsonSubSchemaBuilderHandle::data)>(&reference)
+        };
+    }
+
+    IJsonServiceTypes::JsonSchemaElementBuilderHandle toJsonSchemaElementBuilderHandle(JsonSchemaElementBuilder& reference)
+    {
+        return IJsonServiceTypes::JsonSchemaElementBuilderHandle
+        {
+            reinterpret_cast<decltype(IJsonServiceTypes::JsonSchemaElementBuilderHandle::data)>(&reference)
+        };
+    }
+
+    JsonSchemaBuilder& toSchemaBuilder(IJsonServiceTypes::JsonSchemaBuilderHandle handle)
+    {
+        return *reinterpret_cast<JsonSchemaBuilder*>(handle.data);
+    }
+
+    JsonSubSchemaBuilder& toSubSchemaBuilder(IJsonServiceTypes::JsonSubSchemaBuilderHandle handle)
+    {
+        return *reinterpret_cast<JsonSubSchemaBuilder*>(handle.data);
+    }
+
+    JsonSchemaElementBuilder& toSchemaElementBuilder(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle)
+    {
+        return *reinterpret_cast<JsonSchemaElementBuilder*>(handle.data);
+    }
+
+    void assertSaneHandle(const IJsonServiceTypes::JsonSchemaBuilderHandle handle)
+    {
+        if (handle.data == nullptr)
+        {
+            throw ClientRequestError("Client attempted operation on null JsonSchemaBuilder Handle");
+        }
+    }
+
+    void assertSaneHandle(const IJsonServiceTypes::JsonSubSchemaBuilderHandle handle)
+    {
+        if (handle.data == nullptr)
+        {
+            throw ClientRequestError("Client attempted operation on null JsonSubSchemaBuilder Handle");
+        }
+    }
+
+    void assertSaneHandle(const IJsonServiceTypes::JsonSchemaElementBuilderHandle handle)
+    {
+        if (handle.data == nullptr)
+        {
+            throw ClientRequestError("Client attempted operation on null JsonSchemaElementBuilder Handle");
         }
     }
 

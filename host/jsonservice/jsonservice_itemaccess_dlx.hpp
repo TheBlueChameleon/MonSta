@@ -7,7 +7,7 @@
 
 namespace JsonService
 {
-    const HOST_API_CALL IJsonServiceTypes::JsonHandle navigateTo_dlx(const IJsonServiceTypes::JsonHandle handle, const char* const jsonPointer);
+    const IJsonServiceTypes::JsonHandle HOST_API_CALL navigateTo_dlx(const IJsonServiceTypes::JsonHandle handle, const char* const jsonPointer);
     const bool HOST_API_CALL contains_dlx(const IJsonServiceTypes::JsonHandle handle, const char* const elementName);
 
     const IJsonServiceTypes::JsonType HOST_API_CALL getType_dlx(const IJsonServiceTypes::JsonHandle handle);

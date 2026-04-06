@@ -5,6 +5,7 @@
 
 #include "JsonService/IJsonService_Database.hpp"
 #include "JsonService/IJsonService_ItemAccess.hpp"
+#include "JsonService/IJsonService_Types.hpp"
 
 struct IJsonService
 {

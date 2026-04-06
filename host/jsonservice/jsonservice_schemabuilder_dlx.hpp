@@ -7,13 +7,13 @@
 
 namespace JsonService
 {
-    const IJsonServiceTypes::JsonSchemaBuilderHandle    HOST_API_CALL instantiateSchemaBuilder_dlx();
-    const IJsonServiceTypes::JsonSubSchemaBuilderHandle HOST_API_CALL instantiateSubSchemaBuilder_dlx();
-    const IJsonServiceTypes::JsonElementBuilderHandle   HOST_API_CALL instantiateElementBuilder_dlx();
+    const IJsonServiceTypes::JsonSchemaBuilderHandle        HOST_API_CALL instantiateSchemaBuilder_dlx();
+    const IJsonServiceTypes::JsonSubSchemaBuilderHandle     HOST_API_CALL instantiateSubSchemaBuilder_dlx(const char* const name);
+    const IJsonServiceTypes::JsonSchemaElementBuilderHandle HOST_API_CALL instantiateSchemaElementBuilder_dlx(const char* const name);
 
-    void HOST_API_CALL freeSchemaBuilder_dlx(const IJsonServiceTypes::JsonSchemaBuilderHandle*);
-    void HOST_API_CALL freeSubSchemaBuilder_dlx(const IJsonServiceTypes::JsonSubSchemaBuilderHandle*);
-    void HOST_API_CALL freeElementBuilder_dlx(const IJsonServiceTypes::JsonElementBuilderHandle*);
+    void HOST_API_CALL freeSchemaBuilder_dlx(IJsonServiceTypes::JsonSchemaBuilderHandle& handle);
+    void HOST_API_CALL freeSubSchemaBuilder_dlx(IJsonServiceTypes::JsonSubSchemaBuilderHandle& handle);
+    void HOST_API_CALL freeSchemaElementBuilder_dlx(IJsonServiceTypes::JsonSchemaElementBuilderHandle& handle);
 
     /*
      * json schema builder ops:

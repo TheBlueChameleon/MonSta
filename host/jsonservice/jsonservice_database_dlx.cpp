@@ -131,7 +131,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION(IJsonServiceTypes::JsonHandle(nullptr))
     }
 
-    const IJsonServiceTypes::JsonHandle readAndAdd_dlx(const IJsonServiceTypes::JsonTag tag, const char* const file)
+    const IJsonServiceTypes::JsonHandle HOST_API_CALL readAndAdd_dlx(const IJsonServiceTypes::JsonTag tag, const char* const file)
     {
         try
         {

@@ -250,7 +250,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION(-1)
     }
 
-    const IJsonServiceTypes::JsonHandle getArrayItem_dlx(const IJsonServiceTypes::JsonHandle handle, const int index)
+    const IJsonServiceTypes::JsonHandle HOST_API_CALL getArrayItem_dlx(const IJsonServiceTypes::JsonHandle handle, const int index)
     {
         try
         {
