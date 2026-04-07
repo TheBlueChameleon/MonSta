@@ -9,17 +9,67 @@ using namespace std::string_literals;
 
 namespace JsonService
 {
-    std::optional<JsonServiceDatabase::EntryState> JsonServiceDatabase::getState(const IJsonServiceTypes::JsonTag tag) const
+    static const JsonServiceDatabase::Entry* findEntry(
+        const std::map<std::string, JsonServiceDatabase::Entry>& database,
+        std::mutex& mutex,
+        const IJsonServiceTypes::JsonTag tag
+    )
     {
         std::lock_guard lock(mutex);
 
         auto it = database.find(tag.name);
         if (it == database.end())
         {
-            return std::nullopt;
+            return nullptr;
         }
 
-        return it->second.state;
+        return &it->second;
+    }
+
+    enum class EntryEmplacementVariant {Add, GetOrAdd, Declare};
+    static JsonServiceDatabase::Entry* emplaceEntry(
+        std::map<std::string, JsonServiceDatabase::Entry>& database,
+        std::mutex& mutex,
+        const IJsonServiceTypes::JsonTag tag,
+        EntryEmplacementVariant variant
+    )
+    {
+        std::lock_guard lock(mutex);
+
+        auto [it, inserted] = database.try_emplace(tag.name);
+        JsonServiceDatabase::Entry* entry = &it->second;
+
+        switch (variant)
+        {
+            case JsonService::EntryEmplacementVariant::Add:
+                if (!inserted)
+                {
+                    throw LookupError("JSON Tag already exists: '"s + tag.name + "'");
+                };
+                break;
+
+            case JsonService::EntryEmplacementVariant::GetOrAdd:
+                if (inserted)
+                {
+                    std::lock_guard entryLock(entry->mtx);
+                    entry->state = JsonServiceDatabase::EntryState::DECLARED;
+                };
+                break;
+
+            case JsonService::EntryEmplacementVariant::Declare:
+                if (!inserted)
+                {
+                    if (entry->state != JsonServiceDatabase::EntryState::DECLARED)
+                    {
+                        throw LookupError("JSON Tag already exists: '"s + tag.name + "'");
+                    }
+
+                    return nullptr;
+                }
+                break;
+        }
+
+        return entry;
     }
 
     static void waitForCompletion(const JsonServiceDatabase::Entry& entry)
@@ -28,20 +78,19 @@ namespace JsonService
         entry.cv.wait(lock, [&entry] { return entry.state == JsonServiceDatabase::EntryState::READY; });
     }
 
+    std::optional<JsonServiceDatabase::EntryState> JsonServiceDatabase::getState(const IJsonServiceTypes::JsonTag tag) const
+    {
+        const Entry* entry = findEntry(database, mutex, tag);
+        return (entry == nullptr) ?
+               std::nullopt : std::optional(entry->state);
+    }
+
     const nlohmann::ordered_json& JsonServiceDatabase::get(const IJsonServiceTypes::JsonTag tag) const
     {
-        const Entry* entry;
-
+        const Entry* entry = findEntry(database, mutex, tag);
+        if (entry == nullptr)
         {
-            std::lock_guard lock(mutex);
-
-            auto it = database.find(tag.name);
-            if (it == database.end())
-            {
-                throw LookupError("Unknown JSON tag: '"s + tag.name + "'");
-            }
-
-            entry = &it->second;
+            throw LookupError("Unknown JSON tag: '"s + tag.name + "'");
         }
 
         waitForCompletion(*entry);
@@ -54,21 +103,7 @@ namespace JsonService
         const nlohmann::ordered_json& json
     )
     {
-        Entry* entry;
-
-        // TODO: extract shared code with add(move)
-        {
-            std::lock_guard lock(mutex);
-
-            auto [it, inserted] = database.try_emplace(tag.name);
-
-            if (!inserted)
-            {
-                throw LookupError("JSON Tag already exists: '"s + tag.name + "'");
-            }
-
-            entry = &it->second;
-        }
+        Entry* entry = emplaceEntry(database, mutex, tag, EntryEmplacementVariant::Add);
 
         {
             std::lock_guard entryLock(entry->mtx);
@@ -84,20 +119,7 @@ namespace JsonService
 
     const nlohmann::ordered_json& JsonServiceDatabase::add(const IJsonServiceTypes::JsonTag tag, const nlohmann::ordered_json&& json)
     {
-        Entry* entry;
-
-        {
-            std::lock_guard lock(mutex);
-
-            auto [it, inserted] = database.try_emplace(tag.name);
-
-            if (!inserted)
-            {
-                throw LookupError("JSON Tag already exists: '"s + tag.name + "'");
-            }
-
-            entry = &it->second;
-        }
+        Entry* entry = emplaceEntry(database, mutex, tag, EntryEmplacementVariant::Add);
 
         {
             std::lock_guard entryLock(entry->mtx);
@@ -116,20 +138,7 @@ namespace JsonService
         std::function<void (nlohmann::ordered_json&)> creator
     )
     {
-        Entry* entry;
-
-        {
-            std::lock_guard lock(mutex);
-
-            auto [it, inserted] = database.try_emplace(tag.name);
-            entry = &it->second;
-
-            if (inserted)
-            {
-                std::lock_guard entryLock(entry->mtx);
-                entry->state = EntryState::DECLARED;
-            }
-        }
+        Entry* entry = emplaceEntry(database, mutex, tag, EntryEmplacementVariant::GetOrAdd);
 
         {
             std::unique_lock entryLock(entry->mtx);
@@ -165,20 +174,7 @@ namespace JsonService
 
     const nlohmann::ordered_json& JsonServiceDatabase::getOrAdd(const IJsonServiceTypes::JsonTag tag, const nlohmann::ordered_json& json)
     {
-        Entry* entry;
-
-        {
-            std::lock_guard lock(mutex);
-
-            auto [it, inserted] = database.try_emplace(tag.name);
-            entry = &it->second;
-
-            if (inserted)
-            {
-                std::lock_guard entryLock(entry->mtx);
-                entry->state = EntryState::DECLARED;
-            }
-        }
+        Entry* entry = emplaceEntry(database, mutex, tag, EntryEmplacementVariant::GetOrAdd);
 
         {
             std::unique_lock entryLock(entry->mtx);
@@ -212,20 +208,7 @@ namespace JsonService
 
     const nlohmann::ordered_json& JsonServiceDatabase::getOrAdd(const IJsonServiceTypes::JsonTag tag, nlohmann::ordered_json&& json)
     {
-        Entry* entry;
-
-        {
-            std::lock_guard lock(mutex);
-
-            auto [it, inserted] = database.try_emplace(tag.name);
-            entry = &it->second;
-
-            if (inserted)
-            {
-                std::lock_guard entryLock(entry->mtx);
-                entry->state = EntryState::DECLARED;
-            }
-        }
+        Entry* entry = emplaceEntry(database, mutex, tag, EntryEmplacementVariant::GetOrAdd);
 
         {
             std::unique_lock entryLock(entry->mtx);
@@ -259,24 +242,10 @@ namespace JsonService
 
     std::optional<std::reference_wrapper<nlohmann::ordered_json>> JsonServiceDatabase::declare(const IJsonServiceTypes::JsonTag tag)
     {
-        Entry* entry;
-
+        Entry* entry = emplaceEntry(database, mutex, tag, EntryEmplacementVariant::Declare);
+        if (entry == nullptr)
         {
-            std::lock_guard lock(mutex);
-
-            auto [it, inserted] = database.try_emplace(tag.name);
-
-            if (!inserted)
-            {
-                if (it->second.state != EntryState::DECLARED)
-                {
-                    throw LookupError("JSON Tag already exists: '"s + tag.name + "'");
-                }
-
-                return std::nullopt;
-            }
-
-            entry = &it->second;
+            return std::nullopt;
         }
 
         {
@@ -291,19 +260,7 @@ namespace JsonService
 
     const nlohmann::ordered_json& JsonServiceDatabase::commit(const IJsonServiceTypes::JsonTag tag)
     {
-        Entry* entry;
-
-        {
-            std::lock_guard lock(mutex);
-
-            auto it = database.find(tag.name);
-            if (it == database.end())
-            {
-                throw LookupError("Unknown JSON tag: '"s + tag.name + "'");
-            }
-
-            entry = &it->second;
-        }
+        Entry* entry = const_cast<Entry*>(findEntry(database, mutex, tag));
 
         {
             std::lock_guard entryLock(entry->mtx);
