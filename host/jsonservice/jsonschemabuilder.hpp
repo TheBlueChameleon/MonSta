@@ -83,16 +83,23 @@ namespace JsonService
             JsonSchemaBuilder& setRequired(const std::list<std::string>& required);
             JsonSchemaBuilder& addRequired(const std::string_view required);
 
-            JsonSchemaBuilder&          addReference(const std::string_view name);
             JsonSchemaBuilder&          addReference(
-                const std::string_view name,
+                const std::string_view propertyName,
+                const std::string_view schemaName,
+                const IJsonServiceTypes::JsonType type = IJsonServiceTypes::JsonType::OBJECT,
+                bool setDefaults = true
+            );
+            JsonSchemaBuilder&          addReference(
+                const std::string_view propertyName,
                 const JsonSubSchemaBuilder& subSchema,
                 const IJsonServiceTypes::JsonType type = IJsonServiceTypes::JsonType::OBJECT,
                 bool setDefaults = true
             );
+
             JsonSubSchemaBuilder&       addSubSchema(const std::string_view name);
             JsonSchemaBuilder&          addSubSchema(const JsonSubSchemaBuilder& subSchema);
             JsonSchemaBuilder&          addSubSchema(JsonSubSchemaBuilder&& subSchema);
+
             JsonSchemaElementBuilder&   addProperty(const std::string_view name);
             JsonSchemaElementBuilder&   addProperty(const std::string_view name, IJsonServiceTypes::JsonType type);
 

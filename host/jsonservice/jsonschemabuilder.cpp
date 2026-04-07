@@ -267,23 +267,48 @@ namespace JsonService
         return *this;
     }
 
-    JsonSchemaBuilder& JsonSchemaBuilder::addReference(const std::string_view name)
+    JsonSchemaBuilder& JsonSchemaBuilder::addReference(
+        const std::string_view propertyName,
+        const std::string_view schemaName,
+        const IJsonServiceTypes::JsonType type,
+        bool setDefaults
+        )
     {
-        elements.emplace_back(name);
-        elements.back().setReference(name);
+        elements.emplace_back(propertyName);
+        elements.back().setReference(schemaName);
+        elements.back().setType(type);
+        if (setDefaults)
+        {
+            auto it = std::find_if(subSchemas.cbegin(), subSchemas.cend(),
+                                   [&schemaName](const JsonSubSchemaBuilder& subSchema)
+            {
+                return subSchema.getName() == schemaName;
+            }
+                                  );
+            if (it == subSchemas.cend())
+            {
+                throw JsonError("Unknown subschema: '"s + schemaName.data() + "'");
+            }
+
+            const auto defaults = getDefaults(*it);
+            if (!defaults.is_null())
+            {
+                elements.back().setDefault(defaults);
+            }
+        }
         return *this;
     }
 
     JsonSchemaBuilder& JsonSchemaBuilder::addReference(
-        const std::string_view name,
+        const std::string_view propertyName,
         const JsonSubSchemaBuilder& subSchema,
         const IJsonServiceTypes::JsonType type,
         bool setDefaults
-    )
+        )
     {
         subSchemas.push_back(subSchema);
 
-        elements.emplace_back(name);
+        elements.emplace_back(propertyName);
         elements.back().setReference(subSchema.getName());
         elements.back().setType(type);
         if (setDefaults)

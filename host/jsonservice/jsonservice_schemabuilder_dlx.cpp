@@ -6,7 +6,7 @@
 
 namespace JsonService
 {
-    const IJsonServiceTypes::JsonSchemaBuilderHandle HOST_API_CALL instantiateSchemaBuilder_dlx()
+    IJsonServiceTypes::JsonSchemaBuilderHandle HOST_API_CALL instantiateSchemaBuilder_dlx()
     {
         try
         {
@@ -17,7 +17,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION(IJsonServiceTypes::JsonSchemaBuilderHandle(nullptr))
     }
 
-    const IJsonServiceTypes::JsonSubSchemaBuilderHandle HOST_API_CALL instantiateSubSchemaBuilder_dlx(const char* const name)
+    IJsonServiceTypes::JsonSubSchemaBuilderHandle HOST_API_CALL instantiateSubSchemaBuilder_dlx(const char* const name)
     {
         try
         {
@@ -28,7 +28,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION(IJsonServiceTypes::JsonSubSchemaBuilderHandle(nullptr))
     }
 
-    const IJsonServiceTypes::JsonSchemaElementBuilderHandle HOST_API_CALL instantiateSchemaElementBuilder_dlx(const char* const name)
+    IJsonServiceTypes::JsonSchemaElementBuilderHandle instantiateSchemaElementBuilder_dlx(const char* const name)
     {
         try
         {
