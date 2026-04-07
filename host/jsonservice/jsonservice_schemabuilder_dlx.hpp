@@ -8,11 +8,9 @@
 namespace JsonService
 {
     IJsonServiceTypes::JsonSchemaBuilderHandle        HOST_API_CALL instantiateSchemaBuilder_dlx();
-    IJsonServiceTypes::JsonSubSchemaBuilderHandle     HOST_API_CALL instantiateSubSchemaBuilder_dlx(const char* const name);
     IJsonServiceTypes::JsonSchemaElementBuilderHandle HOST_API_CALL instantiateSchemaElementBuilder_dlx(const char* const name);
 
     void HOST_API_CALL freeSchemaBuilder_dlx(IJsonServiceTypes::JsonSchemaBuilderHandle& handle);
-    void HOST_API_CALL freeSubSchemaBuilder_dlx(IJsonServiceTypes::JsonSubSchemaBuilderHandle& handle);
     void HOST_API_CALL freeSchemaElementBuilder_dlx(IJsonServiceTypes::JsonSchemaElementBuilderHandle& handle);
 
     // ---------------------------------------------------------------------- //
@@ -30,11 +28,13 @@ namespace JsonService
     void HOST_API_CALL addReference(
         IJsonServiceTypes::JsonSchemaBuilderHandle handle,
         const char* const propertyName,
-        const char* const schemaName
+        const char* const schemaName,
+        const IJsonServiceTypes::JsonType type = IJsonServiceTypes::JsonType::OBJECT,
+        bool setDefaults = true
     );
     void HOST_API_CALL addReference(
         IJsonServiceTypes::JsonSchemaBuilderHandle handle,
-        const char* const name,
+        const char* const propertyName,
         const IJsonServiceTypes::JsonSubSchemaBuilderHandle subSchema,
         const IJsonServiceTypes::JsonType type = IJsonServiceTypes::JsonType::OBJECT,
         bool setDefaults = true

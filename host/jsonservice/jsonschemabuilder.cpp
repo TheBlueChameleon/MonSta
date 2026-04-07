@@ -26,7 +26,7 @@ namespace JsonService
         return *it;
     }
 
-    static ordered_json getDefaults(const JsonSubSchemaBuilder& subSchemaBuilder)
+    static ordered_json getDefaults(const JsonSchemaBuilder& subSchemaBuilder)
     {
         auto result = ordered_json();
 
@@ -149,105 +149,25 @@ namespace JsonService
     }
 
     // ====================================================================== //
-    // JsonSubSchemaBuilder
+    // JsonSchemaBuilder
 
-    const std::string_view JsonSubSchemaBuilder::getName() const
+    JsonSchemaBuilder::JsonSchemaBuilder() :
+        JsonSchemaBuilder("<root>")
+    {}
+
+    JsonSchemaBuilder::JsonSchemaBuilder(const std::string_view name) :
+        name(name)
+    {}
+
+    const std::string_view JsonSchemaBuilder::getName() const
     {
         return name;
     }
 
-    const std::list<JsonSchemaElementBuilder>& JsonSubSchemaBuilder::getElements() const
+    const std::list<JsonSchemaElementBuilder>& JsonSchemaBuilder::getElements() const
     {
         return elements;
     }
-
-    JsonSubSchemaBuilder::JsonSubSchemaBuilder(const std::string_view name) :
-        name(name)
-    {}
-
-    JsonSubSchemaBuilder& JsonSubSchemaBuilder::setAdditionalProperties(const ordered_json& additionalProperties)
-    {
-        this->additionalProperties = additionalProperties;
-        return *this;
-    }
-
-    JsonSubSchemaBuilder& JsonSubSchemaBuilder::setRequired(const std::list<std::string>& required)
-    {
-        this->required = required;
-        return *this;
-    }
-
-    JsonSubSchemaBuilder& JsonSubSchemaBuilder::addRequired(const std::string_view required)
-    {
-        this->required.push_back(required.data());
-        return *this;
-    }
-
-    JsonSchemaElementBuilder& JsonSubSchemaBuilder::addProperty(const std::string_view name)
-    {
-        elements.emplace_back(name);
-        return elements.back();
-    }
-
-    JsonSchemaElementBuilder& JsonSubSchemaBuilder::addProperty(const std::string_view name, IJsonServiceTypes::JsonType type)
-    {
-        elements.emplace_back(name);
-        elements.back().setType(type);
-        return elements.back();
-    }
-
-    JsonSchemaElementBuilder& JsonSubSchemaBuilder::addReference(const std::string_view name)
-    {
-        elements.emplace_back(name);
-        elements.back().setReference(name);
-        return elements.back();
-    }
-
-    JsonSubSchemaBuilder& JsonSubSchemaBuilder::addReference(
-        const std::string_view name,
-        const JsonSubSchemaBuilder& subSchema, const IJsonServiceTypes::JsonType type,
-        bool setDefaults
-    )
-    {
-        elements.emplace_back(name);
-        elements.back().setReference(name);
-        elements.back().setType(type);
-        if (setDefaults)
-        {
-            const auto defaults = getDefaults(subSchema);
-            if (!defaults.is_null())
-            {
-                elements.back().setDefault(defaults);
-            }
-        }
-        return *this;
-    }
-
-    ordered_json JsonSubSchemaBuilder::build() const
-    {
-        ordered_json result = json::object();
-
-        if (!elements.empty())
-        {
-            auto& properties = result["properties"] = ordered_json::object();
-            for (const auto& element : elements)
-            {
-                properties[element.getName()] = element.getJson();
-            }
-        }
-
-        if (!required.empty())
-        {
-            result["required"] = required;
-        }
-
-        result["additionalProperties"] = additionalProperties;
-
-        return result;
-    }
-
-    // ====================================================================== //
-    // JsonSchemaBuilder
 
     JsonSchemaBuilder& JsonSchemaBuilder::setAdditionalProperties(const nlohmann::ordered_json& additionalProperties)
     {
@@ -272,7 +192,7 @@ namespace JsonService
         const std::string_view schemaName,
         const IJsonServiceTypes::JsonType type,
         bool setDefaults
-        )
+    )
     {
         elements.emplace_back(propertyName);
         elements.back().setReference(schemaName);
@@ -280,7 +200,7 @@ namespace JsonService
         if (setDefaults)
         {
             auto it = std::find_if(subSchemas.cbegin(), subSchemas.cend(),
-                                   [&schemaName](const JsonSubSchemaBuilder& subSchema)
+                                   [&schemaName](const JsonSchemaBuilder& subSchema)
             {
                 return subSchema.getName() == schemaName;
             }
@@ -301,10 +221,10 @@ namespace JsonService
 
     JsonSchemaBuilder& JsonSchemaBuilder::addReference(
         const std::string_view propertyName,
-        const JsonSubSchemaBuilder& subSchema,
+        const JsonSchemaBuilder& subSchema,
         const IJsonServiceTypes::JsonType type,
         bool setDefaults
-        )
+    )
     {
         subSchemas.push_back(subSchema);
 
@@ -322,19 +242,19 @@ namespace JsonService
         return *this;
     }
 
-    JsonSubSchemaBuilder& JsonSchemaBuilder::addSubSchema(const std::string_view name)
+    JsonSchemaBuilder& JsonSchemaBuilder::addSubSchema(const std::string_view name)
     {
         subSchemas.emplace_back(name);
         return subSchemas.back();
     }
 
-    JsonSchemaBuilder& JsonSchemaBuilder::addSubSchema(const JsonSubSchemaBuilder& subSchema)
+    JsonSchemaBuilder& JsonSchemaBuilder::addSubSchema(const JsonSchemaBuilder& subSchema)
     {
         subSchemas.push_back(subSchema);
         return *this;
     }
 
-    JsonSchemaBuilder& JsonSchemaBuilder::addSubSchema(JsonSubSchemaBuilder&& subSchema)
+    JsonSchemaBuilder& JsonSchemaBuilder::addSubSchema(JsonSchemaBuilder&& subSchema)
     {
         subSchemas.emplace_back(std::move(subSchema));
         return *this;
@@ -353,12 +273,16 @@ namespace JsonService
         return elements.back();
     }
 
-    ordered_json JsonSchemaBuilder::build() const
+    ordered_json JsonSchemaBuilder::build(bool includeSchemaReference) const
     {
-        ordered_json result =
+        ordered_json result;
+        if (includeSchemaReference)
         {
-            {"$schema", "http://json-schema.org/draft-07/schema#"}
-        };
+            result =
+            {
+                {"$schema", "http://json-schema.org/draft-07/schema#"}
+            };
+        }
 
         if (!elements.empty())
         {
@@ -379,7 +303,7 @@ namespace JsonService
             auto& defs = result["$defs"] = json::object();
             for (const auto& def : subSchemas)
             {
-                defs[def.getName()] = def.build();
+                defs[def.getName()] = def.build(false);
             }
         }
 

@@ -24,9 +24,9 @@ namespace OperationModes
     // ---------------------------------------------------------------------- //
     // logging
 
-    static const JsonSubSchemaBuilder makeLoggingSubSchema()
+    static const JsonSchemaBuilder makeLoggingSubSchema()
     {
-        auto logging = JsonSubSchemaBuilder(JKEY_LOGGING);
+        auto logging = JsonSchemaBuilder(JKEY_LOGGING);
 
         logging.addProperty(JKEY_LOGGING_LOGFILE, IJsonServiceTypes::JsonType::STRING);
 
@@ -52,9 +52,9 @@ namespace OperationModes
     // ---------------------------------------------------------------------- //
     // simulator
 
-    static const JsonSubSchemaBuilder makeSimulatorSubSchema()
+    static const JsonSchemaBuilder makeSimulatorSubSchema()
     {
-        auto simulator = JsonSubSchemaBuilder(JKEY_SIMULATOR)
+        auto simulator = JsonSchemaBuilder(JKEY_SIMULATOR)
                          .setRequired(
         {
             JKEY_SIMULATOR_ENGINE, JKEY_SIMULATOR_INPUTDIRECTORY, JKEY_SIMULATOR_OUTPUTDIRECTORY
@@ -86,9 +86,9 @@ namespace OperationModes
     // ---------------------------------------------------------------------- //
     // match definition
 
-    static const JsonSubSchemaBuilder makeMatchDefinitionSubSchema()
+    static const JsonSchemaBuilder makeMatchDefinitionSubSchema()
     {
-        auto matchDefinition = JsonSubSchemaBuilder(JKEY_MATCHDEFINITION)
+        auto matchDefinition = JsonSchemaBuilder(JKEY_MATCHDEFINITION)
                                .setRequired(
         {
             JKEY_MATCHDEFINITION_PLAYER1TEAM,
@@ -151,9 +151,9 @@ namespace OperationModes
     // ---------------------------------------------------------------------- //
     // template
 
-    static const JsonSubSchemaBuilder makeTemplateDefinitionSubSchema()
+    static const JsonSchemaBuilder makeTemplateDefinitionSubSchema()
     {
-        auto result = JsonSubSchemaBuilder(JKEY_TEMPLATES)
+        auto result = JsonSchemaBuilder(JKEY_TEMPLATES)
                       .setRequired(
         {
             JKEY_TEMPLATES_ENGINE, JKEY_TEMPLATES_OUTPUTDIRECTORY

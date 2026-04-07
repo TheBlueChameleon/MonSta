@@ -31,17 +31,17 @@ TEST_F(JsonSchemaBuilderTest, ElementBuilder_setProperty_InOrder)
 TEST_F(JsonSchemaBuilderTest, SubSchemaBuilder_All_InOrder)
 {
     // setup
-    auto builder = JsonSubSchemaBuilder("ignored");
+    auto builder = JsonSchemaBuilder("ignored");
 
     builder.setRequired({"foo"});
     builder.setAdditionalProperties(json::object());
 
     builder.addProperty("property");
     builder.addProperty("typedProperty", IJsonServiceTypes::JsonType::BOOLEAN);
-    builder.addReference("ref");
+    builder.addReference("ref", "ref-def", IJsonServiceTypes::JsonType::OBJECT, false);
 
     // when
-    std::string result = builder.build().dump(2);
+    std::string result = builder.build(false).dump(2);
     std::string expected = R"({
   "properties": {
     "property": {},
@@ -49,7 +49,8 @@ TEST_F(JsonSchemaBuilderTest, SubSchemaBuilder_All_InOrder)
       "type": "boolean"
     },
     "ref": {
-      "$ref": "#/$defs/ref"
+      "$ref": "#/$defs/ref-def",
+      "type": "object"
     }
   },
   "required": [
@@ -65,14 +66,14 @@ TEST_F(JsonSchemaBuilderTest, SubSchemaBuilder_All_InOrder)
 TEST_F(JsonSchemaBuilderTest, SubSchemaBuilder_AutoDefaults)
 {
     // setup
-    auto builder = JsonSubSchemaBuilder("ignored");
+    auto builder = JsonSchemaBuilder("target");
 
     builder.addProperty("empty");
     builder.addProperty("defaulted").setDefault("value");
     builder.addReference("recursive", builder);
 
     // when
-    std::string result = builder.build().dump(2);
+    std::string result = builder.build(false).dump(2);
     std::string expected = R"({
   "properties": {
     "empty": {},
@@ -80,11 +81,22 @@ TEST_F(JsonSchemaBuilderTest, SubSchemaBuilder_AutoDefaults)
       "default": "value"
     },
     "recursive": {
-      "$ref": "#/$defs/recursive",
+      "$ref": "#/$defs/target",
       "type": "object",
       "default": {
         "defaulted": "value"
       }
+    }
+  },
+  "$defs": {
+    "target": {
+      "properties": {
+        "empty": {},
+        "defaulted": {
+          "default": "value"
+        }
+      },
+      "additionalProperties": false
     }
   },
   "additionalProperties": false
@@ -113,7 +125,7 @@ TEST_F(JsonSchemaBuilderTest, SchemaBuilder_EmptyPreset)
 TEST_F(JsonSchemaBuilderTest, SchemaBuilder_AutoDefaults)
 {
     // setup
-    auto subSchema = JsonSubSchemaBuilder("subSchema");
+    auto subSchema = JsonSchemaBuilder("subSchema");
     subSchema.addProperty("prop").setDefault("default");
 
     auto builder = JsonSchemaBuilder();

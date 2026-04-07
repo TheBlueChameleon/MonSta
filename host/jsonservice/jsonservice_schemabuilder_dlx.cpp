@@ -17,17 +17,6 @@ namespace JsonService
         CATCH_STD_EXCEPTION(IJsonServiceTypes::JsonSchemaBuilderHandle(nullptr))
     }
 
-    IJsonServiceTypes::JsonSubSchemaBuilderHandle HOST_API_CALL instantiateSubSchemaBuilder_dlx(const char* const name)
-    {
-        try
-        {
-            return toJsonSubSchemaBuilderHandle(*new JsonSubSchemaBuilder(name));
-        }
-        CATCH_ABSTRACT_ERROR(IJsonServiceTypes::JsonSubSchemaBuilderHandle(nullptr))
-        CATCH_JSON_ERROR(IJsonServiceTypes::JsonSubSchemaBuilderHandle(nullptr))
-        CATCH_STD_EXCEPTION(IJsonServiceTypes::JsonSubSchemaBuilderHandle(nullptr))
-    }
-
     IJsonServiceTypes::JsonSchemaElementBuilderHandle instantiateSchemaElementBuilder_dlx(const char* const name)
     {
         try
@@ -45,19 +34,6 @@ namespace JsonService
         {
             assertSaneHandle(handle);
             delete &toSchemaBuilder(handle);
-            handle.data = nullptr;
-        }
-        CATCH_ABSTRACT_ERROR()
-        CATCH_JSON_ERROR()
-        CATCH_STD_EXCEPTION()
-    }
-
-    void HOST_API_CALL freeSubSchemaBuilder_dlx(IJsonServiceTypes::JsonSubSchemaBuilderHandle& handle)
-    {
-        try
-        {
-            assertSaneHandle(handle);
-            delete &toSubSchemaBuilder(handle);
             handle.data = nullptr;
         }
         CATCH_ABSTRACT_ERROR()
