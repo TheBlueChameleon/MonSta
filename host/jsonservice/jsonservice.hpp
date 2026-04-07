@@ -1,12 +1,10 @@
 #ifndef JSONSERVICE_HPP
 #define JSONSERVICE_HPP
 
-#include <nlohmann/json.hpp>
-#include <nlohmann/json-schema.hpp>
+#include <nlohmann/json_fwd.hpp>
 
 #include <services/IJsonService.hpp>
 
-#include "jsonschemabuilder.hpp"
 #include "jsonservicedatabase.hpp"
 
 namespace JsonService

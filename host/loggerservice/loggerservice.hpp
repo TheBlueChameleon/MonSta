@@ -6,7 +6,7 @@
 
 #include <services/ILoggerService.hpp>
 
-#include "loggerservice/logger.hpp"
+#include "logger.hpp"
 
 namespace LoggerService
 {

@@ -1,6 +1,9 @@
+#include <nlohmann/json.hpp>
+
 #include "errorservice/errors.hpp"
 
 #include "handleconverter.hpp"
+#include "jsonschemabuilder.hpp"
 
 using namespace nlohmann;
 

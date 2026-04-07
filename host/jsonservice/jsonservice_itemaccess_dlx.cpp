@@ -1,3 +1,5 @@
+#include <nlohmann/json.hpp>
+
 #include <services/IJsonService.hpp>
 
 #include "errorservice/catchmacros.hpp"

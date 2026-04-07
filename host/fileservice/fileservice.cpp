@@ -1,4 +1,5 @@
 #include <fstream>
+#include <set>
 
 #include "loggerservice/loggerservice.hpp"
 

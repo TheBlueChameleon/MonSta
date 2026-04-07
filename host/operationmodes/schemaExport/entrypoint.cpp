@@ -1,3 +1,5 @@
+#include <nlohmann/json.hpp>
+
 #include "errorservice/errors.hpp"
 
 #include "fileservice/fileservice.hpp"

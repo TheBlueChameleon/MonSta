@@ -1,6 +1,9 @@
 #include <filesystem>
 #include <fstream>
 
+#include <nlohmann/json.hpp>
+#include <nlohmann/json-schema.hpp>
+
 #include <services/IJsonService.hpp>
 
 #include "errorservice/errors.hpp"

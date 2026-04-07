@@ -1,14 +1,16 @@
 #ifndef HANDLECONVERTER_HPP
 #define HANDLECONVERTER_HPP
 
-#include <nlohmann/json.hpp>
+#include <nlohmann/json_fwd.hpp>
 
 #include <services/IJsonService.hpp>
 
-#include "jsonschemabuilder.hpp"
-
 namespace JsonService
 {
+    class JsonSchemaBuilder;
+    class JsonSubSchemaBuilder;
+    class JsonSchemaElementBuilder;
+
     // ---------------------------------------------------------------------- //
     // nlohmann handles
 
@@ -27,7 +29,7 @@ namespace JsonService
 
     IJsonServiceTypes::JsonSchemaBuilderHandle toJsonSchemaBuilderHandle(JsonSchemaBuilder& reference);
     IJsonServiceTypes::JsonSubSchemaBuilderHandle toJsonSubSchemaBuilderHandle(JsonSubSchemaBuilder& reference);
-    IJsonServiceTypes::JsonSchemaElementBuilderHandle toJsonSchemaElementBuilderHandle(JsonSchemaElementBuilder &reference);
+    IJsonServiceTypes::JsonSchemaElementBuilderHandle toJsonSchemaElementBuilderHandle(JsonSchemaElementBuilder& reference);
 
     JsonSchemaBuilder& toSchemaBuilder(IJsonServiceTypes::JsonSchemaBuilderHandle handle);
     JsonSubSchemaBuilder& toSubSchemaBuilder(IJsonServiceTypes::JsonSubSchemaBuilderHandle handle);

@@ -1,11 +1,13 @@
 #include <string>
 using namespace std::string_literals;
 
+#include <nlohmann/json.hpp>
+
 #include "errorservice/errors.hpp"
 
 #include "jsonservicedatabase.hpp"
 
-// TODO: de-duplicate some of the code
+// TODO: de-duplicate copy/move into entry
 
 namespace JsonService
 {

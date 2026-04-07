@@ -5,10 +5,11 @@
 #include <functional>
 #include <memory>
 #include <mutex>
+#include <optional>
 #include <string>
 #include <string_view>
 
-#include <nlohmann/json.hpp>
+#include <nlohmann/json_fwd.hpp>
 
 #include <services/IJsonService.hpp>
 
@@ -52,7 +53,6 @@ namespace JsonService
 
             const nlohmann::ordered_json& commit(const IJsonServiceTypes::JsonTag tag);
     };
-
 } // namespace JsonService
 
 #endif // JSONSERVICEDATABASE_HPP
