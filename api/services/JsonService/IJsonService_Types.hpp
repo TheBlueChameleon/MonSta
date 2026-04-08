@@ -33,11 +33,6 @@ namespace IJsonServiceTypes
         void* data;
     };
 
-    struct JsonSubSchemaBuilderHandle
-    {
-        void* data;
-    };
-
     struct JsonSchemaElementBuilderHandle
     {
         void* data;

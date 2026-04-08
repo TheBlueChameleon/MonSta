@@ -187,6 +187,12 @@ namespace JsonService
         return *this;
     }
 
+    ordered_json& JsonSchemaBuilder::addElement(const std::string_view name)
+    {
+        this->elements.emplace_back(name);
+        return elements.back().getJson();
+    }
+
     JsonSchemaBuilder& JsonSchemaBuilder::addReference(
         const std::string_view propertyName,
         const std::string_view schemaName,

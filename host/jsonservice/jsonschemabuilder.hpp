@@ -57,6 +57,8 @@ namespace JsonService
             JsonSchemaBuilder& setRequired(const std::list<std::string>& required);
             JsonSchemaBuilder& addRequired(const std::string_view required);
 
+            nlohmann::ordered_json& addElement(const std::string_view name);
+
             JsonSchemaBuilder&          addReference(
                 const std::string_view propertyName,
                 const std::string_view schemaName,

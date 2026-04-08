@@ -85,14 +85,6 @@ namespace JsonService
         };
     }
 
-    IJsonServiceTypes::JsonSubSchemaBuilderHandle toJsonSubSchemaBuilderHandle(JsonSubSchemaBuilder& reference)
-    {
-        return IJsonServiceTypes::JsonSubSchemaBuilderHandle
-        {
-            reinterpret_cast<decltype(IJsonServiceTypes::JsonSubSchemaBuilderHandle::data)>(&reference)
-        };
-    }
-
     IJsonServiceTypes::JsonSchemaElementBuilderHandle toJsonSchemaElementBuilderHandle(JsonSchemaElementBuilder& reference)
     {
         return IJsonServiceTypes::JsonSchemaElementBuilderHandle
@@ -104,11 +96,6 @@ namespace JsonService
     JsonSchemaBuilder& toSchemaBuilder(IJsonServiceTypes::JsonSchemaBuilderHandle handle)
     {
         return *reinterpret_cast<JsonSchemaBuilder*>(handle.data);
-    }
-
-    JsonSubSchemaBuilder& toSubSchemaBuilder(IJsonServiceTypes::JsonSubSchemaBuilderHandle handle)
-    {
-        return *reinterpret_cast<JsonSubSchemaBuilder*>(handle.data);
     }
 
     JsonSchemaElementBuilder& toSchemaElementBuilder(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle)
@@ -124,14 +111,6 @@ namespace JsonService
         }
     }
 
-    void assertSaneHandle(const IJsonServiceTypes::JsonSubSchemaBuilderHandle handle)
-    {
-        if (handle.data == nullptr)
-        {
-            throw ClientRequestError("Client attempted operation on null JsonSubSchemaBuilder Handle");
-        }
-    }
-
     void assertSaneHandle(const IJsonServiceTypes::JsonSchemaElementBuilderHandle handle)
     {
         if (handle.data == nullptr)
@@ -140,4 +119,22 @@ namespace JsonService
         }
     }
 
+    // ---------------------------------------------------------------------- //
+    // misc
+
+    void assertNonNullParseable(const char* const rawJson)
+    {
+        if (rawJson == nullptr)
+        {
+            throw JsonError("Attempted to parse null string");
+        }
+    }
+
+    void assertNonNullFilename(const char* const file)
+    {
+        if (file == nullptr)
+        {
+            throw JsonError("Attempted to read file with null string filename");
+        }
+    }
 }

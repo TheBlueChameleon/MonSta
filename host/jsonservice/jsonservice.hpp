@@ -1,6 +1,8 @@
 #ifndef JSONSERVICE_HPP
 #define JSONSERVICE_HPP
 
+#include <filesystem>
+
 #include <nlohmann/json_fwd.hpp>
 
 #include <services/IJsonService.hpp>
