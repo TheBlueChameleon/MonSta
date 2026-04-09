@@ -25,7 +25,7 @@ HOST_API_EXPORT
             LoggerService::info("entry into dylib");
 
             LoggerService::info("requesting by tag");
-            auto handle = JsonService::get(":storage:/host/:validation:/templates.json");
+            auto handle = JsonService::get(IJsonServiceTypes::JsonTag(":storage:/host/:validation:/templates.json"));
             LoggerService::infoF("get returned {}", handle.data);
 
             LoggerService::infoF("contains 'properties' {}", JsonService::contains(handle, "properties"));

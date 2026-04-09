@@ -77,6 +77,24 @@ namespace JsonService
                 setToArray_dlx,
                 setToObject_dlx,
                 setToParseable_dlx
+            },
+
+            IJsonService_SchemaBuilder{
+                instantiateSchemaBuilder_dlx,
+                instantiateSchemaElementBuilder_dlx,
+                freeSchemaBuilder_dlx,
+                freeSchemaElementBuilder_dlx,
+
+                setAdditionalProperties,
+                addRequired,
+                addElement,
+                addReferenceByName,
+                addReferenceByType,
+                addSubSchemaByName,
+                addSubSchemaByType,
+                addPropertyByName,
+                addPropertyByNameWithType,
+                buildAndAdd
             }
         };
     }
@@ -112,7 +130,7 @@ namespace JsonService
 
     const nlohmann::ordered_json& get(const IJsonServiceTypes::JsonTag tag)
     {
-        return database.get(tag.name);
+        return database.get(tag);
     }
 
     const nlohmann::ordered_json& add(const IJsonServiceTypes::JsonTag tag, const nlohmann::ordered_json& json)

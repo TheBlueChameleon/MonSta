@@ -91,12 +91,12 @@ namespace JsonService
             }
             else
             {
-                return IJsonServiceTypes::ModifiableJsonHandle(nullptr);
+                return IJsonServiceTypes::ModifiableJsonHandle{nullptr};
             }
 
         }
-        CATCH_ABSTRACT_ERROR(IJsonServiceTypes::ModifiableJsonHandle(nullptr))
-        CATCH_STD_EXCEPTION(IJsonServiceTypes::ModifiableJsonHandle(nullptr))
+        CATCH_ABSTRACT_ERROR(IJsonServiceTypes::ModifiableJsonHandle{nullptr})
+        CATCH_STD_EXCEPTION(IJsonServiceTypes::ModifiableJsonHandle{nullptr})
     }
 
     const IJsonServiceTypes::JsonHandle HOST_API_CALL commit_dlx(const IJsonServiceTypes::JsonTag tag)
@@ -122,6 +122,7 @@ namespace JsonService
         try
         {
             assertNonNullParseable(json);
+            assertSaneTag(tag);
             return toJsonHandle(
                        validatePatchAndAdd(
                            tag,
@@ -139,6 +140,7 @@ namespace JsonService
     {
         try
         {
+            assertSaneTag(tag);
             assertNonNullFilename(file);
             return toJsonHandle(
                        readAndAdd(tag, file)
@@ -157,6 +159,7 @@ namespace JsonService
     {
         try
         {
+            assertSaneTag(tag);
             assertNonNullFilename(file);
             return toJsonHandle(
                        readValidateByTagPatchAndAdd(

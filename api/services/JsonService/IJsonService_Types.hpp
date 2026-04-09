@@ -13,17 +13,13 @@ namespace IJsonServiceTypes
 
     struct ModifiableJsonHandle :
         public JsonHandle
-    {
-        ModifiableJsonHandle(const void* const data):
-            JsonHandle(data)
-        {}
-    };
+    {};
 
     struct JsonTag
     {
         const char* const name;
 
-        JsonTag(const char* const name) :
+        explicit JsonTag(const char* const name) :
             name(name)
         {}
     };

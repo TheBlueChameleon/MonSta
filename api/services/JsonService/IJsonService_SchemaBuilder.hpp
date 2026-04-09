@@ -1,79 +1,79 @@
-#ifndef JSONSERVICE_SCHEMABUILDER_DLX_HPP
-#define JSONSERVICE_SCHEMABUILDER_DLX_HPP
+#ifndef IJSONSERVICE_SCHEMABUILDER_HPP
+#define IJSONSERVICE_SCHEMABUILDER_HPP
 
 #include <CallingConventions.hpp>
 
-#include <services/IJsonService.hpp>
+#include "IJsonService_Types.hpp"
 
-namespace JsonService
+struct IJsonService_SchemaBuilder
 {
     // ---------------------------------------------------------------------- //
     // instantiate and free
 
-    IJsonServiceTypes::JsonSchemaBuilderHandle        HOST_API_CALL instantiateSchemaBuilder_dlx(const char* const name = nullptr);
-    IJsonServiceTypes::JsonSchemaElementBuilderHandle HOST_API_CALL instantiateSchemaElementBuilder_dlx(const char* const name);
+    IJsonServiceTypes::JsonSchemaBuilderHandle(*const HOST_API_CALL instantiateSchemaBuilder_dlx)(const char* const name);
+    IJsonServiceTypes::JsonSchemaElementBuilderHandle(*const HOST_API_CALL instantiateSchemaElementBuilder_dlx)(const char* const name);
 
-    void HOST_API_CALL freeSchemaBuilder_dlx(IJsonServiceTypes::JsonSchemaBuilderHandle& handle);
-    void HOST_API_CALL freeSchemaElementBuilder_dlx(IJsonServiceTypes::JsonSchemaElementBuilderHandle& handle);
+    void (*const HOST_API_CALL freeSchemaBuilder_dlx)(IJsonServiceTypes::JsonSchemaBuilderHandle& handle);
+    void (*const HOST_API_CALL freeSchemaElementBuilder_dlx)(IJsonServiceTypes::JsonSchemaElementBuilderHandle& handle);
 
     // ---------------------------------------------------------------------- //
     // JsonSchemaBuilder
 
-    void HOST_API_CALL setAdditionalProperties(
+    void (*const HOST_API_CALL setAdditionalProperties)(
         IJsonServiceTypes::JsonSchemaBuilderHandle handle,
         const char* const additionalProperties
     );
-    void HOST_API_CALL addRequired(
+    void (*const HOST_API_CALL addRequired)(
         IJsonServiceTypes::JsonSchemaBuilderHandle handle,
         const char* const required
     );
 
-    IJsonServiceTypes::ModifiableJsonHandle HOST_API_CALL addElement(
+    IJsonServiceTypes::ModifiableJsonHandle(*const HOST_API_CALL addElement)(
         IJsonServiceTypes::JsonSchemaBuilderHandle handle,
         const char* const name
     );
 
-    void HOST_API_CALL addReferenceByName(
+    void (*const HOST_API_CALL addReferenceByName)(
         IJsonServiceTypes::JsonSchemaBuilderHandle handle,
         const char* const propertyName,
         const char* const schemaName,
-        const IJsonServiceTypes::JsonType propertyType = IJsonServiceTypes::JsonType::OBJECT,
-        bool setDefaults = true
+        const IJsonServiceTypes::JsonType propertyType,
+        bool setDefaults
     );
-    void HOST_API_CALL addReferenceByType(
+    void (*const HOST_API_CALL addReferenceByType)(
         IJsonServiceTypes::JsonSchemaBuilderHandle handle,
         const char* const propertyName,
         const IJsonServiceTypes::JsonSchemaBuilderHandle subSchema,
-        const IJsonServiceTypes::JsonType propertyType = IJsonServiceTypes::JsonType::OBJECT,
-        bool setDefaults = true
+        const IJsonServiceTypes::JsonType propertyType,
+        bool setDefaults
     );
 
-    IJsonServiceTypes::JsonSchemaBuilderHandle HOST_API_CALL addSubSchemaByName(
+    IJsonServiceTypes::JsonSchemaBuilderHandle(*const HOST_API_CALL addSubSchemaByName)(
         IJsonServiceTypes::JsonSchemaBuilderHandle handle,
         const char* const schemaName
     );
-    void HOST_API_CALL addSubSchemaByType(
+    void (*const HOST_API_CALL addSubSchemaByType)(
         IJsonServiceTypes::JsonSchemaBuilderHandle handle,
         const IJsonServiceTypes::JsonSchemaBuilderHandle subSchema
     );
 
-    IJsonServiceTypes::JsonSchemaElementBuilderHandle HOST_API_CALL addPropertyByName(
+    IJsonServiceTypes::JsonSchemaElementBuilderHandle(*const HOST_API_CALL addPropertyByName)(
         IJsonServiceTypes::JsonSchemaBuilderHandle handle,
         const char* const propertyName
     );
-    IJsonServiceTypes::JsonSchemaElementBuilderHandle HOST_API_CALL addPropertyByNameWithType(
+    IJsonServiceTypes::JsonSchemaElementBuilderHandle(*const HOST_API_CALL addPropertyByNameWithType)(
         IJsonServiceTypes::JsonSchemaBuilderHandle handle,
         const char* const propertyName,
         IJsonServiceTypes::JsonType propertyType
     );
 
-    IJsonServiceTypes::JsonHandle HOST_API_CALL buildAndAdd(
+    IJsonServiceTypes::JsonHandle(*const HOST_API_CALL buildAndAdd)(
         IJsonServiceTypes::JsonSchemaBuilderHandle handle,
         const IJsonServiceTypes::JsonTag tag
     );
 
     // ---------------------------------------------------------------------- //
     // JsonSchemaElementBuilder
-}
+};
 
-#endif // JSONSERVICE_SCHEMABUILDER_DLX_HPP
+#endif // IJSONSERVICE_SCHEMABUILDER_HPP

@@ -26,8 +26,8 @@ TEST_F(JsonServiceTest, Database_AddGet_SingleThread)
 
     auto instance = JsonServiceDatabase();
     nlohmann::json json = R"({"key" : "value"})"_json;
-    const auto tag = "tag";
-    const auto nonexistent = "nonexistent";
+    const auto tag = IJsonServiceTypes::JsonTag("tag");
+    const auto nonexistent = IJsonServiceTypes::JsonTag("nonexistent");
 
     // tag can be added once ...
     EXPECT_NO_THROW(instance.add(tag, json));
@@ -60,7 +60,7 @@ TEST_F(JsonServiceTest, Database_AddGet_MultiThread)
 {
     using namespace JsonService;
 
-    const auto tag = "tag";
+    const auto tag = IJsonServiceTypes::JsonTag("tag");
     const auto raw = R"({"key":"value"})";
     nlohmann::json json = nlohmann::json::parse(raw);
 
@@ -129,7 +129,7 @@ TEST_F(JsonServiceTest, Database_GetOrAdd)
 {
     using namespace JsonService;
 
-    const auto tag = "tag";
+    const auto tag = IJsonServiceTypes::JsonTag("tag");
     const auto raw = R"({"key":"value"})";
 
     std::atomic_int correctReads = 0;
@@ -168,7 +168,7 @@ TEST_F(JsonServiceTest, Database_DeclareCommit)
 {
     using namespace JsonService;
 
-    const auto tag = "tag";
+    const auto tag = IJsonServiceTypes::JsonTag("tag");
     const auto key = "key";
     const auto val = "value";
     const auto raw = R"({"key":"value"})";
@@ -249,8 +249,8 @@ TEST_F(JsonServiceTest, Database_DeclareAdd)
 {
     using namespace JsonService;
 
-    const auto tag1 = "tag1";
-    const auto tag2 = "tag2";
+    const auto tag1 = IJsonServiceTypes::JsonTag("tag1");
+    const auto tag2 = IJsonServiceTypes::JsonTag("tag2");
     const auto keyD = "keyD";
     const auto val  = "value";
     const auto rawD = R"({"keyD":"value"})";

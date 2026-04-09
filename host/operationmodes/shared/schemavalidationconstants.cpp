@@ -14,9 +14,9 @@ namespace OperationModes
     // ====================================================================== //
     // TAGS
 
-    const IJsonServiceTypes::JsonTag JTAG_BASE       = ":storage:/host/";
-    const IJsonServiceTypes::JsonTag JTAG_SIMULATION = ":storage:/host/:validation:/simulation.json";
-    const IJsonServiceTypes::JsonTag JTAG_TEMPLATES  = ":storage:/host/:validation:/templates.json";
+    const IJsonServiceTypes::JsonTag JTAG_BASE       = IJsonServiceTypes::JsonTag(":storage:/host/");
+    const IJsonServiceTypes::JsonTag JTAG_SIMULATION = IJsonServiceTypes::JsonTag(":storage:/host/:validation:/simulation.json");
+    const IJsonServiceTypes::JsonTag JTAG_TEMPLATES  = IJsonServiceTypes::JsonTag(":storage:/host/:validation:/templates.json");
 
     // ====================================================================== //
     // SHARED

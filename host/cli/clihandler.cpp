@@ -257,7 +257,7 @@ static std::shared_ptr<const BaseModeDefinition> unpackSimulationInput(const Cli
     const std::string_view source = cliInput.data;
     const std::string tag = std::string(JTAG_BASE.name) + source.data();
     auto data = JsonService::readValidateByTagPatchAndAdd(
-                    tag.data(),
+                    IJsonServiceTypes::JsonTag(tag.data()),
                     source,
                     JTAG_SIMULATION
                 );
@@ -297,7 +297,7 @@ static std::shared_ptr<const BaseModeDefinition> unpackTemplateInput(const CliIn
     const std::string_view source = cliInput.data;
     const std::string tag = std::string(JTAG_BASE.name) + source.data();
     auto data = JsonService::readValidateByTagPatchAndAdd(
-                    tag.data(),
+                    IJsonServiceTypes::JsonTag(tag.data()),
                     source,
                     JTAG_TEMPLATES
                 );

@@ -24,7 +24,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION(IJsonServiceTypes::JsonSchemaBuilderHandle(nullptr))
     }
 
-    IJsonServiceTypes::JsonSchemaElementBuilderHandle instantiateSchemaElementBuilder_dlx(const char* const name)
+    IJsonServiceTypes::JsonSchemaElementBuilderHandle HOST_API_CALL instantiateSchemaElementBuilder_dlx(const char* const name)
     {
         try
         {
@@ -64,7 +64,7 @@ namespace JsonService
     // ---------------------------------------------------------------------- //
     // JsonSchemaBuilder
 
-    void setAdditionalProperties(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const char* const additionalProperties)
+    void HOST_API_CALL setAdditionalProperties(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const char* const additionalProperties)
     {
         try
         {
@@ -78,7 +78,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION()
     }
 
-    void addRequired(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const char* const required)
+    void HOST_API_CALL addRequired(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const char* const required)
     {
         try
         {
@@ -92,7 +92,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION()
     }
 
-    IJsonServiceTypes::ModifiableJsonHandle addElement(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const char* const name)
+    IJsonServiceTypes::ModifiableJsonHandle HOST_API_CALL addElement(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const char* const name)
     {
         try
         {
@@ -102,16 +102,16 @@ namespace JsonService
             auto& element = schema.addElement(name);
             return toModifiableJsonHandle(element);
         }
-        CATCH_ABSTRACT_ERROR(nullptr)
-        CATCH_JSON_ERROR(nullptr)
-        CATCH_STD_EXCEPTION(nullptr)
+        CATCH_ABSTRACT_ERROR(IJsonServiceTypes::ModifiableJsonHandle{nullptr})
+        CATCH_JSON_ERROR(IJsonServiceTypes::ModifiableJsonHandle{nullptr})
+        CATCH_STD_EXCEPTION(IJsonServiceTypes::ModifiableJsonHandle{nullptr})
     }
 
-    void addReference(
+    void HOST_API_CALL addReferenceByName(
         IJsonServiceTypes::JsonSchemaBuilderHandle handle,
         const char* const propertyName,
         const char* const schemaName,
-        const IJsonServiceTypes::JsonType type,
+        const IJsonServiceTypes::JsonType propertyType,
         bool setDefaults
     )
     {
@@ -121,11 +121,125 @@ namespace JsonService
             assertNonNullParseable(propertyName);
             assertNonNullParseable(schemaName);
             JsonSchemaBuilder& schema = toSchemaBuilder(handle);
-            schema.addReference(propertyName, schemaName, type, setDefaults);
+            schema.addReference(propertyName, schemaName, propertyType, setDefaults);
         }
         CATCH_ABSTRACT_ERROR()
         CATCH_JSON_ERROR()
         CATCH_STD_EXCEPTION()
+    }
+
+    void HOST_API_CALL addReferenceByType(
+        IJsonServiceTypes::JsonSchemaBuilderHandle handle,
+        const char* const propertyName,
+        const IJsonServiceTypes::JsonSchemaBuilderHandle subSchemaHandle,
+        const IJsonServiceTypes::JsonType propertyType,
+        bool setDefaults
+    )
+    {
+        try
+        {
+            assertSaneHandle(handle);
+            assertSaneHandle(subSchemaHandle);
+            assertNonNullParseable(propertyName);
+            JsonSchemaBuilder& schema = toSchemaBuilder(handle);
+            JsonSchemaBuilder& subSchema = toSchemaBuilder(subSchemaHandle);
+            schema.addReference(propertyName, subSchema, propertyType, setDefaults);
+        }
+        CATCH_ABSTRACT_ERROR()
+        CATCH_JSON_ERROR()
+        CATCH_STD_EXCEPTION()
+    }
+
+    IJsonServiceTypes::JsonSchemaBuilderHandle HOST_API_CALL addSubSchemaByName(
+        IJsonServiceTypes::JsonSchemaBuilderHandle handle,
+        const char* const schemaName
+    )
+    {
+        try
+        {
+            assertSaneHandle(handle);
+            assertNonNullParseable(schemaName);
+            JsonSchemaBuilder& schema = toSchemaBuilder(handle);
+            JsonSchemaBuilder& result = schema.addSubSchema(schemaName);
+            return toJsonSchemaBuilderHandle(result);
+        }
+        CATCH_ABSTRACT_ERROR(IJsonServiceTypes::JsonSchemaBuilderHandle{nullptr})
+        CATCH_JSON_ERROR(IJsonServiceTypes::JsonSchemaBuilderHandle{nullptr})
+        CATCH_STD_EXCEPTION(IJsonServiceTypes::JsonSchemaBuilderHandle{nullptr})
+    }
+
+    void HOST_API_CALL addSubSchemaByType(
+        IJsonServiceTypes::JsonSchemaBuilderHandle handle,
+        const IJsonServiceTypes::JsonSchemaBuilderHandle subSchemaHandle
+    )
+    {
+        try
+        {
+            assertSaneHandle(handle);
+            assertSaneHandle(subSchemaHandle);
+            JsonSchemaBuilder& schema = toSchemaBuilder(handle);
+            JsonSchemaBuilder& subSchema = toSchemaBuilder(subSchemaHandle);
+            JsonSchemaBuilder& result = schema.addSubSchema(subSchema);
+        }
+        CATCH_ABSTRACT_ERROR()
+        CATCH_JSON_ERROR()
+        CATCH_STD_EXCEPTION()
+    }
+
+    IJsonServiceTypes::JsonSchemaElementBuilderHandle HOST_API_CALL addPropertyByName(
+        IJsonServiceTypes::JsonSchemaBuilderHandle handle,
+        const char* const propertyName
+    )
+    {
+        try
+        {
+            assertSaneHandle(handle);
+            assertNonNullParseable(propertyName);
+            JsonSchemaBuilder& schema = toSchemaBuilder(handle);
+            JsonSchemaElementBuilder& result = schema.addProperty(propertyName);
+            return toJsonSchemaElementBuilderHandle(result);
+        }
+        CATCH_ABSTRACT_ERROR(IJsonServiceTypes::JsonSchemaElementBuilderHandle{nullptr})
+        CATCH_JSON_ERROR(IJsonServiceTypes::JsonSchemaElementBuilderHandle{nullptr})
+        CATCH_STD_EXCEPTION(IJsonServiceTypes::JsonSchemaElementBuilderHandle{nullptr})
+    }
+
+    IJsonServiceTypes::JsonSchemaElementBuilderHandle HOST_API_CALL addPropertyByNameWithType(
+        IJsonServiceTypes::JsonSchemaBuilderHandle handle,
+        const char* const propertyName,
+        IJsonServiceTypes::JsonType propertyType
+    )
+    {
+        try
+        {
+            assertSaneHandle(handle);
+            assertNonNullParseable(propertyName);
+            JsonSchemaBuilder& schema = toSchemaBuilder(handle);
+            JsonSchemaElementBuilder& result = schema.addProperty(propertyName, propertyType);
+            return toJsonSchemaElementBuilderHandle(result);
+        }
+        CATCH_ABSTRACT_ERROR(IJsonServiceTypes::JsonSchemaElementBuilderHandle{nullptr})
+        CATCH_JSON_ERROR(IJsonServiceTypes::JsonSchemaElementBuilderHandle{nullptr})
+        CATCH_STD_EXCEPTION(IJsonServiceTypes::JsonSchemaElementBuilderHandle{nullptr})
+    }
+
+    IJsonServiceTypes::JsonHandle HOST_API_CALL buildAndAdd(
+        IJsonServiceTypes::JsonSchemaBuilderHandle handle,
+        const IJsonServiceTypes::JsonTag tag
+    )
+    {
+        try
+        {
+            assertSaneHandle(handle);
+            assertSaneTag(tag);
+            JsonSchemaBuilder& schema = toSchemaBuilder(handle);
+            nlohmann::ordered_json result = schema.build();
+            const nlohmann::ordered_json& ref = getOrAdd(tag, std::move(result));
+            return toJsonHandle(ref);
+        }
+        CATCH_ABSTRACT_ERROR(IJsonServiceTypes::JsonHandle{nullptr})
+        CATCH_JSON_ERROR(IJsonServiceTypes::JsonHandle{nullptr})
+        CATCH_STD_EXCEPTION(IJsonServiceTypes::JsonHandle{nullptr})
     }
 
 }
