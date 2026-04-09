@@ -64,7 +64,7 @@ namespace JsonService
     // ---------------------------------------------------------------------- //
     // JsonSchemaBuilder
 
-    void HOST_API_CALL setAdditionalProperties(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const char* const additionalProperties)
+    void HOST_API_CALL sb_setAdditionalProperties(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const char* const additionalProperties)
     {
         try
         {
@@ -78,7 +78,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION()
     }
 
-    void HOST_API_CALL addRequired(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const char* const required)
+    void HOST_API_CALL sb_addRequired(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const char* const required)
     {
         try
         {
@@ -92,7 +92,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION()
     }
 
-    IJsonServiceTypes::ModifiableJsonHandle HOST_API_CALL addElement(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const char* const name)
+    IJsonServiceTypes::ModifiableJsonHandle HOST_API_CALL sb_addElement(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const char* const name)
     {
         try
         {
@@ -107,7 +107,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION(IJsonServiceTypes::ModifiableJsonHandle{nullptr})
     }
 
-    void HOST_API_CALL addReferenceByName(
+    void HOST_API_CALL sb_addReferenceByName(
         IJsonServiceTypes::JsonSchemaBuilderHandle handle,
         const char* const propertyName,
         const char* const schemaName,
@@ -128,7 +128,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION()
     }
 
-    void HOST_API_CALL addReferenceByType(
+    void HOST_API_CALL sb_addReferenceByType(
         IJsonServiceTypes::JsonSchemaBuilderHandle handle,
         const char* const propertyName,
         const IJsonServiceTypes::JsonSchemaBuilderHandle subSchemaHandle,
@@ -150,7 +150,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION()
     }
 
-    IJsonServiceTypes::JsonSchemaBuilderHandle HOST_API_CALL addSubSchemaByName(
+    IJsonServiceTypes::JsonSchemaBuilderHandle HOST_API_CALL sb_addSubSchemaByName(
         IJsonServiceTypes::JsonSchemaBuilderHandle handle,
         const char* const schemaName
     )
@@ -168,7 +168,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION(IJsonServiceTypes::JsonSchemaBuilderHandle{nullptr})
     }
 
-    void HOST_API_CALL addSubSchemaByType(
+    void HOST_API_CALL sb_addSubSchemaByType(
         IJsonServiceTypes::JsonSchemaBuilderHandle handle,
         const IJsonServiceTypes::JsonSchemaBuilderHandle subSchemaHandle
     )
@@ -186,7 +186,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION()
     }
 
-    IJsonServiceTypes::JsonSchemaElementBuilderHandle HOST_API_CALL addPropertyByName(
+    IJsonServiceTypes::JsonSchemaElementBuilderHandle HOST_API_CALL sb_addPropertyByName(
         IJsonServiceTypes::JsonSchemaBuilderHandle handle,
         const char* const propertyName
     )
@@ -204,7 +204,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION(IJsonServiceTypes::JsonSchemaElementBuilderHandle{nullptr})
     }
 
-    IJsonServiceTypes::JsonSchemaElementBuilderHandle HOST_API_CALL addPropertyByNameWithType(
+    IJsonServiceTypes::JsonSchemaElementBuilderHandle HOST_API_CALL sb_addPropertyByNameWithType(
         IJsonServiceTypes::JsonSchemaBuilderHandle handle,
         const char* const propertyName,
         IJsonServiceTypes::JsonType propertyType
@@ -223,7 +223,7 @@ namespace JsonService
         CATCH_STD_EXCEPTION(IJsonServiceTypes::JsonSchemaElementBuilderHandle{nullptr})
     }
 
-    IJsonServiceTypes::JsonHandle HOST_API_CALL buildAndAdd(
+    IJsonServiceTypes::JsonHandle HOST_API_CALL sb_buildAndAdd(
         IJsonServiceTypes::JsonSchemaBuilderHandle handle,
         const IJsonServiceTypes::JsonTag tag
     )

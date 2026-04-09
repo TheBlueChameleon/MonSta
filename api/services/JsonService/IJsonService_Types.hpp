@@ -11,9 +11,7 @@ namespace IJsonServiceTypes
         const void* data;
     };
 
-    struct ModifiableJsonHandle :
-        public JsonHandle
-    {};
+    struct ModifiableJsonHandle : public JsonHandle {};
 
     struct JsonTag
     {

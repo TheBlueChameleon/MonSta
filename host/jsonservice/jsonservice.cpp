@@ -85,16 +85,16 @@ namespace JsonService
                 freeSchemaBuilder_dlx,
                 freeSchemaElementBuilder_dlx,
 
-                setAdditionalProperties,
-                addRequired,
-                addElement,
-                addReferenceByName,
-                addReferenceByType,
-                addSubSchemaByName,
-                addSubSchemaByType,
-                addPropertyByName,
-                addPropertyByNameWithType,
-                buildAndAdd
+                sb_setAdditionalProperties,
+                sb_addRequired,
+                sb_addElement,
+                sb_addReferenceByName,
+                sb_addReferenceByType,
+                sb_addSubSchemaByName,
+                sb_addSubSchemaByType,
+                sb_addPropertyByName,
+                sb_addPropertyByNameWithType,
+                sb_buildAndAdd
             }
         };
     }
