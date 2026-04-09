@@ -28,9 +28,14 @@ namespace JsonService
         const char* const required
     );
 
-    IJsonServiceTypes::ModifiableJsonHandle HOST_API_CALL sb_addElement(
+    IJsonServiceTypes::ModifiableJsonHandle HOST_API_CALL sb_addElementByName(
         IJsonServiceTypes::JsonSchemaBuilderHandle handle,
         const char* const name
+    );
+    void HOST_API_CALL sb_addElementByParseable(
+        IJsonServiceTypes::JsonSchemaBuilderHandle handle,
+        const char* const name,
+        const char* const rawJson
     );
 
     void HOST_API_CALL sb_addReferenceByName(

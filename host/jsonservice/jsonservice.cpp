@@ -87,7 +87,8 @@ namespace JsonService
 
                 sb_setAdditionalProperties,
                 sb_addRequired,
-                sb_addElement,
+                sb_addElementByName,
+                sb_addElementByParseable,
                 sb_addReferenceByName,
                 sb_addReferenceByType,
                 sb_addSubSchemaByName,

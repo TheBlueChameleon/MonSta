@@ -20,15 +20,18 @@ namespace JsonService
         public:
             JsonSchemaElementBuilder();
             JsonSchemaElementBuilder(const std::string_view name);
+            JsonSchemaElementBuilder(const std::string_view name, const nlohmann::ordered_json& json);
 
+            const std::string_view getName() const;
             nlohmann::ordered_json& getJson();
             const nlohmann::ordered_json& getJson() const;
-            const std::string_view getName() const;
+            JsonSchemaElementBuilder& setJson(const nlohmann::ordered_json& value);
+            JsonSchemaElementBuilder& setJson(nlohmann::ordered_json&& value);
 
             JsonSchemaElementBuilder& setProperty(const std::string_view key, const nlohmann::ordered_json& value);
             JsonSchemaElementBuilder& setType(const IJsonServiceTypes::JsonType type);
             JsonSchemaElementBuilder& setTypedArray(const IJsonServiceTypes::JsonType type);
-            JsonSchemaElementBuilder& setEnum(const std::list<nlohmann::ordered_json>& items);
+            JsonSchemaElementBuilder& setEnum(const nlohmann::ordered_json& items);
             JsonSchemaElementBuilder& setDescription(const std::string_view value);
             JsonSchemaElementBuilder& setTitle(const std::string_view value);
             JsonSchemaElementBuilder& setDefault(const nlohmann::ordered_json& value);
@@ -58,6 +61,7 @@ namespace JsonService
             JsonSchemaBuilder& addRequired(const std::string_view required);
 
             nlohmann::ordered_json& addElement(const std::string_view name);
+            JsonSchemaBuilder& addElement(const std::string_view name, const nlohmann::ordered_json& element);
 
             JsonSchemaBuilder&          addReference(
                 const std::string_view propertyName,

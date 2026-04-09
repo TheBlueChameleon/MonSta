@@ -50,23 +50,39 @@ namespace JsonService
     {}
 
     JsonSchemaElementBuilder::JsonSchemaElementBuilder(const std::string_view name) :
-        name(name),
-        json(json::object())
+        JsonSchemaElementBuilder(name, json::object())
     {}
+
+    JsonSchemaElementBuilder::JsonSchemaElementBuilder(const std::string_view name, const nlohmann::ordered_json& json) :
+        name(name),
+        json(json)
+    {}
+
+    const std::string_view JsonSchemaElementBuilder::getName() const
+    {
+        return name;
+    }
 
     nlohmann::ordered_json& JsonSchemaElementBuilder::getJson()
     {
         return json;
     }
 
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setJson(const nlohmann::ordered_json& value)
+    {
+        json = value;
+        return *this;
+    }
+
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setJson(nlohmann::ordered_json&& value)
+    {
+        json = std::move(value);
+        return *this;
+    }
+
     const ordered_json& JsonSchemaElementBuilder::getJson() const
     {
         return json;
-    }
-
-    const std::string_view JsonSchemaElementBuilder::getName() const
-    {
-        return name;
     }
 
     JsonSchemaElementBuilder& JsonSchemaElementBuilder::setProperty(const std::string_view key, const ordered_json& value)
@@ -113,7 +129,7 @@ namespace JsonService
                            );
     }
 
-    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setEnum(const std::list<nlohmann::ordered_json>& items)
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setEnum(const ordered_json &items)
     {
         return setProperty("enum", items);
     }
@@ -191,6 +207,12 @@ namespace JsonService
     {
         this->elements.emplace_back(name);
         return elements.back().getJson();
+    }
+
+    JsonSchemaBuilder& JsonSchemaBuilder::addElement(const std::string_view name, const nlohmann::ordered_json& element)
+    {
+        this->elements.emplace_back(name, element);
+        return *this;
     }
 
     JsonSchemaBuilder& JsonSchemaBuilder::addReference(

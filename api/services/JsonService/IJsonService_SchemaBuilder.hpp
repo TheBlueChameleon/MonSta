@@ -28,9 +28,14 @@ struct IJsonService_SchemaBuilder
         const char* const required
     );
 
-    IJsonServiceTypes::ModifiableJsonHandle(*const HOST_API_CALL sb_addElement)(
+    IJsonServiceTypes::ModifiableJsonHandle(*const HOST_API_CALL sb_addElementByName)(
         IJsonServiceTypes::JsonSchemaBuilderHandle handle,
         const char* const name
+    );
+    void(*const HOST_API_CALL sb_addElementByParseable)(
+        IJsonServiceTypes::JsonSchemaBuilderHandle handle,
+        const char* const name,
+        const char* const rawJson
     );
 
     void (*const HOST_API_CALL sb_addReferenceByName)(

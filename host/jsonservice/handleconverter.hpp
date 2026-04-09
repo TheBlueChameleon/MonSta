@@ -21,23 +21,26 @@ namespace JsonService
     nlohmann::ordered_json& toModifiableOrderedJson(const IJsonServiceTypes::ModifiableJsonHandle handle);
 
     void assertSaneHandle(const IJsonServiceTypes::JsonHandle handle);
-    void assertSaneTag(const IJsonServiceTypes::JsonTag tag);
     void assertSaneJsonPointer(const char* const jsonPointer);
 
     // ---------------------------------------------------------------------- //
     // JsonSchemaBuilder handles
 
     IJsonServiceTypes::JsonSchemaBuilderHandle toJsonSchemaBuilderHandle(JsonSchemaBuilder& reference);
-    IJsonServiceTypes::JsonSubSchemaBuilderHandle toJsonSubSchemaBuilderHandle(JsonSubSchemaBuilder& reference);
     IJsonServiceTypes::JsonSchemaElementBuilderHandle toJsonSchemaElementBuilderHandle(JsonSchemaElementBuilder& reference);
 
     JsonSchemaBuilder& toSchemaBuilder(IJsonServiceTypes::JsonSchemaBuilderHandle handle);
-    JsonSubSchemaBuilder& toSubSchemaBuilder(IJsonServiceTypes::JsonSubSchemaBuilderHandle handle);
     JsonSchemaElementBuilder& toSchemaElementBuilder(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle);
 
     void assertSaneHandle(const IJsonServiceTypes::JsonSchemaBuilderHandle handle);
-    void assertSaneHandle(const IJsonServiceTypes::JsonSubSchemaBuilderHandle handle);
     void assertSaneHandle(const IJsonServiceTypes::JsonSchemaElementBuilderHandle handle);
+
+    // ---------------------------------------------------------------------- //
+    // misc
+
+    void assertSaneTag(const IJsonServiceTypes::JsonTag tag);
+    void assertSaneParseable(const char* const rawJson);
+    void assertSaneFilename(const char* const file);
 }
 
 #endif // HANDLECONVERTER_HPP

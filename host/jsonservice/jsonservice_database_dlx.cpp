@@ -68,7 +68,7 @@ namespace JsonService
         try
         {
             assertSaneTag(tag);
-            assertNonNullParseable(json);
+            assertSaneParseable(json);
             return toJsonHandle(
                        getOrAdd(tag, parse(json))
                    );
@@ -121,7 +121,7 @@ namespace JsonService
     {
         try
         {
-            assertNonNullParseable(json);
+            assertSaneParseable(json);
             assertSaneTag(tag);
             return toJsonHandle(
                        validatePatchAndAdd(
@@ -141,7 +141,7 @@ namespace JsonService
         try
         {
             assertSaneTag(tag);
-            assertNonNullFilename(file);
+            assertSaneFilename(file);
             return toJsonHandle(
                        readAndAdd(tag, file)
                    );
@@ -160,7 +160,7 @@ namespace JsonService
         try
         {
             assertSaneTag(tag);
-            assertNonNullFilename(file);
+            assertSaneFilename(file);
             return toJsonHandle(
                        readValidateByTagPatchAndAdd(
                            tag,

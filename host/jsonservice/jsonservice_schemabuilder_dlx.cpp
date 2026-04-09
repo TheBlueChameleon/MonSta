@@ -69,7 +69,7 @@ namespace JsonService
         try
         {
             assertSaneHandle(handle);
-            assertNonNullParseable(additionalProperties);
+            assertSaneParseable(additionalProperties);
             JsonSchemaBuilder& schema = toSchemaBuilder(handle);
             schema.setAdditionalProperties(parse(additionalProperties));
         }
@@ -83,7 +83,7 @@ namespace JsonService
         try
         {
             assertSaneHandle(handle);
-            assertNonNullParseable(required);
+            assertSaneParseable(required);
             JsonSchemaBuilder& schema = toSchemaBuilder(handle);
             schema.addRequired(required);
         }
@@ -92,12 +92,15 @@ namespace JsonService
         CATCH_STD_EXCEPTION()
     }
 
-    IJsonServiceTypes::ModifiableJsonHandle HOST_API_CALL sb_addElement(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const char* const name)
+    IJsonServiceTypes::ModifiableJsonHandle HOST_API_CALL sb_addElementByName(
+        IJsonServiceTypes::JsonSchemaBuilderHandle handle,
+        const char* const name
+    )
     {
         try
         {
             assertSaneHandle(handle);
-            assertNonNullParseable(name);
+            assertSaneParseable(name);
             JsonSchemaBuilder& schema = toSchemaBuilder(handle);
             auto& element = schema.addElement(name);
             return toModifiableJsonHandle(element);
@@ -105,6 +108,25 @@ namespace JsonService
         CATCH_ABSTRACT_ERROR(IJsonServiceTypes::ModifiableJsonHandle{nullptr})
         CATCH_JSON_ERROR(IJsonServiceTypes::ModifiableJsonHandle{nullptr})
         CATCH_STD_EXCEPTION(IJsonServiceTypes::ModifiableJsonHandle{nullptr})
+    }
+
+    void HOST_API_CALL sb_addElementByParseable(
+        IJsonServiceTypes::JsonSchemaBuilderHandle handle,
+        const char* const name,
+        const char* const rawJson
+    )
+    {
+        try
+        {
+            assertSaneHandle(handle);
+            assertSaneParseable(name);
+            assertSaneParseable(rawJson);
+            JsonSchemaBuilder& schema = toSchemaBuilder(handle);
+            schema.addElement(name, parse(rawJson));
+        }
+        CATCH_ABSTRACT_ERROR()
+        CATCH_JSON_ERROR()
+        CATCH_STD_EXCEPTION()
     }
 
     void HOST_API_CALL sb_addReferenceByName(
@@ -118,8 +140,8 @@ namespace JsonService
         try
         {
             assertSaneHandle(handle);
-            assertNonNullParseable(propertyName);
-            assertNonNullParseable(schemaName);
+            assertSaneParseable(propertyName);
+            assertSaneParseable(schemaName);
             JsonSchemaBuilder& schema = toSchemaBuilder(handle);
             schema.addReference(propertyName, schemaName, propertyType, setDefaults);
         }
@@ -140,7 +162,7 @@ namespace JsonService
         {
             assertSaneHandle(handle);
             assertSaneHandle(subSchemaHandle);
-            assertNonNullParseable(propertyName);
+            assertSaneParseable(propertyName);
             JsonSchemaBuilder& schema = toSchemaBuilder(handle);
             JsonSchemaBuilder& subSchema = toSchemaBuilder(subSchemaHandle);
             schema.addReference(propertyName, subSchema, propertyType, setDefaults);
@@ -158,7 +180,7 @@ namespace JsonService
         try
         {
             assertSaneHandle(handle);
-            assertNonNullParseable(schemaName);
+            assertSaneParseable(schemaName);
             JsonSchemaBuilder& schema = toSchemaBuilder(handle);
             JsonSchemaBuilder& result = schema.addSubSchema(schemaName);
             return toJsonSchemaBuilderHandle(result);
@@ -194,7 +216,7 @@ namespace JsonService
         try
         {
             assertSaneHandle(handle);
-            assertNonNullParseable(propertyName);
+            assertSaneParseable(propertyName);
             JsonSchemaBuilder& schema = toSchemaBuilder(handle);
             JsonSchemaElementBuilder& result = schema.addProperty(propertyName);
             return toJsonSchemaElementBuilderHandle(result);
@@ -213,7 +235,7 @@ namespace JsonService
         try
         {
             assertSaneHandle(handle);
-            assertNonNullParseable(propertyName);
+            assertSaneParseable(propertyName);
             JsonSchemaBuilder& schema = toSchemaBuilder(handle);
             JsonSchemaElementBuilder& result = schema.addProperty(propertyName, propertyType);
             return toJsonSchemaElementBuilderHandle(result);

@@ -48,19 +48,6 @@ namespace JsonService
         }
     }
 
-    void assertSaneTag(const IJsonServiceTypes::JsonTag tag)
-    {
-        if (tag.name == nullptr)
-        {
-            throw ClientRequestError("Client attempted operation on null Json Tag");
-        }
-
-        if (std::strlen(tag.name) == 0)
-        {
-            throw ClientRequestError("Client attempted operation on empty Json Tag");
-        }
-    }
-
     void assertSaneJsonPointer(const char* const jsonPointer)
     {
         if (jsonPointer == nullptr)
@@ -122,19 +109,37 @@ namespace JsonService
     // ---------------------------------------------------------------------- //
     // misc
 
-    void assertNonNullParseable(const char* const rawJson)
+    void assertSaneTag(const IJsonServiceTypes::JsonTag tag)
     {
-        if (rawJson == nullptr)
+        if (tag.name == nullptr)
         {
-            throw JsonError("Attempted to parse null string");
+            throw ClientRequestError("Client attempted operation on null Json Tag");
+        }
+
+        if (std::strlen(tag.name) == 0)
+        {
+            throw ClientRequestError("Client attempted operation on empty Json Tag");
         }
     }
 
-    void assertNonNullFilename(const char* const file)
+    void assertSaneParseable(const char* const rawJson)
+    {
+        if (rawJson == nullptr)
+        {
+            throw JsonError("Client attempted to parse null string");
+        }
+    }
+
+    void assertSaneFilename(const char* const file)
     {
         if (file == nullptr)
         {
-            throw JsonError("Attempted to read file with null string filename");
+            throw JsonError("Client attempted to read file with null string filename");
+        }
+
+        if (std::strlen(file) == 0)
+        {
+            throw ClientRequestError("Client attempted operation on empty Json Tag");
         }
     }
 }
