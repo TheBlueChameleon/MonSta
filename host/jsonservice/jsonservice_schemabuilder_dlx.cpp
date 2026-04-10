@@ -201,7 +201,7 @@ namespace JsonService
             assertSaneHandle(subSchemaHandle);
             JsonSchemaBuilder& schema = toSchemaBuilder(handle);
             JsonSchemaBuilder& subSchema = toSchemaBuilder(subSchemaHandle);
-            JsonSchemaBuilder& result = schema.addSubSchema(subSchema);
+            schema.addSubSchema(subSchema);
         }
         CATCH_ABSTRACT_ERROR()
         CATCH_JSON_ERROR()
@@ -264,6 +264,253 @@ namespace JsonService
         CATCH_STD_EXCEPTION(IJsonServiceTypes::JsonHandle{nullptr})
     }
 
+    void HOST_API_CALL sb_addAllOfReference_dlx(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const char* const schemaName)
+    {
+        try
+        {
+            assertSaneHandle(handle);
+            assertSaneParseable(schemaName);
+            JsonSchemaBuilder& schema = toSchemaBuilder(handle);
+            schema.addAllOfReference(schemaName);
+        }
+        CATCH_ABSTRACT_ERROR()
+        CATCH_JSON_ERROR()
+        CATCH_STD_EXCEPTION()
+    }
+
+    void HOST_API_CALL sb_addAnyOfReference_dlx(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const char* const schemaName)
+    {
+        try
+        {
+            assertSaneHandle(handle);
+            assertSaneParseable(schemaName);
+            JsonSchemaBuilder& schema = toSchemaBuilder(handle);
+            schema.addAnyOfReference(schemaName);
+        }
+        CATCH_ABSTRACT_ERROR()
+        CATCH_JSON_ERROR()
+        CATCH_STD_EXCEPTION()
+    }
+
+    void HOST_API_CALL sb_addOneOfReference_dlx(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const char* const schemaName)
+    {
+        try
+        {
+            assertSaneHandle(handle);
+            assertSaneParseable(schemaName);
+            JsonSchemaBuilder& schema = toSchemaBuilder(handle);
+            schema.addOneOfReference(schemaName);
+        }
+        CATCH_ABSTRACT_ERROR()
+        CATCH_JSON_ERROR()
+        CATCH_STD_EXCEPTION()
+    }
+
+    void HOST_API_CALL sb_addNotReference_dlx(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const char* const schemaName)
+    {
+        try
+        {
+            assertSaneHandle(handle);
+            assertSaneParseable(schemaName);
+            JsonSchemaBuilder& schema = toSchemaBuilder(handle);
+            schema.addNotReference(schemaName);
+        }
+        CATCH_ABSTRACT_ERROR()
+        CATCH_JSON_ERROR()
+        CATCH_STD_EXCEPTION()
+    }
+
     // ---------------------------------------------------------------------- //
     // JsonSchemaElementBuilder
+
+    const char* const HOST_API_CALL seb_getName_dlx(const IJsonServiceTypes::JsonSchemaElementBuilderHandle handle)
+    {
+        try
+        {
+            assertSaneHandle(handle);
+            JsonSchemaElementBuilder& element = toSchemaElementBuilder(handle);
+            return element.getName().data();
+        }
+        CATCH_ABSTRACT_ERROR(nullptr)
+        CATCH_JSON_ERROR(nullptr)
+        CATCH_STD_EXCEPTION(nullptr)
+    }
+
+    IJsonServiceTypes::ModifiableJsonHandle HOST_API_CALL seb_getJson_dlx(const IJsonServiceTypes::JsonSchemaElementBuilderHandle handle)
+    {
+        try
+        {
+            assertSaneHandle(handle);
+            JsonSchemaElementBuilder& element = toSchemaElementBuilder(handle);
+            nlohmann::ordered_json& result = element.getJson();
+            return toModifiableJsonHandle(result);
+        }
+        CATCH_ABSTRACT_ERROR(IJsonServiceTypes::ModifiableJsonHandle{nullptr})
+        CATCH_JSON_ERROR(IJsonServiceTypes::ModifiableJsonHandle{nullptr})
+        CATCH_STD_EXCEPTION(IJsonServiceTypes::ModifiableJsonHandle{nullptr})
+    }
+
+    void HOST_API_CALL seb_setJsonByHandle_dlx(
+        IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
+        const IJsonServiceTypes::JsonHandle json
+    )
+    {
+        try
+        {
+            assertSaneHandle(handle);
+            assertSaneHandle(json);
+            JsonSchemaElementBuilder& element = toSchemaElementBuilder(handle);
+            element.setJson(toOrderedJson(json));
+        }
+        CATCH_ABSTRACT_ERROR()
+        CATCH_JSON_ERROR()
+        CATCH_STD_EXCEPTION()
+    }
+
+    void HOST_API_CALL seb_setJsonByParseable_dlx(
+        IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
+        const char* const rawJson
+    )
+    {
+        try
+        {
+            assertSaneHandle(handle);
+            assertSaneParseable(rawJson);
+            JsonSchemaElementBuilder& element = toSchemaElementBuilder(handle);
+            element.setJson(parse(rawJson));
+        }
+        CATCH_ABSTRACT_ERROR()
+        CATCH_JSON_ERROR()
+        CATCH_STD_EXCEPTION()
+    }
+
+    void HOST_API_CALL seb_setProperty_dlx(
+        IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
+        const char* const propertyName,
+        const char* const rawJson
+    )
+    {
+        try
+        {
+            assertSaneHandle(handle);
+            assertSaneParseable(propertyName);
+            assertSaneParseable(rawJson);
+            JsonSchemaElementBuilder& element = toSchemaElementBuilder(handle);
+            element.setProperty(propertyName, parse(rawJson));
+        }
+        CATCH_ABSTRACT_ERROR()
+        CATCH_JSON_ERROR()
+        CATCH_STD_EXCEPTION()
+    }
+
+    void HOST_API_CALL seb_setType_dlx(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const IJsonServiceTypes::JsonType type)
+    {
+        try
+        {
+            assertSaneHandle(handle);
+            JsonSchemaElementBuilder& element = toSchemaElementBuilder(handle);
+            element.setType(type);
+        }
+        CATCH_ABSTRACT_ERROR()
+        CATCH_JSON_ERROR()
+        CATCH_STD_EXCEPTION()
+    }
+
+    void HOST_API_CALL seb_setTypedArray_dlx(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const IJsonServiceTypes::JsonType type)
+    {
+        try
+        {
+            assertSaneHandle(handle);
+            JsonSchemaElementBuilder& element = toSchemaElementBuilder(handle);
+            element.setTypedArray(type);
+        }
+        CATCH_ABSTRACT_ERROR()
+        CATCH_JSON_ERROR()
+        CATCH_STD_EXCEPTION()
+    }
+
+    void HOST_API_CALL seb_setEnum_dlx(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const char* const rawJson)
+    {
+        try
+        {
+            assertSaneHandle(handle);
+            assertSaneParseable(rawJson);
+            JsonSchemaElementBuilder& element = toSchemaElementBuilder(handle);
+            element.setEnum(parse(rawJson));
+        }
+        CATCH_ABSTRACT_ERROR()
+        CATCH_JSON_ERROR()
+        CATCH_STD_EXCEPTION()
+    }
+
+    void HOST_API_CALL seb_setDescription_dlx(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const char* const description)
+    {
+        try
+        {
+            assertSaneHandle(handle);
+            assertSaneParseable(description);
+            JsonSchemaElementBuilder& element = toSchemaElementBuilder(handle);
+            element.setDescription(description);
+        }
+        CATCH_ABSTRACT_ERROR()
+        CATCH_JSON_ERROR()
+        CATCH_STD_EXCEPTION()
+    }
+
+    void HOST_API_CALL seb_setTitle_dlx(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const char* const title)
+    {
+        try
+        {
+            assertSaneHandle(handle);
+            assertSaneParseable(title);
+            JsonSchemaElementBuilder& element = toSchemaElementBuilder(handle);
+            element.setTitle(title);
+        }
+        CATCH_ABSTRACT_ERROR()
+        CATCH_JSON_ERROR()
+        CATCH_STD_EXCEPTION()
+    }
+
+    void HOST_API_CALL seb_setDefault_dlx(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const char* const rawJson)
+    {
+        try
+        {
+            assertSaneHandle(handle);
+            assertSaneParseable(rawJson);
+            JsonSchemaElementBuilder& element = toSchemaElementBuilder(handle);
+            element.setDefault(parse(rawJson));
+        }
+        CATCH_ABSTRACT_ERROR()
+        CATCH_JSON_ERROR()
+        CATCH_STD_EXCEPTION()
+    }
+
+    void HOST_API_CALL seb_setMinimum_dlx(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const char* const rawJson)
+    {
+        try
+        {
+            assertSaneHandle(handle);
+            assertSaneParseable(rawJson);
+            JsonSchemaElementBuilder& element = toSchemaElementBuilder(handle);
+            element.setMinimum(parse(rawJson));
+        }
+        CATCH_ABSTRACT_ERROR()
+        CATCH_JSON_ERROR()
+        CATCH_STD_EXCEPTION()
+    }
+
+    void HOST_API_CALL seb_setMaximum_dlx(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const char* const rawJson)
+    {
+        try
+        {
+            assertSaneHandle(handle);
+            assertSaneParseable(rawJson);
+            JsonSchemaElementBuilder& element = toSchemaElementBuilder(handle);
+            element.setMaximum(parse(rawJson));
+        }
+        CATCH_ABSTRACT_ERROR()
+        CATCH_JSON_ERROR()
+        CATCH_STD_EXCEPTION()
+    }
+
 }

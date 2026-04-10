@@ -23,9 +23,26 @@ namespace JsonService
         IJsonServiceTypes::JsonSchemaBuilderHandle handle,
         const char* const additionalProperties
     );
+
     void HOST_API_CALL sb_addRequired_dlx(
         IJsonServiceTypes::JsonSchemaBuilderHandle handle,
         const char* const required
+    );
+    void HOST_API_CALL sb_addAllOfReference_dlx(
+        IJsonServiceTypes::JsonSchemaBuilderHandle handle,
+        const char* const schemaName
+    );
+    void HOST_API_CALL sb_addAnyOfReference_dlx(
+        IJsonServiceTypes::JsonSchemaBuilderHandle handle,
+        const char* const schemaName
+    );
+    void HOST_API_CALL sb_addOneOfReference_dlx(
+        IJsonServiceTypes::JsonSchemaBuilderHandle handle,
+        const char* const schemaName
+    );
+    void HOST_API_CALL sb_addNotReference_dlx(
+        IJsonServiceTypes::JsonSchemaBuilderHandle handle,
+        const char* const schemaName
     );
 
     IJsonServiceTypes::ModifiableJsonHandle HOST_API_CALL sb_addElementByName_dlx(
@@ -94,6 +111,7 @@ namespace JsonService
 
     void HOST_API_CALL seb_setProperty_dlx(
         IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
+        const char* const propertyName,
         const char* const rawJson
     );
     void HOST_API_CALL seb_setType_dlx(
