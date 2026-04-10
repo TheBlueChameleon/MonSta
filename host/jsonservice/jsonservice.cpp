@@ -76,7 +76,9 @@ namespace JsonService
                 setToHandle_dlx,
                 setToArray_dlx,
                 setToObject_dlx,
-                setToParseable_dlx
+                setToParseable_dlx,
+
+                dump_dlx
             },
 
             IJsonService_SchemaBuilder{

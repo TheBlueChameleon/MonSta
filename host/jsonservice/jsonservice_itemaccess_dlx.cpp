@@ -4,6 +4,8 @@
 
 #include "errorservice/catchmacros.hpp"
 
+#include "memoryservice/memoryservice.hpp"
+
 #include "handleconverter.hpp"
 #include "jsonservice.hpp"
 #include "jsonservice_database_dlx.hpp"
@@ -391,4 +393,20 @@ namespace JsonService
         CATCH_JSON_ERROR()
         CATCH_STD_EXCEPTION()
     }
+
+    IMemoryService::MemoryBlock HOST_API_CALL dump_dlx(const IJsonServiceTypes::JsonHandle handle, int indent)
+    {
+        const auto nullMem = IMemoryService::MemoryBlock{nullptr, 0};
+        try
+        {
+            assertSaneHandle(handle);
+            const ordered_json& base = toOrderedJson(handle);
+            std::string text = base.dump(indent);
+            return MemoryService::createFromView(text);
+        }
+        CATCH_ABSTRACT_ERROR(nullMem)
+        CATCH_JSON_ERROR(nullMem)
+        CATCH_STD_EXCEPTION(nullMem)
+    }
+
 }

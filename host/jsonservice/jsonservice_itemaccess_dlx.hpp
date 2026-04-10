@@ -4,6 +4,7 @@
 #include <CallingConventions.hpp>
 
 #include <services/IJsonService.hpp>
+#include <services/IMemoryService.hpp>
 
 namespace JsonService
 {
@@ -39,6 +40,8 @@ namespace JsonService
     void HOST_API_CALL setToArray_dlx(const IJsonServiceTypes::ModifiableJsonHandle handle, const IJsonServiceTypes::JsonHandle source);
     void HOST_API_CALL setToObject_dlx(const IJsonServiceTypes::ModifiableJsonHandle handle, const IJsonServiceTypes::JsonHandle source);
     void HOST_API_CALL setToParseable_dlx(const IJsonServiceTypes::ModifiableJsonHandle handle, const char* const source);
+
+    IMemoryService::MemoryBlock HOST_API_CALL dump_dlx(const IJsonServiceTypes::JsonHandle handle, int indent);
 }
 
 #endif // JSONSERVICE_ITEMACCESS_DLX_HPP
