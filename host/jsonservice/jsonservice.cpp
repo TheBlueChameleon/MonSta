@@ -89,6 +89,10 @@ namespace JsonService
 
                 sb_setAdditionalProperties_dlx,
                 sb_addRequired_dlx,
+                sb_addAllOfReference_dlx,
+                sb_addAnyOfReference_dlx,
+                sb_addOneOfReference_dlx,
+                sb_addNotReference_dlx,
                 sb_addElementByName_dlx,
                 sb_addElementByParseable_dlx,
                 sb_addReferenceByName_dlx,

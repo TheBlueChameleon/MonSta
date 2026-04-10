@@ -23,9 +23,26 @@ struct IJsonService_SchemaBuilder
         IJsonServiceTypes::JsonSchemaBuilderHandle handle,
         const char* const additionalProperties
     );
+
     void (*const HOST_API_CALL sb_addRequired)(
         IJsonServiceTypes::JsonSchemaBuilderHandle handle,
         const char* const required
+    );
+    void (*const HOST_API_CALL sb_addAllOfReference_dlx)(
+        IJsonServiceTypes::JsonSchemaBuilderHandle handle,
+        const char* const schemaName
+    );
+    void (*const HOST_API_CALL sb_addAnyOfReference_dlx)(
+        IJsonServiceTypes::JsonSchemaBuilderHandle handle,
+        const char* const schemaName
+    );
+    void (*const HOST_API_CALL sb_addOneOfReference_dlx)(
+        IJsonServiceTypes::JsonSchemaBuilderHandle handle,
+        const char* const schemaName
+    );
+    void (*const HOST_API_CALL sb_addNotReference_dlx)(
+        IJsonServiceTypes::JsonSchemaBuilderHandle handle,
+        const char* const schemaName
     );
 
     IJsonServiceTypes::ModifiableJsonHandle(*const HOST_API_CALL sb_addElementByName)(
