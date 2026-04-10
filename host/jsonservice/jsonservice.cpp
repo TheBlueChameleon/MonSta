@@ -101,7 +101,21 @@ namespace JsonService
                 sb_addSubSchemaByType_dlx,
                 sb_addPropertyByName_dlx,
                 sb_addPropertyByNameWithType_dlx,
-                sb_buildAndAdd_dlx
+                sb_buildAndAdd_dlx,
+
+                seb_getName_dlx,
+                seb_getJson_dlx,
+                seb_setJsonByHandle_dlx,
+                seb_setJsonByParseable_dlx,
+                seb_setProperty_dlx,
+                seb_setType_dlx,
+                seb_setTypedArray_dlx,
+                seb_setEnum_dlx,
+                seb_setDescription_dlx,
+                seb_setTitle_dlx,
+                seb_setDefault_dlx,
+                seb_setMinimum_dlx,
+                seb_setMaximum_dlx
             }
         };
     }

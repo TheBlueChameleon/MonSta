@@ -96,6 +96,58 @@ struct IJsonService_SchemaBuilder
 
     // ---------------------------------------------------------------------- //
     // JsonSchemaElementBuilder
+
+    const char* const(*const HOST_API_CALL seb_getName_dlx)(const IJsonServiceTypes::JsonSchemaElementBuilderHandle handle);
+    IJsonServiceTypes::ModifiableJsonHandle(*const HOST_API_CALL seb_getJson_dlx)(
+        const IJsonServiceTypes::JsonSchemaElementBuilderHandle handle
+    );
+
+    void (*const HOST_API_CALL seb_setJsonByHandle_dlx)(
+        IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
+        const IJsonServiceTypes::JsonHandle json
+    );
+    void (*const HOST_API_CALL seb_setJsonByParseable_dlx)(
+        IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
+        const char* const rawJson
+    );
+
+    void (*const HOST_API_CALL seb_setProperty_dlx)(
+        IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
+        const char* const propertyName,
+        const char* const rawJson
+    );
+    void (*const HOST_API_CALL seb_setType_dlx)(
+        IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
+        const IJsonServiceTypes::JsonType type
+    );
+    void (*const HOST_API_CALL seb_setTypedArray_dlx)(
+        IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
+        const IJsonServiceTypes::JsonType type
+    );
+    void (*const HOST_API_CALL seb_setEnum_dlx)(
+        IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
+        const char* const rawJson
+    );
+    void (*const HOST_API_CALL seb_setDescription_dlx)(
+        IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
+        const char* const description
+    );
+    void (*const HOST_API_CALL seb_setTitle_dlx)(
+        IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
+        const char* const title
+    );
+    void (*const HOST_API_CALL seb_setDefault_dlx)(
+        IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
+        const char* const rawJson
+    );
+    void (*const HOST_API_CALL seb_setMinimum_dlx)(
+        IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
+        const char* const rawJson
+    );
+    void (*const HOST_API_CALL seb_setMaximum_dlx)(
+        IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
+        const char* const rawJson
+    );
 };
 
 #endif // IJSONSERVICE_SCHEMABUILDER_HPP
