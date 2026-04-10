@@ -46,6 +46,10 @@ namespace JsonService
             std::string                         name;
             nlohmann::ordered_json              additionalProperties = false;
             std::list<std::string>              required;
+            std::list<std::string>              allOfRefs;
+            std::list<std::string>              anyOfRefs;
+            std::list<std::string>              oneOfRefs;
+            std::list<std::string>              notRefs;
             std::list<JsonSchemaElementBuilder> elements;
             std::list<JsonSchemaBuilder>        subSchemas;
 
@@ -57,8 +61,21 @@ namespace JsonService
             const std::list<JsonSchemaElementBuilder>&  getElements() const;
 
             JsonSchemaBuilder& setAdditionalProperties(const nlohmann::ordered_json& additionalProperties);
+
             JsonSchemaBuilder& setRequired(const std::list<std::string>& required);
             JsonSchemaBuilder& addRequired(const std::string_view required);
+
+            JsonSchemaBuilder& setAllOfReference(const std::list<std::string>& schemaNames);
+            JsonSchemaBuilder& addAllOfReference(const std::string_view schemaName);
+
+            JsonSchemaBuilder& setAnyOfReference(const std::list<std::string>& schemaNames);
+            JsonSchemaBuilder& addAnyOfReference(const std::string_view schemaName);
+
+            JsonSchemaBuilder& setOneOfReference(const std::list<std::string>& schemaNames);
+            JsonSchemaBuilder& addOneOfReference(const std::string_view schemaName);
+
+            JsonSchemaBuilder& setNotReference(const std::list<std::string>& schemaNames);
+            JsonSchemaBuilder& addNotReference(const std::string_view schemaName);
 
             nlohmann::ordered_json& addElement(const std::string_view name);
             JsonSchemaBuilder& addElement(const std::string_view name, const nlohmann::ordered_json& element);

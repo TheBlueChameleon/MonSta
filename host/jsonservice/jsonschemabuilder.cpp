@@ -1,6 +1,6 @@
-#include <iostream>
-
+#include <algorithm>
 #include <string>
+#include <vector>
 using namespace std::string_literals;
 
 #include "errorservice/errors.hpp"
@@ -129,7 +129,7 @@ namespace JsonService
                            );
     }
 
-    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setEnum(const ordered_json &items)
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setEnum(const ordered_json& items)
     {
         return setProperty("enum", items);
     }
@@ -200,6 +200,54 @@ namespace JsonService
     JsonSchemaBuilder& JsonSchemaBuilder::addRequired(const std::string_view required)
     {
         this->required.push_back(required.data());
+        return *this;
+    }
+
+    JsonSchemaBuilder& JsonSchemaBuilder::setAllOfReference(const std::list<std::string>& schemaNames)
+    {
+        allOfRefs = schemaNames;
+        return *this;
+    }
+
+    JsonSchemaBuilder& JsonSchemaBuilder::addAllOfReference(const std::string_view schemaName)
+    {
+        allOfRefs.push_back(schemaName.data());
+        return *this;
+    }
+
+    JsonSchemaBuilder& JsonSchemaBuilder::setAnyOfReference(const std::list<std::string>& schemaNames)
+    {
+        anyOfRefs = schemaNames;
+        return *this;
+    }
+
+    JsonSchemaBuilder& JsonSchemaBuilder::addAnyOfReference(const std::string_view schemaName)
+    {
+        anyOfRefs.push_back(schemaName.data());
+        return *this;
+    }
+
+    JsonSchemaBuilder& JsonSchemaBuilder::setOneOfReference(const std::list<std::string>& schemaNames)
+    {
+        oneOfRefs = schemaNames;
+        return *this;
+    }
+
+    JsonSchemaBuilder& JsonSchemaBuilder::addOneOfReference(const std::string_view schemaName)
+    {
+        oneOfRefs.push_back(schemaName.data());
+        return *this;
+    }
+
+    JsonSchemaBuilder& JsonSchemaBuilder::setNotReference(const std::list<std::string>& schemaNames)
+    {
+        notRefs = schemaNames;
+        return *this;
+    }
+
+    JsonSchemaBuilder& JsonSchemaBuilder::addNotReference(const std::string_view schemaName)
+    {
+        notRefs.push_back(schemaName.data());
         return *this;
     }
 
@@ -301,6 +349,29 @@ namespace JsonService
         return elements.back();
     }
 
+    static void setSchemaCompositionReference(
+        ordered_json& result,
+        const std::string_view compositionRequirementName,
+        const std::list<std::string>& referenceNames
+    )
+    {
+        const size_t N = referenceNames.size();
+        auto references = std::vector<ordered_json>(N);
+
+        std::transform(
+            referenceNames.cbegin(), referenceNames.cend(),
+            references.begin(),
+            [](const std::string& reference)
+        {
+            ordered_json item;
+            item["$ref"] = "#/$defs/"s + reference;
+            return item;
+        }
+        );
+
+        result[compositionRequirementName] = references;
+    }
+
     ordered_json JsonSchemaBuilder::build(bool includeSchemaReference) const
     {
         ordered_json result;
@@ -324,6 +395,26 @@ namespace JsonService
         if (!required.empty())
         {
             result["required"] = required;
+        }
+
+        if (!allOfRefs.empty())
+        {
+            setSchemaCompositionReference(result, "allOf", allOfRefs);
+        }
+
+        if (!anyOfRefs.empty())
+        {
+            setSchemaCompositionReference(result, "anyOf", anyOfRefs);
+        }
+
+        if (!oneOfRefs.empty())
+        {
+            setSchemaCompositionReference(result, "oneOf", oneOfRefs);
+        }
+
+        if (!notRefs.empty())
+        {
+            setSchemaCompositionReference(result, "not", notRefs);
         }
 
         if (!subSchemas.empty())
