@@ -1,5 +1,6 @@
 #include "services.hpp"
 #include "jsonservice.hpp"
+#include "memoryservice.hpp"
 
 namespace JsonService
 {
@@ -201,7 +202,7 @@ namespace JsonService
         return jsonService().itemAccess.setToParseable(handle, source.data());
     }
 
-    IMemoryService::MemoryBlock dump(const IJsonServiceTypes::JsonHandle handle, int indent)
+    MemoryService::MemoryBlock dump(const IJsonServiceTypes::JsonHandle handle, int indent)
     {
         return jsonService().itemAccess.dump(handle, indent);
     }

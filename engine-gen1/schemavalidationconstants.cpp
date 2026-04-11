@@ -1,3 +1,8 @@
+#include <iostream>
+
+#include "services/jsonservice.hpp"
+#include "services/memoryservice.hpp"
+
 #include "schemavalidationconstants.hpp"
 
 using namespace IJsonServiceTypes;
@@ -9,6 +14,15 @@ namespace SchemaValidation
 
     void registerTeamDefinition()
     {
+        auto tag = IJsonServiceTypes::JsonTag("tag");
+        auto sb = JsonService::instantiateSchemaBuilder("foo");
 
+        auto h = JsonService::sb_buildAndAdd(sb, tag);
+
+        auto j = JsonService::get(tag);
+
+        auto s = JsonService::dump(j);
+
+        std::cout << s.getAsStringView() << std::endl;
     }
 }
