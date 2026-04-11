@@ -7,4 +7,8 @@ namespace Globals
     std::set<std::string> supportedFeatures = {};
 
     bool abnormalTerminationRequest = false;
+
+    bool overwriteFiles = false;
+    bool createDirectories = false;
+    bool dryMode = false;
 }

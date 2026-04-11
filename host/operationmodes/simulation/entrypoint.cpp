@@ -17,5 +17,6 @@ namespace SimulationMode
         OperationModes::setupFileService(defs, defs.simulator.outputDir);
 
         auto cw = ClientWrapper(defs.simulator.engine);
+        OperationModes::setupClientWriteOptions(cw, defs);
     }
 }

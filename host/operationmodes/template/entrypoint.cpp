@@ -9,11 +9,6 @@
 #include "entrypoint.hpp"
 #include "templatemodedefinition.hpp"
 
-
-
-#include "../shared/schemavalidationconstants.hpp"
-#include "jsonservice/jsonservice.hpp"
-
 namespace TemplateMode
 {
     void run(const TemplateModeDefinition& defs)
@@ -22,6 +17,8 @@ namespace TemplateMode
         OperationModes::setupFileService(defs, defs.templates.outputDirectory);
 
         auto cw = ClientWrapper(defs.templates.engine);
+        OperationModes::setupClientWriteOptions(cw, defs);
+
         cw.startTemplatesMode();
     }
 }

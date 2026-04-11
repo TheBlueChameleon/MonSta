@@ -6,13 +6,6 @@ namespace IJsonServiceTypes
     enum class EntryState {NONEXISTENT, DECLARED, READY, ERROR};
     enum class JsonType {VOID, OBJECT, ARRAY, STRING, BOOLEAN, INTEGER, UNSIGNED, FLOAT, BINARY, DISCARDED};
 
-    struct JsonHandle
-    {
-        const void* data;
-    };
-
-    struct ModifiableJsonHandle : public JsonHandle {};
-
     struct JsonTag
     {
         const char* const name;
@@ -21,6 +14,13 @@ namespace IJsonServiceTypes
             name(name)
         {}
     };
+
+    struct JsonHandle
+    {
+        const void* data;
+    };
+
+    struct ModifiableJsonHandle : public JsonHandle {};
 
     struct JsonSchemaBuilderHandle
     {

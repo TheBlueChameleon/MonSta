@@ -5,6 +5,7 @@
 #include <set>
 
 #include <ApiStatusCode.hpp>
+#include <CallingConventions.hpp>
 #include <FeatureTags.hpp>
 #include <HostApi.hpp>
 #include <Version.hpp>
@@ -59,13 +60,17 @@ class ClientWrapper
         const Version* _MIN_HOST_VERSION;
         const Version* _MAX_HOST_VERSION;
 
-        bool(*_init)(HostApi* hostApi);
-        void(*_hangUp)();
+        bool(HOST_API_CALL* _init)(HostApi* hostApi);
+        void(HOST_API_CALL* _hangUp)();
 
-        bool (*_hasFeature)(const char* const featureTag);
-        void (*_terminateAbnormally)();
+        bool (HOST_API_CALL* _hasFeature)(const char* const featureTag);
+        void (HOST_API_CALL* _terminateAbnormally)();
 
-        void(*_startTemplatesMode)();
+        void (HOST_API_CALL* _setOverwrite)(const bool overwrite);
+        void (HOST_API_CALL* _setCreateDirectories)(const bool createDirectories);
+        void (HOST_API_CALL* _setDryMode)(const bool dryMode);
+
+        void(HOST_API_CALL* _startTemplatesMode)();
 
         // ------------------------------------------------------------------ //
         // Private Interface
@@ -93,6 +98,10 @@ class ClientWrapper
         Version getMaxHostVersion() const;
 
         void terminateAbnormally();
+
+        void setOverwrite(const bool overwrite);
+        void setCreateDirectories(const bool createDirectories);
+        void setDryMode(const bool dryMode);
 
         void startTemplatesMode();
 };

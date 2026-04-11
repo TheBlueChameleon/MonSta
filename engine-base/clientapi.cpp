@@ -94,4 +94,19 @@ HOST_API_EXPORT
     {
         Globals::abnormalTerminationRequest = true;
     }
+
+    void HOST_API_CALL setOverwrite(const bool overwrite)
+    {
+        Globals::overwriteFiles = overwrite;
+    }
+
+    void HOST_API_CALL setCreateDirectories(const bool createDirectories)
+    {
+        Globals::createDirectories = createDirectories;
+    }
+
+    void HOST_API_CALL setDryMode(const bool dryMode)
+    {
+        Globals::dryMode = dryMode;
+    }
 }

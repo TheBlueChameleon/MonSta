@@ -11,6 +11,7 @@ struct SchemaExportModeDefinition;
 struct SimulationModeDefinition;
 struct TemplateModeDefinition;
 
+class  ClientWrapper;
 struct LoggingDefinition;
 
 namespace OperationModes
@@ -23,6 +24,7 @@ namespace OperationModes
 
     void setupLoggerService(const LoggingDefinition& definition);
     void setupFileService(const BaseModeDefinition& definition, const std::filesystem::path& outputDirectory);
+    void setupClientWriteOptions(ClientWrapper& cw, const BaseModeDefinition& runDefinition);
 }
 
 #endif // UTILS_H

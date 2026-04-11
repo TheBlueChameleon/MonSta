@@ -1,9 +1,12 @@
 #include <string>
+
 using namespace std::string_literals;
 
 #include "errorservice/errors.hpp"
 
 #include "fileservice/fileservice.hpp"
+
+#include "api/clientwrapper.hpp"
 
 #include "loggerservice/loggerservice.hpp"
 
@@ -74,4 +77,12 @@ namespace OperationModes
         FileService::setCreateDirectories(definition.createDirectories);
         FileService::setDryMode(definition.dryMode);
     }
+
+    void setupClientWriteOptions(ClientWrapper& cw, const BaseModeDefinition& runDefinition)
+    {
+        cw.setOverwrite(runDefinition.overwrite);
+        cw.setCreateDirectories(runDefinition.createDirectories);
+        cw.setDryMode(runDefinition.dryMode);
+    }
+
 }

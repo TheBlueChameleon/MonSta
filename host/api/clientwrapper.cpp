@@ -92,6 +92,11 @@ void ClientWrapper::extractSymbols()
     FETCH(hasFeature);
     FETCH(hangUp);
     FETCH(terminateAbnormally);
+
+    FETCH(setOverwrite);
+    FETCH(setCreateDirectories);
+    FETCH(setDryMode);
+
     FETCH(startTemplatesMode);
 
     LoggerService::trace("... SUCCESS!");
@@ -250,6 +255,21 @@ Version ClientWrapper::getMaxHostVersion() const
 void ClientWrapper::terminateAbnormally()
 {
     _terminateAbnormally();
+}
+
+void ClientWrapper::setOverwrite(const bool overwrite)
+{
+    _setOverwrite(overwrite);
+}
+
+void ClientWrapper::setCreateDirectories(const bool createDirectories)
+{
+    _setCreateDirectories(createDirectories);
+}
+
+void ClientWrapper::setDryMode(const bool dryMode)
+{
+    _setDryMode(dryMode);
 }
 
 void ClientWrapper::startTemplatesMode()
