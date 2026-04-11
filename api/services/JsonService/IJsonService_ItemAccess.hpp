@@ -12,7 +12,7 @@ struct IJsonService_ItemAccess
     const IJsonServiceTypes::JsonHandle(*const HOST_API_CALL navigateTo)(const IJsonServiceTypes::JsonHandle, const char* const jsonPointer);
     const bool (*const HOST_API_CALL containts)(const IJsonServiceTypes::JsonHandle, const char* const elementName);
 
-    const IJsonServiceTypes::JsonType(*getType)(const IJsonServiceTypes::JsonHandle handle);
+    const IJsonServiceTypes::JsonType(*const HOST_API_CALL getType)(const IJsonServiceTypes::JsonHandle handle);
     const bool (*const HOST_API_CALL isNull)(const IJsonServiceTypes::JsonHandle handle);
     const bool (*const HOST_API_CALL isBoolean)(const IJsonServiceTypes::JsonHandle handle);
     const bool (*const HOST_API_CALL isInteger)(const IJsonServiceTypes::JsonHandle handle);
@@ -42,7 +42,7 @@ struct IJsonService_ItemAccess
     void (*const HOST_API_CALL setToObject)(const IJsonServiceTypes::ModifiableJsonHandle handle, const IJsonServiceTypes::JsonHandle source);
     void (*const HOST_API_CALL setToParseable)(const IJsonServiceTypes::ModifiableJsonHandle handle, const char* const source);
 
-    IMemoryService::MemoryBlock(*const HOST_API_CALL dump_dlx)(const IJsonServiceTypes::JsonHandle handle, int indent);
+    IMemoryService::MemoryBlock(*const HOST_API_CALL dump)(const IJsonServiceTypes::JsonHandle handle, int indent);
 };
 
 #endif // IJSONSERVICE_ITEMACCESS_HPP
