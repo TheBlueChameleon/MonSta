@@ -297,6 +297,7 @@ add_library(Engine-Gen1 SHARED
     ${apiHeaders}
 
     engine-gen1/clientapi.cpp
+    engine-gen1/schemavalidationconstants.hpp engine-gen1/schemavalidationconstants.cpp
 )
 
 target_link_libraries(Engine-Gen1 PUBLIC
