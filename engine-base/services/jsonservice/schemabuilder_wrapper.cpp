@@ -133,33 +133,33 @@ namespace JsonService
         return *this;
     }
 
-    JsonSchemaBuilder& JsonSchemaBuilder::addRequired(const std::string_view required)
+    JsonSchemaBuilder& JsonSchemaBuilder::addRequired(const std::string_view requiredPropertyName)
     {
-        JsonService::sb_addRequired(handle, required);
+        JsonService::sb_addRequired(handle, requiredPropertyName);
         return *this;
     }
 
-    JsonSchemaBuilder& JsonSchemaBuilder::addAllOfReference(const std::string_view schemaName)
+    JsonSchemaBuilder& JsonSchemaBuilder::addAllOfRequirement(const std::string_view rawJson)
     {
-        JsonService::sb_addAllOfReference(handle, schemaName);
+        JsonService::sb_addAllOfRequirement(handle, rawJson);
         return *this;
     }
 
-    JsonSchemaBuilder& JsonSchemaBuilder::addAnyOfReference(const std::string_view schemaName)
+    JsonSchemaBuilder& JsonSchemaBuilder::addAnyOfRequirement(const std::string_view rawJson)
     {
-        JsonService::sb_addAnyOfReference(handle, schemaName);
+        JsonService::sb_addAnyOfRequirement(handle, rawJson);
         return *this;
     }
 
-    JsonSchemaBuilder& JsonSchemaBuilder::addOneOfReference(const std::string_view schemaName)
+    JsonSchemaBuilder& JsonSchemaBuilder::addOneOfRequirement(const std::string_view rawJson)
     {
-        JsonService::sb_addOneOfReference(handle, schemaName);
+        JsonService::sb_addOneOfRequirement(handle, rawJson);
         return *this;
     }
 
-    JsonSchemaBuilder& JsonSchemaBuilder::addNotReference(const std::string_view schemaName)
+    JsonSchemaBuilder& JsonSchemaBuilder::addNoneOfRequirement(const std::string_view rawJson)
     {
-        JsonService::sb_addNotReference(handle, schemaName);
+        JsonService::sb_addNoneOfRequirement(handle, rawJson);
         return *this;
     }
 
@@ -223,7 +223,7 @@ namespace JsonService
                );
     }
 
-    IJsonServiceTypes::JsonHandle JsonSchemaBuilder::build(const IJsonServiceTypes::JsonTag tag) const
+    IJsonServiceTypes::JsonHandle JsonSchemaBuilder::buildAndAdd(const IJsonServiceTypes::JsonTag tag) const
     {
         return JsonService::sb_buildAndAdd(handle, tag);
     }

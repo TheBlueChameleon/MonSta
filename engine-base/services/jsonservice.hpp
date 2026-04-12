@@ -4,5 +4,6 @@
 #include "jsonservice/jsonservice_database.hpp"
 #include "jsonservice/jsonservice_itemaccess.hpp"
 #include "jsonservice/jsonservice_schemabuilder.hpp"
+#include "jsonservice/schemabuilder_wrapper.hpp"
 
 #endif // JSONSERVICE_HPP

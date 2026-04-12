@@ -203,51 +203,51 @@ namespace JsonService
         return *this;
     }
 
-    JsonSchemaBuilder& JsonSchemaBuilder::setAllOfReference(const std::list<std::string>& schemaNames)
+    JsonSchemaBuilder& JsonSchemaBuilder::setAllOfRequirements(const std::list<ordered_json>& requirements)
     {
-        allOfRefs = schemaNames;
+        allOfRequirements = requirements;
         return *this;
     }
 
-    JsonSchemaBuilder& JsonSchemaBuilder::addAllOfReference(const std::string_view schemaName)
+    JsonSchemaBuilder& JsonSchemaBuilder::addAllOfRequirements(const ordered_json& requirements)
     {
-        allOfRefs.push_back(schemaName.data());
+        allOfRequirements.push_back(requirements);
         return *this;
     }
 
-    JsonSchemaBuilder& JsonSchemaBuilder::setAnyOfReference(const std::list<std::string>& schemaNames)
+    JsonSchemaBuilder& JsonSchemaBuilder::setAnyOfRequirements(const std::list<ordered_json>& requirements)
     {
-        anyOfRefs = schemaNames;
+        anyOfRequirements = requirements;
         return *this;
     }
 
-    JsonSchemaBuilder& JsonSchemaBuilder::addAnyOfReference(const std::string_view schemaName)
+    JsonSchemaBuilder& JsonSchemaBuilder::addAnyOfRequirements(const ordered_json& requirements)
     {
-        anyOfRefs.push_back(schemaName.data());
+        anyOfRequirements.push_back(requirements);
         return *this;
     }
 
-    JsonSchemaBuilder& JsonSchemaBuilder::setOneOfReference(const std::list<std::string>& schemaNames)
+    JsonSchemaBuilder& JsonSchemaBuilder::setOneOfRequirements(const std::list<ordered_json>& requirements)
     {
-        oneOfRefs = schemaNames;
+        oneOfRequirements = requirements;
         return *this;
     }
 
-    JsonSchemaBuilder& JsonSchemaBuilder::addOneOfReference(const std::string_view schemaName)
+    JsonSchemaBuilder& JsonSchemaBuilder::addOneOfRequirements(const ordered_json& requirements)
     {
-        oneOfRefs.push_back(schemaName.data());
+        oneOfRequirements.push_back(requirements);
         return *this;
     }
 
-    JsonSchemaBuilder& JsonSchemaBuilder::setNotReference(const std::list<std::string>& schemaNames)
+    JsonSchemaBuilder& JsonSchemaBuilder::setNoneOfRequirements(const std::list<ordered_json>& requirements)
     {
-        notRefs = schemaNames;
+        noneOfRequirements = requirements;
         return *this;
     }
 
-    JsonSchemaBuilder& JsonSchemaBuilder::addNotReference(const std::string_view schemaName)
+    JsonSchemaBuilder& JsonSchemaBuilder::addNoneOfRequirements(const ordered_json& requirements)
     {
-        notRefs.push_back(schemaName.data());
+        noneOfRequirements.push_back(requirements);
         return *this;
     }
 
@@ -352,24 +352,10 @@ namespace JsonService
     static void setSchemaCompositionReference(
         ordered_json& result,
         const std::string_view compositionRequirementName,
-        const std::list<std::string>& referenceNames
+        const std::list<ordered_json>& requirements
     )
     {
-        const size_t N = referenceNames.size();
-        auto references = std::vector<ordered_json>(N);
-
-        std::transform(
-            referenceNames.cbegin(), referenceNames.cend(),
-            references.begin(),
-            [](const std::string& reference)
-        {
-            ordered_json item;
-            item["$ref"] = "#/$defs/"s + reference;
-            return item;
-        }
-        );
-
-        result[compositionRequirementName] = references;
+        result[compositionRequirementName] = requirements;
     }
 
     ordered_json JsonSchemaBuilder::build(bool includeSchemaReference) const
@@ -397,24 +383,24 @@ namespace JsonService
             result["required"] = required;
         }
 
-        if (!allOfRefs.empty())
+        if (!allOfRequirements.empty())
         {
-            setSchemaCompositionReference(result, "allOf", allOfRefs);
+            result["allOf"] = allOfRequirements;
         }
 
-        if (!anyOfRefs.empty())
+        if (!anyOfRequirements.empty())
         {
-            setSchemaCompositionReference(result, "anyOf", anyOfRefs);
+            result["anyOf"] = anyOfRequirements;
         }
 
-        if (!oneOfRefs.empty())
+        if (!oneOfRequirements.empty())
         {
-            setSchemaCompositionReference(result, "oneOf", oneOfRefs);
+            result["oneOf"] = oneOfRequirements;
         }
 
-        if (!notRefs.empty())
+        if (!noneOfRequirements.empty())
         {
-            setSchemaCompositionReference(result, "not", notRefs);
+            result["not"] = noneOfRequirements;
         }
 
         if (!subSchemas.empty())

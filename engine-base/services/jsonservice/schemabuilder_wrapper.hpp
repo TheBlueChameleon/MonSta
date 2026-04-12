@@ -48,11 +48,11 @@ namespace JsonService
 
             JsonSchemaBuilder& setAdditionalProperties(const std::string_view rawJson);
 
-            JsonSchemaBuilder& addRequired(const std::string_view required);
-            JsonSchemaBuilder& addAllOfReference(const std::string_view schemaName);
-            JsonSchemaBuilder& addAnyOfReference(const std::string_view schemaName);
-            JsonSchemaBuilder& addOneOfReference(const std::string_view schemaName);
-            JsonSchemaBuilder& addNotReference(const std::string_view schemaName);
+            JsonSchemaBuilder& addRequired(const std::string_view requiredPropertyName);
+            JsonSchemaBuilder& addAllOfRequirement(const std::string_view rawJson);
+            JsonSchemaBuilder& addAnyOfRequirement(const std::string_view rawJson);
+            JsonSchemaBuilder& addOneOfRequirement(const std::string_view rawJson);
+            JsonSchemaBuilder& addNoneOfRequirement(const std::string_view rawJson);
 
             IJsonServiceTypes::ModifiableJsonHandle addElement(const std::string_view name);
             JsonSchemaBuilder& addElement(const std::string_view name, const std::string rawJson);
@@ -76,7 +76,7 @@ namespace JsonService
             JsonSchemaElementBuilder    addProperty(const std::string_view name);
             JsonSchemaElementBuilder    addProperty(const std::string_view name, IJsonServiceTypes::JsonType type);
 
-            IJsonServiceTypes::JsonHandle build(const IJsonServiceTypes::JsonTag tag) const;
+            IJsonServiceTypes::JsonHandle buildAndAdd(const IJsonServiceTypes::JsonTag tag) const;
     };
 
 } // namespace JsonService

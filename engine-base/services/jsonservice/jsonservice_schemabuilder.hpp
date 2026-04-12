@@ -27,23 +27,23 @@ namespace JsonService
 
     void sb_addRequired(
         IJsonServiceTypes::JsonSchemaBuilderHandle handle,
-        const std::string_view required
+        const std::string_view requiredPropertyName
     );
-    void sb_addAllOfReference(
+    void sb_addAllOfRequirement(
         IJsonServiceTypes::JsonSchemaBuilderHandle handle,
-        const std::string_view schemaName
+        const std::string_view rawJson
     );
-    void sb_addAnyOfReference(
+    void sb_addAnyOfRequirement(
         IJsonServiceTypes::JsonSchemaBuilderHandle handle,
-        const std::string_view schemaName
+        const std::string_view rawJson
     );
-    void sb_addOneOfReference(
+    void sb_addOneOfRequirement(
         IJsonServiceTypes::JsonSchemaBuilderHandle handle,
-        const std::string_view schemaName
+        const std::string_view rawJson
     );
-    void sb_addNotReference(
+    void sb_addNoneOfRequirement(
         IJsonServiceTypes::JsonSchemaBuilderHandle handle,
-        const std::string_view schemaName
+        const std::string_view rawJson
     );
 
     IJsonServiceTypes::ModifiableJsonHandle sb_addElementByName(

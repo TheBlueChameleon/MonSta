@@ -28,21 +28,21 @@ namespace JsonService
         IJsonServiceTypes::JsonSchemaBuilderHandle handle,
         const char* const required
     );
-    void HOST_API_CALL sb_addAllOfReference_dlx(
+    void HOST_API_CALL sb_addAllOfRequirement_dlx(
         IJsonServiceTypes::JsonSchemaBuilderHandle handle,
-        const char* const schemaName
+        const char* const rawJson
     );
-    void HOST_API_CALL sb_addAnyOfReference_dlx(
+    void HOST_API_CALL sb_addAnyOfRequirement_dlx(
         IJsonServiceTypes::JsonSchemaBuilderHandle handle,
-        const char* const schemaName
+        const char* const rawJson
     );
-    void HOST_API_CALL sb_addOneOfReference_dlx(
+    void HOST_API_CALL sb_addOneOfRequirement_dlx(
         IJsonServiceTypes::JsonSchemaBuilderHandle handle,
-        const char* const schemaName
+        const char* const rawJson
     );
-    void HOST_API_CALL sb_addNotReference_dlx(
+    void HOST_API_CALL sb_addNoneOfRequirement_dlx(
         IJsonServiceTypes::JsonSchemaBuilderHandle handle,
-        const char* const schemaName
+        const char* const rawJson
     );
 
     IJsonServiceTypes::ModifiableJsonHandle HOST_API_CALL sb_addElementByName_dlx(

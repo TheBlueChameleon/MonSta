@@ -264,56 +264,56 @@ namespace JsonService
         CATCH_STD_EXCEPTION(IJsonServiceTypes::JsonHandle{nullptr})
     }
 
-    void HOST_API_CALL sb_addAllOfReference_dlx(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const char* const schemaName)
+    void HOST_API_CALL sb_addAllOfRequirement_dlx(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const char* const rawJson)
     {
         try
         {
             assertSaneHandle(handle);
-            assertSaneParseable(schemaName);
+            assertSaneParseable(rawJson);
             JsonSchemaBuilder& schema = toSchemaBuilder(handle);
-            schema.addAllOfReference(schemaName);
+            schema.addAllOfRequirements(parse(rawJson));
         }
         CATCH_ABSTRACT_ERROR()
         CATCH_JSON_ERROR()
         CATCH_STD_EXCEPTION()
     }
 
-    void HOST_API_CALL sb_addAnyOfReference_dlx(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const char* const schemaName)
+    void HOST_API_CALL sb_addAnyOfRequirement_dlx(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const char* const rawJson)
     {
         try
         {
             assertSaneHandle(handle);
-            assertSaneParseable(schemaName);
+            assertSaneParseable(rawJson);
             JsonSchemaBuilder& schema = toSchemaBuilder(handle);
-            schema.addAnyOfReference(schemaName);
+            schema.addAnyOfRequirements(parse(rawJson));
         }
         CATCH_ABSTRACT_ERROR()
         CATCH_JSON_ERROR()
         CATCH_STD_EXCEPTION()
     }
 
-    void HOST_API_CALL sb_addOneOfReference_dlx(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const char* const schemaName)
+    void HOST_API_CALL sb_addOneOfRequirement_dlx(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const char* const rawJson)
     {
         try
         {
             assertSaneHandle(handle);
-            assertSaneParseable(schemaName);
+            assertSaneParseable(rawJson);
             JsonSchemaBuilder& schema = toSchemaBuilder(handle);
-            schema.addOneOfReference(schemaName);
+            schema.addOneOfRequirements(parse(rawJson));
         }
         CATCH_ABSTRACT_ERROR()
         CATCH_JSON_ERROR()
         CATCH_STD_EXCEPTION()
     }
 
-    void HOST_API_CALL sb_addNotReference_dlx(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const char* const schemaName)
+    void HOST_API_CALL sb_addNoneOfRequirement_dlx(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const char* const rawJson)
     {
         try
         {
             assertSaneHandle(handle);
-            assertSaneParseable(schemaName);
+            assertSaneParseable(rawJson);
             JsonSchemaBuilder& schema = toSchemaBuilder(handle);
-            schema.addNotReference(schemaName);
+            schema.addNoneOfRequirements(parse(rawJson));
         }
         CATCH_ABSTRACT_ERROR()
         CATCH_JSON_ERROR()

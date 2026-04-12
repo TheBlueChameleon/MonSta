@@ -34,29 +34,29 @@ namespace JsonService
         return jsonService().schemaBuilder.sb_setAdditionalProperties(handle, additionalProperties.data());
     }
 
-    void sb_addRequired(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const std::string_view required)
+    void sb_addRequired(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const std::string_view requiredPropertyName)
     {
-        return jsonService().schemaBuilder.sb_addRequired(handle, required.data());
+        return jsonService().schemaBuilder.sb_addRequired(handle, requiredPropertyName.data());
     }
 
-    void sb_addAllOfReference(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const std::string_view schemaName)
+    void sb_addAllOfRequirement(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const std::string_view rawJson)
     {
-        return jsonService().schemaBuilder.sb_addAllOfReference(handle, schemaName.data());
+        return jsonService().schemaBuilder.sb_addAllOfRequirement(handle, rawJson.data());
     }
 
-    void sb_addAnyOfReference(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const std::string_view schemaName)
+    void sb_addAnyOfRequirement(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const std::string_view rawJson)
     {
-        return jsonService().schemaBuilder.sb_addAnyOfReference(handle, schemaName.data());
+        return jsonService().schemaBuilder.sb_addAnyOfRequirement(handle, rawJson.data());
     }
 
-    void sb_addOneOfReference(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const std::string_view schemaName)
+    void sb_addOneOfRequirement(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const std::string_view rawJson)
     {
-        return jsonService().schemaBuilder.sb_addOneOfReference(handle, schemaName.data());
+        return jsonService().schemaBuilder.sb_addOneOfRequirement(handle, rawJson.data());
     }
 
-    void sb_addNotReference(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const std::string_view schemaName)
+    void sb_addNoneOfRequirement(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const std::string_view rawJson)
     {
-        return jsonService().schemaBuilder.sb_addNotReference(handle, schemaName.data());
+        return jsonService().schemaBuilder.sb_addNoneOfRequirement(handle, rawJson.data());
     }
 
     IJsonServiceTypes::ModifiableJsonHandle sb_addElementByName(
