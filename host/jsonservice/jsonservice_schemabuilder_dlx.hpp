@@ -146,6 +146,10 @@ namespace JsonService
         IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
         const char* const rawJson
     );
+    void HOST_API_CALL seb_setReference_dlx(
+        IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
+        const char* const subSchemaName
+    );
 }
 
 #endif // JSONSERVICE_SCHEMABUILDER_DLX_HPP

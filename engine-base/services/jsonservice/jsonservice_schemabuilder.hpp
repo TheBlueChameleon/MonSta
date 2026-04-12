@@ -149,6 +149,10 @@ namespace JsonService
         IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
         const std::string_view rawJson
     );
+    void seb_setReference(
+        IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
+        const std::string_view subSchemaName
+    );
 }
 
 #endif // JSONSERVICE_SCHEMABUILDER_HPP

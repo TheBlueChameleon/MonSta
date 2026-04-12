@@ -148,6 +148,10 @@ struct IJsonService_SchemaBuilder
         IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
         const char* const rawJson
     );
+    void (*const HOST_API_CALL seb_setReference)(
+        IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
+        const char* const subSchemaName
+    );
 };
 
 #endif // IJSONSERVICE_SCHEMABUILDER_HPP

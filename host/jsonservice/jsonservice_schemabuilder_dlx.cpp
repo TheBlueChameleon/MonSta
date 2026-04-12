@@ -513,4 +513,18 @@ namespace JsonService
         CATCH_STD_EXCEPTION()
     }
 
+    void HOST_API_CALL seb_setReference_dlx(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const char* const subSchemaName)
+    {
+        try
+        {
+            assertSaneHandle(handle);
+            assertSaneParseable(subSchemaName);
+            JsonSchemaElementBuilder& element = toSchemaElementBuilder(handle);
+            element.setReference(subSchemaName);
+        }
+        CATCH_ABSTRACT_ERROR()
+        CATCH_JSON_ERROR()
+        CATCH_STD_EXCEPTION()
+    }
+
 }

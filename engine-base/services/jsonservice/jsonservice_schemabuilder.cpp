@@ -222,4 +222,10 @@ namespace JsonService
     {
         return jsonService().schemaBuilder.seb_setMaximum(handle, rawJson.data());
     }
+
+    void seb_setReference(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const std::string_view subSchemaName)
+    {
+        return jsonService().schemaBuilder.seb_setReference(handle, subSchemaName.data());
+    }
+
 }

@@ -17,6 +17,22 @@ namespace JsonService
             JsonSchemaElementBuilder(const std::string_view name);
             JsonSchemaElementBuilder(const IJsonServiceTypes::JsonSchemaElementBuilderHandle handle);
             ~JsonSchemaElementBuilder();
+
+            const std::string_view getName() const;
+            const IJsonServiceTypes::JsonHandle getJson() const;
+            JsonSchemaElementBuilder& setJson(const IJsonServiceTypes::JsonHandle sourceHandle);
+            JsonSchemaElementBuilder& setJson(const std::string_view rawJson);
+
+            JsonSchemaElementBuilder& setProperty(const std::string_view key, const std::string_view rawJson);
+            JsonSchemaElementBuilder& setType(const IJsonServiceTypes::JsonType type);
+            JsonSchemaElementBuilder& setTypedArray(const IJsonServiceTypes::JsonType type);
+            JsonSchemaElementBuilder& setEnum(const std::string_view rawJson);
+            JsonSchemaElementBuilder& setDescription(const std::string_view value);
+            JsonSchemaElementBuilder& setTitle(const std::string_view value);
+            JsonSchemaElementBuilder& setDefault(const std::string_view rawJson);
+            JsonSchemaElementBuilder& setMinimum(const std::string_view rawJson);
+            JsonSchemaElementBuilder& setMaximum(const std::string_view rawJson);
+            JsonSchemaElementBuilder& setReference(const std::string_view value);
     };
 
     class JsonSchemaBuilder

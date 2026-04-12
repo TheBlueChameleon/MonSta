@@ -24,6 +24,87 @@ namespace JsonService
         }
     }
 
+    const std::string_view JsonSchemaElementBuilder::getName() const
+    {
+        return JsonService::seb_getName(handle);
+    }
+
+    const IJsonServiceTypes::JsonHandle JsonSchemaElementBuilder::getJson() const
+    {
+        return JsonService::seb_getJson(handle);
+    }
+
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setJson(const IJsonServiceTypes::JsonHandle sourceHandle)
+    {
+        JsonService::seb_setJsonByHandle(handle, sourceHandle);
+        return *this;
+    }
+
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setJson(const std::string_view rawJson)
+    {
+        JsonService::seb_setJsonByParseable(handle, rawJson);
+        return *this;
+    }
+
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setProperty(const std::string_view key, const std::string_view rawJson)
+    {
+        JsonService::seb_setProperty(handle, key, rawJson);
+        return *this;
+    }
+
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setType(const IJsonServiceTypes::JsonType type)
+    {
+        JsonService::seb_setType(handle, type);
+        return *this;
+    }
+
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setTypedArray(const IJsonServiceTypes::JsonType type)
+    {
+        JsonService::seb_setTypedArray(handle, type);
+        return *this;
+    }
+
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setEnum(const std::string_view rawJson)
+    {
+        JsonService::seb_setEnum(handle, rawJson);
+        return *this;
+    }
+
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setDescription(const std::string_view value)
+    {
+        JsonService::seb_setDescription(handle, value);
+        return *this;
+    }
+
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setTitle(const std::string_view value)
+    {
+        JsonService::seb_setTitle(handle, value);
+        return *this;
+    }
+
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setDefault(const std::string_view rawJson)
+    {
+        JsonService::seb_setDefault(handle, rawJson);
+        return *this;
+    }
+
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setMinimum(const std::string_view rawJson)
+    {
+        JsonService::seb_setMinimum(handle, rawJson);
+        return *this;
+    }
+
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setMaximum(const std::string_view rawJson)
+    {
+        JsonService::seb_setMaximum(handle, rawJson);
+        return *this;
+    }
+
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setReference(const std::string_view value)
+    {
+        JsonService::seb_setReference(handle, value);
+        return *this;
+    }
 
     // ====================================================================== //
     // JsonSchemaBuilder
@@ -148,5 +229,3 @@ namespace JsonService
     }
 
 } // namespace FileService
-
-

@@ -115,7 +115,8 @@ namespace JsonService
                 seb_setTitle_dlx,
                 seb_setDefault_dlx,
                 seb_setMinimum_dlx,
-                seb_setMaximum_dlx
+                seb_setMaximum_dlx,
+                seb_setReference_dlx
             }
         };
     }
