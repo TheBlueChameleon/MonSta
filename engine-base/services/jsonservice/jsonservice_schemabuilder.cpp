@@ -188,24 +188,19 @@ namespace JsonService
         return jsonService().schemaBuilder.seb_setType(handle, type);
     }
 
-    void seb_setTypedArray(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const IJsonServiceTypes::JsonType type)
-    {
-        return jsonService().schemaBuilder.seb_setTypedArray(handle, type);
-    }
-
     void seb_setEnum(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const std::string_view rawJson)
     {
         return jsonService().schemaBuilder.seb_setEnum(handle, rawJson.data());
     }
 
-    void seb_setDescription(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const std::string_view description)
+    void seb_setTypedArray(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const IJsonServiceTypes::JsonType type)
     {
-        return jsonService().schemaBuilder.seb_setDescription(handle, description.data());
+        return jsonService().schemaBuilder.seb_setTypedArray(handle, type);
     }
 
-    void seb_setTitle(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const std::string_view title)
+    void seb_setEnumArray(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const std::string_view rawJson)
     {
-        return jsonService().schemaBuilder.seb_setDefault(handle, title.data());
+        return jsonService().schemaBuilder.seb_setEnumArray(handle, rawJson.data());
     }
 
     void seb_setDefault(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const std::string_view rawJson)
@@ -221,6 +216,16 @@ namespace JsonService
     void seb_setMaximum(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const std::string_view rawJson)
     {
         return jsonService().schemaBuilder.seb_setMaximum(handle, rawJson.data());
+    }
+
+    void seb_setDescription(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const std::string_view description)
+    {
+        return jsonService().schemaBuilder.seb_setDescription(handle, description.data());
+    }
+
+    void seb_setTitle(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const std::string_view title)
+    {
+        return jsonService().schemaBuilder.seb_setDefault(handle, title.data());
     }
 
     void seb_setReference(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const std::string_view subSchemaName)

@@ -118,21 +118,17 @@ namespace JsonService
         IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
         const IJsonServiceTypes::JsonType type
     );
-    void HOST_API_CALL seb_setTypedArray_dlx(
-        IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
-        const IJsonServiceTypes::JsonType type
-    );
     void HOST_API_CALL seb_setEnum_dlx(
         IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
         const char* const rawJson
     );
-    void HOST_API_CALL seb_setDescription_dlx(
+    void HOST_API_CALL seb_setTypedArray_dlx(
         IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
-        const char* const description
+        const IJsonServiceTypes::JsonType type
     );
-    void HOST_API_CALL seb_setTitle_dlx(
+    void HOST_API_CALL seb_setEnumArray_dlx(
         IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
-        const char* const title
+        const char* const rawJson
     );
     void HOST_API_CALL seb_setDefault_dlx(
         IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
@@ -145,6 +141,14 @@ namespace JsonService
     void HOST_API_CALL seb_setMaximum_dlx(
         IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
         const char* const rawJson
+    );
+    void HOST_API_CALL seb_setDescription_dlx(
+        IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
+        const char* const description
+    );
+    void HOST_API_CALL seb_setTitle_dlx(
+        IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
+        const char* const title
     );
     void HOST_API_CALL seb_setReference_dlx(
         IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,

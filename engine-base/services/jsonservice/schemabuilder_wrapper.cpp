@@ -58,27 +58,21 @@ namespace JsonService
         return *this;
     }
 
-    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setTypedArray(const IJsonServiceTypes::JsonType type)
-    {
-        JsonService::seb_setTypedArray(handle, type);
-        return *this;
-    }
-
     JsonSchemaElementBuilder& JsonSchemaElementBuilder::setEnum(const std::string_view rawJson)
     {
         JsonService::seb_setEnum(handle, rawJson);
         return *this;
     }
 
-    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setDescription(const std::string_view value)
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setTypedArray(const IJsonServiceTypes::JsonType type)
     {
-        JsonService::seb_setDescription(handle, value);
+        JsonService::seb_setTypedArray(handle, type);
         return *this;
     }
 
-    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setTitle(const std::string_view value)
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setEnumArray(const std::string_view rawJson)
     {
-        JsonService::seb_setTitle(handle, value);
+        JsonService::seb_setEnumArray(handle, rawJson);
         return *this;
     }
 
@@ -97,6 +91,18 @@ namespace JsonService
     JsonSchemaElementBuilder& JsonSchemaElementBuilder::setMaximum(const std::string_view rawJson)
     {
         JsonService::seb_setMaximum(handle, rawJson);
+        return *this;
+    }
+
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setDescription(const std::string_view value)
+    {
+        JsonService::seb_setDescription(handle, value);
+        return *this;
+    }
+
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setTitle(const std::string_view value)
+    {
+        JsonService::seb_setTitle(handle, value);
         return *this;
     }
 

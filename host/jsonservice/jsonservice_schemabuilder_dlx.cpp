@@ -416,19 +416,6 @@ namespace JsonService
         CATCH_STD_EXCEPTION()
     }
 
-    void HOST_API_CALL seb_setTypedArray_dlx(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const IJsonServiceTypes::JsonType type)
-    {
-        try
-        {
-            assertSaneHandle(handle);
-            JsonSchemaElementBuilder& element = toSchemaElementBuilder(handle);
-            element.setTypedArray(type);
-        }
-        CATCH_ABSTRACT_ERROR()
-        CATCH_JSON_ERROR()
-        CATCH_STD_EXCEPTION()
-    }
-
     void HOST_API_CALL seb_setEnum_dlx(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const char* const rawJson)
     {
         try
@@ -443,28 +430,27 @@ namespace JsonService
         CATCH_STD_EXCEPTION()
     }
 
-    void HOST_API_CALL seb_setDescription_dlx(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const char* const description)
+    void HOST_API_CALL seb_setTypedArray_dlx(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const IJsonServiceTypes::JsonType type)
     {
         try
         {
             assertSaneHandle(handle);
-            assertSaneParseable(description);
             JsonSchemaElementBuilder& element = toSchemaElementBuilder(handle);
-            element.setDescription(description);
+            element.setTypedArray(type);
         }
         CATCH_ABSTRACT_ERROR()
         CATCH_JSON_ERROR()
         CATCH_STD_EXCEPTION()
     }
 
-    void HOST_API_CALL seb_setTitle_dlx(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const char* const title)
+    void HOST_API_CALL seb_setEnumArray_dlx(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const char* const rawJson)
     {
         try
         {
             assertSaneHandle(handle);
-            assertSaneParseable(title);
+            assertSaneParseable(rawJson);
             JsonSchemaElementBuilder& element = toSchemaElementBuilder(handle);
-            element.setTitle(title);
+            element.setEnumArray(parse(rawJson));
         }
         CATCH_ABSTRACT_ERROR()
         CATCH_JSON_ERROR()
@@ -513,6 +499,34 @@ namespace JsonService
         CATCH_STD_EXCEPTION()
     }
 
+    void HOST_API_CALL seb_setDescription_dlx(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const char* const description)
+    {
+        try
+        {
+            assertSaneHandle(handle);
+            assertSaneParseable(description);
+            JsonSchemaElementBuilder& element = toSchemaElementBuilder(handle);
+            element.setDescription(description);
+        }
+        CATCH_ABSTRACT_ERROR()
+        CATCH_JSON_ERROR()
+        CATCH_STD_EXCEPTION()
+    }
+
+    void HOST_API_CALL seb_setTitle_dlx(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const char* const title)
+    {
+        try
+        {
+            assertSaneHandle(handle);
+            assertSaneParseable(title);
+            JsonSchemaElementBuilder& element = toSchemaElementBuilder(handle);
+            element.setTitle(title);
+        }
+        CATCH_ABSTRACT_ERROR()
+        CATCH_JSON_ERROR()
+        CATCH_STD_EXCEPTION()
+    }
+
     void HOST_API_CALL seb_setReference_dlx(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const char* const subSchemaName)
     {
         try
@@ -526,5 +540,4 @@ namespace JsonService
         CATCH_JSON_ERROR()
         CATCH_STD_EXCEPTION()
     }
-
 }

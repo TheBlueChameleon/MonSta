@@ -58,7 +58,7 @@ bool init_engine()
         FEATURE_TEMPLATEMODE_V1_0
     };
 
-    SchemaValidation::registerTeamDefinition();
+    SchemaValidation::registerSchemaTeamDefinition();
 
     return true;
 }

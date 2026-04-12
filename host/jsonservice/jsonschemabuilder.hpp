@@ -30,13 +30,14 @@ namespace JsonService
 
             JsonSchemaElementBuilder& setProperty(const std::string_view key, const nlohmann::ordered_json& value);
             JsonSchemaElementBuilder& setType(const IJsonServiceTypes::JsonType type);
-            JsonSchemaElementBuilder& setTypedArray(const IJsonServiceTypes::JsonType type);
             JsonSchemaElementBuilder& setEnum(const nlohmann::ordered_json& items);
-            JsonSchemaElementBuilder& setDescription(const std::string_view value);
-            JsonSchemaElementBuilder& setTitle(const std::string_view value);
+            JsonSchemaElementBuilder& setTypedArray(const IJsonServiceTypes::JsonType type);
+            JsonSchemaElementBuilder& setEnumArray(const nlohmann::ordered_json& items);
             JsonSchemaElementBuilder& setDefault(const nlohmann::ordered_json& value);
             JsonSchemaElementBuilder& setMinimum(const nlohmann::ordered_json& value);
             JsonSchemaElementBuilder& setMaximum(const nlohmann::ordered_json& value);
+            JsonSchemaElementBuilder& setDescription(const std::string_view value);
+            JsonSchemaElementBuilder& setTitle(const std::string_view value);
             JsonSchemaElementBuilder& setReference(const std::string_view value);
     };
 

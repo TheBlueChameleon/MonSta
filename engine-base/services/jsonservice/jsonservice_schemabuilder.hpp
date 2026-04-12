@@ -121,21 +121,17 @@ namespace JsonService
         IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
         const IJsonServiceTypes::JsonType type
     );
-    void seb_setTypedArray(
-        IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
-        const IJsonServiceTypes::JsonType type
-    );
     void seb_setEnum(
         IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
         const std::string_view rawJson
     );
-    void seb_setDescription(
+    void seb_setTypedArray(
         IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
-        const std::string_view description
+        const IJsonServiceTypes::JsonType type
     );
-    void seb_setTitle(
+    void seb_setEnumArray(
         IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
-        const std::string_view title
+        const std::string_view rawJson
     );
     void seb_setDefault(
         IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
@@ -148,6 +144,14 @@ namespace JsonService
     void seb_setMaximum(
         IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
         const std::string_view rawJson
+    );
+    void seb_setDescription(
+        IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
+        const std::string_view description
+    );
+    void seb_setTitle(
+        IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,
+        const std::string_view title
     );
     void seb_setReference(
         IJsonServiceTypes::JsonSchemaElementBuilderHandle handle,

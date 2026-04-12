@@ -121,6 +121,11 @@ namespace JsonService
         throw IllegalHostStateException("Unknown Json data type: "s + std::to_string(static_cast<int>(type)));
     }
 
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setEnum(const ordered_json& items)
+    {
+        return setProperty("enum", items);
+    }
+
     JsonSchemaElementBuilder& JsonSchemaElementBuilder::setTypedArray(const IJsonServiceTypes::JsonType type)
     {
         return setType(IJsonServiceTypes::JsonType::ARRAY)
@@ -129,19 +134,12 @@ namespace JsonService
                            );
     }
 
-    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setEnum(const ordered_json& items)
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setEnumArray(const nlohmann::ordered_json& items)
     {
-        return setProperty("enum", items);
-    }
-
-    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setDescription(const std::string_view value)
-    {
-        return setProperty("description", value);
-    }
-
-    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setTitle(const std::string_view value)
-    {
-        return setProperty("title", value);
+        return setType(IJsonServiceTypes::JsonType::ARRAY)
+               .setProperty("items",
+                            JsonSchemaElementBuilder().setEnum(items).getJson()
+                           );
     }
 
     JsonSchemaElementBuilder& JsonSchemaElementBuilder::setDefault(const ordered_json& value)
@@ -157,6 +155,16 @@ namespace JsonService
     JsonSchemaElementBuilder& JsonSchemaElementBuilder::setMaximum(const ordered_json& value)
     {
         return setProperty("maximum", value);
+    }
+
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setDescription(const std::string_view value)
+    {
+        return setProperty("description", value);
+    }
+
+    JsonSchemaElementBuilder& JsonSchemaElementBuilder::setTitle(const std::string_view value)
+    {
+        return setProperty("title", value);
     }
 
     JsonSchemaElementBuilder& JsonSchemaElementBuilder::setReference(const std::string_view value)
