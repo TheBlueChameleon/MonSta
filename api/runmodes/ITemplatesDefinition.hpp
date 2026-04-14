@@ -1,7 +1,7 @@
-#ifndef TEMPLATESDEFINITION_H
-#define TEMPLATESDEFINITION_H
+#ifndef ITEMPLATESDEFINITION_H
+#define ITEMPLATESDEFINITION_H
 
-struct TemplatesDefinition
+struct ITemplatesDefinition
 {
     const char* const engine;
     const char* const outputDirectory;
@@ -18,4 +18,4 @@ struct TemplatesDefinition
     const bool writeSchemas;
 };
 
-#endif // TEMPLATESDEFINITION_H
+#endif // ITEMPLATESDEFINITION_H

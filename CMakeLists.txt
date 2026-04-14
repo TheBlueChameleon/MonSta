@@ -92,7 +92,7 @@ set(apiHeaders
     api/services/JsonService/IJsonService_SchemaBuilder.hpp
     api/services/JsonService/IJsonService_Types.hpp
 
-    api/runmodes/TemplatesDefinition.hpp
+    api/runmodes/ITemplatesDefinition.hpp
 )
 
 # ---------------------------------------------------------------------------- #
@@ -305,6 +305,7 @@ add_library(Engine-Gen1 SHARED
 
     engine-gen1/clientapi.cpp
     engine-gen1/schemavalidationconstants.hpp engine-gen1/schemavalidationconstants.cpp
+    engine-gen1/templatesmode.hpp engine-gen1/templatesmode.cpp
 )
 
 target_link_libraries(Engine-Gen1 PUBLIC

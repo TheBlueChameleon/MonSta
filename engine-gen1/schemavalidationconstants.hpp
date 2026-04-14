@@ -8,6 +8,9 @@
 
 namespace SchemaValidation
 {
+    const auto FILENAME_MECHANICSDEFINITION = "mechanicsDefinition.json";
+    const auto FILENAME_TEAMDEFINITION      = "teamDefinition.json";
+
     extern const IJsonServiceTypes::JsonTag JTAG_BASE;
     extern const IJsonServiceTypes::JsonTag JTAG_MECHANICSDEFINITION;
     extern const IJsonServiceTypes::JsonTag JTAG_TEAMDEFINITION;

@@ -13,7 +13,7 @@
 #include "hostapiprovider.hpp"
 
 class HostApi;
-struct TemplatesDefinition;
+struct ITemplatesDefinition;
 
 class ClientWrapper
 {
@@ -71,7 +71,7 @@ class ClientWrapper
         void (HOST_API_CALL* _setCreateDirectories)(const bool createDirectories);
         void (HOST_API_CALL* _setDryMode)(const bool dryMode);
 
-        void(HOST_API_CALL* _startTemplatesMode)(const TemplatesDefinition* const templatesDefinition);
+        void(HOST_API_CALL* _startTemplatesMode)(const ITemplatesDefinition* const templatesDefinition);
 
         // ------------------------------------------------------------------ //
         // Private Interface
@@ -104,7 +104,7 @@ class ClientWrapper
         void setCreateDirectories(const bool createDirectories);
         void setDryMode(const bool dryMode);
 
-        void startTemplatesMode(const TemplatesDefinition& templatesDefinition);
+        void startTemplatesMode(const ITemplatesDefinition& templatesDefinition);
 };
 
 #endif // CLIENTWRAPPER_HPP

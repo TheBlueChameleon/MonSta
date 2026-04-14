@@ -2,15 +2,12 @@
 #include <FeatureTags.hpp>
 #include <Version.hpp>
 
-#include "services/fileservice.hpp"
-#include "services/jsonservice.hpp"
-#include "services/loggerservice.hpp"
-
 #include "enginebase.hpp"
 #include "errors.hpp"
 #include "globals.hpp"
 
 #include "schemavalidationconstants.hpp"
+#include "templatesmode.hpp"
 
 HOST_API_EXPORT
 {
@@ -21,17 +18,11 @@ HOST_API_EXPORT
     void HOST_API_CALL hangUp()
     {}
 
-    void HOST_API_CALL startTemplatesMode(const TemplatesDefinition* const templatesDefinition)
+    void HOST_API_CALL startTemplatesMode(const ITemplatesDefinition* const templatesDefinition)
     {
         try
         {
-            auto handleTeamDef = JsonService::get(SchemaValidation::JTAG_TEAMDEFINITION);
-            auto content = JsonService::dump(handleTeamDef);
-            FileService::write("foo.json", content.getAsStringView());
-
-            auto handleXDef = JsonService::get(SchemaValidation::JTAG_MECHANICSDEFINITION);
-            auto contentX = JsonService::dump(handleXDef);
-            FileService::write("bar.json", contentX.getAsStringView());
+            TemplateMode::run(*templatesDefinition);
         }
         catch (const EngineError& e)
         {

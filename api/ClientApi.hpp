@@ -5,7 +5,7 @@
 #include <CallingConventions.hpp>
 #include <HostApi.hpp>
 
-#include <runmodes/TemplatesDefinition.hpp>
+#include <runmodes/ITemplatesDefinition.hpp>
 
 // ========================================================================== //
 // exported to host
@@ -26,7 +26,7 @@ HOST_API_EXPORT
     void HOST_API_CALL setCreateDirectories(const bool createDirectories);
     void HOST_API_CALL setDryMode(const bool dryMode);
 
-    void HOST_API_CALL startTemplatesMode(const TemplatesDefinition* const templatesDefinition);
+    void HOST_API_CALL startTemplatesMode(const ITemplatesDefinition* const templatesDefinition);
 }
 
 // -------------------------------------------------------------------------- //

@@ -6,7 +6,7 @@
 
 #include <Version.hpp>
 
-#include <runmodes/TemplatesDefinition.hpp>
+#include <runmodes/ITemplatesDefinition.hpp>
 
 #include "constants.hpp"
 
@@ -274,7 +274,7 @@ void ClientWrapper::setDryMode(const bool dryMode)
     _setDryMode(dryMode);
 }
 
-void ClientWrapper::startTemplatesMode(const TemplatesDefinition& templatesDefinition)
+void ClientWrapper::startTemplatesMode(const ITemplatesDefinition& templatesDefinition)
 {
     return _startTemplatesMode(&templatesDefinition);
 }
