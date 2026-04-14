@@ -21,7 +21,7 @@ HOST_API_EXPORT
     void HOST_API_CALL hangUp()
     {}
 
-    void HOST_API_CALL startTemplatesMode()
+    void HOST_API_CALL startTemplatesMode(const TemplatesDefinition* const templatesDefinition)
     {
         try
         {
