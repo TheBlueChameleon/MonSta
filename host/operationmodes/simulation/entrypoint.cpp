@@ -11,7 +11,7 @@
 
 namespace SimulationMode
 {
-    void run(const SimulationModeDefinition& defs)
+    void run(const OperationModes::SimulationModeDefinition& defs)
     {
         OperationModes::setupLoggerService(defs.logging);
         OperationModes::setupFileService(defs, defs.simulator.outputDir);

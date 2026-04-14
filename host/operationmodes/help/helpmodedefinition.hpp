@@ -5,17 +5,20 @@
 
 #include "operationmodes/shared/basemodedefinition.hpp"
 
-struct HelpModeDefinition : public BaseModeDefinition
+namespace OperationModes
 {
-    HelpModeDefinition(
-        const CliInput& cli,
-        OperationMode target
-    ):
-        BaseModeDefinition(cli, LoggingDefinition()),
-        target(target)
-    {}
+    struct HelpModeDefinition : public BaseModeDefinition
+    {
+        HelpModeDefinition(
+            const CliInput& cli,
+            OperationMode target
+        ):
+            BaseModeDefinition(cli, LoggingDefinition()),
+            target(target)
+        {}
 
-    OperationMode target;
-};
+        OperationMode target;
+    };
+}
 
 #endif // HELPMODEDEFINITION_HPP

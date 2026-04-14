@@ -6,21 +6,24 @@
 #include "defs/matchdefinition.hpp"
 #include "defs/simulatordefinition.hpp"
 
-struct SimulationModeDefinition : public BaseModeDefinition
+namespace OperationModes
 {
-    SimulationModeDefinition(
-        const CliInput& cli,
-        const LoggingDefinition& logging,
-        const SimulatorDefinition& simulator,
-        const MatchDefinition& match
-    ):
-        BaseModeDefinition(cli, logging),
-        simulator(simulator),
-        match(match)
-    {}
+    struct SimulationModeDefinition : public BaseModeDefinition
+    {
+        SimulationModeDefinition(
+            const CliInput& cli,
+            const LoggingDefinition& logging,
+            const SimulatorDefinition& simulator,
+            const MatchDefinition& match
+        ):
+            BaseModeDefinition(cli, logging),
+            simulator(simulator),
+            match(match)
+        {}
 
-    const SimulatorDefinition simulator;
-    const MatchDefinition     match;
-};
+        const SimulatorDefinition simulator;
+        const MatchDefinition     match;
+    };
+}
 
 #endif // SIMULATIONMODEDEFINITION_H

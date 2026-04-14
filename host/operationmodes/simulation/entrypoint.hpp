@@ -3,11 +3,14 @@
 
 #include <memory>
 
-struct SimulationModeDefinition;
+namespace OperationModes
+{
+    struct SimulationModeDefinition;
+}
 
 namespace SimulationMode
 {
-    void run(const SimulationModeDefinition& defs);
+    void run(const OperationModes::SimulationModeDefinition& defs);
 }
 
 #endif // ENTRYPOINT_SIMULATION_HPP

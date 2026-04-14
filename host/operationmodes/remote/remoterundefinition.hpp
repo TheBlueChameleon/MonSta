@@ -5,11 +5,14 @@
 
 #include "operationmodes/shared/basemodedefinition.hpp"
 
-struct RemoteModeDefinition : public BaseModeDefinition
+namespace OperationModes
 {
-    RemoteModeDefinition(const CliInput& cli):
-        BaseModeDefinition(cli, LoggingDefinition())
-    {}
-};
+    struct RemoteModeDefinition : public BaseModeDefinition
+    {
+        RemoteModeDefinition(const CliInput& cli):
+            BaseModeDefinition(cli, LoggingDefinition())
+        {}
+    };
+}
 
 #endif // REMOTERUNDEFINITION_HPP

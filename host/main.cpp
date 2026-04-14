@@ -16,7 +16,7 @@ void registerSchemas()
 void run(const int argc, const char* const argv[])
 {
     const CliInput cliInput = readCliInput(argc, argv);
-    const std::shared_ptr<const BaseModeDefinition> runDefinition = unpackCliInput(cliInput);
+    const std::shared_ptr<const OperationModes::BaseModeDefinition> runDefinition = unpackCliInput(cliInput);
 
     OperationModes::run(runDefinition);
 }

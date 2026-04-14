@@ -3,10 +3,10 @@
 
 #include <memory>
 
-struct BaseModeDefinition;
-
 namespace OperationModes
 {
+    struct BaseModeDefinition;
+
     void run(const std::shared_ptr<const BaseModeDefinition>& runDefinition);
 }
 

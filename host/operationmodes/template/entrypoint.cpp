@@ -11,7 +11,7 @@
 
 namespace TemplateMode
 {
-    void run(const TemplateModeDefinition& defs)
+    void run(const OperationModes::TemplateModeDefinition& defs)
     {
         OperationModes::setupLoggerService(defs.logging);
         OperationModes::setupFileService(defs, defs.templates.outputDirectory);

@@ -34,7 +34,7 @@ namespace OperationModes
         }
     }
 
-    const HelpModeDefinition& getAsHelpModeDefinition(const std::shared_ptr<const BaseModeDefinition>& defs)
+    const HelpModeDefinition &getAsHelpModeDefinition(const std::shared_ptr<const BaseModeDefinition>& defs)
     {
         return getAsT<HelpModeDefinition>(defs, "HelpModeDefinition");
     }

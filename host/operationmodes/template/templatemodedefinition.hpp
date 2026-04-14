@@ -5,18 +5,21 @@
 
 #include "defs/templatesdefinition.hpp"
 
-struct TemplateModeDefinition : public BaseModeDefinition
+namespace OperationModes
 {
-    TemplateModeDefinition(
-        const CliInput& cli,
-        const LoggingDefinition& logging,
-        const TemplatesDefinition templates
-    ):
-        BaseModeDefinition(cli, logging),
-        templates(templates)
-    {}
+    struct TemplateModeDefinition : public BaseModeDefinition
+    {
+        TemplateModeDefinition(
+            const CliInput& cli,
+            const LoggingDefinition& logging,
+            const TemplatesDefinition templates
+        ):
+            BaseModeDefinition(cli, logging),
+            templates(templates)
+        {}
 
-    TemplatesDefinition templates;
-};
+        TemplatesDefinition templates;
+    };
+}
 
 #endif // TEMPLATEMODEDEFINITION_HPP

@@ -32,7 +32,7 @@ namespace HelpMode
         std::exit(0);
     }
 
-    void run(const HelpModeDefinition& defs)
+    void run(const OperationModes::HelpModeDefinition& defs)
     {
         showModeHelp(defs.target);
     }

@@ -3,11 +3,14 @@
 
 #include <memory>
 
-struct TemplateModeDefinition;
+namespace OperationModes
+{
+    struct TemplateModeDefinition;
+}
 
 namespace TemplateMode
 {
-    void run(const TemplateModeDefinition& defs);
+    void run(const OperationModes::TemplateModeDefinition& defs);
 }
 
 #endif // ENTRYPOINT_TEMPLATE_HPP

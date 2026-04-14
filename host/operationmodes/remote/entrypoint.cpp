@@ -9,7 +9,7 @@
 
 namespace RemoteMode
 {
-    void run(const RemoteModeDefinition& defs)
+    void run(const OperationModes::RemoteModeDefinition& defs)
     {
         LoggerService::info("Remote mode not implemented yet.");
         std::exit(0);

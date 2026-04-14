@@ -3,11 +3,14 @@
 
 #include <memory>
 
-struct HelpModeDefinition;
+namespace OperationModes
+{
+    struct HelpModeDefinition;
+}
 
 namespace HelpMode
 {
-    void run(const HelpModeDefinition& defs);
+    void run(const OperationModes::HelpModeDefinition& defs);
 }
 
 #endif // ENTRYPOINT_HELP_HPP

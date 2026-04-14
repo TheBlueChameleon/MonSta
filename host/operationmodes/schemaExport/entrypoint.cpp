@@ -16,7 +16,7 @@
 
 namespace SchemaExportMode
 {
-    void run(const SchemaExportModeDefinition& defs)
+    void run(const OperationModes::SchemaExportModeDefinition& defs)
     {
         OperationModes::setupLoggerService(defs.logging);                       // apply defaults
         OperationModes::setupFileService(defs, defs.outputDirectory);
