@@ -91,6 +91,7 @@ namespace OperationModes
         auto matchDefinition = JsonSchemaBuilder(JKEY_MATCHDEFINITION)
                                .setRequired(
         {
+            JKEY_MATCHDEFINITION_MECHANICS,
             JKEY_MATCHDEFINITION_PLAYER1TEAM,
             JKEY_MATCHDEFINITION_PLAYER1STRATETY,
             JKEY_MATCHDEFINITION_PLAYER2TEAM,
@@ -100,6 +101,8 @@ namespace OperationModes
             JKEY_MATCHDEFINITION_TYPEDEFS,
             JKEY_MATCHDEFINITION_ITEMDEFS
         });
+
+        matchDefinition.addProperty(JKEY_MATCHDEFINITION_MECHANICS, IJsonServiceTypes::JsonType::STRING);
 
         matchDefinition.addProperty(JKEY_MATCHDEFINITION_PLAYER1STRATETY, IJsonServiceTypes::JsonType::STRING);
 

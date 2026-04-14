@@ -1,0 +1,12 @@
+{
+    "human" : {
+        "name": "foo the man"
+    },
+    "pokemon": [
+        {
+            "species" : "charmander",
+            "level": 5,
+            "attack_1" : "scratch"
+        }
+    ]
+}

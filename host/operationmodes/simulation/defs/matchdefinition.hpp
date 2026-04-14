@@ -5,6 +5,8 @@
 
 struct MatchDefinition
 {
+    const std::filesystem::path mechanics;
+
     const std::filesystem::path player1Team;
     const std::filesystem::path player1Strategy;
 

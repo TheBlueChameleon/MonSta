@@ -241,6 +241,7 @@ static MatchDefinition unpackMatchDefinition(const ordered_json& data)
 {
     // all entries required
     return MatchDefinition(
+               data[JKEY_MATCHDEFINITION_MECHANICS],
                data[JKEY_MATCHDEFINITION_PLAYER1TEAM],
                data[JKEY_MATCHDEFINITION_PLAYER1STRATETY],
                data[JKEY_MATCHDEFINITION_PLAYER2TEAM],

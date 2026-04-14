@@ -19,6 +19,7 @@ namespace OperationModes
     static constexpr auto JKEY_SIMULATOR_ARGS            = "args";
 
     static constexpr auto JKEY_MATCHDEFINITION                 = "matchDefinition";
+    static constexpr auto JKEY_MATCHDEFINITION_MECHANICS       = "mechanics";
     static constexpr auto JKEY_MATCHDEFINITION_PLAYER1TEAM     = "player1Team";
     static constexpr auto JKEY_MATCHDEFINITION_PLAYER1STRATETY = "player1Strategy";
     static constexpr auto JKEY_MATCHDEFINITION_PLAYER2TEAM     = "player2Team";

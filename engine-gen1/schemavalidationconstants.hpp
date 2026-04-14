@@ -9,25 +9,85 @@
 namespace SchemaValidation
 {
     extern const IJsonServiceTypes::JsonTag JTAG_BASE;
+    extern const IJsonServiceTypes::JsonTag JTAG_MECHANICSDEFINITION;
     extern const IJsonServiceTypes::JsonTag JTAG_TEAMDEFINITION;
 
-    const auto JKEY_COMPUTER = "computer";
-    const auto JKEY_HUMAN    = "human";
-    const auto JKEY_POKEMON  = "pokemon";
+    const auto JKEY_COMPUTER  = "computer";
+    const auto JKEY_HUMAN     = "human";
+    const auto JKEY_POKEMON   = "pokemon";
 
-    const auto JKEY_PLAYER_BADGES           = "badges";
-    const auto JKEY_PLAYER_BADGES_BROCK     = "Brock";
-    const auto JKEY_PLAYER_BADGES_MISTY     = "Misty";
-    const auto JKEY_PLAYER_BADGES_SURGE     = "Surge";
-    const auto JKEY_PLAYER_BADGES_ERIKA     = "Erika";
-    const auto JKEY_PLAYER_BADGES_SABRINA   = "Sabrina";
-    const auto JKEY_PLAYER_BADGES_KOGA      = "Koga";
-    const auto JKEY_PLAYER_BADGES_BLAINE    = "Blaine";
-    const auto JKEY_PLAYER_BADGES_GIOVANNI  = "Giovanni";
-
+    const auto JKEY_PLAYER_BADGEATK         = "badgeBoost_ATK";
+    const auto JKEY_PLAYER_BADGEDEF         = "badgeBoost_DEF";
+    const auto JKEY_PLAYER_BADGESPC         = "badgeBoost_SPC";
+    const auto JKEY_PLAYER_BADGESPD         = "badgeBoost_SPD";
     const auto JKEY_PLAYER_STATUSMOVEDEBUFF = "statMoveDebuf";
     const auto JKEY_PLAYER_USEPP            = "usePP";
+    const auto JKEY_PLAYER_EXPALL           = "ExpAll";
+    const auto JKEY_PLAYER_OBEDIENCECAP     = "obedienceCap";
 
+    const auto JKEY_POKEMON_SPECIES = "species";
+    const auto JKEY_POKEMON_LEVEL   = "level";
+    const auto JKEY_POKEMON_EXP     = "experience";
+    const auto JKEY_POKEMON_FOREIGN = "foreign";
+    const auto JKEY_POKEMON_STATUS  = "status";
+    const auto JKEY_POKEMON_STATUS_NORMAL    = "normal";
+    const auto JKEY_POKEMON_STATUS_PARALYZED = "paralyzed";
+    const auto JKEY_POKEMON_STATUS_POISONED  = "poisoned";
+    const auto JKEY_POKEMON_STATUS_ASLEEP    = "asleep";
+    const auto JKEY_POKEMON_STATUS_BURNT     = "burnt";
+    const auto JKEY_POKEMON_STATUS_FROZEN    = "frozen";
+    const auto JKEY_POKEMON_STATUS_FAINTED   = "fainted";
+
+    const auto JKEY_POKEMON_DVHP  = "DV_HP";
+    const auto JKEY_POKEMON_DVATK = "DV_ATK";
+    const auto JKEY_POKEMON_DVDEF = "DV_DEF";
+    const auto JKEY_POKEMON_DVSPC = "DV_SPC";
+    const auto JKEY_POKEMON_DVSPD = "DV_SPD";
+
+    const auto JKEY_POKEMON_STATEXPHP  = "StatusExperience_HP";
+    const auto JKEY_POKEMON_STATEXPATK = "StatusExperience_ATK";
+    const auto JKEY_POKEMON_STATEXPDEF = "StatusExperience_DEF";
+    const auto JKEY_POKEMON_STATEXPSPC = "StatusExperience_SPC";
+    const auto JKEY_POKEMON_STATEXPSPD = "StatusExperience_SPD";
+
+    const auto JKEY_POKEMON_ATTACK1      = "attack_1";
+    const auto JKEY_POKEMON_ATTACK1PP    = "attack_1_pp";
+    const auto JKEY_POKEMON_ATTACK1PPMAX = "attack_1_pp_max";
+
+    const auto JKEY_POKEMON_ATTACK2      = "attack_2";
+    const auto JKEY_POKEMON_ATTACK2PP    = "attack_2_pp";
+    const auto JKEY_POKEMON_ATTACK2PPMAX = "attack_2_pp_max";
+
+    const auto JKEY_POKEMON_ATTACK3      = "attack_3";
+    const auto JKEY_POKEMON_ATTACK3PP    = "attack_3_pp";
+    const auto JKEY_POKEMON_ATTACK3PPMAX = "attack_3_pp_max";
+
+    const auto JKEY_POKEMON_ATTACK4      = "attack_4";
+    const auto JKEY_POKEMON_ATTACK4PP    = "attack_4_pp";
+    const auto JKEY_POKEMON_ATTACK4PPMAX = "attack_4_pp_max";
+
+    const auto JKEY_MECHANICS_LEVELCAP                  = "levelCap";
+    const auto JKEY_MECHANICS_STATSMIN                  = "statsMin";
+    const auto JKEY_MECHANICS_STATSMAX                  = "statsMax";
+    const auto JKEY_MECHANICS_OBEDIENCE                 = "obedience";
+    const auto JKEY_MECHANICS_GEN1MISS                  = "gen1miss";
+    const auto JKEY_MECHANICS_BIDE_GLITCH               = "bideGlitch";
+    const auto JKEY_MECHANICS_COUNTERGLITCH             = "counterGlitch";
+    const auto JKEY_MECHANICS_CRITRATEGLITCH            = "critRateGlitch";
+    const auto JKEY_MECHANICS_EXPUNDERFLOWGLITCH        = "experienceUnderflowGlitch";
+    const auto JKEY_MECHANICS_HPRECOVERYGLITCH          = "hpRecoveryGlitch";
+    const auto JKEY_MECHANICS_HYPERBEAMFREEZEGLITCH     = "hyperbeamFreezeGlitch";
+    const auto JKEY_MECHANICS_HYPERBEAMSLEEPGLITCH      = "hyperbeamSleepGlitch";
+    const auto JKEY_MECHANICS_INVULNERABILITYGLITCH     = "invulnerabilityGlitch";
+    const auto JKEY_MECHANICS_JUMPKICKGLITCH            = "jumpKickGlitch";
+    const auto JKEY_MECHANICS_MIMICLEVELUPGLITCH        = "mimicLevelUpGlitch";
+    const auto JKEY_MECHANICS_STATMODGLITCH             = "statusModificationGlitch";
+    const auto JKEY_MECHANICS_SUBSTITUTEHPDRAINGLITCH   = "substituteHpDrainGlitch";
+    const auto JKEY_MECHANICS_SUBSTITUTESELFHURTGLITCH  = "substituteSelfHurtGlitch";
+    const auto JKEY_MECHANICS_TOXICLEECHSEEDGLITCH      = "toxicLeechSeedGlitch";
+    const auto JKEY_MECHANICS_TOXICRESTGLITCH           = "toxicRestGlitch";
+
+    void registerMechanicsDefinition();
     void registerSchemaTeamDefinition();
 }
 

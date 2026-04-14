@@ -26,7 +26,7 @@ namespace MemoryService
 
     IMemoryService::MemoryBlock createFromView(const std::string_view view)
     {
-        const auto size = view.size();
+        const auto size = view.size() + 1;
         IMemoryService::MemoryBlock result = allocate(size);
         std::strncpy(result.data, view.data(), size);
 
