@@ -1,7 +1,7 @@
 #ifndef TEMPLATESDEFINITION_H
 #define TEMPLATESDEFINITION_H
 
-struct TemplateModeDefinition
+struct TemplatesDefinition
 {
     const char* const engine;
     const char* const outputDirectory;

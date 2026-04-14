@@ -19,6 +19,7 @@ namespace TemplateMode
         auto cw = ClientWrapper(defs.templates.engine);
         OperationModes::setupClientWriteOptions(cw, defs);
 
-        cw.startTemplatesMode();
+        TemplatesDefinition td = {};
+        cw.startTemplatesMode(td);
     }
 }

@@ -6,6 +6,8 @@
 
 #include <Version.hpp>
 
+#include <runmodes/TemplatesDefinition.hpp>
+
 #include "constants.hpp"
 
 #include "errorservice/errors.hpp"
@@ -34,7 +36,7 @@ void ClientWrapper::fetchCheckAndTransfer(T ClientWrapper::*offset, const char* 
         LoggerService::traceF("  ... EXTRACTED {}", symbol);
     }
 
-    this->*offset =target;
+    this->*offset = target;
 }
 
 void* ClientWrapper::findSymbol(const char* const symbolName)
@@ -272,7 +274,7 @@ void ClientWrapper::setDryMode(const bool dryMode)
     _setDryMode(dryMode);
 }
 
-void ClientWrapper::startTemplatesMode()
+void ClientWrapper::startTemplatesMode(const TemplatesDefinition& templatesDefinition)
 {
     return _startTemplatesMode();
 }
