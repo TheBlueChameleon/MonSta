@@ -8,6 +8,10 @@
 
 namespace MemoryService
 {
+    IMemoryService::MemoryBlock allocate(const size_t size);
+    IMemoryService::MemoryBlock create(const char* const data, size_t size);
+    void free(IMemoryService::MemoryBlock* data);
+
     class MemoryBlock
     {
         private:

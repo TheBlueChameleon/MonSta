@@ -16,7 +16,7 @@ namespace TemplateMode
     const auto ITEM_DEFINITION_FILE        = "itemDefinitions.csv";
     const auto ALLOWED_VALUES_FILE         = "allowedValues.txt";
 
-    void run(const ITemplatesDefinition& templatesDefinition);
+    const ITemplatesDefinition run(const ITemplatesDefinition& templatesDefinition);
 }
 
 #endif // TEMPLATESMODE_HPP

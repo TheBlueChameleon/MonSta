@@ -9,9 +9,9 @@
 
 namespace TemplateMode
 {
-    static std::string writeMechanicsDefinitionFile(
-        const std::string inputName,
-        const std::string defaultName
+    static std::string_view writeMechanicsDefinitionFile(
+        const std::string_view inputName,
+        const std::string_view defaultName
     )
     {
         if (!inputName.empty())
@@ -23,9 +23,9 @@ namespace TemplateMode
         return defaultName;
     }
 
-    static std::string writeTeamDefinitionFile(
-        const std::string inputName,
-        const std::string defaultName
+    static std::string_view writeTeamDefinitionFile(
+        const std::string_view inputName,
+        const std::string_view defaultName
     )
     {
         if (!inputName.empty())
@@ -37,9 +37,9 @@ namespace TemplateMode
         return defaultName;
     }
 
-    static std::string writeStrategyFile(
-        const std::string inputName,
-        const std::string defaultName
+    static std::string_view writeStrategyFile(
+        const std::string_view inputName,
+        const std::string_view defaultName
     )
     {
         if (!inputName.empty())
@@ -51,9 +51,9 @@ namespace TemplateMode
         return defaultName;
     }
 
-    static std::string writePkmnDefinitionFile(
-        const std::string inputName,
-        const std::string defaultName
+    static std::string_view writePkmnDefinitionFile(
+        const std::string_view inputName,
+        const std::string_view defaultName
     )
     {
         if (!inputName.empty())
@@ -65,9 +65,9 @@ namespace TemplateMode
         return defaultName;
     }
 
-    static std::string writeMoveDefinitionFile(
-        const std::string inputName,
-        const std::string defaultName
+    static std::string_view writeMoveDefinitionFile(
+        const std::string_view inputName,
+        const std::string_view defaultName
     )
     {
         if (!inputName.empty())
@@ -79,9 +79,9 @@ namespace TemplateMode
         return defaultName;
     }
 
-    static std::string writeTypeDefinitionFile(
-        const std::string inputName,
-        const std::string defaultName
+    static std::string_view writeTypeDefinitionFile(
+        const std::string_view inputName,
+        const std::string_view defaultName
     )
     {
         if (!inputName.empty())
@@ -93,9 +93,9 @@ namespace TemplateMode
         return defaultName;
     }
 
-    static std::string writeItemDefinitionFile(
-        const std::string inputName,
-        const std::string defaultName
+    static std::string_view writeItemDefinitionFile(
+        const std::string_view inputName,
+        const std::string_view defaultName
     )
     {
         if (!inputName.empty())
@@ -123,7 +123,7 @@ namespace TemplateMode
 
     }
 
-    void run(const ITemplatesDefinition& templatesDefinition)
+    const ITemplatesDefinition run(const ITemplatesDefinition& templatesDefinition)
     {
         const auto mechanicsDefinitionFile = writeMechanicsDefinitionFile(templatesDefinition.mechanicsDefinition, MECHANICS_DEFINITION_FILE);
         const auto player1TeamDefinitionFile = writeTeamDefinitionFile(templatesDefinition.player1Team, PLAYER1_TEAMDEFINITION_FILE);
@@ -144,5 +144,20 @@ namespace TemplateMode
         {
             writeAllowedValueFile();
         }
+
+        return ITemplatesDefinition
+        {
+            templatesDefinition.engine,
+            templatesDefinition.outputDirectory,
+            mechanicsDefinitionFile.data(),
+            player1TeamDefinitionFile.data(),
+            player2TeamDefinitionFile.data(),
+            player1StrategyFile.data(),
+            player2StrategyFile.data(),
+            pkmnDefinitionFile.data(),
+            moveDefinitionFile.data(),
+            typeDefinitionFile.data(),
+            itemDefinitionFile.data()
+        };
     }
 }

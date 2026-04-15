@@ -3,6 +3,21 @@
 
 namespace MemoryService
 {
+    IMemoryService::MemoryBlock allocate(const size_t size)
+    {
+        return memoryService().allocate(size);
+    }
+
+    IMemoryService::MemoryBlock create(const char* const data, size_t size)
+    {
+        return memoryService().create(data, size);
+    }
+
+    void free(IMemoryService::MemoryBlock* data)
+    {
+        return memoryService().free(data);
+    }
+
     MemoryBlock::MemoryBlock(const size_t size) :
         data(memoryService().allocate(size))
     {}
@@ -68,3 +83,6 @@ namespace MemoryService
                );
     }
 }
+
+
+
