@@ -54,6 +54,7 @@ namespace OperationModes
     static const auto JKEY_TEMPLATES_TYPEDEFS        = "typeDefs";
     static const auto JKEY_TEMPLATES_ITEMDEFS        = "itemDefs";
     static const auto JKEY_TEMPLATES_WRITESCHEMAS    = "writeSchemas";
+    static const auto JKEY_TEMPLATES_ALLOWEDVALUES   = "writeAllowedValues";
     static const auto JKEY_TEMPLATES_ARGS            = "args";
 
     void registerSchemaSimulation();

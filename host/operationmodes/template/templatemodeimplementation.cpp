@@ -31,7 +31,8 @@ namespace OperationModes
             defs.templates.typeDefs.c_str(),
             defs.templates.itemDefs.c_str(),
             defs.templates.args.data(),
-            defs.templates.writeSchemas
+            defs.templates.writeSchemas,
+            defs.templates.writeAllowedValues
         };
 
         cw.startTemplatesMode(td);

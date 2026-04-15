@@ -190,6 +190,9 @@ namespace OperationModes
         result.addProperty(JKEY_TEMPLATES_WRITESCHEMAS, IJsonServiceTypes::JsonType::BOOLEAN)
         .setDefault(true);
 
+        result.addProperty(JKEY_TEMPLATES_ALLOWEDVALUES, IJsonServiceTypes::JsonType::BOOLEAN)
+        .setDefault(true);
+
         result.addProperty(JKEY_TEMPLATES_ARGS, IJsonServiceTypes::JsonType::STRING);
 
         return result;

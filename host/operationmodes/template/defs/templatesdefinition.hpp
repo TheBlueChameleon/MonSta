@@ -19,6 +19,7 @@ struct TemplatesDefinition
     const std::filesystem::path itemDefs;
 
     const bool writeSchemas;
+    const bool writeAllowedValues;
 
     const std::string args;
 };

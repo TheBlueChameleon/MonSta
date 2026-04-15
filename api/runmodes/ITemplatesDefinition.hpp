@@ -17,6 +17,7 @@ struct ITemplatesDefinition
     const char* const args;
 
     const bool writeSchemas;
+    const bool writeAllowedValues;
 };
 
 #endif // ITEMPLATESDEFINITION_H

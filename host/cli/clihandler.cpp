@@ -287,6 +287,7 @@ static TemplatesDefinition unpackTemplatesDefinition(const ordered_json& data)
         fetchIfInJson(data, JKEY_TEMPLATES_TYPEDEFS, std::filesystem::path {}),
         fetchIfInJson(data, JKEY_TEMPLATES_ITEMDEFS, std::filesystem::path {}),
         data               [JKEY_TEMPLATES_WRITESCHEMAS],
+        data               [JKEY_TEMPLATES_ALLOWEDVALUES],
         fetchIfInJson(data, JKEY_TEMPLATES_ARGS, std::filesystem::path {}),
     };
 }
