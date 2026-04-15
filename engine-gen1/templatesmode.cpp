@@ -19,6 +19,15 @@ namespace TemplateMode
             return inputName;
         }
 
+        const auto tagName = SchemaValidation::jtag_base + defaultName.data();
+        const auto handle = JsonService::parseValidatePatchAndAdd(
+                                IJsonServiceTypes::JsonTag(tagName.data()),
+                                "{}",
+                                SchemaValidation::JTAG_MECHANICSDEFINITION
+                            );
+        auto memBlock = JsonService::dump(handle);
+
+        FileService::write(defaultName, memBlock.getAsStringView());
 
         return defaultName;
     }

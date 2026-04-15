@@ -7,6 +7,6 @@
     },
     "templates" : {
         "engine": "./build-Desktop-Debug/libEngine-Gen1.so",
-        "outputDirectory": "outputs"
+        "outputDirectory": "outputs/templates"
     }
 }
