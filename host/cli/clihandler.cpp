@@ -3,24 +3,17 @@
 #include <sstream>
 #include <string>
 #include <string_view>
-using namespace std::string_literals;
 
 #include <argparse/argparse.hpp>
-using ArgParser = argparse::ArgumentParser;
 
 #include <nlohmann/json.hpp>
-using namespace nlohmann;
 #include <nlohmann/json-schema.hpp>
-using namespace nlohmann::json_schema;
 
 #include "constants.hpp"
 
 #include "errorservice/errors.hpp"
-
 #include "fileservice/fileservice.hpp"
-
 #include "jsonservice/jsonservice.hpp"
-
 #include "loggerservice/loggerservice.hpp"
 
 #include "operationmodes/help/helpmodedefinition.hpp"
@@ -32,6 +25,10 @@ using namespace nlohmann::json_schema;
 
 #include "clihandler.hpp"
 
+using ArgParser = argparse::ArgumentParser;
+using namespace std::string_literals;
+using namespace nlohmann;
+using namespace nlohmann::json_schema;
 using namespace OperationModes;
 
 // ========================================================================== //

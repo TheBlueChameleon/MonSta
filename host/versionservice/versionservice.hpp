@@ -2,6 +2,7 @@
 #define VERSIONSERVICE_H
 
 #include <compare>
+#include <string>
 
 #include <Version.hpp>
 

@@ -1,15 +1,24 @@
 #include <iostream>
 
 #include "fileservice/fileservice.hpp"
+#include "loggerservice/loggerservice.hpp"
 
 #include "shared/basemodedefinition.hpp"
 #include "shared/utils.hpp"
 
-#include "operationmodes/help/entrypoint.hpp"
-#include "operationmodes/remote/entrypoint.hpp"
-#include "operationmodes/schemaExport/entrypoint.hpp"
-#include "operationmodes/simulation/entrypoint.hpp"
-#include "operationmodes/template/entrypoint.hpp"
+#include "operationmodes/help/helpmodeimplementation.hpp"
+#include "operationmodes/help/helpmodedefinition.hpp"
+
+#include "operationmodes/remote/remotemodeimplemetnation.hpp"
+
+#include "operationmodes/schemaExport/schemaexportmodeimplementation.hpp"
+#include "operationmodes/schemaExport/schemaexportmodedefinition.hpp"
+
+#include "operationmodes/simulation/simulationmodeimplementation.hpp"
+#include "operationmodes/simulation/simulationmodedefinition.hpp"
+
+#include "operationmodes/template/templatemodeimplementation.hpp"
+#include "operationmodes/template/templatemodedefinition.hpp"
 
 #include "entrypoint.hpp"
 
@@ -20,27 +29,27 @@ namespace OperationModes
         switch (runDefinition->mode)
         {
             case OperationMode::SIMULATION:
-                SimulationMode::run(
+                runSimulationMode(
                     getAsSimulationModeDefinition(runDefinition)
                 );
                 break;
             case OperationMode::TEMPLATES:
-                TemplateMode::run(
+                runTemplateMode(
                     getAsTemplateModeDefinition(runDefinition)
                 );
                 break;
             case OperationMode::SCHEMAEXPORT:
-                SchemaExportMode::run(
+                runSchemaExportMode(
                     getAsSchemaExportModeDefinition(runDefinition)
                 );
                 break;
             case OperationMode::REMOTE:
-                RemoteMode::run(
+                runRemoteMode(
                     getAsRemoteModeDefinition(runDefinition)
                 );
                 break;
             case OperationMode::HELP:
-                HelpMode::run(
+                runHelpMode(
                     getAsHelpModeDefinition(runDefinition)
                 );
         }

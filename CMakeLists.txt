@@ -216,13 +216,12 @@ add_executable(Host
     host/operationmodes/operationmode.hpp
     host/operationmodes/entrypoint.hpp host/operationmodes/entrypoint.cpp
 
-    host/operationmodes/help/entrypoint.hpp         host/operationmodes/help/entrypoint.cpp
+    host/operationmodes/help/helpmodeimplementation.hpp     host/operationmodes/help/helpmodeimplementation.cpp
     host/operationmodes/help/helpmodedefinition.hpp
 
-    host/operationmodes/remote/entrypoint.hpp       host/operationmodes/remote/entrypoint.cpp
     host/operationmodes/remote/remoterundefinition.hpp
 
-    host/operationmodes/schemaExport/entrypoint.hpp host/operationmodes/schemaExport/entrypoint.cpp
+    host/operationmodes/schemaExport/schemaexportmodeimplementation.hpp host/operationmodes/schemaExport/schemaexportmodeimplementation.cpp
     host/operationmodes/schemaExport/schemaexportmodedefinition.hpp
 
     host/operationmodes/shared/defs/loggingdefinition.hpp
@@ -230,12 +229,14 @@ add_executable(Host
     host/operationmodes/shared/schemavalidationconstants.hpp host/operationmodes/shared/schemavalidationconstants.cpp
     host/operationmodes/shared/utils.hpp            host/operationmodes/shared/utils.cpp
 
-    host/operationmodes/simulation/entrypoint.hpp   host/operationmodes/simulation/entrypoint.cpp
+    host/operationmodes/remote/remotemodeimplemetnation.hpp host/operationmodes/remote/remotemodeimplemetnation.cpp
+
+    host/operationmodes/simulation/simulationmodeimplementation.hpp   host/operationmodes/simulation/simulationmodeimplementation.cpp
     host/operationmodes/simulation/simulationmodedefinition.hpp
     host/operationmodes/simulation/defs/matchdefinition.hpp
     host/operationmodes/simulation/defs/simulatordefinition.hpp
 
-    host/operationmodes/template/entrypoint.hpp     host/operationmodes/template/entrypoint.cpp
+    host/operationmodes/template/templatemodeimplementation.hpp     host/operationmodes/template/templatemodeimplementation.cpp
     host/operationmodes/template/templatemodedefinition.hpp
     host/operationmodes/template/defs/templatesdefinition.hpp
 

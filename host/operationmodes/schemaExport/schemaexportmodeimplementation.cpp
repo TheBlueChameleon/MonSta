@@ -11,18 +11,18 @@
 #include "operationmodes/shared/schemavalidationconstants.hpp"
 #include "operationmodes/shared/utils.hpp"
 
-#include "entrypoint.hpp"
+#include "schemaexportmodeimplementation.hpp"
 #include "schemaexportmodedefinition.hpp"
 
-namespace SchemaExportMode
+namespace OperationModes
 {
-    void run(const OperationModes::SchemaExportModeDefinition& defs)
+    void runSchemaExportMode(const SchemaExportModeDefinition& defs)
     {
-        OperationModes::setupLoggerService(defs.logging);                       // apply defaults
-        OperationModes::setupFileService(defs, defs.outputDirectory);
+        setupLoggerService(defs.logging);
+        setupFileService(defs, defs.outputDirectory);
 
-        auto& sim = JsonService::get(OperationModes::JTAG_SIMULATION);
-        auto& tpl = JsonService::get(OperationModes::JTAG_TEMPLATES);
+        auto& sim = JsonService::get(JTAG_SIMULATION);
+        auto& tpl = JsonService::get(JTAG_TEMPLATES);
 
         LoggerService::trace("begin writing schemas");
         FileService::write("simulation.json", sim.dump(2));

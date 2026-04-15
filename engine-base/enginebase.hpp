@@ -1,7 +1,7 @@
 #ifndef ENGINEBASE_HPP
 #define ENGINEBASE_HPP
 
-#include "errors.hpp"
+struct EngineError;
 
 namespace EngineBase
 {

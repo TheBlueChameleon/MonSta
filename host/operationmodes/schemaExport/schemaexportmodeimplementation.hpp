@@ -4,11 +4,8 @@
 namespace OperationModes
 {
     struct SchemaExportModeDefinition;
-}
 
-namespace SchemaExportMode
-{
-void run(const OperationModes::SchemaExportModeDefinition &defs);
+    void runSchemaExportMode(const SchemaExportModeDefinition& defs);
 }
 
 #endif // ENTRYPOINT_HPP

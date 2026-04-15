@@ -12,7 +12,6 @@
 
 #include "hostapiprovider.hpp"
 
-class HostApi;
 struct ITemplatesDefinition;
 
 class ClientWrapper

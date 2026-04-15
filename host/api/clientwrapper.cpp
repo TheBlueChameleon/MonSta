@@ -4,10 +4,6 @@
     #include <dlfcn.h>
 #endif
 
-#include <Version.hpp>
-
-#include <runmodes/ITemplatesDefinition.hpp>
-
 #include "constants.hpp"
 
 #include "errorservice/errors.hpp"

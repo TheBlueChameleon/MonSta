@@ -31,7 +31,7 @@ int main(const int argc, const char* const argv[])
     catch (const InvalidUserInput& e)
     {
         std::cerr << e.what() << std::endl;
-        return -1;
+        return 1;
     }
     catch (const IllegalHostStateException& e)
     {
@@ -43,12 +43,12 @@ int main(const int argc, const char* const argv[])
     catch (const HostSideError& e)
     {
         std::cerr << e.what() << std::endl;
-        return -1;
+        return 2;
     }
     catch (const ClientSideError& e)
     {
         std::cerr << e.what() << std::endl;
-        return -1;
+        return 3;
     }
 
     return 0;

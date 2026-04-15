@@ -16,11 +16,11 @@ namespace OperationModes
     struct SimulationModeDefinition;
     struct TemplateModeDefinition;
 
-    const OperationModes::HelpModeDefinition&           getAsHelpModeDefinition(const std::shared_ptr<const BaseModeDefinition>& defs);
-    const OperationModes::RemoteModeDefinition&         getAsRemoteModeDefinition(const std::shared_ptr<const BaseModeDefinition>& defs);
-    const OperationModes::SchemaExportModeDefinition&   getAsSchemaExportModeDefinition(const std::shared_ptr<const BaseModeDefinition>& defs);
-    const OperationModes::SimulationModeDefinition&     getAsSimulationModeDefinition(const std::shared_ptr<const BaseModeDefinition> defs);
-    const OperationModes::TemplateModeDefinition&       getAsTemplateModeDefinition(const std::shared_ptr<const BaseModeDefinition>& defs);
+    const HelpModeDefinition&           getAsHelpModeDefinition(const std::shared_ptr<const BaseModeDefinition>& defs);
+    const RemoteModeDefinition&         getAsRemoteModeDefinition(const std::shared_ptr<const BaseModeDefinition>& defs);
+    const SchemaExportModeDefinition&   getAsSchemaExportModeDefinition(const std::shared_ptr<const BaseModeDefinition>& defs);
+    const SimulationModeDefinition&     getAsSimulationModeDefinition(const std::shared_ptr<const BaseModeDefinition> defs);
+    const TemplateModeDefinition&       getAsTemplateModeDefinition(const std::shared_ptr<const BaseModeDefinition>& defs);
 
     void setupLoggerService(const LoggingDefinition& definition);
     void setupFileService(const BaseModeDefinition& definition, const std::filesystem::path& outputDirectory);

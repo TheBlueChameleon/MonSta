@@ -3,12 +3,14 @@
 
 #include <ApiStatusCode.hpp>
 #include <CallingConventions.hpp>
-#include <HostApi.hpp>
+#include <Version.hpp>
 
 #include <runmodes/ITemplatesDefinition.hpp>
 
 // ========================================================================== //
 // exported to host
+
+struct HostApi;
 
 HOST_API_EXPORT
 {

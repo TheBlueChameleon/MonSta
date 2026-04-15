@@ -1,11 +1,11 @@
 #include <iostream>
 
-#include "operationmodes/shared/utils.hpp"
+#include "operationmodes/operationmode.hpp"
 
-#include "entrypoint.hpp"
 #include "helpmodedefinition.hpp"
+#include "helpmodeimplementation.hpp"
 
-namespace HelpMode
+namespace OperationModes
 {
     void showModeHelp(const OperationMode mode)
     {
@@ -32,7 +32,7 @@ namespace HelpMode
         std::exit(0);
     }
 
-    void run(const OperationModes::HelpModeDefinition& defs)
+    void runHelpMode(const HelpModeDefinition& defs)
     {
         showModeHelp(defs.target);
     }
