@@ -11,10 +11,16 @@ namespace JsonService
         return jsonService().itemAccess.navigateTo(handle, jsonPointer.data());
     }
 
+    IJsonServiceTypes::ModifiableJsonHandle navigateToModifiable(IJsonServiceTypes::ModifiableJsonHandle handle, const std::string_view jsonPointer)
+    {
+        return jsonService().itemAccess.navigateToModifiable(handle, jsonPointer.data());
+    }
+
     const bool contains(const IJsonServiceTypes::JsonHandle handle, const std::string_view elementName)
     {
         return jsonService().itemAccess.containts(handle, elementName.data());
     }
+
     const IJsonServiceTypes::JsonType getType(const IJsonServiceTypes::JsonHandle handle)
     {
         return jsonService().itemAccess.getType(handle);

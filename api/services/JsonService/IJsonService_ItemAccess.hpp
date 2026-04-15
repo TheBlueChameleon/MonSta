@@ -9,7 +9,14 @@
 
 struct IJsonService_ItemAccess
 {
-    const IJsonServiceTypes::JsonHandle(*const HOST_API_CALL navigateTo)(const IJsonServiceTypes::JsonHandle, const char* const jsonPointer);
+    const IJsonServiceTypes::JsonHandle(*const HOST_API_CALL navigateTo)(
+        const IJsonServiceTypes::JsonHandle,
+        const char* const jsonPointer
+    );
+    IJsonServiceTypes::ModifiableJsonHandle(*const HOST_API_CALL navigateToModifiable)(
+        IJsonServiceTypes::ModifiableJsonHandle handle,
+        const char* const jsonPointer
+    );
     const bool (*const HOST_API_CALL containts)(const IJsonServiceTypes::JsonHandle, const char* const elementName);
 
     const IJsonServiceTypes::JsonType(*const HOST_API_CALL getType)(const IJsonServiceTypes::JsonHandle handle);

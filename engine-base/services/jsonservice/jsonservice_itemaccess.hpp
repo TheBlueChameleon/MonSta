@@ -11,6 +11,7 @@
 namespace JsonService
 {
     const IJsonServiceTypes::JsonHandle navigateTo(const IJsonServiceTypes::JsonHandle handle, const std::string_view jsonPointer);
+    IJsonServiceTypes::ModifiableJsonHandle navigateToModifiable(IJsonServiceTypes::ModifiableJsonHandle handle, const std::string_view jsonPointer);
     const bool contains(const IJsonServiceTypes::JsonHandle handle, const std::string_view elementName);
 
     const IJsonServiceTypes::JsonType getType(const IJsonServiceTypes::JsonHandle handle);

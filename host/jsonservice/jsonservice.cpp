@@ -46,6 +46,7 @@ namespace JsonService
 
             IJsonService_ItemAccess{
                 navigateTo_dlx,
+                navigateToModifiable_dlx,
                 contains_dlx,
 
                 getType_dlx,

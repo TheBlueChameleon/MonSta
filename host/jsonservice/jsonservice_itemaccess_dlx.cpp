@@ -15,7 +15,10 @@ using namespace nlohmann;
 
 namespace JsonService
 {
-    const IJsonServiceTypes::JsonHandle HOST_API_CALL navigateTo_dlx(const IJsonServiceTypes::JsonHandle handle, const char* const jsonPointer)
+    const IJsonServiceTypes::JsonHandle HOST_API_CALL navigateTo_dlx(
+        const IJsonServiceTypes::JsonHandle handle,
+        const char* const jsonPointer
+    )
     {
         try
         {
@@ -39,6 +42,35 @@ namespace JsonService
         CATCH_ABSTRACT_ERROR(IJsonServiceTypes::JsonHandle(nullptr))
         CATCH_JSON_ERROR(IJsonServiceTypes::JsonHandle(nullptr))
         CATCH_STD_EXCEPTION(IJsonServiceTypes::JsonHandle(nullptr))
+    }
+
+    IJsonServiceTypes::ModifiableJsonHandle HOST_API_CALL navigateToModifiable_dlx(
+        IJsonServiceTypes::ModifiableJsonHandle handle,
+        const char* const jsonPointer
+    )
+    {
+        try
+        {
+            assertSaneHandle(handle);
+            auto& base = toModifiableOrderedJson(handle);
+
+            assertSaneJsonPointer(jsonPointer);
+
+            if (jsonPointer[0] == '/')
+            {
+                const auto jptr = ordered_json::json_pointer(jsonPointer);
+                ordered_json& target = base.at(jptr);
+                return toModifiableJsonHandle(target);
+            }
+            else
+            {
+                auto& target = base.at(jsonPointer);
+                return toModifiableJsonHandle(target);
+            }
+        }
+        CATCH_ABSTRACT_ERROR(IJsonServiceTypes::ModifiableJsonHandle(nullptr))
+        CATCH_JSON_ERROR(IJsonServiceTypes::ModifiableJsonHandle(nullptr))
+        CATCH_STD_EXCEPTION(IJsonServiceTypes::ModifiableJsonHandle(nullptr))
     }
 
     const bool HOST_API_CALL contains_dlx(const IJsonServiceTypes::JsonHandle handle, const char* const elementName)
@@ -408,5 +440,4 @@ namespace JsonService
         CATCH_JSON_ERROR(nullMem)
         CATCH_STD_EXCEPTION(nullMem)
     }
-
 }
