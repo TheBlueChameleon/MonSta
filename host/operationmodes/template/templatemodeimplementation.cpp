@@ -21,6 +21,7 @@ namespace OperationModes
         {
             defs.templates.engine.c_str(),
             defs.templates.outputDirectory.c_str(),
+            defs.templates.mechanicsDefinition.c_str(),
             defs.templates.player1Team.c_str(),
             defs.templates.player1Strategy.c_str(),
             defs.templates.player2Team.c_str(),

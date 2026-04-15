@@ -8,6 +8,7 @@ struct TemplatesDefinition
 {
     const std::filesystem::path engine;
     const std::filesystem::path outputDirectory;
+    const std::filesystem::path mechanicsDefinition;
     const std::filesystem::path player1Team;
     const std::filesystem::path player1Strategy;
     const std::filesystem::path player2Team;

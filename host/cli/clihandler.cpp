@@ -277,6 +277,7 @@ static TemplatesDefinition unpackTemplatesDefinition(const ordered_json& data)
     {
         data               [JKEY_TEMPLATES_ENGINE],
         data               [JKEY_TEMPLATES_OUTPUTDIRECTORY],
+        fetchIfInJson(data, JKEY_TEMPLATES_MECHANICS, std::filesystem::path {}),
         fetchIfInJson(data, JKEY_TEMPLATES_PLAYER1TEAM, std::filesystem::path {}),
         fetchIfInJson(data, JKEY_TEMPLATES_PLAYER1STRATEGY, std::filesystem::path {}),
         fetchIfInJson(data, JKEY_TEMPLATES_PLAYER2TEAM, std::filesystem::path {}),

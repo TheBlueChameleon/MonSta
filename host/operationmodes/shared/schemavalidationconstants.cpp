@@ -169,8 +169,7 @@ namespace OperationModes
 
         result.addProperty(JKEY_TEMPLATES_OUTPUTDIRECTORY, IJsonServiceTypes::JsonType::STRING);
 
-        result.addProperty(JKEY_TEMPLATES_WRITESCHEMAS, IJsonServiceTypes::JsonType::BOOLEAN)
-        .setDefault(true);
+        result.addProperty(JKEY_TEMPLATES_MECHANICS, IJsonServiceTypes::JsonType::STRING);
 
         result.addProperty(JKEY_TEMPLATES_PLAYER1TEAM, IJsonServiceTypes::JsonType::STRING);
 
@@ -187,6 +186,9 @@ namespace OperationModes
         result.addProperty(JKEY_TEMPLATES_TYPEDEFS, IJsonServiceTypes::JsonType::STRING);
 
         result.addProperty(JKEY_TEMPLATES_ITEMDEFS, IJsonServiceTypes::JsonType::STRING);
+
+        result.addProperty(JKEY_TEMPLATES_WRITESCHEMAS, IJsonServiceTypes::JsonType::BOOLEAN)
+        .setDefault(true);
 
         result.addProperty(JKEY_TEMPLATES_ARGS, IJsonServiceTypes::JsonType::STRING);
 

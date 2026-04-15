@@ -31,8 +31,8 @@ struct ILoggerService
     void (*const critical)(const char* const msg);
 };
 
-constexpr auto DEFAULT_LOGGER_NAME = "MonStaLogger";
-constexpr auto DEFAULT_LOGGER_PATTERN = "[%Y-%m-%d %H:%M:%S] [%l] %v";
-constexpr auto DEFAULT_LOGGER_LEVEL = ILoggerService::LogLevel::TRACE;
+const auto DEFAULT_LOGGER_NAME = "MonStaLogger";
+const auto DEFAULT_LOGGER_PATTERN = "[%Y-%m-%d %H:%M:%S] [%l] %v";
+const auto DEFAULT_LOGGER_LEVEL = ILoggerService::LogLevel::TRACE;
 
 #endif // ILOGGERSERVICE_H
