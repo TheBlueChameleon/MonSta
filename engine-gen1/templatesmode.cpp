@@ -9,17 +9,6 @@
 
 namespace TemplateMode
 {
-    static void writeSchemas()
-    {
-        auto handleTeamDef = JsonService::get(SchemaValidation::JTAG_TEAMDEFINITION);
-        auto contentTeamDef = JsonService::dump(handleTeamDef);
-        FileService::write(SchemaValidation::filename_teamDefinition, contentTeamDef.getAsStringView());
-
-        auto handleMechanicsDef = JsonService::get(SchemaValidation::JTAG_MECHANICSDEFINITION);
-        auto contentMechanicsDef = JsonService::dump(handleMechanicsDef);
-        FileService::write(SchemaValidation::filename_mechanicsDefinition, contentMechanicsDef.getAsStringView());
-    }
-
     static std::string writeMechanicsDefinitionFile(
         const std::string inputName,
         const std::string defaultName
@@ -118,6 +107,17 @@ namespace TemplateMode
         return defaultName;
     }
 
+    static void writeSchemas()
+    {
+        auto handleTeamDef = JsonService::get(SchemaValidation::JTAG_TEAMDEFINITION);
+        auto contentTeamDef = JsonService::dump(handleTeamDef);
+        FileService::write(SchemaValidation::filename_teamDefinition, contentTeamDef.getAsStringView());
+
+        auto handleMechanicsDef = JsonService::get(SchemaValidation::JTAG_MECHANICSDEFINITION);
+        auto contentMechanicsDef = JsonService::dump(handleMechanicsDef);
+        FileService::write(SchemaValidation::filename_mechanicsDefinition, contentMechanicsDef.getAsStringView());
+    }
+
     static void writeAllowedValueFile()
     {
 
@@ -138,6 +138,11 @@ namespace TemplateMode
         if (templatesDefinition.writeSchemas)
         {
             writeSchemas();
+        }
+
+        if (templatesDefinition.writeAllowedValues)
+        {
+            writeAllowedValueFile();
         }
     }
 }
