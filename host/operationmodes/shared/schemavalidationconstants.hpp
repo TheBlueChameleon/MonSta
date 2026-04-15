@@ -1,10 +1,22 @@
 #ifndef SCHEMAVALIDATIONCONSTANTS_HPP
 #define SCHEMAVALIDATIONCONSTANTS_HPP
 
+#include <string>
+
 #include <services/IJsonService.hpp>
 
 namespace OperationModes
 {
+    const auto filename_simulationDefinition = "simulationDefinition.json";
+    const auto filename_templatesDefinition  = "templatesDefinition.json";
+
+    extern const std::string jtag_base;
+    extern const std::string jtag_simulation;
+    extern const std::string jtag_templates;
+
+    extern const IJsonServiceTypes::JsonTag JTAG_SIMULATION;
+    extern const IJsonServiceTypes::JsonTag JTAG_TEMPLATES;
+
     static constexpr auto JKEY_LOGGING          = "logging";
     static constexpr auto JKEY_LOGGING_LOGFILE  = "logfile";
     static constexpr auto JKEY_LOGGING_LOGLEVEL = "loglevel";
@@ -42,10 +54,6 @@ namespace OperationModes
     static constexpr auto JKEY_TEMPLATES_TYPEDEFS        = "typeDefs";
     static constexpr auto JKEY_TEMPLATES_ITEMDEFS        = "itemDefs";
     static constexpr auto JKEY_TEMPLATES_ARGS            = "args";
-
-    extern const IJsonServiceTypes::JsonTag JTAG_BASE;
-    extern const IJsonServiceTypes::JsonTag JTAG_SIMULATION;
-    extern const IJsonServiceTypes::JsonTag JTAG_TEMPLATES;
 
     void registerSchemaSimulation();
     void registerSchemaTemplate();

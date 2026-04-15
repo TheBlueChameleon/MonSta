@@ -1,6 +1,8 @@
 #ifndef SCHEMAVALIDATIONCONSTANTS_HPP
 #define SCHEMAVALIDATIONCONSTANTS_HPP
 
+#include <string>
+
 #include <services/IJsonService.hpp>
 
 #include "services/jsonservice.hpp"
@@ -8,10 +10,13 @@
 
 namespace SchemaValidation
 {
-    const auto FILENAME_MECHANICSDEFINITION = "mechanicsDefinition.json";
-    const auto FILENAME_TEAMDEFINITION      = "teamDefinition.json";
+    const auto filename_mechanicsDefinition = "mechanicsDefinition.json";
+    const auto filename_teamDefinition      = "teamDefinition.json";
 
-    extern const IJsonServiceTypes::JsonTag JTAG_BASE;
+    extern const std::string jtag_base;
+    extern const std::string jtag_mechanicsDefinition;
+    extern const std::string jtag_teamDefinition;
+
     extern const IJsonServiceTypes::JsonTag JTAG_MECHANICSDEFINITION;
     extern const IJsonServiceTypes::JsonTag JTAG_TEAMDEFINITION;
 

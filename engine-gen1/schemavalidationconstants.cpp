@@ -16,9 +16,12 @@ namespace SchemaValidation
     // ====================================================================== //
     // Constants
 
-    const IJsonServiceTypes::JsonTag JTAG_BASE                  = JsonTag(":storage:/gen1/");
-    const IJsonServiceTypes::JsonTag JTAG_MECHANICSDEFINITION   = JsonTag(":storage:/gen1/mechanicsDefinition.json");
-    const IJsonServiceTypes::JsonTag JTAG_TEAMDEFINITION        = JsonTag(":storage:/gen1/teamDefinition.json");
+    const std::string jtag_base                = ":storage:/gen1/";
+    const std::string jtag_mechanicsDefinition = jtag_base + filename_mechanicsDefinition;
+    const std::string jtag_teamDefinition      = jtag_base + filename_teamDefinition;
+
+    const IJsonServiceTypes::JsonTag JTAG_MECHANICSDEFINITION = JsonTag(jtag_mechanicsDefinition.data());
+    const IJsonServiceTypes::JsonTag JTAG_TEAMDEFINITION      = JsonTag(jtag_teamDefinition.data());
 
     // ====================================================================== //
     // Helpers

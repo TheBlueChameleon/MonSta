@@ -14,9 +14,12 @@ namespace OperationModes
     // ====================================================================== //
     // TAGS
 
-    const IJsonServiceTypes::JsonTag JTAG_BASE       = IJsonServiceTypes::JsonTag(":storage:/host/");
-    const IJsonServiceTypes::JsonTag JTAG_SIMULATION = IJsonServiceTypes::JsonTag(":storage:/host/:validation:/simulation.json");
-    const IJsonServiceTypes::JsonTag JTAG_TEMPLATES  = IJsonServiceTypes::JsonTag(":storage:/host/:validation:/templates.json");
+    const std::string jtag_base       = ":storage:/host/";
+    const std::string jtag_simulation = jtag_base + filename_simulationDefinition;
+    const std::string jtag_templates  = jtag_base + filename_templatesDefinition;
+
+    const IJsonServiceTypes::JsonTag JTAG_SIMULATION = IJsonServiceTypes::JsonTag(jtag_simulation.data());
+    const IJsonServiceTypes::JsonTag JTAG_TEMPLATES  = IJsonServiceTypes::JsonTag(jtag_templates.data());
 
     // ====================================================================== //
     // SHARED
