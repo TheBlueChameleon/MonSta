@@ -1,6 +1,8 @@
 #include <fstream>
 #include <set>
 
+#include "errorservice/errors.hpp"
+
 #include "loggerservice/loggerservice.hpp"
 
 #include "fileservice.hpp"
@@ -98,6 +100,12 @@ namespace FileService
             LoggerService::traceF("input directory set to {}", newBase.c_str());
             database.setInputBasePath(newBase);
         }
+        else
+        {
+            throw InvalidUserInput(
+                "Invalid input directory: "s  + newBase.c_str()
+            );
+        }
     }
 
     void setOutputBasePath(const std::filesystem::__cxx11::path& newBase)
@@ -106,6 +114,12 @@ namespace FileService
         {
             LoggerService::traceF("output directory set to {}", newBase.c_str());
             database.setOutputBasePath(newBase);
+        }
+        else
+        {
+            throw InvalidUserInput(
+                "Invalid output directory: "s  + newBase.c_str()
+            );
         }
     }
 

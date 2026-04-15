@@ -34,7 +34,7 @@ namespace OperationModes
         }
     }
 
-    const HelpModeDefinition &getAsHelpModeDefinition(const std::shared_ptr<const BaseModeDefinition>& defs)
+    const HelpModeDefinition& getAsHelpModeDefinition(const std::shared_ptr<const BaseModeDefinition>& defs)
     {
         return getAsT<HelpModeDefinition>(defs, "HelpModeDefinition");
     }
@@ -71,11 +71,11 @@ namespace OperationModes
 
     void setupFileService(const BaseModeDefinition& definition, const std::filesystem::__cxx11::path& outputDirectory)
     {
-        FileService::setOutputBasePath(outputDirectory);
-
         FileService::setOverwrite(definition.overwrite);
         FileService::setCreateDirectories(definition.createDirectories);
         FileService::setDryMode(definition.dryMode);
+
+        FileService::setOutputBasePath(outputDirectory);
     }
 
     void setupClientWriteOptions(ClientWrapper& cw, const BaseModeDefinition& runDefinition)
