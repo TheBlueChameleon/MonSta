@@ -15,12 +15,23 @@ namespace IJsonServiceTypes
         {}
     };
 
-    struct JsonHandle
+    struct ModifiableJsonHandle
     {
         const void* data;
     };
 
-    struct ModifiableJsonHandle : public JsonHandle {};
+    struct JsonHandle
+    {
+        const void* data;
+
+        JsonHandle(const void* data) :
+            data(data)
+        {}
+
+        JsonHandle(const ModifiableJsonHandle other) :
+            data(other.data)
+        {}
+    };
 
     struct JsonSchemaBuilderHandle
     {
