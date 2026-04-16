@@ -3,6 +3,8 @@
 #include "services.hpp"
 #include "loggerservice.hpp"
 
+using namespace Services;
+
 namespace LoggerService
 {
     void trace(const std::string_view msg)

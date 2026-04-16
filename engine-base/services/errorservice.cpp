@@ -1,6 +1,8 @@
 #include "errorservice.hpp"
 #include "services.hpp"
 
+using namespace Services;
+
 namespace ErrorService
 {
     void clearError()

@@ -2,6 +2,8 @@
 
 #include "jsonservice_schemabuilder.hpp"
 
+using namespace Services;
+
 namespace JsonService
 {
     // ---------------------------------------------------------------------- //

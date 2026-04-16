@@ -1,6 +1,8 @@
 #include "services.hpp"
 #include "fileservice.hpp"
 
+using namespace Services;
+
 namespace FileService
 {
     const std::filesystem::__cxx11::path getInputBase()

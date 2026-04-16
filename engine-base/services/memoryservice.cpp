@@ -1,6 +1,8 @@
 #include "services.hpp"
 #include "memoryservice.hpp"
 
+using namespace Services;
+
 namespace MemoryService
 {
     IMemoryService::MemoryBlock allocate(const size_t size)

@@ -9,12 +9,15 @@
 
 class HostApi;
 
-void rethrowHostError();
+namespace Services
+{
+    void rethrowHostError();
 
-const IErrorService&  errorService();
-const IFileService&   fileService();
-const IJsonService&   jsonService();
-const ILoggerService& loggerService();
-const IMemoryService& memoryService();
+    const IErrorService&  errorService();
+    const IFileService&   fileService();
+    const IJsonService&   jsonService();
+    const ILoggerService& loggerService();
+    const IMemoryService& memoryService();
+}
 
 #endif // SERVICES_HPP

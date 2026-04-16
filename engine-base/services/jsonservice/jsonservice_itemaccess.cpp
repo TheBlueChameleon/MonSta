@@ -2,6 +2,8 @@
 
 #include "jsonservice_itemaccess.hpp"
 
+using namespace Services;
+
 namespace JsonService
 {
     const IJsonServiceTypes::JsonHandle navigateTo(

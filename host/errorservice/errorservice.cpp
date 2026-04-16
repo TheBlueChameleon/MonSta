@@ -6,8 +6,8 @@
 
 namespace ErrorService
 {
-    ApiStatusCode errorCode = ApiStatusCode::SUCCESS;
-    std::string errorMessage;
+    thread_local ApiStatusCode errorCode = ApiStatusCode::SUCCESS;
+    thread_local std::string errorMessage;
 
     const IErrorService exportService()
     {

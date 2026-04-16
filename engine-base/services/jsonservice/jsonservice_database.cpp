@@ -2,6 +2,8 @@
 
 #include "jsonservice_database.hpp"
 
+using namespace Services;
+
 namespace JsonService
 {
     const IJsonServiceTypes::EntryState getState(const IJsonServiceTypes::JsonTag tag)
