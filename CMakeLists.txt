@@ -46,6 +46,12 @@ FetchContent_Declare(
   SYSTEM
 )
 FetchContent_Declare(
+    rapidcsv
+    GIT_REPOSITORY https://github.com/d99kris/rapidcsv
+    GIT_TAG        "v8.92"
+    GIT_SHALLOW    true
+)
+FetchContent_Declare(
     spdlog
     GIT_REPOSITORY https://github.com/gabime/spdlog
     GIT_TAG        "v1.15.3"
@@ -63,6 +69,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(argparse)
 FetchContent_MakeAvailable(json)
 FetchContent_MakeAvailable(json-schema-validator)
+FetchContent_MakeAvailable(rapidcsv)
 FetchContent_MakeAvailable(spdlog)
 FetchContent_MakeAvailable(googletest)
 
@@ -97,6 +104,19 @@ set(apiHeaders
 
 # ---------------------------------------------------------------------------- #
 # Main App
+
+# ............................................................................ #
+# CsvService
+
+add_library(Host-CsvService STATIC
+    host/csvservice/csvservice.hpp host/csvservice/csvservice.cpp
+)
+
+target_include_directories(Host-CsvService
+    PUBLIC host
+    PUBLIC api
+    PUBLIC ${rapidcsv_SOURCE_DIR}/src
+)
 
 # ............................................................................ #
 # ErrorService
@@ -149,8 +169,8 @@ add_library(Host-JsonService STATIC
 target_include_directories(Host-JsonService
     PUBLIC host
     PUBLIC api
-    PUBLIC "${json_SOURCE_DIR}/include/"
-    PUBLIC "${json-schema-validator_SOURCE_DIR}/src/"
+    PUBLIC ${json_SOURCE_DIR}/include/
+    PUBLIC ${json-schema-validator_SOURCE_DIR}/src/
 )
 
 target_link_libraries(Host-JsonService
@@ -248,9 +268,9 @@ add_executable(Host
 )
 
 target_include_directories(Host
-    PRIVATE "${argparse_SOURCE_DIR}/include"
-    PRIVATE "${json_SOURCE_DIR}/include/"
-    PRIVATE "${json-schema-validator_SOURCE_DIR}/src/"
+    PRIVATE ${argparse_SOURCE_DIR}/include
+    PRIVATE ${json_SOURCE_DIR}/include/
+    PRIVATE ${json-schema-validator_SOURCE_DIR}/src/
     PRIVATE host
     PRIVATE api
 )
@@ -258,6 +278,7 @@ target_include_directories(Host
 target_link_libraries(Host
     nlohmann_json::nlohmann_json
     nlohmann_json_schema_validator
+    Host-CsvService
     Host-ErrorService
     Host-FileService
     Host-JsonService
