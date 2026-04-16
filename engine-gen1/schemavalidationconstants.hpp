@@ -10,8 +10,8 @@
 
 namespace SchemaValidation
 {
-    const auto filename_mechanicsDefinition = "mechanicsDefinition.json";
-    const auto filename_teamDefinition      = "teamDefinition.json";
+    const auto filename_mechanicsDefinitionSchema = "mechanicsDefinitionSchema.json";
+    const auto filename_teamDefinitionSchema      = "teamDefinitionSchema.json";
 
     extern const std::string jtag_base;
     extern const std::string jtag_mechanicsDefinition;
@@ -24,6 +24,7 @@ namespace SchemaValidation
     const auto JKEY_HUMAN     = "human";
     const auto JKEY_POKEMON   = "pokemon";
 
+    const auto JKEY_PLAYER_NAME             = "name";
     const auto JKEY_PLAYER_BADGEATK         = "badgeBoost_ATK";
     const auto JKEY_PLAYER_BADGEDEF         = "badgeBoost_DEF";
     const auto JKEY_PLAYER_BADGESPC         = "badgeBoost_SPC";
@@ -46,6 +47,8 @@ namespace SchemaValidation
     const auto JKEY_POKEMON_STATUS_FROZEN    = "frozen";
     const auto JKEY_POKEMON_STATUS_FAINTED   = "fainted";
 
+    const auto JKEY_POKEMON_HPCURRENT  = "HP_current";
+
     const auto JKEY_POKEMON_DVHP  = "DV_HP";
     const auto JKEY_POKEMON_DVATK = "DV_ATK";
     const auto JKEY_POKEMON_DVDEF = "DV_DEF";
@@ -58,21 +61,21 @@ namespace SchemaValidation
     const auto JKEY_POKEMON_STATEXPSPC = "StatusExperience_SPC";
     const auto JKEY_POKEMON_STATEXPSPD = "StatusExperience_SPD";
 
-    const auto JKEY_POKEMON_ATTACK1      = "attack_1";
-    const auto JKEY_POKEMON_ATTACK1PP    = "attack_1_pp";
-    const auto JKEY_POKEMON_ATTACK1PPMAX = "attack_1_pp_max";
+    const auto JKEY_POKEMON_ATTACK1          = "attack_1";
+    const auto JKEY_POKEMON_ATTACK1PP        = "attack_1_pp";
+    const auto JKEY_POKEMON_ATTACK1PPCURRENT = "attack_1_pp_current";
 
-    const auto JKEY_POKEMON_ATTACK2      = "attack_2";
-    const auto JKEY_POKEMON_ATTACK2PP    = "attack_2_pp";
-    const auto JKEY_POKEMON_ATTACK2PPMAX = "attack_2_pp_max";
+    const auto JKEY_POKEMON_ATTACK2          = "attack_2";
+    const auto JKEY_POKEMON_ATTACK2PP        = "attack_2_pp";
+    const auto JKEY_POKEMON_ATTACK2PPCURRENT = "attack_2_pp_current";
 
-    const auto JKEY_POKEMON_ATTACK3      = "attack_3";
-    const auto JKEY_POKEMON_ATTACK3PP    = "attack_3_pp";
-    const auto JKEY_POKEMON_ATTACK3PPMAX = "attack_3_pp_max";
+    const auto JKEY_POKEMON_ATTACK3          = "attack_3";
+    const auto JKEY_POKEMON_ATTACK3PP        = "attack_3_pp";
+    const auto JKEY_POKEMON_ATTACK3PPCURRENT = "attack_3_pp_current";
 
-    const auto JKEY_POKEMON_ATTACK4      = "attack_4";
-    const auto JKEY_POKEMON_ATTACK4PP    = "attack_4_pp";
-    const auto JKEY_POKEMON_ATTACK4PPMAX = "attack_4_pp_max";
+    const auto JKEY_POKEMON_ATTACK4          = "attack_4";
+    const auto JKEY_POKEMON_ATTACK4PP        = "attack_4_pp";
+    const auto JKEY_POKEMON_ATTACK4PPCURRENT = "attack_4_pp_current";
 
     const auto JKEY_MECHANICS_LEVELCAP                  = "levelCap";
     const auto JKEY_MECHANICS_STATSMIN                  = "statsMin";

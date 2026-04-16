@@ -17,8 +17,8 @@ namespace SchemaValidation
     // Constants
 
     const std::string jtag_base                = ":storage:/gen1/";
-    const std::string jtag_mechanicsDefinition = jtag_base + filename_mechanicsDefinition;
-    const std::string jtag_teamDefinition      = jtag_base + filename_teamDefinition;
+    const std::string jtag_mechanicsDefinition = jtag_base + filename_mechanicsDefinitionSchema;
+    const std::string jtag_teamDefinition      = jtag_base + filename_teamDefinitionSchema;
 
     const IJsonServiceTypes::JsonTag JTAG_MECHANICSDEFINITION = JsonTag(jtag_mechanicsDefinition.data());
     const IJsonServiceTypes::JsonTag JTAG_TEAMDEFINITION      = JsonTag(jtag_teamDefinition.data());
@@ -202,8 +202,9 @@ namespace SchemaValidation
     static const JsonSchemaBuilder makeHumanSubSchema()
     {
         JsonSchemaBuilder result(JKEY_HUMAN);
+        result.addRequired(JKEY_PLAYER_NAME);
 
-        result.addProperty("name", JsonType::STRING);
+        result.addProperty(JKEY_PLAYER_NAME, JsonType::STRING);
 
         addBadgeOptions(result, true, true,true, true);
         addMechanicsOptions(result, false, true);
@@ -214,8 +215,9 @@ namespace SchemaValidation
     static const JsonSchemaBuilder makeComputerSubSchema()
     {
         JsonSchemaBuilder result(JKEY_COMPUTER);
+        result.addRequired(JKEY_PLAYER_NAME);
 
-        result.addProperty("name", JsonType::STRING);
+        result.addProperty(JKEY_PLAYER_NAME, JsonType::STRING);
 
         addBadgeOptions(result, false, false, false, false);
         addMechanicsOptions(result, true, false);
@@ -233,6 +235,10 @@ namespace SchemaValidation
 
         result.addProperty(JKEY_POKEMON_SPECIES, JsonType::STRING);
         result.addProperty(JKEY_POKEMON_LEVEL, JsonType::INTEGER);
+
+        result.addProperty(JKEY_POKEMON_HPCURRENT, JsonType::INTEGER)
+        .setDefault("-1")
+        .setMinimum("-1");
 
         result.addProperty(JKEY_POKEMON_EXP, JsonType::INTEGER)
         .setDefault("-1");
@@ -252,50 +258,68 @@ namespace SchemaValidation
         .setDefault("\""s + JKEY_POKEMON_STATUS_NORMAL + "\"");
 
         result.addProperty(JKEY_POKEMON_DVHP, JsonType::INTEGER)
-        .setDefault("-1");
+        .setDefault("-1")
+        .setMinimum("-1");
         result.addProperty(JKEY_POKEMON_DVATK, JsonType::INTEGER)
-        .setDefault("-1");
+        .setDefault("-1")
+        .setMinimum("-1");
         result.addProperty(JKEY_POKEMON_DVDEF, JsonType::INTEGER)
-        .setDefault("-1");
+        .setDefault("-1")
+        .setMinimum("-1");
         result.addProperty(JKEY_POKEMON_DVSPC, JsonType::INTEGER)
-        .setDefault("-1");
+        .setDefault("-1")
+        .setMinimum("-1");
         result.addProperty(JKEY_POKEMON_DVSPD, JsonType::INTEGER)
-        .setDefault("-1");
+        .setDefault("-1")
+        .setMinimum("-1");
 
         result.addProperty(JKEY_POKEMON_STATEXPHP, JsonType::INTEGER)
-        .setDefault("0");
+        .setDefault("0")
+        .setMinimum("0");
         result.addProperty(JKEY_POKEMON_STATEXPATK, JsonType::INTEGER)
-        .setDefault("0");
+        .setDefault("0")
+        .setMinimum("0");
         result.addProperty(JKEY_POKEMON_STATEXPDEF, JsonType::INTEGER)
-        .setDefault("0");
+        .setDefault("0")
+        .setMinimum("0");
         result.addProperty(JKEY_POKEMON_STATEXPSPC, JsonType::INTEGER)
-        .setDefault("0");
+        .setDefault("0")
+        .setMinimum("0");
         result.addProperty(JKEY_POKEMON_STATEXPSPD, JsonType::INTEGER)
-        .setDefault("0");
+        .setDefault("0")
+        .setMinimum("0");
 
         result.addProperty(JKEY_POKEMON_ATTACK1, JsonType::STRING);
         result.addProperty(JKEY_POKEMON_ATTACK1PP, JsonType::STRING)
-        .setDefault("-1");
-        result.addProperty(JKEY_POKEMON_ATTACK1PPMAX, JsonType::STRING)
-        .setDefault("-1");
+        .setDefault("-1")
+        .setMinimum("-1");
+        result.addProperty(JKEY_POKEMON_ATTACK1PPCURRENT, JsonType::STRING)
+        .setDefault("-1")
+        .setMinimum("-1");
 
         result.addProperty(JKEY_POKEMON_ATTACK2, JsonType::STRING);
         result.addProperty(JKEY_POKEMON_ATTACK2PP, JsonType::STRING)
-        .setDefault("-1");
-        result.addProperty(JKEY_POKEMON_ATTACK2PPMAX, JsonType::STRING)
-        .setDefault("-1");
+        .setDefault("-1")
+        .setMinimum("-1");
+        result.addProperty(JKEY_POKEMON_ATTACK2PPCURRENT, JsonType::STRING)
+        .setDefault("-1")
+        .setMinimum("-1");
 
         result.addProperty(JKEY_POKEMON_ATTACK3, JsonType::STRING);
         result.addProperty(JKEY_POKEMON_ATTACK3PP, JsonType::STRING)
-        .setDefault("-1");
-        result.addProperty(JKEY_POKEMON_ATTACK3PPMAX, JsonType::STRING)
-        .setDefault("-1");
+        .setDefault("-1")
+        .setMinimum("-1");
+        result.addProperty(JKEY_POKEMON_ATTACK3PPCURRENT, JsonType::STRING)
+        .setDefault("-1")
+        .setMinimum("-1");
 
         result.addProperty(JKEY_POKEMON_ATTACK4, JsonType::STRING);
         result.addProperty(JKEY_POKEMON_ATTACK4PP, JsonType::STRING)
-        .setDefault("-1");
-        result.addProperty(JKEY_POKEMON_ATTACK4PPMAX, JsonType::STRING)
-        .setDefault("-1");
+        .setDefault("-1")
+        .setMinimum("-1");
+        result.addProperty(JKEY_POKEMON_ATTACK4PPCURRENT, JsonType::STRING)
+        .setDefault("-1")
+        .setMinimum("-1");
 
         return result;
     }
@@ -310,7 +334,8 @@ namespace SchemaValidation
 
         builder
         .addProperty(JKEY_POKEMON, JsonType::ARRAY)
-        .setReference(JKEY_POKEMON);
+        .setProperty("items", R"({"$ref": "#/$defs/)"s + JKEY_POKEMON + "\"}")
+        .setProperty("minItems", "1");
 
         builder.addReference(JKEY_HUMAN, makeHumanSubSchema(), JsonType::OBJECT, false);
         builder.addReference(JKEY_COMPUTER, makeComputerSubSchema(), JsonType::OBJECT, false);
