@@ -109,7 +109,8 @@ set(apiHeaders
 # CsvService
 
 add_library(Host-CsvService STATIC
-    host/csvservice/csvservice.hpp host/csvservice/csvservice.cpp
+    host/csvservice/csvservice.hpp      host/csvservice/csvservice.cpp
+    host/csvservice/csvservice_dlx.hpp  host/csvservice/csvservice_dlx.cpp
 )
 
 target_include_directories(Host-CsvService
