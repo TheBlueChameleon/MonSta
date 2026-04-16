@@ -1,5 +1,6 @@
 #include <string>
 
+#include "errors.hpp"
 #include "errorservice.hpp"
 #include "errorservice_dlx.hpp"
 
@@ -16,6 +17,7 @@ namespace ErrorService
             setError_dlx,
             getErrorCode_dlx,
             getErrorMessage_dlx,
+            terminateAbnormally_dlx
         };
     }
 
@@ -39,5 +41,17 @@ namespace ErrorService
     const std::string_view getErrorMessage()
     {
         return errorMessage;
+    }
+
+    void terminateAbnormally()
+    {
+        const auto errCode = getErrorCode();
+        if (errCode != ApiStatusCode::SUCCESS)
+        {
+            std::string_view errorMessage = getErrorMessage();
+            clearError();
+
+            throw ClientSideError(errCode, errorMessage.data());
+        }
     }
 }

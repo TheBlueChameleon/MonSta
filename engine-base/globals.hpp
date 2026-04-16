@@ -15,6 +15,8 @@ namespace Globals
     extern bool overwriteFiles;
     extern bool createDirectories;
     extern bool dryMode;
+
+    extern HostApi* _hostApi;
 }
 
 #endif // GLOBALS_HPP

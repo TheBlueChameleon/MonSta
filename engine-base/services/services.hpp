@@ -9,18 +9,7 @@
 
 class HostApi;
 
-class HostApiProxy
-{
-    private:
-        HostApi* hostApi;
-
-    public:
-        HostApiProxy();
-        ~HostApiProxy();
-
-        HostApi& get();
-        void rethrowHostError();
-};
+void rethrowHostError();
 
 const IErrorService&  errorService();
 const IFileService&   fileService();

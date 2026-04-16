@@ -13,6 +13,8 @@ namespace ErrorService
 
     ApiStatusCode getErrorCode();
     const std::string_view getErrorMessage();
+
+    void terminateAbnormally();
 }
 
 #endif // ERRORSERVICE_HPP

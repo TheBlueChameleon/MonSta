@@ -107,6 +107,14 @@ JsonError::JsonError(const std::string_view msg) :
     HostSideError(ApiStatusCode::JSON_ERROR, msg)
 {}
 
+CsvError::CsvError() :
+    CsvError("CSV handling error")
+{}
+
+CsvError::CsvError(const std::string_view msg) :
+    HostSideError(ApiStatusCode::CSV_ERROR, msg)
+{}
+
 // ========================================================================== //
 // Client Side Errors
 

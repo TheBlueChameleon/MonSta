@@ -9,21 +9,28 @@ namespace JsonService
 
     IJsonServiceTypes::JsonSchemaBuilderHandle instantiateSchemaBuilder(const std::string_view name)
     {
-        return jsonService().schemaBuilder.instantiateSchemaBuilder(name.data());
+        auto result = jsonService().schemaBuilder.instantiateSchemaBuilder(name.data());
+        rethrowHostError();
+        return result;
     }
 
     IJsonServiceTypes::JsonSchemaElementBuilderHandle instantiateSchemaElementBuilder(const std::string_view name)
     {
-        return jsonService().schemaBuilder.instantiateSchemaElementBuilder(name.data());
+        auto result = jsonService().schemaBuilder.instantiateSchemaElementBuilder(name.data());
+        rethrowHostError();
+        return result;
     }
+
     void freeSchemaBuilder(IJsonServiceTypes::JsonSchemaBuilderHandle& handle)
     {
-        return jsonService().schemaBuilder.freeSchemaBuilder(handle);
+        jsonService().schemaBuilder.freeSchemaBuilder(handle);
+        rethrowHostError();
     }
 
     void freeSchemaElementBuilder(IJsonServiceTypes::JsonSchemaElementBuilderHandle& handle)
     {
-        return jsonService().schemaBuilder.freeSchemaElementBuilder(handle);
+        jsonService().schemaBuilder.freeSchemaElementBuilder(handle);
+        rethrowHostError();
     }
 
     // ---------------------------------------------------------------------- //
@@ -31,32 +38,38 @@ namespace JsonService
 
     void sb_setAdditionalProperties(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const std::string_view additionalProperties)
     {
-        return jsonService().schemaBuilder.sb_setAdditionalProperties(handle, additionalProperties.data());
+        jsonService().schemaBuilder.sb_setAdditionalProperties(handle, additionalProperties.data());
+        rethrowHostError();
     }
 
     void sb_addRequired(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const std::string_view requiredPropertyName)
     {
-        return jsonService().schemaBuilder.sb_addRequired(handle, requiredPropertyName.data());
+        jsonService().schemaBuilder.sb_addRequired(handle, requiredPropertyName.data());
+        rethrowHostError();
     }
 
     void sb_addAllOfRequirement(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const std::string_view rawJson)
     {
-        return jsonService().schemaBuilder.sb_addAllOfRequirement(handle, rawJson.data());
+        jsonService().schemaBuilder.sb_addAllOfRequirement(handle, rawJson.data());
+        rethrowHostError();
     }
 
     void sb_addAnyOfRequirement(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const std::string_view rawJson)
     {
-        return jsonService().schemaBuilder.sb_addAnyOfRequirement(handle, rawJson.data());
+        jsonService().schemaBuilder.sb_addAnyOfRequirement(handle, rawJson.data());
+        rethrowHostError();
     }
 
     void sb_addOneOfRequirement(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const std::string_view rawJson)
     {
-        return jsonService().schemaBuilder.sb_addOneOfRequirement(handle, rawJson.data());
+        jsonService().schemaBuilder.sb_addOneOfRequirement(handle, rawJson.data());
+        rethrowHostError();
     }
 
     void sb_addNoneOfRequirement(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const std::string_view rawJson)
     {
-        return jsonService().schemaBuilder.sb_addNoneOfRequirement(handle, rawJson.data());
+        jsonService().schemaBuilder.sb_addNoneOfRequirement(handle, rawJson.data());
+        rethrowHostError();
     }
 
     IJsonServiceTypes::ModifiableJsonHandle sb_addElementByName(
@@ -64,7 +77,9 @@ namespace JsonService
         const std::string_view name
     )
     {
-        return jsonService().schemaBuilder.sb_addElementByName(handle, name.data());
+        auto result = jsonService().schemaBuilder.sb_addElementByName(handle, name.data());
+        rethrowHostError();
+        return result;
     }
 
     void sb_addElementByParseable(
@@ -73,7 +88,8 @@ namespace JsonService
         const std::string_view rawJson
     )
     {
-        return jsonService().schemaBuilder.sb_addElementByParseable(handle, name.data(), rawJson.data());
+        jsonService().schemaBuilder.sb_addElementByParseable(handle, name.data(), rawJson.data());
+        rethrowHostError();
     }
 
     void sb_addReferenceByName(
@@ -84,13 +100,14 @@ namespace JsonService
         bool setDefaults
     )
     {
-        return jsonService().schemaBuilder.sb_addReferenceByName(
-                   handle,
-                   propertyName.data(),
-                   schemaName.data(),
-                   propertyType,
-                   setDefaults
-               );
+        jsonService().schemaBuilder.sb_addReferenceByName(
+            handle,
+            propertyName.data(),
+            schemaName.data(),
+            propertyType,
+            setDefaults
+        );
+        rethrowHostError();
     }
 
     void sb_addReferenceByType(
@@ -101,13 +118,14 @@ namespace JsonService
         bool setDefaults
     )
     {
-        return jsonService().schemaBuilder.sb_addReferenceByType(
-                   handle,
-                   propertyName.data(),
-                   subSchema,
-                   propertyType,
-                   setDefaults
-               );
+        jsonService().schemaBuilder.sb_addReferenceByType(
+            handle,
+            propertyName.data(),
+            subSchema,
+            propertyType,
+            setDefaults
+        );
+        rethrowHostError();
     }
 
     IJsonServiceTypes::JsonSchemaBuilderHandle sb_addSubSchemaByName(
@@ -115,7 +133,9 @@ namespace JsonService
         const std::string_view schemaName
     )
     {
-        return jsonService().schemaBuilder.sb_addSubSchemaByName(handle, schemaName.data());
+        auto result = jsonService().schemaBuilder.sb_addSubSchemaByName(handle, schemaName.data());
+        rethrowHostError();
+        return result;
     }
 
     void sb_addSubSchemaByType(
@@ -123,7 +143,8 @@ namespace JsonService
         const IJsonServiceTypes::JsonSchemaBuilderHandle subSchema
     )
     {
-        return jsonService().schemaBuilder.sb_addSubSchemaByType(handle, subSchema);
+        jsonService().schemaBuilder.sb_addSubSchemaByType(handle, subSchema);
+        rethrowHostError();
     }
 
     IJsonServiceTypes::JsonSchemaElementBuilderHandle sb_addPropertyByName(
@@ -131,7 +152,9 @@ namespace JsonService
         const std::string_view propertyName
     )
     {
-        return jsonService().schemaBuilder.sb_addPropertyByName(handle, propertyName.data());
+        auto result = jsonService().schemaBuilder.sb_addPropertyByName(handle, propertyName.data());
+        rethrowHostError();
+        return result;
     }
 
     IJsonServiceTypes::JsonSchemaElementBuilderHandle sb_addPropertyByNameWithType(
@@ -140,7 +163,9 @@ namespace JsonService
         IJsonServiceTypes::JsonType propertyType
     )
     {
-        return jsonService().schemaBuilder.sb_addPropertyByNameWithType(handle, propertyName.data(), propertyType);
+        auto result = jsonService().schemaBuilder.sb_addPropertyByNameWithType(handle, propertyName.data(), propertyType);
+        rethrowHostError();
+        return result;
     }
 
     IJsonServiceTypes::JsonHandle sb_buildAndAdd(
@@ -148,7 +173,9 @@ namespace JsonService
         const IJsonServiceTypes::JsonTag tag
     )
     {
-        return jsonService().schemaBuilder.sb_buildAndAdd(handle, tag);
+        auto result = jsonService().schemaBuilder.sb_buildAndAdd(handle, tag);
+        rethrowHostError();
+        return result;
     }
 
     // ---------------------------------------------------------------------- //
@@ -156,22 +183,28 @@ namespace JsonService
 
     const std::string_view seb_getName(const IJsonServiceTypes::JsonSchemaElementBuilderHandle handle)
     {
-        return jsonService().schemaBuilder.seb_getName(handle);
+        auto result = jsonService().schemaBuilder.seb_getName(handle);
+        rethrowHostError();
+        return result;
     }
 
     IJsonServiceTypes::ModifiableJsonHandle seb_getJson(const IJsonServiceTypes::JsonSchemaElementBuilderHandle handle)
     {
-        return jsonService().schemaBuilder.seb_getJson(handle);
+        auto result = jsonService().schemaBuilder.seb_getJson(handle);
+        rethrowHostError();
+        return result;
     }
 
     void seb_setJsonByHandle(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const IJsonServiceTypes::JsonHandle json)
     {
-        return jsonService().schemaBuilder.seb_setJsonByHandle(handle, json);
+        jsonService().schemaBuilder.seb_setJsonByHandle(handle, json);
+        rethrowHostError();
     }
 
     void seb_setJsonByParseable(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const std::string_view rawJson)
     {
-        return jsonService().schemaBuilder.seb_setJsonByParseable(handle, rawJson.data());
+        jsonService().schemaBuilder.seb_setJsonByParseable(handle, rawJson.data());
+        rethrowHostError();
     }
 
     void seb_setProperty(
@@ -180,57 +213,68 @@ namespace JsonService
         const std::string_view rawJson
     )
     {
-        return jsonService().schemaBuilder.seb_setProperty(handle, propertyName.data(), rawJson.data());
+        jsonService().schemaBuilder.seb_setProperty(handle, propertyName.data(), rawJson.data());
+        rethrowHostError();
     }
 
     void seb_setType(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const IJsonServiceTypes::JsonType type)
     {
-        return jsonService().schemaBuilder.seb_setType(handle, type);
+        jsonService().schemaBuilder.seb_setType(handle, type);
+        rethrowHostError();
     }
 
     void seb_setEnum(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const std::string_view rawJson)
     {
-        return jsonService().schemaBuilder.seb_setEnum(handle, rawJson.data());
+        jsonService().schemaBuilder.seb_setEnum(handle, rawJson.data());
+        rethrowHostError();
     }
 
     void seb_setTypedArray(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const IJsonServiceTypes::JsonType type)
     {
-        return jsonService().schemaBuilder.seb_setTypedArray(handle, type);
+        jsonService().schemaBuilder.seb_setTypedArray(handle, type);
+        rethrowHostError();
     }
 
     void seb_setEnumArray(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const std::string_view rawJson)
     {
-        return jsonService().schemaBuilder.seb_setEnumArray(handle, rawJson.data());
+        jsonService().schemaBuilder.seb_setEnumArray(handle, rawJson.data());
+        rethrowHostError();
     }
 
     void seb_setDefault(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const std::string_view rawJson)
     {
-        return jsonService().schemaBuilder.seb_setDefault(handle, rawJson.data());
+        jsonService().schemaBuilder.seb_setDefault(handle, rawJson.data());
+        rethrowHostError();
     }
 
     void seb_setMinimum(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const std::string_view rawJson)
     {
-        return jsonService().schemaBuilder.seb_setMinimum(handle, rawJson.data());
+        jsonService().schemaBuilder.seb_setMinimum(handle, rawJson.data());
+        rethrowHostError();
     }
 
     void seb_setMaximum(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const std::string_view rawJson)
     {
-        return jsonService().schemaBuilder.seb_setMaximum(handle, rawJson.data());
+        jsonService().schemaBuilder.seb_setMaximum(handle, rawJson.data());
+        rethrowHostError();
     }
 
     void seb_setDescription(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const std::string_view description)
     {
-        return jsonService().schemaBuilder.seb_setDescription(handle, description.data());
+        jsonService().schemaBuilder.seb_setDescription(handle, description.data());
+        rethrowHostError();
     }
 
     void seb_setTitle(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const std::string_view title)
     {
-        return jsonService().schemaBuilder.seb_setDefault(handle, title.data());
+        jsonService().schemaBuilder.seb_setDefault(handle, title.data());
+        rethrowHostError();
     }
 
     void seb_setReference(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const std::string_view subSchemaName)
     {
-        return jsonService().schemaBuilder.seb_setReference(handle, subSchemaName.data());
+        jsonService().schemaBuilder.seb_setReference(handle, subSchemaName.data());
+        rethrowHostError();
     }
 
 }

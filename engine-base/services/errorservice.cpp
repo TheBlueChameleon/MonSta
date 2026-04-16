@@ -22,4 +22,9 @@ namespace ErrorService
     {
         return errorService().getErrorMessage();
     }
+
+    void terminateAbnormally()
+    {
+        return errorService().terminateAbnormally();
+    }
 }

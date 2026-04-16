@@ -113,6 +113,15 @@ class JsonError : public HostSideError
         JsonError(const std::string_view msg);
 };
 
+class CsvError : public HostSideError
+{
+    public:
+        using HostSideError::HostSideError;
+
+        CsvError();
+        CsvError(const std::string_view msg);
+};
+
 // ========================================================================== //
 // Client Side Errors
 

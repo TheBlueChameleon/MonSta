@@ -158,8 +158,15 @@ void ClientWrapper::initAndAssertCompatibility()
     if (!connectionStatus)
     {
         LoggerService::critical("Client refused the connection!");
-        // TODO: avoid "failed successfully" meme on <fail before init error service>
-        throw ClientSideError(ErrorService::getErrorCode(), ErrorService::getErrorMessage());
+        const auto errCode = ErrorService::getErrorCode();
+        if (errCode == ApiStatusCode::SUCCESS)
+        {
+            throw ClientSideError(ApiStatusCode::CLIENT_INITIALIZATION_ERROR, ErrorService::getErrorMessage());
+        }
+        else
+        {
+            throw ClientSideError(errCode, ErrorService::getErrorMessage());
+        }
     }
     LoggerService::trace("  ... Client accepted connection.");
 

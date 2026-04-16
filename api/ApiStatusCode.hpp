@@ -20,6 +20,7 @@ enum class ApiStatusCode
     IO_ERROR,
     LOOKUP_ERROR,
     JSON_ERROR,
+    CSV_ERROR,
 };
 
 #endif // API_STATUS_CODE_HPP

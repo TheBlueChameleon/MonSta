@@ -25,4 +25,9 @@ namespace ErrorService
     {
         return getErrorMessage().data();
     }
+
+    void HOST_API_CALL terminateAbnormally_dlx()
+    {
+        return terminateAbnormally();;
+    }
 }

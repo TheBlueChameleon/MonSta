@@ -12,7 +12,7 @@ namespace EngineBase
     void handleException(const EngineError& e)
     {
         ErrorService::setError(e.getErrorCode(), e.what());
-        terminateAbnormally();
+        ErrorService::terminateAbnormally();
     }
 
     namespace detail

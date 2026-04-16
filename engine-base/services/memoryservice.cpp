@@ -19,15 +19,15 @@ namespace MemoryService
     }
 
     MemoryBlock::MemoryBlock(const size_t size) :
-        data(memoryService().allocate(size))
+        data(allocate(size))
     {}
 
     MemoryBlock::MemoryBlock(std::string_view data) :
-        data(memoryService().create(data.data(), data.size()))
+        data(create(data.data(), data.size()))
     {}
 
     MemoryBlock::MemoryBlock(std::span<std::byte> data) :
-        data(memoryService().create(
+        data(create(
                  reinterpret_cast<char*>(data.data()),
                  data.size())
             )
@@ -51,7 +51,7 @@ namespace MemoryService
     {
         if (isValid())
         {
-            memoryService().free(&data);
+            free(&data);
         }
     }
 
