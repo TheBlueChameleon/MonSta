@@ -195,10 +195,14 @@ namespace JsonService
         rethrowHostError();
     }
 
-    void setToParseable(const IJsonServiceTypes::ModifiableJsonHandle handle, const std::string_view source)
+    IJsonServiceTypes::ModifiableJsonHandle setToParseable(
+        const IJsonServiceTypes::ModifiableJsonHandle handle,
+        const std::string_view source
+    )
     {
-        jsonService().itemAccess.setToParseable(handle, source.data());
+        auto result = jsonService().itemAccess.setToParseable(handle, source.data());
         rethrowHostError();
+        return result;
     }
 
     MemoryService::MemoryBlock dump(const IJsonServiceTypes::JsonHandle handle, int indent)

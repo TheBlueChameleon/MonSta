@@ -19,9 +19,7 @@ namespace JsonService
             else      {return toJsonSchemaBuilderHandle(*new JsonSchemaBuilder(    ));}
             // *INDENT-ON*
         }
-        CATCH_ABSTRACT_ERROR(IJsonServiceTypes::JsonSchemaBuilderHandle(nullptr))
-        CATCH_JSON_ERROR(IJsonServiceTypes::JsonSchemaBuilderHandle(nullptr))
-        CATCH_STD_EXCEPTION(IJsonServiceTypes::JsonSchemaBuilderHandle(nullptr))
+        CATCH_EM_ALL(IJsonServiceTypes::JsonSchemaBuilderHandle(nullptr))
     }
 
     IJsonServiceTypes::JsonSchemaElementBuilderHandle HOST_API_CALL instantiateSchemaElementBuilder_dlx(const char* const name)
@@ -30,9 +28,7 @@ namespace JsonService
         {
             return toJsonSchemaElementBuilderHandle(*new JsonSchemaElementBuilder(name));
         }
-        CATCH_ABSTRACT_ERROR(IJsonServiceTypes::JsonSchemaElementBuilderHandle(nullptr))
-        CATCH_JSON_ERROR(IJsonServiceTypes::JsonSchemaElementBuilderHandle(nullptr))
-        CATCH_STD_EXCEPTION(IJsonServiceTypes::JsonSchemaElementBuilderHandle(nullptr))
+        CATCH_EM_ALL(IJsonServiceTypes::JsonSchemaElementBuilderHandle(nullptr))
     }
 
     void HOST_API_CALL freeSchemaBuilder_dlx(IJsonServiceTypes::JsonSchemaBuilderHandle& handle)
@@ -43,9 +39,7 @@ namespace JsonService
             delete &toSchemaBuilder(handle);
             handle.data = nullptr;
         }
-        CATCH_ABSTRACT_ERROR()
-        CATCH_JSON_ERROR()
-        CATCH_STD_EXCEPTION()
+        CATCH_EM_ALL()
     }
 
     void HOST_API_CALL freeSchemaElementBuilder_dlx(IJsonServiceTypes::JsonSchemaElementBuilderHandle& handle)
@@ -56,9 +50,7 @@ namespace JsonService
             delete &toSchemaElementBuilder(handle);
             handle.data = nullptr;
         }
-        CATCH_ABSTRACT_ERROR()
-        CATCH_JSON_ERROR()
-        CATCH_STD_EXCEPTION()
+        CATCH_EM_ALL()
     }
 
     // ---------------------------------------------------------------------- //
@@ -73,9 +65,7 @@ namespace JsonService
             JsonSchemaBuilder& schema = toSchemaBuilder(handle);
             schema.setAdditionalProperties(parse(additionalProperties));
         }
-        CATCH_ABSTRACT_ERROR()
-        CATCH_JSON_ERROR()
-        CATCH_STD_EXCEPTION()
+        CATCH_EM_ALL()
     }
 
     void HOST_API_CALL sb_addRequired_dlx(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const char* const required)
@@ -87,9 +77,7 @@ namespace JsonService
             JsonSchemaBuilder& schema = toSchemaBuilder(handle);
             schema.addRequired(required);
         }
-        CATCH_ABSTRACT_ERROR()
-        CATCH_JSON_ERROR()
-        CATCH_STD_EXCEPTION()
+        CATCH_EM_ALL()
     }
 
     IJsonServiceTypes::ModifiableJsonHandle HOST_API_CALL sb_addElementByName_dlx(
@@ -105,9 +93,7 @@ namespace JsonService
             auto& element = schema.addElement(name);
             return toModifiableJsonHandle(element);
         }
-        CATCH_ABSTRACT_ERROR(IJsonServiceTypes::ModifiableJsonHandle{nullptr})
-        CATCH_JSON_ERROR(IJsonServiceTypes::ModifiableJsonHandle{nullptr})
-        CATCH_STD_EXCEPTION(IJsonServiceTypes::ModifiableJsonHandle{nullptr})
+        CATCH_EM_ALL(IJsonServiceTypes::ModifiableJsonHandle{nullptr})
     }
 
     void HOST_API_CALL sb_addElementByParseable_dlx(
@@ -124,9 +110,7 @@ namespace JsonService
             JsonSchemaBuilder& schema = toSchemaBuilder(handle);
             schema.addElement(name, parse(rawJson));
         }
-        CATCH_ABSTRACT_ERROR()
-        CATCH_JSON_ERROR()
-        CATCH_STD_EXCEPTION()
+        CATCH_EM_ALL()
     }
 
     void HOST_API_CALL sb_addReferenceByName_dlx(
@@ -145,9 +129,7 @@ namespace JsonService
             JsonSchemaBuilder& schema = toSchemaBuilder(handle);
             schema.addReference(propertyName, schemaName, propertyType, setDefaults);
         }
-        CATCH_ABSTRACT_ERROR()
-        CATCH_JSON_ERROR()
-        CATCH_STD_EXCEPTION()
+        CATCH_EM_ALL()
     }
 
     void HOST_API_CALL sb_addReferenceByType_dlx(
@@ -167,9 +149,7 @@ namespace JsonService
             JsonSchemaBuilder& subSchema = toSchemaBuilder(subSchemaHandle);
             schema.addReference(propertyName, subSchema, propertyType, setDefaults);
         }
-        CATCH_ABSTRACT_ERROR()
-        CATCH_JSON_ERROR()
-        CATCH_STD_EXCEPTION()
+        CATCH_EM_ALL()
     }
 
     IJsonServiceTypes::JsonSchemaBuilderHandle HOST_API_CALL sb_addSubSchemaByName_dlx(
@@ -185,9 +165,7 @@ namespace JsonService
             JsonSchemaBuilder& result = schema.addSubSchema(schemaName);
             return toJsonSchemaBuilderHandle(result);
         }
-        CATCH_ABSTRACT_ERROR(IJsonServiceTypes::JsonSchemaBuilderHandle{nullptr})
-        CATCH_JSON_ERROR(IJsonServiceTypes::JsonSchemaBuilderHandle{nullptr})
-        CATCH_STD_EXCEPTION(IJsonServiceTypes::JsonSchemaBuilderHandle{nullptr})
+        CATCH_EM_ALL(IJsonServiceTypes::JsonSchemaBuilderHandle(nullptr))
     }
 
     void HOST_API_CALL sb_addSubSchemaByType_dlx(
@@ -203,9 +181,7 @@ namespace JsonService
             JsonSchemaBuilder& subSchema = toSchemaBuilder(subSchemaHandle);
             schema.addSubSchema(subSchema);
         }
-        CATCH_ABSTRACT_ERROR()
-        CATCH_JSON_ERROR()
-        CATCH_STD_EXCEPTION()
+        CATCH_EM_ALL()
     }
 
     IJsonServiceTypes::JsonSchemaElementBuilderHandle HOST_API_CALL sb_addPropertyByName_dlx(
@@ -221,9 +197,7 @@ namespace JsonService
             JsonSchemaElementBuilder& result = schema.addProperty(propertyName);
             return toJsonSchemaElementBuilderHandle(result);
         }
-        CATCH_ABSTRACT_ERROR(IJsonServiceTypes::JsonSchemaElementBuilderHandle{nullptr})
-        CATCH_JSON_ERROR(IJsonServiceTypes::JsonSchemaElementBuilderHandle{nullptr})
-        CATCH_STD_EXCEPTION(IJsonServiceTypes::JsonSchemaElementBuilderHandle{nullptr})
+        CATCH_EM_ALL(IJsonServiceTypes::JsonSchemaElementBuilderHandle(nullptr))
     }
 
     IJsonServiceTypes::JsonSchemaElementBuilderHandle HOST_API_CALL sb_addPropertyByNameWithType_dlx(
@@ -240,9 +214,7 @@ namespace JsonService
             JsonSchemaElementBuilder& result = schema.addProperty(propertyName, propertyType);
             return toJsonSchemaElementBuilderHandle(result);
         }
-        CATCH_ABSTRACT_ERROR(IJsonServiceTypes::JsonSchemaElementBuilderHandle{nullptr})
-        CATCH_JSON_ERROR(IJsonServiceTypes::JsonSchemaElementBuilderHandle{nullptr})
-        CATCH_STD_EXCEPTION(IJsonServiceTypes::JsonSchemaElementBuilderHandle{nullptr})
+        CATCH_EM_ALL(IJsonServiceTypes::JsonSchemaElementBuilderHandle(nullptr))
     }
 
     IJsonServiceTypes::JsonHandle HOST_API_CALL sb_buildAndAdd_dlx(
@@ -259,9 +231,7 @@ namespace JsonService
             const nlohmann::ordered_json& ref = getOrAdd(tag, std::move(result));
             return toJsonHandle(ref);
         }
-        CATCH_ABSTRACT_ERROR(IJsonServiceTypes::JsonHandle{nullptr})
-        CATCH_JSON_ERROR(IJsonServiceTypes::JsonHandle{nullptr})
-        CATCH_STD_EXCEPTION(IJsonServiceTypes::JsonHandle{nullptr})
+        CATCH_EM_ALL(IJsonServiceTypes::JsonHandle(nullptr))
     }
 
     void HOST_API_CALL sb_addAllOfRequirement_dlx(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const char* const rawJson)
@@ -273,9 +243,7 @@ namespace JsonService
             JsonSchemaBuilder& schema = toSchemaBuilder(handle);
             schema.addAllOfRequirements(parse(rawJson));
         }
-        CATCH_ABSTRACT_ERROR()
-        CATCH_JSON_ERROR()
-        CATCH_STD_EXCEPTION()
+        CATCH_EM_ALL()
     }
 
     void HOST_API_CALL sb_addAnyOfRequirement_dlx(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const char* const rawJson)
@@ -287,9 +255,7 @@ namespace JsonService
             JsonSchemaBuilder& schema = toSchemaBuilder(handle);
             schema.addAnyOfRequirements(parse(rawJson));
         }
-        CATCH_ABSTRACT_ERROR()
-        CATCH_JSON_ERROR()
-        CATCH_STD_EXCEPTION()
+        CATCH_EM_ALL()
     }
 
     void HOST_API_CALL sb_addOneOfRequirement_dlx(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const char* const rawJson)
@@ -301,9 +267,7 @@ namespace JsonService
             JsonSchemaBuilder& schema = toSchemaBuilder(handle);
             schema.addOneOfRequirements(parse(rawJson));
         }
-        CATCH_ABSTRACT_ERROR()
-        CATCH_JSON_ERROR()
-        CATCH_STD_EXCEPTION()
+        CATCH_EM_ALL()
     }
 
     void HOST_API_CALL sb_addNoneOfRequirement_dlx(IJsonServiceTypes::JsonSchemaBuilderHandle handle, const char* const rawJson)
@@ -315,9 +279,7 @@ namespace JsonService
             JsonSchemaBuilder& schema = toSchemaBuilder(handle);
             schema.addNoneOfRequirements(parse(rawJson));
         }
-        CATCH_ABSTRACT_ERROR()
-        CATCH_JSON_ERROR()
-        CATCH_STD_EXCEPTION()
+        CATCH_EM_ALL()
     }
 
     // ---------------------------------------------------------------------- //
@@ -331,9 +293,7 @@ namespace JsonService
             JsonSchemaElementBuilder& element = toSchemaElementBuilder(handle);
             return element.getName().data();
         }
-        CATCH_ABSTRACT_ERROR(nullptr)
-        CATCH_JSON_ERROR(nullptr)
-        CATCH_STD_EXCEPTION(nullptr)
+        CATCH_EM_ALL(nullptr)
     }
 
     IJsonServiceTypes::ModifiableJsonHandle HOST_API_CALL seb_getJson_dlx(const IJsonServiceTypes::JsonSchemaElementBuilderHandle handle)
@@ -345,9 +305,7 @@ namespace JsonService
             nlohmann::ordered_json& result = element.getJson();
             return toModifiableJsonHandle(result);
         }
-        CATCH_ABSTRACT_ERROR(IJsonServiceTypes::ModifiableJsonHandle{nullptr})
-        CATCH_JSON_ERROR(IJsonServiceTypes::ModifiableJsonHandle{nullptr})
-        CATCH_STD_EXCEPTION(IJsonServiceTypes::ModifiableJsonHandle{nullptr})
+        CATCH_EM_ALL(IJsonServiceTypes::ModifiableJsonHandle{nullptr})
     }
 
     void HOST_API_CALL seb_setJsonByHandle_dlx(
@@ -362,9 +320,7 @@ namespace JsonService
             JsonSchemaElementBuilder& element = toSchemaElementBuilder(handle);
             element.setJson(toOrderedJson(json));
         }
-        CATCH_ABSTRACT_ERROR()
-        CATCH_JSON_ERROR()
-        CATCH_STD_EXCEPTION()
+        CATCH_EM_ALL()
     }
 
     void HOST_API_CALL seb_setJsonByParseable_dlx(
@@ -379,9 +335,7 @@ namespace JsonService
             JsonSchemaElementBuilder& element = toSchemaElementBuilder(handle);
             element.setJson(parse(rawJson));
         }
-        CATCH_ABSTRACT_ERROR()
-        CATCH_JSON_ERROR()
-        CATCH_STD_EXCEPTION()
+        CATCH_EM_ALL()
     }
 
     void HOST_API_CALL seb_setProperty_dlx(
@@ -398,9 +352,7 @@ namespace JsonService
             JsonSchemaElementBuilder& element = toSchemaElementBuilder(handle);
             element.setProperty(propertyName, parse(rawJson));
         }
-        CATCH_ABSTRACT_ERROR()
-        CATCH_JSON_ERROR()
-        CATCH_STD_EXCEPTION()
+        CATCH_EM_ALL()
     }
 
     void HOST_API_CALL seb_setType_dlx(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const IJsonServiceTypes::JsonType type)
@@ -411,9 +363,7 @@ namespace JsonService
             JsonSchemaElementBuilder& element = toSchemaElementBuilder(handle);
             element.setType(type);
         }
-        CATCH_ABSTRACT_ERROR()
-        CATCH_JSON_ERROR()
-        CATCH_STD_EXCEPTION()
+        CATCH_EM_ALL()
     }
 
     void HOST_API_CALL seb_setEnum_dlx(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const char* const rawJson)
@@ -425,9 +375,7 @@ namespace JsonService
             JsonSchemaElementBuilder& element = toSchemaElementBuilder(handle);
             element.setEnum(parse(rawJson));
         }
-        CATCH_ABSTRACT_ERROR()
-        CATCH_JSON_ERROR()
-        CATCH_STD_EXCEPTION()
+        CATCH_EM_ALL()
     }
 
     void HOST_API_CALL seb_setTypedArray_dlx(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const IJsonServiceTypes::JsonType type)
@@ -438,9 +386,7 @@ namespace JsonService
             JsonSchemaElementBuilder& element = toSchemaElementBuilder(handle);
             element.setTypedArray(type);
         }
-        CATCH_ABSTRACT_ERROR()
-        CATCH_JSON_ERROR()
-        CATCH_STD_EXCEPTION()
+        CATCH_EM_ALL()
     }
 
     void HOST_API_CALL seb_setEnumArray_dlx(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const char* const rawJson)
@@ -452,9 +398,7 @@ namespace JsonService
             JsonSchemaElementBuilder& element = toSchemaElementBuilder(handle);
             element.setEnumArray(parse(rawJson));
         }
-        CATCH_ABSTRACT_ERROR()
-        CATCH_JSON_ERROR()
-        CATCH_STD_EXCEPTION()
+        CATCH_EM_ALL()
     }
 
     void HOST_API_CALL seb_setDefault_dlx(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const char* const rawJson)
@@ -466,9 +410,7 @@ namespace JsonService
             JsonSchemaElementBuilder& element = toSchemaElementBuilder(handle);
             element.setDefault(parse(rawJson));
         }
-        CATCH_ABSTRACT_ERROR()
-        CATCH_JSON_ERROR()
-        CATCH_STD_EXCEPTION()
+        CATCH_EM_ALL()
     }
 
     void HOST_API_CALL seb_setMinimum_dlx(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const char* const rawJson)
@@ -480,9 +422,7 @@ namespace JsonService
             JsonSchemaElementBuilder& element = toSchemaElementBuilder(handle);
             element.setMinimum(parse(rawJson));
         }
-        CATCH_ABSTRACT_ERROR()
-        CATCH_JSON_ERROR()
-        CATCH_STD_EXCEPTION()
+        CATCH_EM_ALL()
     }
 
     void HOST_API_CALL seb_setMaximum_dlx(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const char* const rawJson)
@@ -494,9 +434,7 @@ namespace JsonService
             JsonSchemaElementBuilder& element = toSchemaElementBuilder(handle);
             element.setMaximum(parse(rawJson));
         }
-        CATCH_ABSTRACT_ERROR()
-        CATCH_JSON_ERROR()
-        CATCH_STD_EXCEPTION()
+        CATCH_EM_ALL()
     }
 
     void HOST_API_CALL seb_setDescription_dlx(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const char* const description)
@@ -508,9 +446,7 @@ namespace JsonService
             JsonSchemaElementBuilder& element = toSchemaElementBuilder(handle);
             element.setDescription(description);
         }
-        CATCH_ABSTRACT_ERROR()
-        CATCH_JSON_ERROR()
-        CATCH_STD_EXCEPTION()
+        CATCH_EM_ALL()
     }
 
     void HOST_API_CALL seb_setTitle_dlx(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const char* const title)
@@ -522,9 +458,7 @@ namespace JsonService
             JsonSchemaElementBuilder& element = toSchemaElementBuilder(handle);
             element.setTitle(title);
         }
-        CATCH_ABSTRACT_ERROR()
-        CATCH_JSON_ERROR()
-        CATCH_STD_EXCEPTION()
+        CATCH_EM_ALL()
     }
 
     void HOST_API_CALL seb_setReference_dlx(IJsonServiceTypes::JsonSchemaElementBuilderHandle handle, const char* const subSchemaName)
@@ -536,8 +470,6 @@ namespace JsonService
             JsonSchemaElementBuilder& element = toSchemaElementBuilder(handle);
             element.setReference(subSchemaName);
         }
-        CATCH_ABSTRACT_ERROR()
-        CATCH_JSON_ERROR()
-        CATCH_STD_EXCEPTION()
+        CATCH_EM_ALL()
     }
 }

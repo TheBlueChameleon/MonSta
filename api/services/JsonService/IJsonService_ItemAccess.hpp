@@ -47,7 +47,10 @@ struct IJsonService_ItemAccess
     void (*const HOST_API_CALL setToHandle)(const IJsonServiceTypes::ModifiableJsonHandle handle, const IJsonServiceTypes::JsonHandle source);
     void (*const HOST_API_CALL setToArray)(const IJsonServiceTypes::ModifiableJsonHandle handle, const IJsonServiceTypes::JsonHandle source);
     void (*const HOST_API_CALL setToObject)(const IJsonServiceTypes::ModifiableJsonHandle handle, const IJsonServiceTypes::JsonHandle source);
-    void (*const HOST_API_CALL setToParseable)(const IJsonServiceTypes::ModifiableJsonHandle handle, const char* const source);
+    IJsonServiceTypes::ModifiableJsonHandle(*const HOST_API_CALL setToParseable)(
+        const IJsonServiceTypes::ModifiableJsonHandle handle,
+        const char* const source
+    );
 
     IMemoryService::MemoryBlock(*const HOST_API_CALL dump)(const IJsonServiceTypes::JsonHandle handle, int indent);
 };

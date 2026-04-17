@@ -8,7 +8,7 @@ struct EngineError;
 
 namespace EngineBase
 {
-    void handleException(const EngineError& e);
+    void passExceptionToHost(const EngineError& e);
 
     std::unordered_map<std::string, std::string> splitArgs(std::string_view input);
 }

@@ -39,9 +39,7 @@ namespace JsonService
                 return toJsonHandle(target);
             }
         }
-        CATCH_ABSTRACT_ERROR(IJsonServiceTypes::JsonHandle(nullptr))
-        CATCH_JSON_ERROR(IJsonServiceTypes::JsonHandle(nullptr))
-        CATCH_STD_EXCEPTION(IJsonServiceTypes::JsonHandle(nullptr))
+        CATCH_EM_ALL(IJsonServiceTypes::JsonHandle(nullptr))
     }
 
     IJsonServiceTypes::ModifiableJsonHandle HOST_API_CALL navigateToModifiable_dlx(
@@ -68,9 +66,7 @@ namespace JsonService
                 return toModifiableJsonHandle(target);
             }
         }
-        CATCH_ABSTRACT_ERROR(IJsonServiceTypes::ModifiableJsonHandle(nullptr))
-        CATCH_JSON_ERROR(IJsonServiceTypes::ModifiableJsonHandle(nullptr))
-        CATCH_STD_EXCEPTION(IJsonServiceTypes::ModifiableJsonHandle(nullptr))
+        CATCH_EM_ALL(IJsonServiceTypes::ModifiableJsonHandle(nullptr))
     }
 
     const bool HOST_API_CALL contains_dlx(const IJsonServiceTypes::JsonHandle handle, const char* const elementName)
@@ -81,8 +77,7 @@ namespace JsonService
             const ordered_json& base = toOrderedJson(handle);
             return base.contains(elementName);
         }
-        CATCH_ABSTRACT_ERROR(false)
-        CATCH_STD_EXCEPTION(false)
+        CATCH_EM_ALL(false)
     }
 
     const IJsonServiceTypes::JsonType HOST_API_CALL getType_dlx(const IJsonServiceTypes::JsonHandle handle)
@@ -93,8 +88,7 @@ namespace JsonService
             const ordered_json& base = toOrderedJson(handle);
             return static_cast<IJsonServiceTypes::JsonType>(base.type());
         }
-        CATCH_ABSTRACT_ERROR(IJsonServiceTypes::JsonType::VOID)
-        CATCH_STD_EXCEPTION(IJsonServiceTypes::JsonType::VOID)
+        CATCH_EM_ALL(IJsonServiceTypes::JsonType::VOID)
     }
 
     const bool HOST_API_CALL isNull_dlx(const IJsonServiceTypes::JsonHandle handle)
@@ -105,8 +99,7 @@ namespace JsonService
             const ordered_json& base = toOrderedJson(handle);
             return base.is_null();
         }
-        CATCH_ABSTRACT_ERROR(false)
-        CATCH_STD_EXCEPTION(false)
+        CATCH_EM_ALL(false)
     }
 
     const bool HOST_API_CALL isBoolean_dlx(const IJsonServiceTypes::JsonHandle handle)
@@ -117,8 +110,7 @@ namespace JsonService
             const ordered_json& base = toOrderedJson(handle);
             return base.is_boolean();
         }
-        CATCH_ABSTRACT_ERROR(false)
-        CATCH_STD_EXCEPTION(false)
+        CATCH_EM_ALL(false)
     }
 
     const bool HOST_API_CALL isInteger_dlx(const IJsonServiceTypes::JsonHandle handle)
@@ -129,8 +121,7 @@ namespace JsonService
             const ordered_json& base = toOrderedJson(handle);
             return base.is_number_integer();
         }
-        CATCH_ABSTRACT_ERROR(false)
-        CATCH_STD_EXCEPTION(false)
+        CATCH_EM_ALL(false)
     }
 
     const bool HOST_API_CALL isUnsigned_dlx(const IJsonServiceTypes::JsonHandle handle)
@@ -141,8 +132,7 @@ namespace JsonService
             const ordered_json& base = toOrderedJson(handle);
             return base.is_number_unsigned();
         }
-        CATCH_ABSTRACT_ERROR(false)
-        CATCH_STD_EXCEPTION(false)
+        CATCH_EM_ALL(false)
     }
 
     const bool HOST_API_CALL isFloat_dlx(const IJsonServiceTypes::JsonHandle handle)
@@ -153,8 +143,7 @@ namespace JsonService
             const ordered_json& base = toOrderedJson(handle);
             return base.is_number_float();
         }
-        CATCH_ABSTRACT_ERROR(false)
-        CATCH_STD_EXCEPTION(false)
+        CATCH_EM_ALL(false)
     }
 
     const bool HOST_API_CALL isString_dlx(const IJsonServiceTypes::JsonHandle handle)
@@ -165,8 +154,7 @@ namespace JsonService
             const ordered_json& base = toOrderedJson(handle);
             return base.is_string();
         }
-        CATCH_ABSTRACT_ERROR(false)
-        CATCH_STD_EXCEPTION(false)
+        CATCH_EM_ALL(false)
     }
 
     const bool HOST_API_CALL isArray_dlx(const IJsonServiceTypes::JsonHandle handle)
@@ -177,8 +165,7 @@ namespace JsonService
             const ordered_json& base = toOrderedJson(handle);
             return base.is_array();
         }
-        CATCH_ABSTRACT_ERROR(false)
-        CATCH_STD_EXCEPTION(false)
+        CATCH_EM_ALL(false)
     }
 
     const bool HOST_API_CALL isObject_dlx(const IJsonServiceTypes::JsonHandle handle)
@@ -189,8 +176,7 @@ namespace JsonService
             const ordered_json& base = toOrderedJson(handle);
             return base.is_object();
         }
-        CATCH_ABSTRACT_ERROR(false)
-        CATCH_STD_EXCEPTION(false)
+        CATCH_EM_ALL(false)
     }
 
     const bool HOST_API_CALL getAsBool_dlx(const IJsonServiceTypes::JsonHandle handle)
@@ -205,8 +191,7 @@ namespace JsonService
             }
             return base.get<bool>();
         }
-        CATCH_ABSTRACT_ERROR(false)
-        CATCH_STD_EXCEPTION(false)
+        CATCH_EM_ALL(false)
     }
 
     const int HOST_API_CALL getAsInteger_dlx(const IJsonServiceTypes::JsonHandle handle)
@@ -221,8 +206,7 @@ namespace JsonService
             }
             return base.get<int>();
         }
-        CATCH_ABSTRACT_ERROR(0)
-        CATCH_STD_EXCEPTION(0)
+        CATCH_EM_ALL(0)
     }
 
     const unsigned long long HOST_API_CALL getAsUnsigned_dlx(const IJsonServiceTypes::JsonHandle handle)
@@ -237,8 +221,7 @@ namespace JsonService
             }
             return base.get<unsigned long long>();
         }
-        CATCH_ABSTRACT_ERROR(0)
-        CATCH_STD_EXCEPTION(0)
+        CATCH_EM_ALL(0)
     }
 
     const double HOST_API_CALL getAsFloat_dlx(const IJsonServiceTypes::JsonHandle handle)
@@ -253,8 +236,7 @@ namespace JsonService
             }
             return base.get<double>();
         }
-        CATCH_ABSTRACT_ERROR(false)
-        CATCH_STD_EXCEPTION(false)
+        CATCH_EM_ALL(0)
     }
 
     const char* const HOST_API_CALL getAsString_dlx(const IJsonServiceTypes::JsonHandle handle)
@@ -270,8 +252,7 @@ namespace JsonService
             const auto ptr = base.get_ptr<const ordered_json::string_t*>();
             return ptr->data();
         }
-        CATCH_ABSTRACT_ERROR("")
-        CATCH_STD_EXCEPTION("")
+        CATCH_EM_ALL("")
     }
 
     const int HOST_API_CALL getArraySize_dlx(const IJsonServiceTypes::JsonHandle handle)
@@ -282,8 +263,7 @@ namespace JsonService
             const ordered_json& base = toOrderedJson(handle);
             return base.size();
         }
-        CATCH_ABSTRACT_ERROR(-1)
-        CATCH_STD_EXCEPTION(-1)
+        CATCH_EM_ALL(-1)
     }
 
     const IJsonServiceTypes::JsonHandle HOST_API_CALL getArrayItem_dlx(const IJsonServiceTypes::JsonHandle handle, const int index)
@@ -312,9 +292,7 @@ namespace JsonService
 
             return toJsonHandle(base.at(index));
         }
-        CATCH_ABSTRACT_ERROR(IJsonServiceTypes::JsonHandle(nullptr))
-        CATCH_JSON_ERROR(IJsonServiceTypes::JsonHandle(nullptr))
-        CATCH_STD_EXCEPTION(IJsonServiceTypes::JsonHandle(nullptr))
+        CATCH_EM_ALL(IJsonServiceTypes::JsonHandle(nullptr))
     }
 
     void HOST_API_CALL setToNull_dlx(const IJsonServiceTypes::ModifiableJsonHandle handle)
@@ -325,8 +303,7 @@ namespace JsonService
             ordered_json& base = toModifiableOrderedJson(handle);
             base = ordered_json();
         }
-        CATCH_ABSTRACT_ERROR()
-        CATCH_STD_EXCEPTION()
+        CATCH_EM_ALL()
     }
 
     void HOST_API_CALL setToBool_dlx(const IJsonServiceTypes::ModifiableJsonHandle handle, const bool value)
@@ -337,8 +314,7 @@ namespace JsonService
             ordered_json& base = toModifiableOrderedJson(handle);
             base = value;
         }
-        CATCH_ABSTRACT_ERROR()
-        CATCH_STD_EXCEPTION()
+        CATCH_EM_ALL()
     }
 
     void HOST_API_CALL setToInteger_dlx(const IJsonServiceTypes::ModifiableJsonHandle handle, const int value)
@@ -349,8 +325,7 @@ namespace JsonService
             ordered_json& base = toModifiableOrderedJson(handle);
             base = value;
         }
-        CATCH_ABSTRACT_ERROR()
-        CATCH_STD_EXCEPTION()
+        CATCH_EM_ALL()
     }
 
     void HOST_API_CALL setToUnsigned_dlx(const IJsonServiceTypes::ModifiableJsonHandle handle, const unsigned int value)
@@ -361,8 +336,7 @@ namespace JsonService
             ordered_json& base = toModifiableOrderedJson(handle);
             base = value;
         }
-        CATCH_ABSTRACT_ERROR()
-        CATCH_STD_EXCEPTION()
+        CATCH_EM_ALL()
     }
 
     void HOST_API_CALL setToFloat_dlx(const IJsonServiceTypes::ModifiableJsonHandle handle, const double value)
@@ -373,8 +347,7 @@ namespace JsonService
             ordered_json& base = toModifiableOrderedJson(handle);
             base = value;
         }
-        CATCH_ABSTRACT_ERROR()
-        CATCH_STD_EXCEPTION()
+        CATCH_EM_ALL()
     }
 
     void HOST_API_CALL setToString_dlx(const IJsonServiceTypes::ModifiableJsonHandle handle, const char* const value)
@@ -385,8 +358,7 @@ namespace JsonService
             ordered_json& base = toModifiableOrderedJson(handle);
             base = value;
         }
-        CATCH_ABSTRACT_ERROR()
-        CATCH_STD_EXCEPTION()
+        CATCH_EM_ALL()
     }
 
     void HOST_API_CALL setToHandle_dlx(const IJsonServiceTypes::ModifiableJsonHandle handle, const IJsonServiceTypes::JsonHandle source)
@@ -397,33 +369,54 @@ namespace JsonService
             ordered_json& base = toModifiableOrderedJson(handle);
             base = toOrderedJson(source);
         }
-        CATCH_ABSTRACT_ERROR()
-        CATCH_STD_EXCEPTION()
+        CATCH_EM_ALL()
     }
 
-    // TODO: maybe type check source is Array?
-    void HOST_API_CALL setToArray_dlx(const IJsonServiceTypes::ModifiableJsonHandle handle, const IJsonServiceTypes::JsonHandle source)
+    void HOST_API_CALL setToArray_dlx(
+        const IJsonServiceTypes::ModifiableJsonHandle handle,
+        const IJsonServiceTypes::JsonHandle source
+    )
     {
-        setToHandle_dlx(handle, source);
+        try
+        {
+            if (!isArray_dlx(source))
+            {
+                throw JsonError("Handle does not contain an array");
+            }
+            setToHandle_dlx(handle, source);
+        }
+        CATCH_EM_ALL()
     }
 
-    // TODO: maybe type check source is Object?
-    void HOST_API_CALL setToObject_dlx(const IJsonServiceTypes::ModifiableJsonHandle handle, const IJsonServiceTypes::JsonHandle source)
+    void HOST_API_CALL setToObject_dlx(
+        const IJsonServiceTypes::ModifiableJsonHandle handle,
+        const IJsonServiceTypes::JsonHandle source
+    )
     {
-        setToHandle_dlx(handle, source);
+        try
+        {
+            if (!isArray_dlx(source))
+            {
+                throw JsonError("Handle does not contain an object");
+            }
+            setToHandle_dlx(handle, source);
+        }
+        CATCH_EM_ALL()
     }
 
-    void HOST_API_CALL setToParseable_dlx(const IJsonServiceTypes::ModifiableJsonHandle handle, const char* const source)
+    IJsonServiceTypes::ModifiableJsonHandle HOST_API_CALL setToParseable_dlx(
+        const IJsonServiceTypes::ModifiableJsonHandle handle,
+        const char* const source
+    )
     {
         try
         {
             assertSaneHandle(handle);
             ordered_json& base = toModifiableOrderedJson(handle);
             base = parse(source);
+            return toModifiableJsonHandle(base);
         }
-        CATCH_ABSTRACT_ERROR()
-        CATCH_JSON_ERROR()
-        CATCH_STD_EXCEPTION()
+        CATCH_EM_ALL(IJsonServiceTypes::ModifiableJsonHandle{nullptr})
     }
 
     IMemoryService::MemoryBlock HOST_API_CALL dump_dlx(const IJsonServiceTypes::JsonHandle handle, int indent)
@@ -436,8 +429,6 @@ namespace JsonService
             std::string text = base.dump(indent);
             return MemoryService::createFromView(text);
         }
-        CATCH_ABSTRACT_ERROR(nullMem)
-        CATCH_JSON_ERROR(nullMem)
-        CATCH_STD_EXCEPTION(nullMem)
+        CATCH_EM_ALL(nullMem)
     }
 }

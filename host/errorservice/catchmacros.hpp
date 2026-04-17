@@ -32,4 +32,16 @@
         return errorValue; \
     }
 
+#define CATCH_ANYTHING(errorValue) \
+    catch (...) { \
+        ErrorService::setError( ApiStatusCode::CRITICAL_ABORT, "Undefined Error" ); \
+        return errorValue; \
+    }
+
+#define CATCH_EM_ALL(errorValue) \
+    CATCH_ABSTRACT_ERROR(errorValue) \
+    CATCH_JSON_ERROR(errorValue) \
+    CATCH_STD_EXCEPTION(errorValue) \
+    CATCH_ANYTHING(errorValue)
+
 #endif // CATCHMACROS_HPP

@@ -43,7 +43,10 @@ namespace JsonService
     void setToHandle(const IJsonServiceTypes::ModifiableJsonHandle handle, const IJsonServiceTypes::JsonHandle source);
     void setToArray(const IJsonServiceTypes::ModifiableJsonHandle handle, const IJsonServiceTypes::JsonHandle source);
     void setToObject(const IJsonServiceTypes::ModifiableJsonHandle handle, const IJsonServiceTypes::JsonHandle source);
-    void setToParseable(const IJsonServiceTypes::ModifiableJsonHandle handle, const std::string_view source);
+    IJsonServiceTypes::ModifiableJsonHandle setToParseable(
+        const IJsonServiceTypes::ModifiableJsonHandle handle,
+        const std::string_view source
+    );
 
     MemoryService::MemoryBlock dump(const IJsonServiceTypes::JsonHandle handle, int indent = 2);
 }

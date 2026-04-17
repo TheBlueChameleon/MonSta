@@ -22,8 +22,7 @@ namespace JsonService
             assertSaneTag(tag);
             return getState(tag);
         }
-        CATCH_ABSTRACT_ERROR(IJsonServiceTypes::EntryState::ERROR)
-        CATCH_STD_EXCEPTION(IJsonServiceTypes::EntryState::ERROR)
+        CATCH_EM_ALL(IJsonServiceTypes::EntryState::ERROR)
     }
 
     const IJsonServiceTypes::JsonHandle HOST_API_CALL get_dlx(const IJsonServiceTypes::JsonTag tag)
@@ -33,8 +32,7 @@ namespace JsonService
             assertSaneTag(tag);
             return toJsonHandle(get(tag));
         }
-        CATCH_ABSTRACT_ERROR(IJsonServiceTypes::JsonHandle(nullptr))
-        CATCH_STD_EXCEPTION(IJsonServiceTypes::JsonHandle(nullptr))
+        CATCH_EM_ALL(IJsonServiceTypes::JsonHandle(nullptr))
     }
 
     const IJsonServiceTypes::JsonHandle HOST_API_CALL getOrAdd_dlx(
@@ -58,9 +56,7 @@ namespace JsonService
 
             return toJsonHandle(getOrAdd(tag, convertedCreator));
         }
-        CATCH_ABSTRACT_ERROR(IJsonServiceTypes::JsonHandle(nullptr))
-        CATCH_JSON_ERROR(IJsonServiceTypes::JsonHandle(nullptr))
-        CATCH_STD_EXCEPTION(IJsonServiceTypes::JsonHandle(nullptr))
+        CATCH_EM_ALL(IJsonServiceTypes::JsonHandle(nullptr))
     }
 
     const IJsonServiceTypes::JsonHandle HOST_API_CALL getOrParse_dlx(const IJsonServiceTypes::JsonTag tag, const char* const json)
@@ -73,10 +69,7 @@ namespace JsonService
                        getOrAdd(tag, parse(json))
                    );
         }
-        CATCH_ABSTRACT_ERROR(IJsonServiceTypes::JsonHandle(nullptr))
-        CATCH_JSON_ERROR(IJsonServiceTypes::JsonHandle(nullptr))
-        CATCH_STD_EXCEPTION(IJsonServiceTypes::JsonHandle(nullptr))
-
+        CATCH_EM_ALL(IJsonServiceTypes::JsonHandle(nullptr))
     }
 
     const IJsonServiceTypes::ModifiableJsonHandle HOST_API_CALL declare_dlx(const IJsonServiceTypes::JsonTag tag)
@@ -93,10 +86,8 @@ namespace JsonService
             {
                 return IJsonServiceTypes::ModifiableJsonHandle{nullptr};
             }
-
         }
-        CATCH_ABSTRACT_ERROR(IJsonServiceTypes::ModifiableJsonHandle{nullptr})
-        CATCH_STD_EXCEPTION(IJsonServiceTypes::ModifiableJsonHandle{nullptr})
+        CATCH_EM_ALL(IJsonServiceTypes::ModifiableJsonHandle(nullptr))
     }
 
     const IJsonServiceTypes::JsonHandle HOST_API_CALL commit_dlx(const IJsonServiceTypes::JsonTag tag)
@@ -106,8 +97,7 @@ namespace JsonService
             assertSaneTag(tag);
             return toJsonHandle(getDatabase().commit(tag));
         }
-        CATCH_ABSTRACT_ERROR(IJsonServiceTypes::JsonHandle(nullptr))
-        CATCH_STD_EXCEPTION(IJsonServiceTypes::JsonHandle(nullptr))
+        CATCH_EM_ALL(IJsonServiceTypes::JsonHandle(nullptr))
     }
 
     // ====================================================================== //
@@ -131,9 +121,7 @@ namespace JsonService
                        )
                    );
         }
-        CATCH_ABSTRACT_ERROR(IJsonServiceTypes::JsonHandle(nullptr))
-        CATCH_JSON_ERROR(IJsonServiceTypes::JsonHandle(nullptr))
-        CATCH_STD_EXCEPTION(IJsonServiceTypes::JsonHandle(nullptr))
+        CATCH_EM_ALL(IJsonServiceTypes::JsonHandle(nullptr))
     }
 
     const IJsonServiceTypes::JsonHandle HOST_API_CALL readAndAdd_dlx(const IJsonServiceTypes::JsonTag tag, const char* const file)
@@ -146,9 +134,7 @@ namespace JsonService
                        readAndAdd(tag, file)
                    );
         }
-        CATCH_ABSTRACT_ERROR(IJsonServiceTypes::JsonHandle(nullptr))
-        CATCH_JSON_ERROR(IJsonServiceTypes::JsonHandle(nullptr))
-        CATCH_STD_EXCEPTION(IJsonServiceTypes::JsonHandle(nullptr))
+        CATCH_EM_ALL(IJsonServiceTypes::JsonHandle(nullptr))
     }
 
     const IJsonServiceTypes::JsonHandle HOST_API_CALL readValidatePatchAndAdd_dlx(
@@ -169,9 +155,7 @@ namespace JsonService
                        )
                    );
         }
-        CATCH_ABSTRACT_ERROR(IJsonServiceTypes::JsonHandle(nullptr))
-        CATCH_JSON_ERROR(IJsonServiceTypes::JsonHandle(nullptr))
-        CATCH_STD_EXCEPTION(IJsonServiceTypes::JsonHandle(nullptr))
+        CATCH_EM_ALL(IJsonServiceTypes::JsonHandle(nullptr))
     }
 
 }

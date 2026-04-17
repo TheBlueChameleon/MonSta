@@ -26,7 +26,7 @@ HOST_API_EXPORT
         }
         catch (const EngineError& e)
         {
-            EngineBase::handleException(e);
+            EngineBase::passExceptionToHost(e);
         }
 
         return ITemplatesDefinition{};

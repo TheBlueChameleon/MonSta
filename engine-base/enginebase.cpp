@@ -9,7 +9,7 @@
 
 namespace EngineBase
 {
-    void handleException(const EngineError& e)
+    void passExceptionToHost(const EngineError& e)
     {
         ErrorService::setError(e.getErrorCode(), e.what());
         ErrorService::terminateAbnormally();
