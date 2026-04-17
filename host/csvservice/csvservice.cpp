@@ -102,17 +102,18 @@ namespace CsvService
     }
 
     static void generateColumnNames(
-        std::unordered_map<std::string, int>& indices,
-        const int idx,
+        std::unordered_map<std::string, size_t>& indices,
+        const size_t idx,
         IndexedCsvData::TableType& table
     )
     {
-        if (idx < 0 || idx >= table.size())
+        if (idx >= table.size())
         {
             throw CsvError("Illegal header row index "s + std::to_string(idx));
         }
 
-        for (int i = 0; const auto& element : table[idx])
+        size_t i = 0;
+        for (const auto& element : table[idx])
         {
             const auto [it, emplaced] = indices.try_emplace(element, i);
             if (!emplaced)
@@ -125,17 +126,13 @@ namespace CsvService
     }
 
     static void generateRowNames(
-        std::unordered_map<std::string, int>& indices,
-        const int idx,
+        std::unordered_map<std::string, size_t>& indices,
+        const size_t idx,
         IndexedCsvData::TableType& table
     )
     {
-        if (idx < 0)
-        {
-            throw CsvError("Illegal key column index "s + std::to_string(idx));
-        }
-
-        for (int i = 0; const auto& row : table)
+        size_t i = 0;
+        for (const auto& row : table)
         {
             if (idx >= row.size())
             {
@@ -152,19 +149,16 @@ namespace CsvService
 
             ++i;
         }
-
-        const auto& headerRow = table[idx];
     }
-
 
     void IndexedCsvData::generateIndices(const ICsvService::CsvOptions& csvOptions)
     {
-        if (csvOptions.headerRow != -1)
+        if (csvOptions.headerRow != -1u)
         {
             generateColumnNames(columnNames, csvOptions.headerRow, table);
         }
 
-        if (csvOptions.keyColumn != -1)
+        if (csvOptions.keyColumn != -1u)
         {
             generateRowNames(rowNames, csvOptions.keyColumn, table);
         }
@@ -206,12 +200,22 @@ namespace CsvService
         return widths;
     }
 
-    size_t IndexedCsvData::getMaxWidth() const
+    const size_t IndexedCsvData::getMaxWidth() const
     {
         return maxWidth;
     }
 
-    const int IndexedCsvData::getRowIndex(const std::string& rowName) const
+    const size_t IndexedCsvData::getRowWidth(const size_t rowIndex) const
+    {
+        if (rowIndex < 0 || rowIndex >= table.size())
+        {
+            throw CsvError("Invalid row index "s + std::to_string(rowIndex) + " while accessing CSV data from " + origin);
+        }
+
+        return widths[rowIndex];
+    }
+
+    const size_t IndexedCsvData::getRowIndex(const std::string& rowName) const
     {
         auto it = rowNames.find(rowName);
         if (it == rowNames.end())
@@ -222,7 +226,7 @@ namespace CsvService
         return it->second;
     }
 
-    const int IndexedCsvData::getColumnIndex(const std::string& columnName) const
+    const size_t IndexedCsvData::getColumnIndex(const std::string& columnName) const
     {
         auto it = columnNames.find(columnName);
         if (it == columnNames.end())
@@ -233,20 +237,26 @@ namespace CsvService
         return it->second;
     }
 
-    const std::unordered_map<std::string, int>& IndexedCsvData::getColumnNameToIndexMap() const
+    const std::unordered_map<std::string, size_t>& IndexedCsvData::getColumnNameToIndexMap() const
     {
         return columnNames;
     }
 
-    const std::unordered_map<std::string, int>& IndexedCsvData::getRowNameToIndexMap() const
+    const std::unordered_map<std::string, size_t>& IndexedCsvData::getRowNameToIndexMap() const
     {
         return rowNames;
     }
 
-    void IndexedCsvData::reIndexByColumn(const int column)
+    void IndexedCsvData::reIndexRows(const size_t columnIndex)
     {
         rowNames.clear();
-        generateColumnNames(rowNames, column, table);
+        generateRowNames(rowNames, columnIndex, table);
+    }
+
+    void IndexedCsvData::reIndexColumns(const size_t rowIndex)
+    {
+        columnNames.clear();
+        generateColumnNames(columnNames, rowIndex, table);
     }
 
     const IndexedCsvData::TableType& IndexedCsvData::getTable() const
@@ -254,14 +264,14 @@ namespace CsvService
         return table;
     }
 
-    const IndexedCsvData::RowType& IndexedCsvData::getRow(const int row) const
+    const IndexedCsvData::RowType& IndexedCsvData::getRow(const size_t rowIndex) const
     {
-        if (row < 0 || row >= table.size())
+        if (rowIndex < 0 || rowIndex >= table.size())
         {
-            throw CsvError("Invalid row index "s + std::to_string(row) + " while accessing CSV data from " + origin);
+            throw CsvError("Invalid row index "s + std::to_string(rowIndex) + " while accessing CSV data from " + origin);
         }
 
-        return table[row];
+        return table[rowIndex];
     }
 
     const IndexedCsvData::RowType& IndexedCsvData::getRow(const std::string& rowName) const
@@ -269,16 +279,16 @@ namespace CsvService
         return getRow(getRowIndex(rowName));
     }
 
-    const IndexedCsvData::CellType& IndexedCsvData::getCell(const int row, const int column) const
+    const IndexedCsvData::CellType& IndexedCsvData::getCell(const size_t rowIndex, const size_t columnIndex) const
     {
-        const auto& rowData = getRow(row);
+        const auto& rowData = getRow(rowIndex);
 
-        if (column < 0 || column >= rowData.size())
+        if (columnIndex < 0 || columnIndex >= rowData.size())
         {
-            throw CsvError("Invalid column index "s + std::to_string(column) + " while accessing CSV data from " + origin);
+            throw CsvError("Invalid column index "s + std::to_string(columnIndex) + " while accessing CSV data from " + origin);
         }
 
-        return rowData[column];
+        return rowData[columnIndex];
     }
 
     const IndexedCsvData::CellType& IndexedCsvData::getCell(const std::string& rowName, const std::string& columnName) const

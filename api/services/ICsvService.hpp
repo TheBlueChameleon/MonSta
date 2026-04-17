@@ -10,7 +10,7 @@ struct ICsvService
         char delimiter = ',';
         char quoteChar = '"';
         size_t headerRow =  0;
-        size_t keyColumn = -1;
+        size_t keyColumn = -1u;
     };
 
     struct CellData

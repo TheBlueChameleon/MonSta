@@ -12,9 +12,9 @@ TEST_F(CsvServiceTest, RegularData)
 )";
 
     auto cfg = ICsvService::CsvOptions{};
-    cfg.headerRow = 0;
-    cfg.keyColumn = 0;
     auto csv = IndexedCsvData(data, "simulated file", cfg);
+
+    csv.reIndexRows(0);
 
     EXPECT_EQ(3, csv.getRowCount());
     EXPECT_EQ("header", csv.getCell(0, 0));

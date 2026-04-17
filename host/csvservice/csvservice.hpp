@@ -22,8 +22,8 @@ namespace CsvService
         private:
             TableType   table;
             std::string origin;
-            std::unordered_map<std::string, int> columnNames;
-            std::unordered_map<std::string, int> rowNames;
+            std::unordered_map<std::string, size_t> columnNames;
+            std::unordered_map<std::string, size_t> rowNames;
             std::vector<size_t> widths;
             size_t              maxWidth;
 
@@ -48,19 +48,21 @@ namespace CsvService
 
             const size_t getRowCount() const;
             const std::vector<size_t>& getWidths() const;
-            size_t getMaxWidth() const;
+            const size_t getMaxWidth() const;
+            const size_t getRowWidth(const size_t rowIndex) const;
 
-            const int getRowIndex(const std::string& rowName) const;
-            const int getColumnIndex(const std::string& columnName)const ;
-            const std::unordered_map<std::string, int>& getColumnNameToIndexMap() const;
-            const std::unordered_map<std::string, int>& getRowNameToIndexMap() const;
+            const size_t getRowIndex(const std::string& rowName) const;
+            const size_t getColumnIndex(const std::string& columnName) const;
+            const std::unordered_map<std::string, size_t>& getColumnNameToIndexMap() const;
+            const std::unordered_map<std::string, size_t>& getRowNameToIndexMap() const;
 
-            void reIndexByColumn(const int column);
+            void reIndexRows(const size_t columnIndex);
+            void reIndexColumns(const size_t rowIndex);
 
             const TableType& getTable() const;
-            const RowType&   getRow(const int row) const;
+            const RowType&   getRow(const size_t rowIndex) const;
             const RowType&   getRow(const std::string& rowName) const;
-            const CellType&  getCell(const int row, const int column) const;
+            const CellType&  getCell(const size_t rowIndex, const size_t columnIndex) const;
             const CellType&  getCell(const std::string& rowName, const std::string& columnName) const;
     };
 }
