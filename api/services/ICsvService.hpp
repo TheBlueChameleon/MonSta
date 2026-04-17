@@ -15,7 +15,7 @@ struct ICsvService
 
     struct CellData
     {
-        char*  data;
+        const char*  data;
         size_t size;
     };
 

@@ -51,8 +51,8 @@ namespace CsvService
             const size_t getMaxWidth() const;
             const size_t getRowWidth(const size_t rowIndex) const;
 
-            const size_t getRowIndex(const std::string& rowName) const;
-            const size_t getColumnIndex(const std::string& columnName) const;
+            const size_t getRowIndex(const std::string_view rowName) const;
+            const size_t getColumnIndex(const std::string_view columnName) const;
             const std::unordered_map<std::string, size_t>& getColumnNameToIndexMap() const;
             const std::unordered_map<std::string, size_t>& getRowNameToIndexMap() const;
 
@@ -61,9 +61,9 @@ namespace CsvService
 
             const TableType& getTable() const;
             const RowType&   getRow(const size_t rowIndex) const;
-            const RowType&   getRow(const std::string& rowName) const;
+            const RowType&   getRow(const std::string_view rowName) const;
             const CellType&  getCell(const size_t rowIndex, const size_t columnIndex) const;
-            const CellType&  getCell(const std::string& rowName, const std::string& columnName) const;
+            const CellType&  getCell(const std::string_view rowName, const std::string_view columnName) const;
     };
 }
 

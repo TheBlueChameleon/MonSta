@@ -215,23 +215,23 @@ namespace CsvService
         return widths[rowIndex];
     }
 
-    const size_t IndexedCsvData::getRowIndex(const std::string& rowName) const
+    const size_t IndexedCsvData::getRowIndex(const std::string_view rowName) const
     {
-        auto it = rowNames.find(rowName);
+        auto it = rowNames.find(rowName.data());
         if (it == rowNames.end())
         {
-            throw CsvError("Unknown row name: "s + rowName);
+            throw CsvError("Unknown row name: "s + rowName.data());
         }
 
         return it->second;
     }
 
-    const size_t IndexedCsvData::getColumnIndex(const std::string& columnName) const
+    const size_t IndexedCsvData::getColumnIndex(const std::string_view columnName) const
     {
-        auto it = columnNames.find(columnName);
+        auto it = columnNames.find(columnName.data());
         if (it == columnNames.end())
         {
-            throw CsvError("Unknown column name: "s + columnName);
+            throw CsvError("Unknown column name: "s + columnName.data());
         }
 
         return it->second;
@@ -274,7 +274,7 @@ namespace CsvService
         return table[rowIndex];
     }
 
-    const IndexedCsvData::RowType& IndexedCsvData::getRow(const std::string& rowName) const
+    const IndexedCsvData::RowType& IndexedCsvData::getRow(const std::string_view rowName) const
     {
         return getRow(getRowIndex(rowName));
     }
@@ -291,7 +291,7 @@ namespace CsvService
         return rowData[columnIndex];
     }
 
-    const IndexedCsvData::CellType& IndexedCsvData::getCell(const std::string& rowName, const std::string& columnName) const
+    const IndexedCsvData::CellType& IndexedCsvData::getCell(const std::string_view rowName, const std::string_view columnName) const
     {
         const auto& rowData = getRow(rowName);
         return rowData[getColumnIndex(columnName)];
