@@ -37,6 +37,10 @@
         ErrorService::setError( ApiStatusCode::CRITICAL_ABORT, "Undefined Error" ); \
         return errorValue; \
     }
+#define CATCH_ALL_OWN(errorValue) \
+    CATCH_ABSTRACT_ERROR(errorValue) \
+    CATCH_STD_EXCEPTION(errorValue) \
+    CATCH_ANYTHING(errorValue)
 
 #define CATCH_EM_ALL(errorValue) \
     CATCH_ABSTRACT_ERROR(errorValue) \

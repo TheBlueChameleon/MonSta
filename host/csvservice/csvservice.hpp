@@ -2,29 +2,38 @@
 #define CSVSERVICE_HPP
 
 #include <filesystem>
+#include <string>
+#include <string_view>
+#include <unordered_map>
+#include <vector>
 
-namespace rapidcsv
-{
-    class Document;
-}
+#include <services/ICsvService.hpp>
 
 namespace CsvService
 {
-    void setHeaderColumnId(const int id);
-    void setHeaderRowId(const int id);
+    class IndexedCsvFile
+    {
+        private:
+            std::string origin;
+            std::vector<std::vector<std::string>> cells;
+            std::unordered_map<std::string, int> columnNames;
 
-    void setSeparator(const char separator);
-    void setTrim(const bool trim);
-    void setHasCR(const bool hasCR);
-    void setQuotedLineBreaks(const bool quotedLineBreaks);
-    void setAutoQuote(const bool autoQuote);
-    void setQuoteChar(const char quoteChar);
+            void analyze(std::istream& stream);
 
-    void setSkipCommentLines(const bool skipComments);
-    void setCommentIndicator(const char commentIndicator);
-    void setSkipEmptyLines(const bool skipEmptyLines);
+        public:
+            IndexedCsvFile(
+                const std::filesystem::path& source,
+                const ICsvService::CsvOptions csvOptions = ICsvService::CsvOptions()
+            );
+            IndexedCsvFile(
+                const std::string& rawContent,
+                const std::string& origin,
+                const ICsvService::CsvOptions csvOptions = ICsvService::CsvOptions()
+            );
 
-    rapidcsv::Document read(const std::filesystem::path& file);
+            const std::string& getOrigin() const;
+            const std::vector<std::vector<std::string>>& getCells() const;
+    };
 }
 
 #endif // CSVSERVICE_HPP

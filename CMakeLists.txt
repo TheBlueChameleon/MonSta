@@ -46,12 +46,6 @@ FetchContent_Declare(
   SYSTEM
 )
 FetchContent_Declare(
-    rapidcsv
-    GIT_REPOSITORY https://github.com/d99kris/rapidcsv
-    GIT_TAG        "v8.92"
-    GIT_SHALLOW    true
-)
-FetchContent_Declare(
     spdlog
     GIT_REPOSITORY https://github.com/gabime/spdlog
     GIT_TAG        "v1.15.3"
@@ -69,9 +63,10 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(argparse)
 FetchContent_MakeAvailable(json)
 FetchContent_MakeAvailable(json-schema-validator)
-FetchContent_MakeAvailable(rapidcsv)
 FetchContent_MakeAvailable(spdlog)
 FetchContent_MakeAvailable(googletest)
+
+add_subdirectory(libcsv)
 
 # ============================================================================ #
 # source file definitions
@@ -87,6 +82,7 @@ set(apiHeaders
     api/HostApi.hpp
     api/Version.hpp
 
+    api/services/ICsvService.hpp
     api/services/IErrorService.hpp
     api/services/IFileService.hpp
     api/services/IJsonService.hpp
@@ -117,6 +113,10 @@ target_include_directories(Host-CsvService
     PUBLIC host
     PUBLIC api
     PUBLIC ${rapidcsv_SOURCE_DIR}/src
+)
+
+target_link_libraries(Host-CsvService
+    PRIVATE csv_backbone
 )
 
 # ............................................................................ #
@@ -350,6 +350,8 @@ enable_testing()
 add_executable(Test
     test/main.cpp
 
+    test/csvservice/csvservicetest.hpp                      test/csvservice/csvservicetest.cpp
+
     test/fileservice/fileservicetest.hpp                    test/fileservice/fileservicetest.cpp
     test/fileservice/fileservicedatabasetest.hpp            test/fileservice/fileservicedatabasetest.cpp
 
@@ -377,6 +379,7 @@ target_link_libraries(Test
     GTest::gtest_main
     nlohmann_json::nlohmann_json
     nlohmann_json_schema_validator
+    Host-CsvService
     Host-ErrorService
     Host-FileService
     Host-JsonService

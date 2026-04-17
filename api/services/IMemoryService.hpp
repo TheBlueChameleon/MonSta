@@ -1,7 +1,7 @@
 #ifndef IMEMORYSERVICE_H
 #define IMEMORYSERVICE_H
 
-#include <stddef.h>
+#include <cstddef>
 
 #include <CallingConventions.hpp>
 

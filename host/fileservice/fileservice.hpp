@@ -34,6 +34,7 @@ namespace FileService
     void setInputBasePath(const std::filesystem::path& newBase);
     void setOutputBasePath(const std::filesystem::path& newBase);
 
+    std::ifstream getInputStream(const std::filesystem::path& filename);
     std::string read(const std::filesystem::path& filename);
 
     void write(const std::filesystem::path& filename, const std::string_view content);

@@ -123,6 +123,11 @@ namespace FileService
         }
     }
 
+    std::ifstream getInputStream(const std::filesystem::__cxx11::path& filename)
+    {
+        return database.getReadStream(filename);
+    }
+
     std::string read(const std::filesystem::__cxx11::path& filename)
     {
         auto stream = database.getReadStream(filename);
@@ -153,4 +158,5 @@ namespace FileService
     {
         return database.getCreatedFileInfo();
     }
+
 }

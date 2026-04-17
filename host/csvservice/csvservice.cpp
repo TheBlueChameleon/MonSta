@@ -1,81 +1,45 @@
-#include <rapidcsv.h>
+#include <fstream>
+
+#include <csv.h>
 
 #include "fileservice/fileservice.hpp"
 
 #include "csvservice.hpp"
 
-using namespace rapidcsv;
-
 namespace CsvService
 {
-    LabelParams labelParams;
-    SeparatorParams separatorParams;
-    LineReaderParams lineReaderParams;
+    void IndexedCsvFile::analyze(std::istream& stream)
+    {}
 
-    void setHeaderColumnId(const int id)
+    IndexedCsvFile::IndexedCsvFile(
+        const std::filesystem::__cxx11::path& source,
+        const ICsvService::CsvOptions csvOptions
+    ) :
+        origin(source)
     {
-        labelParams.mColumnNameIdx = id;
+        auto f = FileService::getInputStream(source);
+        analyze(f);
     }
 
-    void setHeaderRowId(const int id)
+    IndexedCsvFile::IndexedCsvFile(
+        const std::string& rawContent,
+        const std::string& origin,
+        const ICsvService::CsvOptions csvOptions
+    ) :
+        origin(origin)
     {
-        labelParams.mRowNameIdx = id;
+        std::istringstream data(rawContent);
+        analyze(data);
     }
 
-    void setSeparator(const char separator)
+    const std::string& IndexedCsvFile::getOrigin() const
     {
-        separatorParams.mSeparator = separator;
+        return origin;
     }
 
-    void setTrim(const bool trim)
+    const std::vector<std::vector<std::string> >& IndexedCsvFile::getCells() const
     {
-        separatorParams.mTrim = trim;
-    }
-
-    void setHasCR(const bool hasCR)
-    {
-        separatorParams.mHasCR = hasCR;
-    }
-
-    void setQuotedLineBreaks(const bool quotedLineBreaks)
-    {
-        separatorParams.mQuotedLinebreaks = quotedLineBreaks;
-    }
-
-    void setAutoQuote(const bool autoQuote)
-    {
-        separatorParams.mAutoQuote = autoQuote;
-    }
-
-    void setQuoteChar(const char quoteChar)
-    {
-        separatorParams.mQuoteChar = quoteChar;
-    }
-
-    void setSkipCommentLines(const bool skipComments)
-    {
-        lineReaderParams.mSkipCommentLines = skipComments;
-    }
-
-    void setCommentIndicator(const char commentIndicator)
-    {
-        lineReaderParams.mCommentPrefix = commentIndicator;
-    }
-
-    void setSkipEmptyLines(const bool skipEmptyLines)
-    {
-        lineReaderParams.mSkipEmptyLines = skipEmptyLines;
-    }
-
-    Document read(const std::filesystem::__cxx11::path& file)
-    {
-        return Document(
-                   FileService::getInputBasePath() / file,
-                   labelParams,
-                   separatorParams,
-                   ConverterParams(),
-                   lineReaderParams
-               );
+        return cells;
     }
 
 }
