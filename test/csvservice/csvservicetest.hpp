@@ -6,7 +6,7 @@
 class CsvServiceTest : public testing::Test
 {
     protected:
-        CsvServiceTest();
+        CsvServiceTest() = default;
 };
 
 #endif // CSVSERVICETEST_HPP

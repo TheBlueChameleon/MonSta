@@ -11,6 +11,8 @@ namespace CsvService
     {
         void* data;
     };
+
+
 }
 
 #endif // CSVSERVICE_DLX_HPP

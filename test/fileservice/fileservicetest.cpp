@@ -2,17 +2,20 @@
 #include <thread>
 using namespace std::literals::chrono_literals;
 
-#include "loggerservice/loggerservice.hpp"
+#include "errorservice/errors.hpp"
 
 #include "fileservice/debugstream.hpp"
 #include "fileservice/fileservice.hpp"
 #include "fileservice/fileservicedatabase.hpp"
 #include "fileservice/fileserviceoperations.hpp"
 #include "fileservice/synchronizedostream.hpp"
-using namespace FileService;
 #include "fileservicetest.hpp"
 
+#include "loggerservice/loggerservice.hpp"
+
 #include "serviceadapters/loggerserviceadapter.hpp"
+
+using namespace FileService;
 
 std::filesystem::path FileServiceTest::home = std::filesystem::current_path();
 std::filesystem::path FileServiceTest::temp = std::filesystem::temp_directory_path() / "FileServiceTest";
@@ -51,8 +54,9 @@ TEST_F(FileServiceTest, IOPaths_SetNonExisting)
     const std::filesystem::path nonExisting = temp / "valid/relative/path";
 
     // when
-    FileService::setInputBasePath(nonExisting);
-    FileService::setOutputBasePath(nonExisting);
+    EXPECT_THROW(FileService::setInputBasePath(nonExisting), InvalidUserInput);
+
+    EXPECT_THROW(FileService::setOutputBasePath(nonExisting), InvalidUserInput);
 
     // then
     EXPECT_EQ(FileService::getInputBasePath(), temp);
@@ -67,7 +71,8 @@ TEST_F(FileServiceTest, IOPaths_SetNonExistingWithCreate)
     FileService::setCreateDirectories(true);
 
     // when
-    FileService::setInputBasePath(toBeCreated);
+    EXPECT_THROW(FileService::setInputBasePath(toBeCreated), InvalidUserInput);
+
     FileService::setOutputBasePath(toBeCreated);
 
     // then
