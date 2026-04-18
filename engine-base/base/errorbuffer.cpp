@@ -11,14 +11,6 @@ namespace EngineBase
         errorCode(errorCode), errorMessage(errorMessage)
     {}
 
-    ErrorBuffer::ErrorData::ErrorData(const EngineError& error) :
-        errorCode(error.getErrorCode()), errorMessage(error.what())
-    {}
-
-    ErrorBuffer::ErrorData::ErrorData(const std::exception& error) :
-        errorCode(ApiStatusCode::CRITICAL_ABORT), errorMessage(error.what())
-    {}
-
     // ====================================================================== //
     // ErrorBuffer
 
@@ -49,6 +41,21 @@ namespace EngineBase
         }
 
         return buffer.str();
+    }
+
+    void ErrorBuffer::append(ApiStatusCode errorCode, const std::string_view errorMessage)
+    {
+        errors.emplace_back(errorCode, errorMessage.data());
+    }
+
+    void ErrorBuffer::append(const EngineError& error)
+    {
+        append(error.getErrorCode(), error.what());
+    }
+
+    void ErrorBuffer::append(const std::exception& error)
+    {
+        append(ApiStatusCode::CRITICAL_ABORT, error.what());
     }
 
 } // namespace EngineBase

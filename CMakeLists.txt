@@ -329,10 +329,11 @@ add_library(Engine-Gen1 SHARED
     ${apiHeaders}
 
     engine-gen1/clientapi.cpp
-    engine-gen1/globals.hpp                     engine-gen1/globals.cpp
-    engine-gen1/schemavalidationconstants.hpp   engine-gen1/schemavalidationconstants.cpp
+    engine-gen1/globals.hpp                         engine-gen1/globals.cpp
+    engine-gen1/schemavalidationconstants.hpp       engine-gen1/schemavalidationconstants.cpp
 
     engine-gen1/simulationmode/simulationmode.hpp   engine-gen1/simulationmode/simulationmode.cpp
+    engine-gen1/simulationmode/registry.hpp         engine-gen1/simulationmode/registry.cpp
 
     engine-gen1/templatesmode/templatesmode.hpp     engine-gen1/templatesmode/templatesmode.cpp
 )

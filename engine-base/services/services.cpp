@@ -52,7 +52,6 @@ namespace Services
         {
             std::string errorMessage = EngineBase::_hostApi->errorService.getErrorMessage();
             EngineBase::_hostApi->errorService.clearError();
-
             throw EngineError(errCode, errorMessage.data());
         }
     }

@@ -20,8 +20,6 @@ namespace EngineBase
 
                 ErrorData() = default;
                 ErrorData(ApiStatusCode errorCode, std::string errorMessage);
-                ErrorData(const EngineError& error);
-                ErrorData(const std::exception& error);
             };
 
         private:
@@ -34,7 +32,7 @@ namespace EngineBase
             bool isClean() const;
             std::string compileErrorMessage() const;
 
-            void append(ApiStatusCode errorCode, std::string errorMessage);
+            void append(ApiStatusCode errorCode, const std::string_view errorMessage);
             void append(const EngineError& error);
             void append(const std::exception& error);
 
