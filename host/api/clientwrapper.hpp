@@ -70,7 +70,7 @@ class ClientWrapper
         void (HOST_API_CALL* _setCreateDirectories)(const bool createDirectories);
         void (HOST_API_CALL* _setDryMode)(const bool dryMode);
 
-        ITemplatesDefinition(HOST_API_CALL* _startTemplatesMode)(const ITemplatesDefinition* const templatesDefinition);
+        ITemplatesDefinition(HOST_API_CALL* _startTemplatesMode)(const ITemplatesDefinition templatesDefinition);
 
         // ------------------------------------------------------------------ //
         // Private Interface

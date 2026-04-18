@@ -279,5 +279,5 @@ void ClientWrapper::setDryMode(const bool dryMode)
 
 ITemplatesDefinition ClientWrapper::startTemplatesMode(const ITemplatesDefinition& templatesDefinition)
 {
-    return _startTemplatesMode(&templatesDefinition);
+    return _startTemplatesMode(templatesDefinition);
 }

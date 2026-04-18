@@ -28,7 +28,7 @@ HOST_API_EXPORT
     void HOST_API_CALL setCreateDirectories(const bool createDirectories);
     void HOST_API_CALL setDryMode(const bool dryMode);
 
-    ITemplatesDefinition HOST_API_CALL startTemplatesMode(const ITemplatesDefinition* const templatesDefinition);
+    ITemplatesDefinition HOST_API_CALL startTemplatesMode(const ITemplatesDefinition templatesDefinition);
 }
 
 // -------------------------------------------------------------------------- //

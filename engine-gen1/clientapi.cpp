@@ -18,11 +18,11 @@ HOST_API_EXPORT
     void HOST_API_CALL hangUp()
     {}
 
-    ITemplatesDefinition HOST_API_CALL startTemplatesMode(const ITemplatesDefinition* const templatesDefinition)
+    ITemplatesDefinition HOST_API_CALL startTemplatesMode(const ITemplatesDefinition templatesDefinition)
     {
         try
         {
-            return TemplateMode::run(*templatesDefinition);
+            return TemplateMode::run(templatesDefinition);
         }
         catch (const EngineError& e)
         {

@@ -5,7 +5,7 @@
     },
     "simulator" : {
         "engine": "./build-Desktop-Debug/libEngine-Gen1.so", // comment
-        "inputDirectory": "xinputs",
+        "inputDirectory": "inputs",
         "outputDirectory": "outputs"
     },
     "matchDefinition" : {
