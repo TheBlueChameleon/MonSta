@@ -8,6 +8,8 @@
 
 #include "errorservice/errors.hpp"
 
+#include "fileservice/fileservice.hpp"
+
 #include "jsonservice.hpp"
 #include "jsonservice_database_dlx.hpp"
 #include "jsonservice_itemaccess_dlx.hpp"
@@ -285,7 +287,7 @@ namespace JsonService
     {
         try
         {
-            std::ifstream hFile(file);
+            std::ifstream hFile(FileService::getInputBasePath() / file);
             return ordered_json::parse(hFile, nullptr, allowExceptions, allowComments);
         }
         catch (const nlohmann::ordered_json::exception& err)
