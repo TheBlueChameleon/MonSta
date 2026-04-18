@@ -48,7 +48,7 @@ namespace ErrorService
         const auto errCode = getErrorCode();
         if (errCode != ApiStatusCode::SUCCESS)
         {
-            std::string_view errorMessage = getErrorMessage();
+            std::string errorMessage = getErrorMessage().data();
             clearError();
 
             throw ClientSideError(errCode, errorMessage.data());
