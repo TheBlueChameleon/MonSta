@@ -37,7 +37,7 @@ HOST_API_EXPORT
     {
         try
         {
-            return SimulationMode::run(matchDefinition);
+            return SimulationMode::setupSimulationMode(matchDefinition);
         }
         catch (const EngineError& e)
         {

@@ -2,21 +2,23 @@
     "logging": {
         "loglevel" : "trace",
         "logfile": "logfile.txt"
+        /* inline comments are allowed */
+        // line end commetns are allowed
     },
     "simulator" : {
-        "engine": "./build-Desktop-Debug/libEngine-Gen1.so", // comment
+        "engine": "./build-Desktop-Debug/libEngine-Gen1.so",
         "inputDirectory": "inputs",
         "outputDirectory": "outputs"
     },
     "matchDefinition" : {
-        "mechanics": "",
-        "player1Team" : "",
-        "player1Strategy" : "",
-        "player2Team" : "",
-        "player2Strategy" : "",
-        "pkmnDefs" : "",
-        "moveDefs" : "",
-        "typeDefs" : "",
-        "itemDefs" : ""
+        "mechanics"       : "mechanicsDefs/minimal.json",
+        "player1Team"     : "teams/gen1_human_minimal.json",
+        "player1Strategy" : "strategies/gen1_minimal.lua",
+        "player2Team"     : "teams/gen1_computer_minimal.json",
+        "player2Strategy" : "strategies/gen1_minimal.lua",
+        "pkmnDefs"        : "pkmnDefs/gen1_minimal.csv",
+        "moveDefs"        : "moveDefs/gen1_minimal.csv",
+        "typeDefs"        : "typeDefs/gen1_minimal.csv",
+        "itemDefs"        : "itemDefs/gen1_minimal.csv"
     }
 }

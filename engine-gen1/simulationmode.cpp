@@ -4,7 +4,7 @@
 
 namespace SimulationMode
 {
-    void run(const IMatchDefinition& matchDefinition)
+    void setupSimulationMode(const IMatchDefinition& matchDefinition)
     {
         LoggerService::info("### hello ###");
     }

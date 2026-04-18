@@ -1,12 +1,12 @@
 {
     "human" : {
-        "name": "foo thy bar"
+        "name": "hooman"
     },
     "pokemon": [
         {
             "species" : "charmander",
             "level": 5,
-            "attack_1" : "scratch"
+            "attack_1" : "tackle"
         }
     ]
 }

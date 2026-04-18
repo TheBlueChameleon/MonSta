@@ -1,0 +1,12 @@
+{
+    "computer" : {
+        "name": "computer"
+    },
+    "pokemon": [
+        {
+            "species" : "charmander",
+            "level": 5,
+            "attack_1" : "scratch"
+        }
+    ]
+}

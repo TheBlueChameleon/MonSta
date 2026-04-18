@@ -298,6 +298,7 @@ add_library(Engine-Base STATIC
     engine-base/clientapi.cpp
 
     engine-base/errors.hpp                  engine-base/errors.cpp
+    engine-base/errorbuffer.hpp             engine-base/errorbuffer.cpp
     engine-base/enginebase.hpp              engine-base/enginebase.cpp
     engine-base/globals.hpp                 engine-base/globals.cpp
 
