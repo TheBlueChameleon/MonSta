@@ -1,6 +1,6 @@
 #include "globals.hpp"
 
-namespace Globals
+namespace EngineBase
 {
     HostApi* _hostApi;
 

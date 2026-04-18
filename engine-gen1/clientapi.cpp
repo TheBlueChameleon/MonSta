@@ -2,9 +2,9 @@
 #include <FeatureTags.hpp>
 #include <Version.hpp>
 
-#include "enginebase.hpp"
-#include "errors.hpp"
-#include "globals.hpp"
+#include "base/enginebase.hpp"
+#include "base/errors.hpp"
+#include "base/globals.hpp"
 
 #include "schemavalidationconstants.hpp"
 #include "templatesmode.hpp"
@@ -49,7 +49,7 @@ HOST_API_EXPORT
 bool init_engine()
 {
     LoggerService::debug("initializing engine data...");
-    Globals::supportedFeatures =
+    EngineBase::supportedFeatures =
     {
         FEATURE_SIMULATIONMODE_V1_0,
         FEATURE_TEMPLATEMODE_V1_0

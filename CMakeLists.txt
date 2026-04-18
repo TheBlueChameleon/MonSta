@@ -295,12 +295,12 @@ target_link_libraries(Host
 add_library(Engine-Base STATIC
     ${apiHeaders}
 
-    engine-base/clientapi.cpp
+    engine-base/base/clientapi.cpp
 
-    engine-base/errors.hpp                  engine-base/errors.cpp
-    engine-base/errorbuffer.hpp             engine-base/errorbuffer.cpp
-    engine-base/enginebase.hpp              engine-base/enginebase.cpp
-    engine-base/globals.hpp                 engine-base/globals.cpp
+    engine-base/base/errors.hpp             engine-base/base/errors.cpp
+    engine-base/base/errorbuffer.hpp        engine-base/base/errorbuffer.cpp
+    engine-base/base/enginebase.hpp         engine-base/base/enginebase.cpp
+    engine-base/base/globals.hpp            engine-base/base/globals.cpp
 
     engine-base/services/services.hpp       engine-base/services/services.cpp
     engine-base/services/csvservice.hpp     engine-base/services/csvservice.cpp
@@ -329,8 +329,9 @@ add_library(Engine-Gen1 SHARED
     ${apiHeaders}
 
     engine-gen1/clientapi.cpp
-    engine-gen1/schemavalidationconstants.hpp   engine-gen1/schemavalidationconstants.cpp
+    engine-gen1/globals.hpp                     engine-gen1/globals.cpp
     engine-gen1/templatesmode.hpp               engine-gen1/templatesmode.cpp
+    engine-gen1/schemavalidationconstants.hpp   engine-gen1/schemavalidationconstants.cpp
     engine-gen1/simulationmode.hpp              engine-gen1/simulationmode.cpp
 )
 

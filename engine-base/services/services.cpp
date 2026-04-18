@@ -4,54 +4,54 @@
 
 #include "services/services.hpp"
 
-#include "errors.hpp"
-#include "globals.hpp"
+#include "base/errors.hpp"
+#include "base/globals.hpp"
 
 namespace Services
 {
     const ICsvService& csvService()
     {
-        Globals::_hostApi->errorService.clearError;
-        return Globals::_hostApi->csvService;
+        EngineBase::_hostApi->errorService.clearError;
+        return EngineBase::_hostApi->csvService;
     }
 
     const IErrorService& errorService()
     {
-        Globals::_hostApi->errorService.clearError;
-        return Globals::_hostApi->errorService;
+        EngineBase::_hostApi->errorService.clearError;
+        return EngineBase::_hostApi->errorService;
     }
 
     const IFileService& fileService()
     {
-        Globals::_hostApi->errorService.clearError;
-        return Globals::_hostApi->fileService;
+        EngineBase::_hostApi->errorService.clearError;
+        return EngineBase::_hostApi->fileService;
     }
 
     const IJsonService& jsonService()
     {
-        Globals::_hostApi->errorService.clearError;
-        return Globals::_hostApi->jsonService;
+        EngineBase::_hostApi->errorService.clearError;
+        return EngineBase::_hostApi->jsonService;
     }
 
     const ILoggerService& loggerService()
     {
-        Globals::_hostApi->errorService.clearError;
-        return Globals::_hostApi->loggerService;
+        EngineBase::_hostApi->errorService.clearError;
+        return EngineBase::_hostApi->loggerService;
     }
 
     const IMemoryService& memoryService()
     {
-        Globals::_hostApi->errorService.clearError;
-        return Globals::_hostApi->memoryService;
+        EngineBase::_hostApi->errorService.clearError;
+        return EngineBase::_hostApi->memoryService;
     }
 
     void rethrowHostError()
     {
-        const auto errCode = Globals::_hostApi->errorService.getErrorCode();
+        const auto errCode = EngineBase::_hostApi->errorService.getErrorCode();
         if (errCode != ApiStatusCode::SUCCESS)
         {
-            std::string errorMessage = Globals::_hostApi->errorService.getErrorMessage();
-            Globals::_hostApi->errorService.clearError();
+            std::string errorMessage = EngineBase::_hostApi->errorService.getErrorMessage();
+            EngineBase::_hostApi->errorService.clearError();
 
             throw EngineError(errCode, errorMessage.data());
         }

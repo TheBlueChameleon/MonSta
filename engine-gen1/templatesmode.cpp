@@ -6,6 +6,7 @@
 #include "services/jsonservice.hpp"
 #include "services/loggerservice.hpp"
 
+#include "globals.hpp"
 #include "schemavalidationconstants.hpp"
 #include "templatesmode.hpp"
 
@@ -25,7 +26,7 @@ namespace TemplateMode
             return inputName;
         }
 
-        const auto tagName = SchemaValidation::jtag_base + defaultName.data();
+        const auto tagName = Globals::jtag_base + defaultName.data();
         const auto handle = JsonService::parseValidatePatchAndAdd(
                                 IJsonServiceTypes::JsonTag(tagName.data()),
                                 "{}",
@@ -54,7 +55,7 @@ namespace TemplateMode
             return inputName;
         }
 
-        const auto tagName = SchemaValidation::jtag_base + defaultName.data();
+        const auto tagName = Globals::jtag_base + defaultName.data();
         const auto explicitFields = "{"s +
                                     quote(playerType) + " : " + "{" + quote(SchemaValidation::JKEY_PLAYER_NAME) + " : " + quote(UNDEFINED) + "}," +
                                     quote(SchemaValidation::JKEY_POKEMON) + ": [{" +

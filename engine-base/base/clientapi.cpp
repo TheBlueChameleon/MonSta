@@ -9,11 +9,6 @@
 
 #include "globals.hpp"
 
-namespace Globals
-{
-    extern HostApi* _hostApi;
-}
-
 static bool allErrorServicesPresent(const IErrorService& es)
 {
     // *INDENT-OFF*
@@ -80,33 +75,33 @@ HOST_API_EXPORT
             return abortInit(hostApi, "Not all VersionUtils have been initialized!");
         }
 
-        Globals::_hostApi = hostApi;
+        EngineBase::_hostApi = hostApi;
 
         return init_engine();
     }
 
     bool HOST_API_CALL hasFeature(const char* const featureTag)
     {
-        return Globals::supportedFeatures.contains(featureTag);
+        return EngineBase::supportedFeatures.contains(featureTag);
     }
 
     void HOST_API_CALL terminateAbnormally()
     {
-        Globals::abnormalTerminationRequest = true;
+        EngineBase::abnormalTerminationRequest = true;
     }
 
     void HOST_API_CALL setOverwrite(const bool overwrite)
     {
-        Globals::overwriteFiles = overwrite;
+        EngineBase::overwriteFiles = overwrite;
     }
 
     void HOST_API_CALL setCreateDirectories(const bool createDirectories)
     {
-        Globals::createDirectories = createDirectories;
+        EngineBase::createDirectories = createDirectories;
     }
 
     void HOST_API_CALL setDryMode(const bool dryMode)
     {
-        Globals::dryMode = dryMode;
+        EngineBase::dryMode = dryMode;
     }
 }

@@ -6,7 +6,7 @@
 
 struct HostApi;
 
-namespace Globals
+namespace EngineBase
 {
     extern std::set<std::string> supportedFeatures;
 

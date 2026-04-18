@@ -13,7 +13,6 @@ namespace SchemaValidation
     const auto filename_mechanicsDefinitionSchema = "mechanicsDefinitionSchema.json";
     const auto filename_teamDefinitionSchema      = "teamDefinitionSchema.json";
 
-    extern const std::string jtag_base;
     extern const std::string jtag_mechanicsDefinition;
     extern const std::string jtag_teamDefinition;
 

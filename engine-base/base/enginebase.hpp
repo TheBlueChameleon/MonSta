@@ -4,6 +4,8 @@
 #include <string>
 #include <unordered_map>
 
+#include "errorbuffer.hpp"
+
 struct EngineError;
 
 namespace EngineBase
