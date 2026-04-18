@@ -8,6 +8,7 @@
 
 #include "schemavalidationconstants.hpp"
 #include "templatesmode.hpp"
+#include "simulationmode.hpp"
 
 HOST_API_EXPORT
 {
@@ -30,6 +31,18 @@ HOST_API_EXPORT
         }
 
         return ITemplatesDefinition{};
+    }
+
+    void HOST_API_CALL setupSimulationMode(const IMatchDefinition matchDefinition)
+    {
+        try
+        {
+            return SimulationMode::run(matchDefinition);
+        }
+        catch (const EngineError& e)
+        {
+            EngineBase::passExceptionToHost(e);
+        }
     }
 }
 

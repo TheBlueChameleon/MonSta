@@ -11,6 +11,7 @@
 #include <Version.hpp>
 
 #include <runmodes/ITemplatesDefinition.hpp>
+#include <runmodes/IMatchDefinition.hpp>
 
 #include "hostapiprovider.hpp"
 
@@ -60,17 +61,18 @@ class ClientWrapper
         const Version* _MIN_HOST_VERSION;
         const Version* _MAX_HOST_VERSION;
 
-        bool(HOST_API_CALL* _init)(HostApi* hostApi);
-        void(HOST_API_CALL* _hangUp)();
+        bool(*HOST_API_CALL _init)(HostApi* hostApi);
+        void(*HOST_API_CALL _hangUp)();
 
-        bool (HOST_API_CALL* _hasFeature)(const char* const featureTag);
-        void (HOST_API_CALL* _terminateAbnormally)();
+        bool (*HOST_API_CALL _hasFeature)(const char* const featureTag);
+        void (*HOST_API_CALL _terminateAbnormally)();
 
-        void (HOST_API_CALL* _setOverwrite)(const bool overwrite);
-        void (HOST_API_CALL* _setCreateDirectories)(const bool createDirectories);
-        void (HOST_API_CALL* _setDryMode)(const bool dryMode);
+        void (*HOST_API_CALL _setOverwrite)(const bool overwrite);
+        void (*HOST_API_CALL _setCreateDirectories)(const bool createDirectories);
+        void (*HOST_API_CALL _setDryMode)(const bool dryMode);
 
-        ITemplatesDefinition(HOST_API_CALL* _startTemplatesMode)(const ITemplatesDefinition templatesDefinition);
+        ITemplatesDefinition(*HOST_API_CALL _startTemplatesMode)(const ITemplatesDefinition templatesDefinition);
+        void (*HOST_API_CALL _setupSimulationMode)(const IMatchDefinition matchDefinition);
 
         // ------------------------------------------------------------------ //
         // Private Interface
@@ -104,6 +106,7 @@ class ClientWrapper
         void setDryMode(const bool dryMode);
 
         ITemplatesDefinition startTemplatesMode(const ITemplatesDefinition& templatesDefinition);
+        void setupSimulationMode(const IMatchDefinition simulationModeDefinition);
 };
 
 #endif // CLIENTWRAPPER_HPP

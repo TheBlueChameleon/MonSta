@@ -96,6 +96,7 @@ void ClientWrapper::extractSymbols()
     FETCH(setDryMode);
 
     FETCH(startTemplatesMode);
+    FETCH(setupSimulationMode);
 
     LoggerService::trace("... SUCCESS!");
 }
@@ -280,4 +281,9 @@ void ClientWrapper::setDryMode(const bool dryMode)
 ITemplatesDefinition ClientWrapper::startTemplatesMode(const ITemplatesDefinition& templatesDefinition)
 {
     return _startTemplatesMode(templatesDefinition);
+}
+
+void ClientWrapper::setupSimulationMode(const IMatchDefinition simulationModeDefinition)
+{
+    return _setupSimulationMode(simulationModeDefinition);
 }

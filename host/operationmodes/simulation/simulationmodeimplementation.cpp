@@ -18,5 +18,7 @@ namespace OperationModes
 
         auto cw = ClientWrapper(defs.simulator.engine);
         setupClientWriteOptions(cw, defs);
+
+        cw.setupSimulationMode({});
     }
 }

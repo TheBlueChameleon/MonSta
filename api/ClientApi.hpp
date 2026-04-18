@@ -6,6 +6,7 @@
 #include <Version.hpp>
 
 #include <runmodes/ITemplatesDefinition.hpp>
+#include <runmodes/IMatchDefinition.hpp>
 
 // ========================================================================== //
 // exported to host
@@ -29,6 +30,7 @@ HOST_API_EXPORT
     void HOST_API_CALL setDryMode(const bool dryMode);
 
     ITemplatesDefinition HOST_API_CALL startTemplatesMode(const ITemplatesDefinition templatesDefinition);
+    void HOST_API_CALL setupSimulationMode(const IMatchDefinition matchDefinition);
 }
 
 // -------------------------------------------------------------------------- //
