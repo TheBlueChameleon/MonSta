@@ -91,6 +91,14 @@ IllegalHostStateException::IllegalHostStateException(const std::string_view msg)
     HostSideError(ApiStatusCode::ILLEGAL_HOST_STATE, msg)
 {}
 
+IOError::IOError() :
+    IOError("I/O Error")
+{}
+
+IOError::IOError(const std::string_view msg) :
+    HostSideError(ApiStatusCode::IO_ERROR, msg)
+{}
+
 LookupError::LookupError() :
     LookupError("Requested Item not found.")
 {}

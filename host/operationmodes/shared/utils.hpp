@@ -23,7 +23,7 @@ namespace OperationModes
     const TemplateModeDefinition&       getAsTemplateModeDefinition(const std::shared_ptr<const BaseModeDefinition>& defs);
 
     void setupLoggerService(const LoggingDefinition& definition);
-    void setupFileService(const BaseModeDefinition& definition, const std::filesystem::path& outputDirectory);
+    void setupFileService(const BaseModeDefinition& definition, const std::filesystem::path& outputDirectory, const std::filesystem::path& inputDirectory = "");
     void setupClientWriteOptions(ClientWrapper& cw, const BaseModeDefinition& runDefinition);
 }
 

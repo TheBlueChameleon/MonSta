@@ -5,10 +5,11 @@
     },
     "simulator" : {
         "engine": "./build-Desktop-Debug/libEngine-Gen1.so", // comment
-        "inputDirectory": "value",
-        "outputDirectory": "value"
+        "inputDirectory": "xinputs",
+        "outputDirectory": "outputs"
     },
     "matchDefinition" : {
+        "mechanics": "",
         "player1Team" : "",
         "player1Strategy" : "",
         "player2Team" : "",

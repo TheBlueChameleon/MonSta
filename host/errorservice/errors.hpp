@@ -95,6 +95,15 @@ class IllegalHostStateException : public HostSideError
         IllegalHostStateException(const std::string_view msg);
 };
 
+class IOError : public HostSideError
+{
+    public:
+        using HostSideError::HostSideError;
+
+        IOError();
+        IOError(const std::string_view msg);
+};
+
 class LookupError : public HostSideError
 {
     public:

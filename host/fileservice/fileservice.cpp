@@ -102,7 +102,7 @@ namespace FileService
         }
         else
         {
-            throw InvalidUserInput(
+            throw IOError(
                 "Invalid input directory: "s  + newBase.c_str()
             );
         }
@@ -117,7 +117,7 @@ namespace FileService
         }
         else
         {
-            throw InvalidUserInput(
+            throw IOError(
                 "Invalid output directory: "s  + newBase.c_str()
             );
         }

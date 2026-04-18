@@ -1,7 +1,5 @@
 #include <string>
 
-using namespace std::string_literals;
-
 #include "errorservice/errors.hpp"
 
 #include "fileservice/fileservice.hpp"
@@ -17,6 +15,8 @@ using namespace std::string_literals;
 #include "operationmodes/template/templatemodedefinition.hpp"
 
 #include "utils.hpp"
+
+using namespace std::string_literals;
 
 namespace OperationModes
 {
@@ -69,13 +69,32 @@ namespace OperationModes
         LoggerService::setLogLevel(definition.loglevel);
     }
 
-    void setupFileService(const BaseModeDefinition& definition, const std::filesystem::__cxx11::path& outputDirectory)
+    void setupFileService(
+        const BaseModeDefinition& definition,
+        const std::filesystem::__cxx11::path& outputDirectory,
+        const std::filesystem::__cxx11::path& inputDirectory
+    )
     {
         FileService::setOverwrite(definition.overwrite);
         FileService::setCreateDirectories(definition.createDirectories);
         FileService::setDryMode(definition.dryMode);
 
-        FileService::setOutputBasePath(outputDirectory);
+        try
+        {
+            FileService::setOutputBasePath(outputDirectory);
+
+            if (!inputDirectory.empty())
+            {
+                FileService::setInputBasePath(inputDirectory);
+            }
+        }
+        catch (const IOError& e)
+        {
+            throw InvalidUserInput(
+                "Error while processing run configuration:\n"s +
+                e.what()
+            );
+        }
     }
 
     void setupClientWriteOptions(ClientWrapper& cw, const BaseModeDefinition& runDefinition)
