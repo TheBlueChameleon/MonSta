@@ -330,9 +330,11 @@ add_library(Engine-Gen1 SHARED
 
     engine-gen1/clientapi.cpp
     engine-gen1/globals.hpp                     engine-gen1/globals.cpp
-    engine-gen1/templatesmode.hpp               engine-gen1/templatesmode.cpp
     engine-gen1/schemavalidationconstants.hpp   engine-gen1/schemavalidationconstants.cpp
-    engine-gen1/simulationmode.hpp              engine-gen1/simulationmode.cpp
+
+    engine-gen1/simulationmode/simulationmode.hpp   engine-gen1/simulationmode/simulationmode.cpp
+
+    engine-gen1/templatesmode/templatesmode.hpp     engine-gen1/templatesmode/templatesmode.cpp
 )
 
 target_link_libraries(Engine-Gen1 PUBLIC
@@ -340,7 +342,8 @@ target_link_libraries(Engine-Gen1 PUBLIC
 )
 
 target_include_directories(Engine-Gen1
-    PUBLIC "engine-base"
+    PUBLIC engine-gen1
+    PUBLIC engine-base
     PUBLIC api
 )
 

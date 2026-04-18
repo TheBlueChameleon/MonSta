@@ -7,8 +7,10 @@
 #include "base/globals.hpp"
 
 #include "schemavalidationconstants.hpp"
-#include "templatesmode.hpp"
-#include "simulationmode.hpp"
+
+#include "simulationmode/simulationmode.hpp"
+
+#include "templatesmode/templatesmode.hpp"
 
 HOST_API_EXPORT
 {
