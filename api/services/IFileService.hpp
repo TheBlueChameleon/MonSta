@@ -1,8 +1,6 @@
 #ifndef IFILESERVICE_H
 #define IFILESERVICE_H
 
-#include <stddef.h>
-
 #include <CallingConventions.hpp>
 
 #include <services/IMemoryService.hpp>

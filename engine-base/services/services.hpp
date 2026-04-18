@@ -1,6 +1,7 @@
 #ifndef SERVICES_HPP
 #define SERVICES_HPP
 
+#include <services/ICsvService.hpp>
 #include <services/IErrorService.hpp>
 #include <services/IFileService.hpp>
 #include <services/IJsonService.hpp>
@@ -13,6 +14,7 @@ namespace Services
 {
     void rethrowHostError();
 
+    const ICsvService&    csvService();
     const IErrorService&  errorService();
     const IFileService&   fileService();
     const IJsonService&   jsonService();

@@ -9,6 +9,12 @@
 
 namespace Services
 {
+    const ICsvService& csvService()
+    {
+        Globals::_hostApi->errorService.clearError;
+        return Globals::_hostApi->csvService;
+    }
+
     const IErrorService& errorService()
     {
         Globals::_hostApi->errorService.clearError;

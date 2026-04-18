@@ -32,7 +32,7 @@ struct ICsvService
         size_t    size;
     };
 
-    CsvHandle(*const HOST_API_CALL readCsvData)(
+    ICsvService::CsvHandle(*const HOST_API_CALL readCsvData)(
         const char* const filename,
         const ICsvService::CsvOptions csvOptions
     );
