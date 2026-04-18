@@ -10,9 +10,9 @@
 
 struct IJsonService
 {
-    IJsonService_Database database;
-    IJsonService_ItemAccess itemAccess;
-    IJsonService_SchemaBuilder schemaBuilder;
+    const IJsonService_Database database;
+    const IJsonService_ItemAccess itemAccess;
+    const IJsonService_SchemaBuilder schemaBuilder;
 };
 
 #endif // IJSONSERVICE_HPP

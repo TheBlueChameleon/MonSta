@@ -10,12 +10,48 @@
 #include "fileservice/fileservice.hpp"
 
 #include "csvservice.hpp"
+#include "csvservice_dlx.hpp"
 
 #include <utility>
 using namespace std::string_literals;
 
 namespace CsvService
 {
+    // ====================================================================== //
+    // Export
+
+    const ICsvService exportService()
+    {
+        return ICsvService
+        {
+            readCsvData_dlx,
+            parseCsvData_dlx,
+            freeCsvData_dlx,
+
+            getOrigin_dlx,
+            getRowCount_dlx,
+            getMaxWidth_dlx,
+            getRowWidth_dlx,
+
+            getRowIndex_dlx,
+            getColumnIndex_dlx,
+
+            reIndexRows_dlx,
+            reIndexColumns_dlx,
+
+            reserveRowBuffer_dlx,
+            freeRowBuffer_dlx,
+
+            getRow_dlx,
+            getRowByName_dlx,
+            getCell_dlx,
+            getCellByName_dlx
+        };
+    }
+
+    // ====================================================================== //
+    // IndexedCsvData
+
     struct InsertionBuffer
     {
         IndexedCsvData::RowType currentLine;

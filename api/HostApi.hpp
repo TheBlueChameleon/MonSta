@@ -3,6 +3,7 @@
 
 #include "Version.hpp"
 
+#include "services/ICsvService.hpp"
 #include "services/IErrorService.hpp"
 #include "services/IFileService.hpp"
 #include "services/IJsonService.hpp"
@@ -14,6 +15,7 @@ struct HostApi
 {
     const Version           hostVersion;
 
+    const ICsvService       csvService;
     const IErrorService     errorService;
     const IFileService      fileService;
     const IJsonService      jsonService;

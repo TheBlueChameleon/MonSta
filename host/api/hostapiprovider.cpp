@@ -7,6 +7,7 @@
 
 #include "constants.hpp"
 
+#include "csvservice/csvservice.hpp"
 #include "errorservice/errorservice.hpp"
 #include "fileservice/fileservice.hpp"
 #include "jsonservice/jsonservice.hpp"
@@ -24,6 +25,7 @@ namespace HostApiProvider
         {
             HOST_VERSION,
 
+            CsvService::exportService(),
             ErrorService::exportService(),
             FileService::exportService(),
             JsonService::exportService(),

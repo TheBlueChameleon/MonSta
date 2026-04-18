@@ -11,7 +11,7 @@
 
 namespace JsonService
 {
-    IJsonService exportService();
+    const IJsonService exportService();
 
     // ---------------------------------------------------------------------- //
     // JsonDatabase

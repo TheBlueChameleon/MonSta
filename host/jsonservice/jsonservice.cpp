@@ -28,7 +28,7 @@ namespace JsonService
     // ====================================================================== //
     // Export
 
-    IJsonService exportService()
+    const IJsonService exportService()
     {
         return IJsonService
         {

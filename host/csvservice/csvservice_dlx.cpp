@@ -30,7 +30,7 @@ namespace CsvService
         }
     }
 
-    static void assertSaneHandle(const CsvHandle handle)
+    static void assertSaneHandle(const ICsvService::CsvHandle handle)
     {
         if (handle.data == nullptr)
         {
@@ -38,12 +38,12 @@ namespace CsvService
         }
     }
 
-    static const IndexedCsvData& toCsvData(const CsvHandle handle)
+    static const IndexedCsvData& toCsvData(const ICsvService::CsvHandle handle)
     {
         return *static_cast<const IndexedCsvData*>(handle.data);
     }
 
-    static IndexedCsvData& toCsvDataMutable(CsvHandle handle)
+    static IndexedCsvData& toCsvDataMutable(ICsvService::CsvHandle handle)
     {
         return *static_cast<IndexedCsvData*>(handle.data);
     }
@@ -69,32 +69,32 @@ namespace CsvService
     // ====================================================================== //
     // exported methods
 
-    CsvHandle HOST_API_CALL readCsvData_dlx(const char* const filename, const ICsvService::CsvOptions csvOptions)
+    ICsvService::CsvHandle readCsvData_dlx(const char* const filename, const ICsvService::CsvOptions csvOptions)
     {
         try
         {
             assertSaneString(filename);
-            CsvHandle result;
+            ICsvService::CsvHandle result;
             result.data = new IndexedCsvData(filename, csvOptions);
             return result;
         }
-        CATCH_ALL_OWN(CsvHandle{nullptr})
+        CATCH_ALL_OWN(ICsvService::CsvHandle{nullptr})
     }
 
-    CsvHandle HOST_API_CALL parseCsvData_dlx(const char* const rawData, const char* const origin, const ICsvService::CsvOptions csvOptions)
+    ICsvService::CsvHandle parseCsvData_dlx(const char* const rawData, const char* const origin, const ICsvService::CsvOptions csvOptions)
     {
         try
         {
             assertSaneString(rawData);
             assertSaneString(origin);
-            CsvHandle result;
+            ICsvService::CsvHandle result;
             result.data = new IndexedCsvData(rawData, origin, csvOptions);
             return result;
         }
-        CATCH_ALL_OWN(CsvHandle{nullptr})
+        CATCH_ALL_OWN(ICsvService::CsvHandle{nullptr})
     }
 
-    void HOST_API_CALL freeCsvData_dlx(CsvHandle* handle)
+    void HOST_API_CALL freeCsvData_dlx(ICsvService::CsvHandle* handle)
     {
         try
         {
@@ -106,7 +106,7 @@ namespace CsvService
         CATCH_ALL_OWN()
     }
 
-    const char* HOST_API_CALL getOrigin_dlx(const CsvHandle handle)
+    const char* HOST_API_CALL getOrigin_dlx(const ICsvService::CsvHandle handle)
     {
         try
         {
@@ -116,7 +116,7 @@ namespace CsvService
         CATCH_ALL_OWN(nullptr)
     }
 
-    const size_t HOST_API_CALL getRowCount_dlx(const CsvHandle handle)
+    const size_t HOST_API_CALL getRowCount_dlx(const ICsvService::CsvHandle handle)
     {
         try
         {
@@ -126,7 +126,7 @@ namespace CsvService
         CATCH_ALL_OWN(0)
     }
 
-    const size_t HOST_API_CALL getMaxWidth_dlx(const CsvHandle handle)
+    const size_t HOST_API_CALL getMaxWidth_dlx(const ICsvService::CsvHandle handle)
     {
         try
         {
@@ -136,7 +136,7 @@ namespace CsvService
         CATCH_ALL_OWN(0)
     }
 
-    const size_t HOST_API_CALL getRowWidth_dlx(const CsvHandle handle, const size_t rowIndex)
+    const size_t HOST_API_CALL getRowWidth_dlx(const ICsvService::CsvHandle handle, const size_t rowIndex)
     {
         try
         {
@@ -146,7 +146,7 @@ namespace CsvService
         CATCH_ALL_OWN(0)
     }
 
-    const size_t HOST_API_CALL getRowIndex_dlx(const CsvHandle handle, const char* const rowName)
+    const size_t HOST_API_CALL getRowIndex_dlx(const ICsvService::CsvHandle handle, const char* const rowName)
     {
         try
         {
@@ -156,7 +156,7 @@ namespace CsvService
         CATCH_ALL_OWN(0)
     }
 
-    const size_t HOST_API_CALL getColumnIndex_dlx(const CsvHandle handle, const char* const columnName)
+    const size_t HOST_API_CALL getColumnIndex_dlx(const ICsvService::CsvHandle handle, const char* const columnName)
     {
         try
         {
@@ -166,7 +166,7 @@ namespace CsvService
         CATCH_ALL_OWN(0)
     }
 
-    void HOST_API_CALL reIndexRows_dlx(CsvHandle handle, const size_t columnIndex)
+    void HOST_API_CALL reIndexRows_dlx(ICsvService::CsvHandle handle, const size_t columnIndex)
     {
         try
         {
@@ -176,7 +176,7 @@ namespace CsvService
         CATCH_ALL_OWN()
     }
 
-    void HOST_API_CALL reIndexColumns_dlx(CsvHandle handle, const size_t rowIndex)
+    void HOST_API_CALL reIndexColumns_dlx(ICsvService::CsvHandle handle, const size_t rowIndex)
     {
         try
         {
@@ -186,7 +186,7 @@ namespace CsvService
         CATCH_ALL_OWN()
     }
 
-    ICsvService::RowData HOST_API_CALL reserveRowBuffer_dlx(const CsvHandle handle)
+    ICsvService::RowData HOST_API_CALL reserveRowBuffer_dlx(const ICsvService::CsvHandle handle)
     {
         const auto nullRow = ICsvService::RowData {nullptr, 0};
         try
@@ -214,7 +214,7 @@ namespace CsvService
         CATCH_ALL_OWN()
     }
 
-    void HOST_API_CALL getRow_dlx(const CsvHandle handle, ICsvService::RowData buffer, const size_t rowIndex)
+    void HOST_API_CALL getRow_dlx(const ICsvService::CsvHandle handle, ICsvService::RowData buffer, const size_t rowIndex)
     {
         try
         {
@@ -225,7 +225,7 @@ namespace CsvService
         CATCH_ALL_OWN()
     }
 
-    void HOST_API_CALL getRowByName_dlx(const CsvHandle handle, ICsvService::RowData buffer, const char* const rowName)
+    void HOST_API_CALL getRowByName_dlx(const ICsvService::CsvHandle handle, ICsvService::RowData buffer, const char* const rowName)
     {
         try
         {
@@ -236,7 +236,7 @@ namespace CsvService
         CATCH_ALL_OWN()
     }
 
-    ICsvService::CellData HOST_API_CALL getCell_dlx(const CsvHandle handle, const size_t rowIndex, const size_t columnIndex)
+    ICsvService::CellData HOST_API_CALL getCell_dlx(const ICsvService::CsvHandle handle, const size_t rowIndex, const size_t columnIndex)
     {
         const auto nullCell = ICsvService::CellData {nullptr, 0};
         try
@@ -248,7 +248,7 @@ namespace CsvService
         CATCH_ALL_OWN(nullCell)
     }
 
-    ICsvService::CellData HOST_API_CALL getCellByName_dlx(const CsvHandle handle, const char* const rowName, const char* const columnName)
+    ICsvService::CellData HOST_API_CALL getCellByName_dlx(const ICsvService::CsvHandle handle, const char* const rowName, const char* const columnName)
     {
         const auto nullCell = ICsvService::CellData {nullptr, 0};
         try

@@ -3,6 +3,8 @@
 
 #include <cstddef>
 
+#include <CallingConventions.hpp>
+
 struct ICsvService
 {
     struct CsvOptions
@@ -11,6 +13,11 @@ struct ICsvService
         char quoteChar = '"';
         size_t headerRow =  0;
         size_t keyColumn = -1u;
+    };
+
+    struct CsvHandle
+    {
+        void* data;
     };
 
     struct CellData
@@ -24,6 +31,40 @@ struct ICsvService
         CellData* data;
         size_t    size;
     };
+
+    CsvHandle(*const HOST_API_CALL readCsvData)(
+        const char* const filename,
+        const ICsvService::CsvOptions csvOptions
+    );
+
+    ICsvService::CsvHandle(*const HOST_API_CALL parseCsvData)(
+        const char* const rawData,
+        const char* const origin,
+        const ICsvService::CsvOptions csvOptions
+    );
+
+    void HOST_API_CALL(*const freeCsvData)(ICsvService::CsvHandle* handle);
+
+    const char* (*const HOST_API_CALL getOrigin)(const ICsvService::CsvHandle handle);
+
+    const size_t (*const HOST_API_CALL getRowCount)(const ICsvService::CsvHandle handle);
+    const size_t (*const HOST_API_CALL getMaxWidth)(const ICsvService::CsvHandle handle);
+    const size_t (*const HOST_API_CALL getRowWidth)(const ICsvService::CsvHandle handle, const size_t rowIndex);
+
+    const size_t (*const HOST_API_CALL getRowIndex)(const ICsvService::CsvHandle handle, const char* const rowName);
+    const size_t (*const HOST_API_CALL getColumnIndex)(const ICsvService::CsvHandle handle, const char* const columnName);
+
+    void HOST_API_CALL(*const reIndexRows)(ICsvService::CsvHandle handle, const size_t columnIndex);
+    void HOST_API_CALL(*const reIndexColumns)(ICsvService::CsvHandle handle, const size_t rowIndex);
+
+    ICsvService::RowData HOST_API_CALL(*const reserveRowBuffer)(const ICsvService::CsvHandle handle);
+    void HOST_API_CALL(*const freeRowBuffer)(ICsvService::RowData* buffer);
+
+    void HOST_API_CALL(*const getRow)(const ICsvService::CsvHandle handle, ICsvService::RowData buffer, const size_t rowIndex);
+    void HOST_API_CALL(*const getRowByName)(const ICsvService::CsvHandle handle, ICsvService::RowData buffer, const char* const rowName);
+
+    ICsvService::CellData HOST_API_CALL(*const getCell)(const ICsvService::CsvHandle handle, const size_t rowIndex, const size_t columnIndex);
+    ICsvService::CellData HOST_API_CALL(*const getCellByName)(const ICsvService::CsvHandle handle, const char* const rowName, const char* const columnName);
 };
 
 #endif // ICSVSERVICE_HPP
