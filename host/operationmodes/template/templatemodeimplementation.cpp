@@ -16,7 +16,10 @@
 
 namespace OperationModes
 {
-    static void writeSimulationDefinitionFile(const ITemplatesDefinition& clientDefinitions)
+    static void writeSimulationDefinitionFile(
+        const PathsDefinition& paths,
+        const ITemplatesDefinition& clientDefinitions
+    )
     {
         const auto UNDEFINED = "<to be defined>";
 
@@ -28,8 +31,8 @@ namespace OperationModes
         loggingDefinition[JKEY_LOGGING_LOGLEVEL] = ILoggerService::LOGLEVELNAME_INFO;
 
         ordered_json& pathsDefinition = result[JKEY_PATHS] = ordered_json::object();
-        pathsDefinition[JKEY_PATHS_INPUTDIRECTORY]  = UNDEFINED;
-        pathsDefinition[JKEY_PATHS_OUTPUTDIRECTORY] = UNDEFINED;
+        pathsDefinition[JKEY_PATHS_INPUTDIRECTORY]  = paths.inputDirectory.c_str();
+        pathsDefinition[JKEY_PATHS_OUTPUTDIRECTORY] = paths.outputDirectory.c_str();
 
         ordered_json& simulatorDefinition = result[JKEY_SIMULATOR] = ordered_json::object();
         simulatorDefinition[JKEY_SIMULATOR_ENGINE]          = clientDefinitions.engine;
@@ -75,6 +78,6 @@ namespace OperationModes
             defs.templates.writeSchemas,
             defs.templates.writeAllowedValues
         });
-        writeSimulationDefinitionFile(clientDefinitions);
+        writeSimulationDefinitionFile(defs.paths, clientDefinitions);
     }
 }

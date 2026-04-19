@@ -216,6 +216,17 @@ static LoggingDefinition unpackLoggingDefinition(const ordered_json& data)
            );
 }
 
+static PathsDefinition unpackPathsDefinition(const ordered_json& data)
+{
+    // JKEY_PATHS exists due to having a default
+    // so do JKEY_PATHS_INPUTDIRECTORY and JKEY_PATHS_OUTPUTDIRECTORY.
+    return PathsDefinition
+    {
+        data[JKEY_PATHS_INPUTDIRECTORY],
+        data[JKEY_PATHS_OUTPUTDIRECTORY],
+    };
+}
+
 // .......................................................................... //
 // simulation
 
@@ -256,12 +267,10 @@ static std::shared_ptr<const BaseModeDefinition> unpackSimulationInput(const Cli
                     JTAG_SIMULATION
                 );
 
-    const auto TEMPORARY_PATHS = PathsDefinition();
-
     return std::make_shared<SimulationModeDefinition>(
                cliInput,
                unpackLoggingDefinition(data[JKEY_LOGGING]),
-               TEMPORARY_PATHS,
+               unpackPathsDefinition(data[JKEY_PATHS]),
                unpackSimulatorDefinition(data[JKEY_SIMULATOR]),
                unpackMatchDefinition(data[JKEY_MATCHDEFINITION])
            );
@@ -300,12 +309,10 @@ static std::shared_ptr<const BaseModeDefinition> unpackTemplateInput(const CliIn
                     JTAG_TEMPLATES
                 );
 
-    const auto TEMPORARY_PATHS = PathsDefinition();
-
     return std::make_shared<TemplateModeDefinition>(
                cliInput,
                unpackLoggingDefinition(data[JKEY_LOGGING]),
-               TEMPORARY_PATHS,
+               unpackPathsDefinition(data[JKEY_PATHS]),
                unpackTemplatesDefinition(data[JKEY_TEMPLATES])
            );
 }

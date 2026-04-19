@@ -5,8 +5,10 @@
         "loglevel" : "trace",
         "logfile": "logfile.txt"
     },
-    "templates" : {
-        "engine": "./build-Desktop-Debug/libEngine-Gen1.so",
+    "paths": {
         "outputDirectory": "outputs/templates"
+    },
+    "templates" : {
+        "engine": "./build-Desktop-Debug/libEngine-Gen1.so"
     }
 }
