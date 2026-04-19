@@ -203,6 +203,8 @@ namespace TemplateMode
 
         return ITemplatesDefinition
         {
+            templatesDefinition.writeSchemas,
+            templatesDefinition.writeAllowedValues,
             mechanicsDefinitionFile.data(),
             player1TeamDefinitionFile.data(),
             player2TeamDefinitionFile.data(),
@@ -211,7 +213,8 @@ namespace TemplateMode
             pkmnDefinitionFile.data(),
             moveDefinitionFile.data(),
             typeDefinitionFile.data(),
-            itemDefinitionFile.data()
+            itemDefinitionFile.data(),
+            templatesDefinition.args
         };
     }
 }

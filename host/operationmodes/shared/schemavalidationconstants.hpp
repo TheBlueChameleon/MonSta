@@ -30,7 +30,6 @@ namespace OperationModes
     static const auto JKEY_SIMULATOR_REPETITIONS     = "repetitions";
     static const auto JKEY_SIMULATOR_MAXTURNS        = "maxTurns";
     static const auto JKEY_SIMULATOR_THREADCOUNT     = "threadCount";
-    static const auto JKEY_SIMULATOR_ARGS            = "args";
 
     static const auto JKEY_MATCHDEFINITION                 = "matchDefinition";
     static const auto JKEY_MATCHDEFINITION_MECHANICS       = "mechanics";
@@ -42,6 +41,7 @@ namespace OperationModes
     static const auto JKEY_MATCHDEFINITION_MOVEDEFS        = "moveDefs";
     static const auto JKEY_MATCHDEFINITION_TYPEDEFS        = "typeDefs";
     static const auto JKEY_MATCHDEFINITION_ITEMDEFS        = "itemDefs";
+    static const auto JKEY_MATCHDEFINITION_ARGS            = "args";
 
     static const auto JKEY_TEMPLATES                 = "templates";
     static const auto JKEY_TEMPLATES_MECHANICS       = "mechanics";

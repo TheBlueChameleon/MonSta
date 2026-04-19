@@ -235,10 +235,9 @@ static SimulatorDefinition unpackSimulatorDefinition(const ordered_json& data)
 {
     return SimulatorDefinition
     {
-        data               [JKEY_SIMULATOR_REPETITIONS],
-        data               [JKEY_SIMULATOR_MAXTURNS],
-        data               [JKEY_SIMULATOR_THREADCOUNT],
-        fetchIfInJson(data, JKEY_SIMULATOR_ARGS, std::string {}),
+        data[JKEY_SIMULATOR_REPETITIONS],
+        data[JKEY_SIMULATOR_MAXTURNS],
+        data[JKEY_SIMULATOR_THREADCOUNT],
     };
 }
 
@@ -246,15 +245,16 @@ static MatchDefinition unpackMatchDefinition(const ordered_json& data)
 {
     // all entries required
     return MatchDefinition(
-               data[JKEY_MATCHDEFINITION_MECHANICS],
-               data[JKEY_MATCHDEFINITION_PLAYER1TEAM],
-               data[JKEY_MATCHDEFINITION_PLAYER1STRATETY],
-               data[JKEY_MATCHDEFINITION_PLAYER2TEAM],
-               data[JKEY_MATCHDEFINITION_PLAYER2STRATETY],
-               data[JKEY_MATCHDEFINITION_PKMNDEFS],
-               data[JKEY_MATCHDEFINITION_MOVEDEFS],
-               data[JKEY_MATCHDEFINITION_TYPEDEFS],
-               data[JKEY_MATCHDEFINITION_ITEMDEFS]
+               data               [JKEY_MATCHDEFINITION_MECHANICS],
+               data               [JKEY_MATCHDEFINITION_PLAYER1TEAM],
+               data               [JKEY_MATCHDEFINITION_PLAYER1STRATETY],
+               data               [JKEY_MATCHDEFINITION_PLAYER2TEAM],
+               data               [JKEY_MATCHDEFINITION_PLAYER2STRATETY],
+               data               [JKEY_MATCHDEFINITION_PKMNDEFS],
+               data               [JKEY_MATCHDEFINITION_MOVEDEFS],
+               data               [JKEY_MATCHDEFINITION_TYPEDEFS],
+               data               [JKEY_MATCHDEFINITION_ITEMDEFS],
+               fetchIfInJson(data, JKEY_MATCHDEFINITION_ARGS, std::string{})
            );
 }
 

@@ -2,6 +2,7 @@
 #define MATCHDEFINITION_H
 
 #include <filesystem>
+#include <string>
 
 struct MatchDefinition
 {
@@ -17,6 +18,8 @@ struct MatchDefinition
     const std::filesystem::path moveDefs;
     const std::filesystem::path typeDefs;
     const std::filesystem::path itemDefs;
+
+    const std::string args;
 };
 
 #endif // MATCHDEFINITION_H

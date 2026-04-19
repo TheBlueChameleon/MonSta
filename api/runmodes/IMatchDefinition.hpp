@@ -12,6 +12,7 @@ struct IMatchDefinition
     const char* const moveDefs;
     const char* const typeDefs;
     const char* const itemDefs;
+    const char* const args;
 };
 
 #endif // IMATCHDEFINITION_H

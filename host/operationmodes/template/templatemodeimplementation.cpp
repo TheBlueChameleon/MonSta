@@ -66,6 +66,8 @@ namespace OperationModes
 
         auto clientDefinitions = cw.startTemplatesMode(
         {
+            defs.templates.writeSchemas,
+            defs.templates.writeAllowedValues,
             defs.templates.mechanicsDefinition.c_str(),
             defs.templates.player1Team.c_str(),
             defs.templates.player1Strategy.c_str(),
@@ -75,9 +77,7 @@ namespace OperationModes
             defs.templates.moveDefs.c_str(),
             defs.templates.typeDefs.c_str(),
             defs.templates.itemDefs.c_str(),
-            defs.templates.args.data(),
-            defs.templates.writeSchemas,
-            defs.templates.writeAllowedValues
+            defs.templates.args.data()
         });
         writeSimulationDefinitionFile(defs.paths, clientDefinitions);
     }

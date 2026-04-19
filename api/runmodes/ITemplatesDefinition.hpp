@@ -3,6 +3,9 @@
 
 struct ITemplatesDefinition
 {
+    const bool writeSchemas;
+    const bool writeAllowedValues;
+
     const char* const mechanicsDefinition;
     const char* const player1Team;
     const char* const player1Strategy;
@@ -13,9 +16,6 @@ struct ITemplatesDefinition
     const char* const typeDefs;
     const char* const itemDefs;
     const char* const args;
-
-    const bool writeSchemas;
-    const bool writeAllowedValues;
 };
 
 #endif // ITEMPLATESDEFINITION_H

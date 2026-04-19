@@ -32,6 +32,7 @@ namespace OperationModes
             defs.match.moveDefs.c_str(),
             defs.match.typeDefs.c_str(),
             defs.match.itemDefs.c_str(),
+            defs.match.args.c_str()
         });
     }
 }

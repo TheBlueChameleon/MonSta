@@ -90,8 +90,6 @@ namespace OperationModes
         .setMinimum(1)
         .setDefault(1);
 
-        simulator.addProperty(JKEY_SIMULATOR_ARGS, IJsonServiceTypes::JsonType::STRING);
-
         return simulator;
     }
 
@@ -131,6 +129,8 @@ namespace OperationModes
         matchDefinition.addProperty(JKEY_MATCHDEFINITION_TYPEDEFS, IJsonServiceTypes::JsonType::STRING);
 
         matchDefinition.addProperty(JKEY_MATCHDEFINITION_ITEMDEFS, IJsonServiceTypes::JsonType::STRING);
+
+        matchDefinition.addProperty(JKEY_MATCHDEFINITION_ARGS, IJsonServiceTypes::JsonType::STRING);
 
         return matchDefinition;
     }
