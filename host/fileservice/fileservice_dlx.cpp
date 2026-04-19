@@ -35,7 +35,7 @@ namespace FileService
     {
         try
         {
-            auto stream = getDatabase().getReadStream(filename);
+            auto stream = getDatabase().createReadStream(filename);
             LoggerService::traceF("reading from {}", filename);
             const auto size = getFileSize(stream);
 

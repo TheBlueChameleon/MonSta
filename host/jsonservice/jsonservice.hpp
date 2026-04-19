@@ -53,7 +53,7 @@ namespace JsonService
         const nlohmann::ordered_json& schema
     );
 
-    nlohmann::ordered_json          read(const std::filesystem::path& file);
+    nlohmann::ordered_json          read(const std::filesystem::path& filename);
     const nlohmann::ordered_json    readAndAdd(const IJsonServiceTypes::JsonTag tag, const std::filesystem::path& file);
 
     nlohmann::ordered_json readValidateAndPatch(

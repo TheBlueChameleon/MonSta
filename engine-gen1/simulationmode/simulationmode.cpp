@@ -21,10 +21,9 @@ namespace SimulationMode
         try
         {
             LoggerService::info("### mechanics handling ###");
-            LoggerService::info(mechanicsDefinitionFile.c_str());
+            LoggerService::infoF("### {}", mechanicsDefinitionFile.c_str());
 
             std::string mechanicsHandleName = Globals::jtag_base + mechanicsDefinitionFile.c_str();
-            LoggerService::info("### tag gen'd ###");
             JHND_MECHANICSDEFINITION = JsonService::readValidatePatchAndAdd(
                                            IJsonServiceTypes::JsonTag(mechanicsHandleName.data()),
                                            mechanicsDefinitionFile,
@@ -34,9 +33,8 @@ namespace SimulationMode
         catch (const EngineError& e)
         {
             LoggerService::info("### catch happened ###");
-            LoggerService::info(e.what());
+            LoggerService::infoF("### {}", e.what());
             eb.append(e);
-            LoggerService::info("### append happened ###");
         }
     }
 
@@ -47,17 +45,16 @@ namespace SimulationMode
 
         loadAndRegisterMechanicsDefinition(matchDefinition.mechanics, eb);
 
+        if (!eb.isClean())
+        {
+            throw EngineError(eb.compileErrorMessage().data());
+        }
+
         auto child = JsonService::navigateTo(JHND_MECHANICSDEFINITION, SchemaValidation::JKEY_MECHANICS_GEN1MISS);
 
         LoggerService::infoF("### Gen1Miss active: {}",
                              (JsonService::getAsBool(child) ? "true" : "false")
                             );
-
-        if (!eb.isClean())
-        {
-            LoggerService::info("### non clean state ###");
-            LoggerService::info(eb.compileErrorMessage().data());
-        }
 
         LoggerService::info("### exit ###");
     }

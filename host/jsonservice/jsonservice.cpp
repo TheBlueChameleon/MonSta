@@ -283,17 +283,17 @@ namespace JsonService
         return getOrAdd(tag, validatedData);
     }
 
-    ordered_json read(const std::filesystem::path& file)
+    ordered_json read(const std::filesystem::path& filename)
     {
         try
         {
-            std::ifstream hFile(FileService::getInputBasePath() / file);
-            return ordered_json::parse(hFile, nullptr, allowExceptions, allowComments);
+            auto fileStream = FileService::getInputStream(filename);
+            return ordered_json::parse(fileStream, nullptr, allowExceptions, allowComments);
         }
         catch (const nlohmann::ordered_json::exception& err)
         {
             throw JsonError(
-                "Error parsing JSON file '"s + file.c_str() + "'\n" +
+                "Error parsing JSON file '"s + filename.c_str() + "'\n" +
                 err.what()
             );
         }

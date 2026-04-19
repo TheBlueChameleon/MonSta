@@ -81,7 +81,7 @@ namespace FileService
         outputBasePath = newBase;
     }
 
-    SynchronizedOStream& FileServiceDatabase::getOrCreateStream(const std::filesystem::__cxx11::path& filename)
+    SynchronizedOStream& FileServiceDatabase::getOrCreateWriteStream(const std::filesystem::__cxx11::path& filename)
     {
         auto lock = std::lock_guard(mutex);
 
@@ -114,19 +114,22 @@ namespace FileService
         }
     }
 
-    std::ifstream FileServiceDatabase::getReadStream(const std::filesystem::__cxx11::path& filename)
+    std::ifstream FileServiceDatabase::createReadStream(const std::filesystem::__cxx11::path& filename)
     {
         auto lock = std::lock_guard(mutex);
-        const auto target = inputBasePath / filename;
 
-        if (!std::filesystem::exists(target))
+        const auto resolvedFilename = inputBasePath / filename;
+        if (!std::filesystem::exists(resolvedFilename))
         {
-            LoggerService::errorF("File to read '{}' does not exist", target.c_str());
-            return std::ifstream();
+            throw IOError(
+                "Attempting to read file '"s +
+                resolvedFilename.c_str() +
+                "', but it not exist"
+            );
         }
 
         return std::ifstream(
-                   target,
+                   resolvedFilename,
                    std::ifstream::in | std::ifstream::binary
                );
     }

@@ -1,7 +1,7 @@
 #include "api/clientwrapper.hpp"
 
 #include "errorservice/errors.hpp"
-
+#include "fileservice/fileservice.hpp"
 #include "loggerservice/loggerservice.hpp"
 
 #include "operationmodes/shared/utils.hpp"

@@ -125,12 +125,12 @@ namespace FileService
 
     std::ifstream getInputStream(const std::filesystem::__cxx11::path& filename)
     {
-        return database.getReadStream(filename);
+        return database.createReadStream(filename);
     }
 
     std::string read(const std::filesystem::__cxx11::path& filename)
     {
-        auto stream = database.getReadStream(filename);
+        auto stream = database.createReadStream(filename);
         LoggerService::traceF("reading from {}", filename.c_str());
         const auto size = getFileSize(stream);
 
@@ -142,14 +142,14 @@ namespace FileService
 
     void write(const std::filesystem::__cxx11::path& filename, const std::string_view content)
     {
-        auto& stream = database.getOrCreateStream(filename);
+        auto& stream = database.getOrCreateWriteStream(filename);
         LoggerService::traceF("writing into {}", filename.c_str());
         stream << content;
     }
 
     void writeBinary(const std::filesystem::__cxx11::path& filename, const std::span<const std::byte> data)
     {
-        auto& stream = database.getOrCreateStream(filename);
+        auto& stream = database.getOrCreateWriteStream(filename);
         LoggerService::traceF("writing into {}", filename.c_str());
         stream.write(data.data(), data.size());
     }

@@ -151,7 +151,7 @@ TEST_F(FileServiceTest, OutputOrdering)
     t1.join();
     t2.join();
 
-    auto& synchronizedResultStream = FileService::getDatabase().getOrCreateStream(":debug:");
+    auto& synchronizedResultStream = FileService::getDatabase().getOrCreateWriteStream(":debug:");
     auto* innerResultStream = dynamic_cast<FileService::DebugStream*>(synchronizedResultStream.expose());
     auto result = innerResultStream->str();
 

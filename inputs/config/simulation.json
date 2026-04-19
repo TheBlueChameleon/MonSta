@@ -11,7 +11,7 @@
         "outputDirectory": "outputs"
     },
     "matchDefinition" : {
-        "mechanics"       : "mechanicsDefs/minimal.json",
+        "mechanics"       : "mechanicsDefs/_minimal.json",
         "player1Team"     : "teams/gen1_human_minimal.json",
         "player1Strategy" : "strategies/gen1_minimal.lua",
         "player2Team"     : "teams/gen1_computer_minimal.json",

@@ -45,8 +45,8 @@ namespace FileService
             const std::filesystem::path& getOutputBasePath() const;
             void setOutputBasePath(const std::filesystem::path& newBase);
 
-            SynchronizedOStream& getOrCreateStream(const std::filesystem::path& filename);
-            std::ifstream getReadStream(const std::filesystem::path& filename);
+            SynchronizedOStream& getOrCreateWriteStream(const std::filesystem::path& filename);
+            std::ifstream createReadStream(const std::filesystem::path& filename);
 
             const std::list<FileService::CreatedFileInfo>& getCreatedFileInfo() const;
             void addCreatedFile(const std::filesystem::path& filename, const bool overwritten);
