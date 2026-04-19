@@ -54,9 +54,9 @@ TEST_F(FileServiceTest, IOPaths_SetNonExisting)
     const std::filesystem::path nonExisting = temp / "valid/relative/path";
 
     // when
-    EXPECT_THROW(FileService::setInputBasePath(nonExisting), InvalidUserInput);
+    EXPECT_THROW(FileService::setInputBasePath(nonExisting), IOError);
 
-    EXPECT_THROW(FileService::setOutputBasePath(nonExisting), InvalidUserInput);
+    EXPECT_THROW(FileService::setOutputBasePath(nonExisting), IOError);
 
     // then
     EXPECT_EQ(FileService::getInputBasePath(), temp);
@@ -71,7 +71,7 @@ TEST_F(FileServiceTest, IOPaths_SetNonExistingWithCreate)
     FileService::setCreateDirectories(true);
 
     // when
-    EXPECT_THROW(FileService::setInputBasePath(toBeCreated), InvalidUserInput);
+    EXPECT_THROW(FileService::setInputBasePath(toBeCreated), IOError);
 
     FileService::setOutputBasePath(toBeCreated);
 
