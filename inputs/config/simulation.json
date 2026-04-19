@@ -20,7 +20,7 @@
         "player2Strategy" : "strategies/gen1_minimal.lua",
         "pkmnDefs"        : "pkmnDefs/gen1_minimal.csv",
         "moveDefs"        : "moveDefs/gen1_minimal.csv",
-        "typeDefs"        : "typeDefs/gen1_minimal.csv",
+        "typeDefs"        : "typeDefs/gen1.csv",
         "itemDefs"        : "itemDefs/gen1_minimal.csv"
     }
 }

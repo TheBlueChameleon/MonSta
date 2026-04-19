@@ -38,13 +38,6 @@ namespace SchemaValidation
     const auto JKEY_POKEMON_EXP     = "experience";
     const auto JKEY_POKEMON_FOREIGN = "foreign";
     const auto JKEY_POKEMON_STATUS  = "status";
-    const auto POKEMON_STATUS_NORMAL    = "normal";
-    const auto POKEMON_STATUS_PARALYZED = "paralyzed";
-    const auto POKEMON_STATUS_POISONED  = "poisoned";
-    const auto POKEMON_STATUS_ASLEEP    = "asleep";
-    const auto POKEMON_STATUS_BURNT     = "burnt";
-    const auto POKEMON_STATUS_FROZEN    = "frozen";
-    const auto POKEMON_STATUS_FAINTED   = "fainted";
 
     const auto JKEY_POKEMON_HPCURRENT  = "HP_current";
 

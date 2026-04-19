@@ -11,7 +11,6 @@ using namespace std::string_literals;
 
 namespace SimulationMode
 {
-
     PokemonStatus getStatusFromName(const std::string_view name)
     {
         // *INDENT-OFF*

@@ -4,10 +4,13 @@
 #include "services/jsonservice.hpp"
 #include "services/memoryservice.hpp"
 
+#include "simulationmode/pokemonstatus.hpp"
+
 #include "globals.hpp"
 #include "schemavalidationconstants.hpp"
 
 using namespace std::string_literals;
+using namespace SimulationMode;
 using namespace IJsonServiceTypes;
 using namespace JsonService;
 
@@ -246,13 +249,13 @@ namespace SchemaValidation
         .setDefault("false");
 
         result.addProperty(JKEY_POKEMON_STATUS)
-        .setEnum(makeJsonList({POKEMON_STATUS_NORMAL,
-                               POKEMON_STATUS_PARALYZED,
-                               POKEMON_STATUS_POISONED,
-                               POKEMON_STATUS_ASLEEP,
-                               POKEMON_STATUS_BURNT,
-                               POKEMON_STATUS_FROZEN,
-                               POKEMON_STATUS_FAINTED
+        .setEnum(makeJsonList({SimulationMode::POKEMON_STATUS_NORMAL,
+                               SimulationMode::POKEMON_STATUS_PARALYZED,
+                               SimulationMode::POKEMON_STATUS_POISONED,
+                               SimulationMode::POKEMON_STATUS_ASLEEP,
+                               SimulationMode::POKEMON_STATUS_BURNT,
+                               SimulationMode::POKEMON_STATUS_FROZEN,
+                               SimulationMode::POKEMON_STATUS_FAINTED
                               }))
         .setDefault("\""s + POKEMON_STATUS_NORMAL + "\"");
 

@@ -5,6 +5,14 @@
 
 namespace SimulationMode
 {
+    static constexpr auto POKEMON_STATUS_NORMAL    = "normal";
+    static constexpr auto POKEMON_STATUS_PARALYZED = "paralyzed";
+    static constexpr auto POKEMON_STATUS_POISONED  = "poisoned";
+    static constexpr auto POKEMON_STATUS_ASLEEP    = "asleep";
+    static constexpr auto POKEMON_STATUS_BURNT     = "burnt";
+    static constexpr auto POKEMON_STATUS_FROZEN    = "frozen";
+    static constexpr auto POKEMON_STATUS_FAINTED   = "fainted";
+
     enum class PokemonStatus { NORMAL, PARALYZED, POISONED, ASLEEP, BURNT, FROZEN, FAINTED };
 
     PokemonStatus getStatusFromName(const std::string_view name);
