@@ -6,20 +6,23 @@
 
 #include "pokemondefition.hpp"
 
-struct TeamDefinition
+namespace SimulationMode
 {
-    std::string name;
-    int obedienceCap;
+    struct TeamDefinition
+    {
+        std::string name;
+        int obedienceCap;
 
-    bool expAll;
-    bool badgeBoost_ATK;
-    bool badgeBoost_DEF;
-    bool badgeBoost_SPC;
-    bool badgeBoost_SPD;
-    bool statMoveDebuf;
-    bool usePP;
+        bool expAll;
+        bool badgeBoost_ATK;
+        bool badgeBoost_DEF;
+        bool badgeBoost_SPC;
+        bool badgeBoost_SPD;
+        bool statMoveDebuf;
+        bool usePP;
 
-    std::vector<PokemonDefinition> pokemon;
-};
+        std::vector<PokemonDefinition> pokemon;
+    };
+}
 
 #endif // TEAMDEFINITION_HPP

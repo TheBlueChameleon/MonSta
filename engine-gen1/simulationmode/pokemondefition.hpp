@@ -3,44 +3,47 @@
 
 #include <string>
 
-struct PokemonDefinition
+#include "pokemonstatus.hpp"
+
+namespace SimulationMode
 {
-    enum class Status { NORMAL, PARALYZED, POISONED, ASLEEP, BURNT, FROZEN, FAINTED };
+    struct PokemonDefinition
+    {
+        std::string species;
+        PokemonStatus status;
+        int level;
+        int hp_current;
+        int experience;
+        bool foreign;
 
-    std::string species;
-    Status status;
-    int HP_current;
-    int level;
-    int experience;
-    bool foreign;
+        int dv_HP;
+        int dv_ATK;
+        int dv_DEF;
+        int dv_SPC;
+        int dv_SPD;
 
-    int DV_HP;
-    int DV_ATK;
-    int DV_DEF;
-    int DV_SPC;
-    int DV_SPD;
+        int statusExperience_HP;
+        int statusExperience_ATK;
+        int statusExperience_DEF;
+        int statusExperience_SPC;
+        int statusExperience_SPD;
 
-    int StatusExperience_HP;
-    int StatusExperience_ATK;
-    int StatusExperience_DEF;
-    int StatusExperience_SPC;
-    int StatusExperience_SPD;
+        std::string attack_1;
+        int attack_1_pp;
+        int attack_1_pp_current;
 
-    std::string attack_1;
-    int attack_1_pp;
-    int attack_1_pp_current;
+        std::string attack_2;
+        int attack_2_pp;
+        int attack_2_pp_current;
 
-    std::string attack_2;
-    int attack_2_pp;
-    int attack_2_pp_current;
+        std::string attack_3;
+        int attack_3_pp;
+        int attack_3_pp_current;
 
-    std::string attack_3;
-    int attack_3_pp;
-    int attack_3_pp_current;
-
-    std::string attack_4;
-    int attack_4_pp;
-    int attack_4_pp_current;
-};
+        std::string attack_4;
+        int attack_4_pp;
+        int attack_4_pp_current;
+    };
+}
 
 #endif // POKEMONDEFITION_HPP
