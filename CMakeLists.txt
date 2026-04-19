@@ -246,10 +246,12 @@ add_executable(Host
     host/operationmodes/schemaExport/schemaexportmodeimplementation.hpp host/operationmodes/schemaExport/schemaexportmodeimplementation.cpp
     host/operationmodes/schemaExport/schemaexportmodedefinition.hpp
 
-    host/operationmodes/shared/defs/loggingdefinition.hpp
     host/operationmodes/shared/basemodedefinition.hpp
     host/operationmodes/shared/schemavalidationconstants.hpp host/operationmodes/shared/schemavalidationconstants.cpp
     host/operationmodes/shared/utils.hpp            host/operationmodes/shared/utils.cpp
+
+    host/operationmodes/shared/defs/loggingdefinition.hpp
+    host/operationmodes/shared/defs/pathsdefinition.hpp
 
     host/operationmodes/remote/remotemodeimplemetnation.hpp host/operationmodes/remote/remotemodeimplemetnation.cpp
 

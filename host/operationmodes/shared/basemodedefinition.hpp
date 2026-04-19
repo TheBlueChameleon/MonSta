@@ -6,6 +6,7 @@
 #include "operationmodes/operationmode.hpp"
 
 #include "defs/loggingdefinition.hpp"
+#include "defs/pathsdefinition.hpp"
 
 namespace OperationModes
 {
@@ -13,10 +14,12 @@ namespace OperationModes
     {
         BaseModeDefinition(
             const CliInput& cli,
-            const LoggingDefinition& logging
+            const LoggingDefinition& logging,
+            const PathsDefinition& paths
         ) :
             mode(cli.mode),
             logging(logging),
+            paths(paths),
             overwrite(cli.overwrite),
             createDirectories(cli.createDirectories),
             dryMode(cli.dryMode)
@@ -25,6 +28,7 @@ namespace OperationModes
 
         const OperationMode     mode;
         const LoggingDefinition logging;
+        const PathsDefinition   paths;
         const bool              overwrite;
         const bool              createDirectories;
         const bool              dryMode;

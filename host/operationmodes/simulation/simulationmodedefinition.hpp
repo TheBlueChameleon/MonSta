@@ -13,10 +13,11 @@ namespace OperationModes
         SimulationModeDefinition(
             const CliInput& cli,
             const LoggingDefinition& logging,
+            const PathsDefinition& paths,
             const SimulatorDefinition& simulator,
             const MatchDefinition& match
         ):
-            BaseModeDefinition(cli, logging),
+            BaseModeDefinition(cli, logging, paths),
             simulator(simulator),
             match(match)
         {}

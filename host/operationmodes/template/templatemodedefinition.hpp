@@ -12,9 +12,10 @@ namespace OperationModes
         TemplateModeDefinition(
             const CliInput& cli,
             const LoggingDefinition& logging,
+            const PathsDefinition& paths,
             const TemplatesDefinition templates
         ):
-            BaseModeDefinition(cli, logging),
+            BaseModeDefinition(cli, logging, paths),
             templates(templates)
         {}
 

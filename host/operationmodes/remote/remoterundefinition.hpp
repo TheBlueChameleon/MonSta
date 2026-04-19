@@ -10,7 +10,7 @@ namespace OperationModes
     struct RemoteModeDefinition : public BaseModeDefinition
     {
         RemoteModeDefinition(const CliInput& cli):
-            BaseModeDefinition(cli, LoggingDefinition())
+            BaseModeDefinition(cli, LoggingDefinition(), PathsDefinition())
         {}
     };
 }

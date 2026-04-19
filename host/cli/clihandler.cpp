@@ -259,9 +259,12 @@ static std::shared_ptr<const BaseModeDefinition> unpackSimulationInput(const Cli
                     JTAG_SIMULATION
                 );
 
+    const auto TEMPORARY_PATHS = PathsDefinition();
+
     return std::make_shared<SimulationModeDefinition>(
                cliInput,
                unpackLoggingDefinition(data[JKEY_LOGGING]),
+               TEMPORARY_PATHS,
                unpackSimulatorDefinition(data[JKEY_SIMULATOR]),
                unpackMatchDefinition(data[JKEY_MATCHDEFINITION])
            );
@@ -301,9 +304,12 @@ static std::shared_ptr<const BaseModeDefinition> unpackTemplateInput(const CliIn
                     JTAG_TEMPLATES
                 );
 
+    const auto TEMPORARY_PATHS = PathsDefinition();
+
     return std::make_shared<TemplateModeDefinition>(
                cliInput,
                unpackLoggingDefinition(data[JKEY_LOGGING]),
+               TEMPORARY_PATHS,
                unpackTemplatesDefinition(data[JKEY_TEMPLATES])
            );
 }

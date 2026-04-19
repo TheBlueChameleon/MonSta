@@ -6,6 +6,7 @@
 #include "cli/cliinput.hpp"
 
 #include "operationmodes/shared/basemodedefinition.hpp"
+#include "operationmodes/shared/defs/pathsdefinition.hpp"
 
 namespace OperationModes
 {
@@ -15,7 +16,7 @@ namespace OperationModes
             const CliInput& cli,
             const std::filesystem::path& outputDirectory
         ):
-            BaseModeDefinition(cli, LoggingDefinition()),
+            BaseModeDefinition(cli, LoggingDefinition(), PathsDefinition()),
             outputDirectory(outputDirectory)
         {}
 

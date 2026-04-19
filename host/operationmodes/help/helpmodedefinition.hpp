@@ -13,7 +13,7 @@ namespace OperationModes
             const CliInput& cli,
             OperationMode target
         ):
-            BaseModeDefinition(cli, LoggingDefinition()),
+            BaseModeDefinition(cli, LoggingDefinition(), PathsDefinition()),
             target(target)
         {}
 
