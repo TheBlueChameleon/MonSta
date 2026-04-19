@@ -336,6 +336,7 @@ add_library(Engine-Gen1 SHARED
     engine-gen1/schemavalidationconstants.hpp       engine-gen1/schemavalidationconstants.cpp
 
     engine-gen1/simulationmode/mechanicsdefinition.hpp
+    engine-gen1/simulationmode/pokemondefition.hpp
     engine-gen1/simulationmode/teamdefinition.hpp
     engine-gen1/simulationmode/simulationmode.hpp   engine-gen1/simulationmode/simulationmode.cpp
     engine-gen1/simulationmode/registry.hpp         engine-gen1/simulationmode/registry.cpp

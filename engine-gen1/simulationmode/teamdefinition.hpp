@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+#include "pokemondefition.hpp"
+
 struct TeamDefinition
 {
     std::string name;
@@ -17,7 +19,7 @@ struct TeamDefinition
     bool statMoveDebuf;
     bool usePP;
 
-    // std::vector<PokemonDefinition> pokemon;
+    std::vector<PokemonDefinition> pokemon;
 };
 
 #endif // TEAMDEFINITION_HPP

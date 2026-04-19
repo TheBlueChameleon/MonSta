@@ -246,15 +246,15 @@ namespace SchemaValidation
         .setDefault("false");
 
         result.addProperty(JKEY_POKEMON_STATUS)
-        .setEnum(makeJsonList({JKEY_POKEMON_STATUS_NORMAL,
-                               JKEY_POKEMON_STATUS_PARALYZED,
-                               JKEY_POKEMON_STATUS_POISONED,
-                               JKEY_POKEMON_STATUS_ASLEEP,
-                               JKEY_POKEMON_STATUS_BURNT,
-                               JKEY_POKEMON_STATUS_FROZEN,
-                               JKEY_POKEMON_STATUS_FAINTED
+        .setEnum(makeJsonList({POKEMON_STATUS_NORMAL,
+                               POKEMON_STATUS_PARALYZED,
+                               POKEMON_STATUS_POISONED,
+                               POKEMON_STATUS_ASLEEP,
+                               POKEMON_STATUS_BURNT,
+                               POKEMON_STATUS_FROZEN,
+                               POKEMON_STATUS_FAINTED
                               }))
-        .setDefault("\""s + JKEY_POKEMON_STATUS_NORMAL + "\"");
+        .setDefault("\""s + POKEMON_STATUS_NORMAL + "\"");
 
         result.addProperty(JKEY_POKEMON_DVHP, JsonType::INTEGER)
         .setDefault("-1")
