@@ -27,10 +27,12 @@ namespace OperationModes
         loggingDefinition[JKEY_LOGGING_LOGFILE] = UNDEFINED;
         loggingDefinition[JKEY_LOGGING_LOGLEVEL] = ILoggerService::LOGLEVELNAME_INFO;
 
+        ordered_json& pathsDefinition = result[JKEY_PATHS] = ordered_json::object();
+        pathsDefinition[JKEY_PATHS_INPUTDIRECTORY]  = UNDEFINED;
+        pathsDefinition[JKEY_PATHS_OUTPUTDIRECTORY] = UNDEFINED;
+
         ordered_json& simulatorDefinition = result[JKEY_SIMULATOR] = ordered_json::object();
         simulatorDefinition[JKEY_SIMULATOR_ENGINE]          = clientDefinitions.engine;
-        simulatorDefinition[JKEY_SIMULATOR_INPUTDIRECTORY]  = UNDEFINED;
-        simulatorDefinition[JKEY_SIMULATOR_OUTPUTDIRECTORY] = UNDEFINED;
 
         ordered_json& matchDefinition = result[JKEY_MATCHDEFINITION] = ordered_json::object();
         matchDefinition[JKEY_MATCHDEFINITION_MECHANICS]       = clientDefinitions.mechanicsDefinition;
@@ -52,7 +54,7 @@ namespace OperationModes
     void runTemplateMode(const TemplateModeDefinition& defs)
     {
         setupLoggerService(defs.logging);
-        setupFileService(defs, defs.templates.outputDirectory);
+        setupFileService(defs);
 
         auto cw = ClientWrapper(defs.templates.engine);
         setupClientWriteOptions(cw, defs);
@@ -60,7 +62,6 @@ namespace OperationModes
         auto clientDefinitions = cw.startTemplatesMode(
         {
             defs.templates.engine.c_str(),
-            defs.templates.outputDirectory.c_str(),
             defs.templates.mechanicsDefinition.c_str(),
             defs.templates.player1Team.c_str(),
             defs.templates.player1Strategy.c_str(),

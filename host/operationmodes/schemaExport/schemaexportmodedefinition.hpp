@@ -16,11 +16,12 @@ namespace OperationModes
             const CliInput& cli,
             const std::filesystem::path& outputDirectory
         ):
-            BaseModeDefinition(cli, LoggingDefinition(), PathsDefinition()),
-            outputDirectory(outputDirectory)
+            BaseModeDefinition(
+                cli,
+                LoggingDefinition(),
+                PathsDefinition({"./", outputDirectory})
+        )
         {}
-
-        std::filesystem::path outputDirectory;
     };
 }
 

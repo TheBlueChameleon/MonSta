@@ -19,7 +19,7 @@ namespace OperationModes
     void runSchemaExportMode(const SchemaExportModeDefinition& defs)
     {
         setupLoggerService(defs.logging);
-        setupFileService(defs, defs.outputDirectory);
+        setupFileService(defs);
 
         auto& sim = JsonService::get(JTAG_SIMULATION);
         auto& tpl = JsonService::get(JTAG_TEMPLATES);
@@ -32,7 +32,7 @@ namespace OperationModes
         {
             LoggerService::infoF(
                 "schemas written into '{}'",
-                std::filesystem::weakly_canonical(defs.outputDirectory).c_str()
+                std::filesystem::weakly_canonical(defs.paths.outputDirectory).c_str()
             );
         }
     }

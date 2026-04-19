@@ -224,12 +224,9 @@ static SimulatorDefinition unpackSimulatorDefinition(const ordered_json& data)
     return SimulatorDefinition
     {
         data               [JKEY_SIMULATOR_ENGINE],
-        fetchIfInJson(data, JKEY_SIMULATOR_INPUTDIRECTORY,  std::filesystem::path {}),
-        fetchIfInJson(data, JKEY_SIMULATOR_OUTPUTDIRECTORY, std::filesystem::path {}),
         data               [JKEY_SIMULATOR_REPETITIONS],
         data               [JKEY_SIMULATOR_MAXTURNS],
         data               [JKEY_SIMULATOR_THREADCOUNT],
-        fetchIfInJson(data, JKEY_SIMULATOR_OUTPUTDIRECTORY, std::string {}),
     };
 }
 
@@ -278,7 +275,6 @@ static TemplatesDefinition unpackTemplatesDefinition(const ordered_json& data)
     return TemplatesDefinition
     {
         data               [JKEY_TEMPLATES_ENGINE],
-        data               [JKEY_TEMPLATES_OUTPUTDIRECTORY],
         fetchIfInJson(data, JKEY_TEMPLATES_MECHANICS, std::filesystem::path {}),
         fetchIfInJson(data, JKEY_TEMPLATES_PLAYER1TEAM, std::filesystem::path {}),
         fetchIfInJson(data, JKEY_TEMPLATES_PLAYER1STRATEGY, std::filesystem::path {}),

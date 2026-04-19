@@ -204,7 +204,6 @@ namespace TemplateMode
         return ITemplatesDefinition
         {
             templatesDefinition.engine,
-            templatesDefinition.outputDirectory,
             mechanicsDefinitionFile.data(),
             player1TeamDefinitionFile.data(),
             player2TeamDefinitionFile.data(),

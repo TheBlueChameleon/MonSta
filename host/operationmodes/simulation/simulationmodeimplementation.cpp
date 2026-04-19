@@ -14,7 +14,7 @@ namespace OperationModes
     void runSimulationMode(const SimulationModeDefinition& defs)
     {
         setupLoggerService(defs.logging);
-        setupFileService(defs, defs.simulator.outputDir, defs.simulator.inputDir);
+        setupFileService(defs);
 
         auto cw = ClientWrapper(defs.simulator.engine);
         setupClientWriteOptions(cw, defs);

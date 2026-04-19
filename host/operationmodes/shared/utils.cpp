@@ -69,11 +69,7 @@ namespace OperationModes
         LoggerService::setLogLevel(definition.loglevel);
     }
 
-    void setupFileService(
-        const BaseModeDefinition& definition,
-        const std::filesystem::__cxx11::path& outputDirectory,
-        const std::filesystem::__cxx11::path& inputDirectory
-    )
+    void setupFileService(const BaseModeDefinition& definition)
     {
         FileService::setOverwrite(definition.overwrite);
         FileService::setCreateDirectories(definition.createDirectories);
@@ -81,11 +77,11 @@ namespace OperationModes
 
         try
         {
-            FileService::setOutputBasePath(outputDirectory);
+            FileService::setOutputBasePath(definition.paths.outputDirectory);
 
-            if (!inputDirectory.empty())
+            if (!definition.paths.inputDirectory.empty())
             {
-                FileService::setInputBasePath(inputDirectory);
+                FileService::setInputBasePath(definition.paths.inputDirectory);
             }
         }
         catch (const IOError& e)
