@@ -222,8 +222,9 @@ static PathsDefinition unpackPathsDefinition(const ordered_json& data)
     // so do JKEY_PATHS_INPUTDIRECTORY and JKEY_PATHS_OUTPUTDIRECTORY.
     return PathsDefinition
     {
-        data[JKEY_PATHS_INPUTDIRECTORY],
-        data[JKEY_PATHS_OUTPUTDIRECTORY],
+        data [JKEY_PATHS_INPUTDIRECTORY],
+        data [JKEY_PATHS_OUTPUTDIRECTORY],
+        fetchIfInJson(data, JKEY_PATHS_ENGINE, std::filesystem::path())
     };
 }
 
@@ -234,10 +235,10 @@ static SimulatorDefinition unpackSimulatorDefinition(const ordered_json& data)
 {
     return SimulatorDefinition
     {
-        data               [JKEY_SIMULATOR_ENGINE],
         data               [JKEY_SIMULATOR_REPETITIONS],
         data               [JKEY_SIMULATOR_MAXTURNS],
         data               [JKEY_SIMULATOR_THREADCOUNT],
+        fetchIfInJson(data, JKEY_SIMULATOR_ARGS, std::string {}),
     };
 }
 
@@ -283,7 +284,6 @@ static TemplatesDefinition unpackTemplatesDefinition(const ordered_json& data)
 {
     return TemplatesDefinition
     {
-        data               [JKEY_TEMPLATES_ENGINE],
         fetchIfInJson(data, JKEY_TEMPLATES_MECHANICS, std::filesystem::path {}),
         fetchIfInJson(data, JKEY_TEMPLATES_PLAYER1TEAM, std::filesystem::path {}),
         fetchIfInJson(data, JKEY_TEMPLATES_PLAYER1STRATEGY, std::filesystem::path {}),
@@ -295,7 +295,7 @@ static TemplatesDefinition unpackTemplatesDefinition(const ordered_json& data)
         fetchIfInJson(data, JKEY_TEMPLATES_ITEMDEFS, std::filesystem::path {}),
         data               [JKEY_TEMPLATES_WRITESCHEMAS],
         data               [JKEY_TEMPLATES_ALLOWEDVALUES],
-        fetchIfInJson(data, JKEY_TEMPLATES_ARGS, std::filesystem::path {}),
+        fetchIfInJson(data, JKEY_TEMPLATES_ARGS, std::string {}),
     };
 }
 

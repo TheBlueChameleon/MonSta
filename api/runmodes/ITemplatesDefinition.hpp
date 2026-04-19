@@ -3,7 +3,6 @@
 
 struct ITemplatesDefinition
 {
-    const char* const engine;
     const char* const mechanicsDefinition;
     const char* const player1Team;
     const char* const player1Strategy;

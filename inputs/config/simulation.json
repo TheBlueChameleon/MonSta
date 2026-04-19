@@ -5,13 +5,15 @@
         /* inline comments are allowed */
         // line end commetns are allowed
     },
-    "simulator" : {
-        "engine": "./build-Desktop-Debug/libEngine-Gen1.so",
+    "paths" : {
         "inputDirectory": "inputs",
-        "outputDirectory": "outputs"
+        "outputDirectory": "outputs",
+        "engine": "engines/libEngine-Gen1.so"
+    },
+    "simulator": {
     },
     "matchDefinition" : {
-        "mechanics"       : "mechanicsDefs/_minimal.json",
+        "mechanics"       : "mechanicsDefs/minimal.json",
         "player1Team"     : "teams/gen1_human_minimal.json",
         "player1Strategy" : "strategies/gen1_minimal.lua",
         "player2Team"     : "teams/gen1_computer_minimal.json",

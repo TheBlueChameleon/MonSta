@@ -6,9 +6,11 @@
         "logfile": "logfile.txt"
     },
     "paths": {
-        "outputDirectory": "outputs/templates"
+        "outputDirectory": "outputs/templates",
+        "inputDirectory" : "inputs",
+        "engine": "engines/libEngine-Gen1.so"
     },
     "templates" : {
-        "engine": "./build-Desktop-Debug/libEngine-Gen1.so"
+        //"engine": "foo"
     }
 }

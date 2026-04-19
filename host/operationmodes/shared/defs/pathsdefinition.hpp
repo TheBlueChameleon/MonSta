@@ -9,6 +9,7 @@ namespace OperationModes
     {
         const std::filesystem::path inputDirectory;
         const std::filesystem::path outputDirectory;
+        const std::filesystem::path engine;
     };
 }
 

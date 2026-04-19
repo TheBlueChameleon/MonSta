@@ -33,9 +33,9 @@ namespace OperationModes
         ordered_json& pathsDefinition = result[JKEY_PATHS] = ordered_json::object();
         pathsDefinition[JKEY_PATHS_INPUTDIRECTORY]  = paths.inputDirectory.c_str();
         pathsDefinition[JKEY_PATHS_OUTPUTDIRECTORY] = paths.outputDirectory.c_str();
+        pathsDefinition[JKEY_PATHS_ENGINE]          = paths.engine.c_str();
 
-        ordered_json& simulatorDefinition = result[JKEY_SIMULATOR] = ordered_json::object();
-        simulatorDefinition[JKEY_SIMULATOR_ENGINE]          = clientDefinitions.engine;
+        /*ordered_json& simulatorDefinition = */result[JKEY_SIMULATOR] = ordered_json::object();
 
         ordered_json& matchDefinition = result[JKEY_MATCHDEFINITION] = ordered_json::object();
         matchDefinition[JKEY_MATCHDEFINITION_MECHANICS]       = clientDefinitions.mechanicsDefinition;
@@ -59,12 +59,13 @@ namespace OperationModes
         setupLoggerService(defs.logging);
         setupFileService(defs);
 
-        auto cw = ClientWrapper(defs.templates.engine);
+        const auto enginePath = defs.paths.inputDirectory / defs.paths.engine;
+
+        auto cw = ClientWrapper(enginePath);
         setupClientWriteOptions(cw, defs);
 
         auto clientDefinitions = cw.startTemplatesMode(
         {
-            defs.templates.engine.c_str(),
             defs.templates.mechanicsDefinition.c_str(),
             defs.templates.player1Team.c_str(),
             defs.templates.player1Strategy.c_str(),

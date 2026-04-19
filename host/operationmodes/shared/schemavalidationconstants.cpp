@@ -54,13 +54,16 @@ namespace OperationModes
 
     static const JsonSchemaBuilder makePathsSubSchema()
     {
-        auto paths = JsonSchemaBuilder(JKEY_PATHS);
+        auto paths = JsonSchemaBuilder(JKEY_PATHS)
+                     .setRequired({JKEY_PATHS_ENGINE});
 
         paths.addProperty(JKEY_PATHS_INPUTDIRECTORY,  IJsonServiceTypes::JsonType::STRING)
         .setDefault("./");
 
         paths.addProperty(JKEY_PATHS_OUTPUTDIRECTORY, IJsonServiceTypes::JsonType::STRING)
         .setDefault("./");
+
+        paths.addProperty(JKEY_PATHS_ENGINE, IJsonServiceTypes::JsonType::STRING);
 
         return paths;
     }
@@ -73,13 +76,7 @@ namespace OperationModes
 
     static const JsonSchemaBuilder makeSimulatorSubSchema()
     {
-        auto simulator = JsonSchemaBuilder(JKEY_SIMULATOR)
-                         .setRequired(
-        {
-            JKEY_SIMULATOR_ENGINE
-        });
-
-        simulator.addProperty(JKEY_SIMULATOR_ENGINE, IJsonServiceTypes::JsonType::STRING);
+        auto simulator = JsonSchemaBuilder(JKEY_SIMULATOR);
 
         simulator.addProperty(JKEY_SIMULATOR_REPETITIONS, IJsonServiceTypes::JsonType::INTEGER)
         .setMinimum(1)
@@ -172,13 +169,7 @@ namespace OperationModes
 
     static const JsonSchemaBuilder makeTemplateDefinitionSubSchema()
     {
-        auto result = JsonSchemaBuilder(JKEY_TEMPLATES)
-                      .setRequired(
-        {
-            JKEY_TEMPLATES_ENGINE
-        });
-
-        result.addProperty(JKEY_TEMPLATES_ENGINE, IJsonServiceTypes::JsonType::STRING);
+        auto result = JsonSchemaBuilder(JKEY_TEMPLATES);
 
         result.addProperty(JKEY_TEMPLATES_MECHANICS, IJsonServiceTypes::JsonType::STRING);
 

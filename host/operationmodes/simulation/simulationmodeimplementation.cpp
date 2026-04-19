@@ -16,7 +16,9 @@ namespace OperationModes
         setupLoggerService(defs.logging);
         setupFileService(defs);
 
-        auto cw = ClientWrapper(defs.simulator.engine);
+        const auto enginePath = defs.paths.inputDirectory / defs.paths.engine;
+
+        auto cw = ClientWrapper(enginePath);
         setupClientWriteOptions(cw, defs);
 
         cw.setupSimulationMode(

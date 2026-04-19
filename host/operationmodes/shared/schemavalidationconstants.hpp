@@ -24,9 +24,9 @@ namespace OperationModes
     static const auto JKEY_PATHS                 = "paths";
     static const auto JKEY_PATHS_INPUTDIRECTORY  = "inputDirectory";
     static const auto JKEY_PATHS_OUTPUTDIRECTORY = "outputDirectory";
+    static const auto JKEY_PATHS_ENGINE          = "engine";
 
     static const auto JKEY_SIMULATOR                 = "simulator";
-    static const auto JKEY_SIMULATOR_ENGINE          = "engine";
     static const auto JKEY_SIMULATOR_REPETITIONS     = "repetitions";
     static const auto JKEY_SIMULATOR_MAXTURNS        = "maxTurns";
     static const auto JKEY_SIMULATOR_THREADCOUNT     = "threadCount";
@@ -44,7 +44,6 @@ namespace OperationModes
     static const auto JKEY_MATCHDEFINITION_ITEMDEFS        = "itemDefs";
 
     static const auto JKEY_TEMPLATES                 = "templates";
-    static const auto JKEY_TEMPLATES_ENGINE          = "engine";
     static const auto JKEY_TEMPLATES_MECHANICS       = "mechanics";
     static const auto JKEY_TEMPLATES_PLAYER1TEAM     = "player1Team";
     static const auto JKEY_TEMPLATES_PLAYER1STRATEGY = "player1Strategy";
