@@ -90,18 +90,14 @@ HOST_API_EXPORT
         EngineBase::abnormalTerminationRequest = true;
     }
 
-    void HOST_API_CALL setOverwrite(const bool overwrite)
+    void HOST_API_CALL setFileServiceDefinition(const IFileServiceDefinition definition)
     {
-        EngineBase::overwriteFiles = overwrite;
-    }
+        EngineBase::overwriteFiles    = definition.overwrite;
+        EngineBase::createDirectories = definition.createDirectories;
+        EngineBase::dryMode           = definition.dryMode;
 
-    void HOST_API_CALL setCreateDirectories(const bool createDirectories)
-    {
-        EngineBase::createDirectories = createDirectories;
-    }
-
-    void HOST_API_CALL setDryMode(const bool dryMode)
-    {
-        EngineBase::dryMode = dryMode;
+        EngineBase::inputDirectory    = definition.inputDirectory;
+        EngineBase::outputDirectory   = definition.outputDirectory;
+        EngineBase::engine            = definition.engine;
     }
 }

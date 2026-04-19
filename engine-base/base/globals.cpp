@@ -11,4 +11,8 @@ namespace EngineBase
     bool overwriteFiles = false;
     bool createDirectories = false;
     bool dryMode = false;
+
+    std::filesystem::path inputDirectory;
+    std::filesystem::path outputDirectory;
+    std::filesystem::path engine;
 }

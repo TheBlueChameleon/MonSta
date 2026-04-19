@@ -95,8 +95,9 @@ set(apiHeaders
     api/services/JsonService/IJsonService_SchemaBuilder.hpp
     api/services/JsonService/IJsonService_Types.hpp
 
-    api/runmodes/ITemplatesDefinition.hpp
+    api/runmodes/IFileServiceDefinition.hpp
     api/runmodes/IMatchDefinition.hpp
+    api/runmodes/ITemplatesDefinition.hpp
 )
 
 # ---------------------------------------------------------------------------- #

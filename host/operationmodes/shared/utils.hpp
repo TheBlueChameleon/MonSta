@@ -24,7 +24,7 @@ namespace OperationModes
 
     void setupLoggerService(const LoggingDefinition& definition);
     void setupFileService(const BaseModeDefinition& definition);
-    void setupClientWriteOptions(ClientWrapper& cw, const BaseModeDefinition& runDefinition);
+    void setupFileServiceOptions(ClientWrapper& cw, const BaseModeDefinition& runDefinition);
 }
 
 #endif // UTILS_H

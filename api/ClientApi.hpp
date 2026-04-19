@@ -5,8 +5,9 @@
 #include <CallingConventions.hpp>
 #include <Version.hpp>
 
-#include <runmodes/ITemplatesDefinition.hpp>
+#include <runmodes/IFileServiceDefinition.hpp>
 #include <runmodes/IMatchDefinition.hpp>
+#include <runmodes/ITemplatesDefinition.hpp>
 
 // ========================================================================== //
 // exported to host
@@ -25,9 +26,7 @@ HOST_API_EXPORT
     bool HOST_API_CALL hasFeature(const char* const featureTag);
     void HOST_API_CALL terminateAbnormally();
 
-    void HOST_API_CALL setOverwrite(const bool overwrite);
-    void HOST_API_CALL setCreateDirectories(const bool createDirectories);
-    void HOST_API_CALL setDryMode(const bool dryMode);
+    void HOST_API_CALL setFileServiceDefinition(const IFileServiceDefinition definition);
 
     ITemplatesDefinition HOST_API_CALL startTemplatesMode(const ITemplatesDefinition templatesDefinition);
     void HOST_API_CALL setupSimulationMode(const IMatchDefinition matchDefinition);

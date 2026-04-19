@@ -91,9 +91,7 @@ void ClientWrapper::extractSymbols()
     FETCH(hangUp);
     FETCH(terminateAbnormally);
 
-    FETCH(setOverwrite);
-    FETCH(setCreateDirectories);
-    FETCH(setDryMode);
+    FETCH(setFileServiceDefinition);
 
     FETCH(startTemplatesMode);
     FETCH(setupSimulationMode);
@@ -263,19 +261,9 @@ void ClientWrapper::terminateAbnormally()
     _terminateAbnormally();
 }
 
-void ClientWrapper::setOverwrite(const bool overwrite)
+void ClientWrapper::setFileServiceDefinition(const IFileServiceDefinition& definition)
 {
-    _setOverwrite(overwrite);
-}
-
-void ClientWrapper::setCreateDirectories(const bool createDirectories)
-{
-    _setCreateDirectories(createDirectories);
-}
-
-void ClientWrapper::setDryMode(const bool dryMode)
-{
-    _setDryMode(dryMode);
+    _setFileServiceDefinition(definition);
 }
 
 ITemplatesDefinition ClientWrapper::startTemplatesMode(const ITemplatesDefinition& templatesDefinition)

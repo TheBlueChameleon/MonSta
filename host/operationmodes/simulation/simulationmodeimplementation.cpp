@@ -19,7 +19,7 @@ namespace OperationModes
         const auto enginePath = defs.paths.inputDirectory / defs.paths.engine;
 
         auto cw = ClientWrapper(enginePath);
-        setupClientWriteOptions(cw, defs);
+        setupFileServiceOptions(cw, defs);
 
         cw.setupSimulationMode(
         {

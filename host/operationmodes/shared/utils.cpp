@@ -93,11 +93,19 @@ namespace OperationModes
         }
     }
 
-    void setupClientWriteOptions(ClientWrapper& cw, const BaseModeDefinition& runDefinition)
+    void setupFileServiceOptions(ClientWrapper& cw, const BaseModeDefinition& runDefinition)
     {
-        cw.setOverwrite(runDefinition.overwrite);
-        cw.setCreateDirectories(runDefinition.createDirectories);
-        cw.setDryMode(runDefinition.dryMode);
+        cw.setFileServiceDefinition(IFileServiceDefinition
+        {
+            runDefinition.overwrite,
+            runDefinition.createDirectories,
+            runDefinition.dryMode,
+
+            runDefinition.paths.inputDirectory.c_str(),
+            runDefinition.paths.outputDirectory.c_str(),
+            runDefinition.paths.engine.c_str()
+        });
+
     }
 
 }

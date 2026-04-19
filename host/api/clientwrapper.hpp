@@ -10,8 +10,9 @@
 #include <HostApi.hpp>
 #include <Version.hpp>
 
-#include <runmodes/ITemplatesDefinition.hpp>
+#include <runmodes/IFileServiceDefinition.hpp>
 #include <runmodes/IMatchDefinition.hpp>
+#include <runmodes/ITemplatesDefinition.hpp>
 
 #include "hostapiprovider.hpp"
 
@@ -67,9 +68,7 @@ class ClientWrapper
         bool (*HOST_API_CALL _hasFeature)(const char* const featureTag);
         void (*HOST_API_CALL _terminateAbnormally)();
 
-        void (*HOST_API_CALL _setOverwrite)(const bool overwrite);
-        void (*HOST_API_CALL _setCreateDirectories)(const bool createDirectories);
-        void (*HOST_API_CALL _setDryMode)(const bool dryMode);
+        void (*HOST_API_CALL _setFileServiceDefinition)(const IFileServiceDefinition definition);
 
         ITemplatesDefinition(*HOST_API_CALL _startTemplatesMode)(const ITemplatesDefinition templatesDefinition);
         void (*HOST_API_CALL _setupSimulationMode)(const IMatchDefinition matchDefinition);
@@ -101,9 +100,7 @@ class ClientWrapper
 
         void terminateAbnormally();
 
-        void setOverwrite(const bool overwrite);
-        void setCreateDirectories(const bool createDirectories);
-        void setDryMode(const bool dryMode);
+        void setFileServiceDefinition(const IFileServiceDefinition& definition);
 
         ITemplatesDefinition startTemplatesMode(const ITemplatesDefinition& templatesDefinition);
         void setupSimulationMode(const IMatchDefinition simulationModeDefinition);
