@@ -3,8 +3,8 @@
 
 #include <services/JsonService/IJsonService_Types.hpp>
 
-#include "mechanicsdefinition.hpp"
-#include "teamdefinition.hpp"
+#include "defs/mechanicsdefinition.hpp"
+#include "defs/teamdefinition.hpp"
 
 namespace SimulationMode
 {
