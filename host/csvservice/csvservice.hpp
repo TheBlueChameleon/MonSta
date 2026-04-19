@@ -16,8 +16,8 @@ namespace CsvService
     {
         public:
             using CellType  = std::string;
-            using RowType   = std::vector<CellType>;
-            using TableType = std::vector<RowType>;
+            using LineType  = std::vector<CellType>;
+            using TableType = std::vector<LineType>;
 
         private:
             TableType   table;
@@ -51,6 +51,8 @@ namespace CsvService
             const size_t getMaxWidth() const;
             const size_t getRowWidth(const size_t rowIndex) const;
 
+            const bool   hasRow(const std::string_view rowName) const;
+            const bool   hasColumn(const std::string_view columnName) const;
             const size_t getRowIndex(const std::string_view rowName) const;
             const size_t getColumnIndex(const std::string_view columnName) const;
             const std::unordered_map<std::string, size_t>& getColumnNameToIndexMap() const;
@@ -60,8 +62,10 @@ namespace CsvService
             void reIndexColumns(const size_t rowIndex);
 
             const TableType& getTable() const;
-            const RowType&   getRow(const size_t rowIndex) const;
-            const RowType&   getRow(const std::string_view rowName) const;
+            const LineType&  getRow(const size_t rowIndex) const;
+            const LineType&  getRow(const std::string_view rowName) const;
+            LineType         getColumn(const size_t columnIndex) const;
+            LineType         getColumn(const std::string_view columnName) const;
             const CellType&  getCell(const size_t rowIndex, const size_t columnIndex) const;
             const CellType&  getCell(const std::string_view rowName, const std::string_view columnName) const;
     };

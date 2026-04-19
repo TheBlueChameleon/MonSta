@@ -26,6 +26,8 @@ namespace CsvService
     const size_t HOST_API_CALL getMaxWidth_dlx(const ICsvService::CsvHandle handle);
     const size_t HOST_API_CALL getRowWidth_dlx(const ICsvService::CsvHandle handle, const size_t rowIndex);
 
+    const bool   HOST_API_CALL hasRow_dlx(const ICsvService::CsvHandle handle, const char* const rowName);
+    const bool   HOST_API_CALL hasColumn_dlx(const ICsvService::CsvHandle handle, const char* const columnName);
     const size_t HOST_API_CALL getRowIndex_dlx(const ICsvService::CsvHandle handle, const char* const rowName);
     const size_t HOST_API_CALL getColumnIndex_dlx(const ICsvService::CsvHandle handle, const char* const columnName);
 
@@ -37,6 +39,10 @@ namespace CsvService
 
     void HOST_API_CALL getRow_dlx(const ICsvService::CsvHandle handle, ICsvService::RowData buffer, const size_t rowIndex);
     void HOST_API_CALL getRowByName_dlx(const ICsvService::CsvHandle handle, ICsvService::RowData buffer, const char* const rowName);
+
+    ICsvService::ColumnData HOST_API_CALL getColumn_dlx(const ICsvService::CsvHandle handle, const size_t columnIndex);
+    ICsvService::ColumnData HOST_API_CALL getColumnByName_dlx(const ICsvService::CsvHandle handle, const char* const columnName);
+    void HOST_API_CALL freeColumnBuffer_dlx(ICsvService::ColumnData* columnData);
 
     ICsvService::CellData HOST_API_CALL getCell_dlx(const ICsvService::CsvHandle handle, const size_t rowIndex, const size_t columnIndex);
     ICsvService::CellData HOST_API_CALL getCellByName_dlx(const ICsvService::CsvHandle handle, const char* const rowName, const char* const columnName);

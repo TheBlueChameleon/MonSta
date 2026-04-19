@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cstring>
 #include <fstream>
 #include <string>
@@ -53,7 +54,7 @@ namespace CsvService
 
     struct InsertionBuffer
     {
-        IndexedCsvData::RowType currentLine;
+        IndexedCsvData::LineType currentLine;
         IndexedCsvData::TableType& table;
         std::vector<size_t>& widths;
         size_t maxWidth = 0;
@@ -250,6 +251,16 @@ namespace CsvService
         return widths[rowIndex];
     }
 
+    const bool IndexedCsvData::hasRow(const std::string_view rowName) const
+    {
+        return rowNames.contains(rowName.data());
+    }
+
+    const bool IndexedCsvData::hasColumn(const std::string_view columnName) const
+    {
+        return columnNames.contains(columnName.data());
+    }
+
     const size_t IndexedCsvData::getRowIndex(const std::string_view rowName) const
     {
         auto it = rowNames.find(rowName.data());
@@ -299,7 +310,7 @@ namespace CsvService
         return table;
     }
 
-    const IndexedCsvData::RowType& IndexedCsvData::getRow(const size_t rowIndex) const
+    const IndexedCsvData::LineType& IndexedCsvData::getRow(const size_t rowIndex) const
     {
         if (rowIndex < 0 || rowIndex >= table.size())
         {
@@ -309,9 +320,41 @@ namespace CsvService
         return table[rowIndex];
     }
 
-    const IndexedCsvData::RowType& IndexedCsvData::getRow(const std::string_view rowName) const
+    const IndexedCsvData::LineType& IndexedCsvData::getRow(const std::string_view rowName) const
     {
         return getRow(getRowIndex(rowName));
+    }
+
+    IndexedCsvData::LineType IndexedCsvData::getColumn(const size_t columnIndex) const
+    {
+        if (columnIndex < 0 || columnIndex >= maxWidth)
+        {
+            throw CsvError("Invalid column index "s + std::to_string(columnIndex) + " while accessing CSV data from " + origin);
+        }
+
+        const auto selectColumnValue = [this, &columnIndex](const LineType& row)
+        {
+            if (row.size() <= columnIndex)
+            {
+                throw CsvError("Invalid column index "s + std::to_string(columnIndex) + " while accessing CSV data from " + origin);
+            }
+
+            return row[columnIndex];
+        };
+
+        LineType result(getRowCount());
+        std::transform(
+            table.begin(), table.end(),
+            result.begin(),
+            selectColumnValue
+        );
+
+        return result;
+    }
+
+    IndexedCsvData::LineType IndexedCsvData::getColumn(const std::string_view columnName) const
+    {
+        return getColumn(getColumnIndex(columnName));
     }
 
     const IndexedCsvData::CellType& IndexedCsvData::getCell(const size_t rowIndex, const size_t columnIndex) const

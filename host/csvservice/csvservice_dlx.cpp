@@ -53,17 +53,48 @@ namespace CsvService
         ICsvService::RowData buffer
     )
     {
-        std::transform(row.begin(), row.end(),
-                       buffer.data,
-                       [](const std::string& cell)
+        const auto toCellData = [](const std::string& cell)
         {
             return ICsvService::CellData
             {
                 cell.data(),
                 cell.length() + 1
             };
-        }
+        };
+
+        std::transform(row.begin(), row.end(),
+                       buffer.data,
+                       toCellData
                       );
+    }
+
+    static ICsvService::ColumnData copyColumnToCData(const std::vector<std::string>& column)
+    {
+        ICsvService::ColumnData result;
+
+        const size_t size = column.size();
+        result.data = new ICsvService::CellData[size];
+        result.size = size;
+
+        const auto copyToCells = [](const std::string& cellString)
+        {
+            ICsvService::CellData cell;
+
+            const size_t size = cellString.size() + 1;
+            cell.data = new char[size];
+            cell.size = size;
+
+            std::strncpy(const_cast<char*>(cell.data), cellString.data(), size);
+
+            return cell;
+        };
+
+        std::transform(column.begin(), column.end(),
+                       result.data,
+                       copyToCells
+                      );
+
+        return result;
     }
 
     // ====================================================================== //
@@ -144,6 +175,26 @@ namespace CsvService
             return toCsvData(handle).getRowWidth(rowIndex);
         }
         CATCH_ALL_OWN(0)
+    }
+
+    const bool hasRow_dlx(const ICsvService::CsvHandle handle, const char* const rowName)
+    {
+        try
+        {
+            assertSaneHandle(handle);
+            return toCsvData(handle).hasRow(rowName);
+        }
+        CATCH_ALL_OWN(false)
+    }
+
+    const bool hasColumn_dlx(const ICsvService::CsvHandle handle, const char* const columnName)
+    {
+        try
+        {
+            assertSaneHandle(handle);
+            return toCsvData(handle).hasColumn(columnName);
+        }
+        CATCH_ALL_OWN(false)
     }
 
     const size_t HOST_API_CALL getRowIndex_dlx(const ICsvService::CsvHandle handle, const char* const rowName)
@@ -236,6 +287,51 @@ namespace CsvService
         CATCH_ALL_OWN()
     }
 
+    ICsvService::ColumnData HOST_API_CALL getColumn_dlx(const ICsvService::CsvHandle handle, const size_t columnIndex)
+    {
+        ICsvService::ColumnData nullData {nullptr, 0};
+        try
+        {
+            assertSaneHandle(handle);
+            const std::vector<std::string> column = toCsvData(handle).getColumn(columnIndex);
+            return copyColumnToCData(column);
+        }
+        CATCH_ALL_OWN(nullData)
+    }
+
+    ICsvService::ColumnData HOST_API_CALL getColumnByName_dlx(const ICsvService::CsvHandle handle, const char* const columnName)
+    {
+        ICsvService::ColumnData nullData {nullptr, 0};
+        try
+        {
+            assertSaneHandle(handle);
+            const std::vector<std::string> column = toCsvData(handle).getColumn(columnName);
+            return copyColumnToCData(column);
+        }
+        CATCH_ALL_OWN(nullData)
+    }
+
+    void HOST_API_CALL freeColumnBuffer_dlx(ICsvService::ColumnData* columnData)
+    {
+        try
+        {
+            assertSanePointer(columnData);
+            assertSanePointer(columnData->data);
+
+            for (int i = 0; i < columnData->size; ++i)
+            {
+                assertSanePointer(columnData->data[i].data);
+                delete columnData->data[i].data;
+                columnData->data[i].data = nullptr;
+                columnData->data[i].size = 0;
+            }
+            delete columnData->data;
+            columnData->data = nullptr;
+            columnData->size = 0;
+        }
+        CATCH_ALL_OWN()
+    }
+
     ICsvService::CellData HOST_API_CALL getCell_dlx(const ICsvService::CsvHandle handle, const size_t rowIndex, const size_t columnIndex)
     {
         const auto nullCell = ICsvService::CellData {nullptr, 0};
@@ -259,4 +355,5 @@ namespace CsvService
         }
         CATCH_ALL_OWN(nullCell)
     }
+
 }

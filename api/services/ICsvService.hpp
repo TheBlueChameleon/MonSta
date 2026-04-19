@@ -22,11 +22,17 @@ struct ICsvService
 
     struct CellData
     {
-        const char*  data;
-        size_t size;
+        const char* data;
+        size_t      size;
     };
 
     struct RowData
+    {
+        CellData* data;
+        size_t    size;
+    };
+
+    struct ColumnData
     {
         CellData* data;
         size_t    size;
