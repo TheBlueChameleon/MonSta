@@ -16,6 +16,11 @@ namespace TemplateMode
 {
     static const std::string UNDEFINED = "<to be defined>";
 
+    static std::string quote(const std::string_view quotee)
+    {
+        return "\""s + quotee.data() + "\"";
+    }
+
     static std::string_view writeMechanicsDefinitionFile(
         const std::string_view inputName,
         const std::string_view defaultName
@@ -37,11 +42,6 @@ namespace TemplateMode
         FileService::write(defaultName, memBlock.getAsStringView());
 
         return defaultName;
-    }
-
-    static std::string quote(const std::string_view quotee)
-    {
-        return "\""s + quotee.data() + "\"";
     }
 
     static std::string_view writeTeamDefinitionFile(
@@ -181,16 +181,6 @@ namespace TemplateMode
 
     const ITemplatesDefinition run(const ITemplatesDefinition& templatesDefinition)
     {
-        const auto mechanicsDefinitionFile = writeMechanicsDefinitionFile(templatesDefinition.mechanicsDefinition, MECHANICS_DEFINITION_FILE);
-        const auto player1TeamDefinitionFile = writeTeamDefinitionFile(templatesDefinition.player1Team, PLAYER1_TEAMDEFINITION_FILE, SchemaValidation::JKEY_HUMAN);
-        const auto player2TeamDefinitionFile = writeTeamDefinitionFile(templatesDefinition.player2Team, PLAYER2_TEAMDEFINITION_FILE, SchemaValidation::JKEY_COMPUTER);
-        const auto player1StrategyFile = writeStrategyFile(templatesDefinition.player1Team, PLAYER1_STRATEGY_FILE);
-        const auto player2StrategyFile = writeStrategyFile(templatesDefinition.player2Team, PLAYER2_STRATEGY_FILE);
-        const auto pkmnDefinitionFile = writePkmnDefinitionFile(templatesDefinition.pkmnDefs, PKMN_DEFINITION_FILE);
-        const auto moveDefinitionFile = writeMoveDefinitionFile(templatesDefinition.moveDefs, MOVE_DEFINITION_FILE);
-        const auto typeDefinitionFile = writeTypeDefinitionFile(templatesDefinition.typeDefs, TYPE_DEFINITION_FILE);
-        const auto itemDefinitionFile = writeItemDefinitionFile(templatesDefinition.itemDefs, ITEM_DEFINITION_FILE);
-
         if (templatesDefinition.writeSchemas)
         {
             writeSchemas();
@@ -200,6 +190,16 @@ namespace TemplateMode
         {
             writeAllowedValueFile();
         }
+
+        const auto mechanicsDefinitionFile = writeMechanicsDefinitionFile(templatesDefinition.mechanicsDefinition, MECHANICS_DEFINITION_FILE);
+        const auto player1TeamDefinitionFile = writeTeamDefinitionFile(templatesDefinition.player1Team, PLAYER1_TEAMDEFINITION_FILE, SchemaValidation::JKEY_HUMAN);
+        const auto player2TeamDefinitionFile = writeTeamDefinitionFile(templatesDefinition.player2Team, PLAYER2_TEAMDEFINITION_FILE, SchemaValidation::JKEY_COMPUTER);
+        const auto player1StrategyFile = writeStrategyFile(templatesDefinition.player1Team, PLAYER1_STRATEGY_FILE);
+        const auto player2StrategyFile = writeStrategyFile(templatesDefinition.player2Team, PLAYER2_STRATEGY_FILE);
+        const auto pkmnDefinitionFile = writePkmnDefinitionFile(templatesDefinition.pkmnDefs, PKMN_DEFINITION_FILE);
+        const auto moveDefinitionFile = writeMoveDefinitionFile(templatesDefinition.moveDefs, MOVE_DEFINITION_FILE);
+        const auto typeDefinitionFile = writeTypeDefinitionFile(templatesDefinition.typeDefs, TYPE_DEFINITION_FILE);
+        const auto itemDefinitionFile = writeItemDefinitionFile(templatesDefinition.itemDefs, ITEM_DEFINITION_FILE);
 
         return ITemplatesDefinition
         {

@@ -3,5 +3,6 @@
 namespace SimulationMode
 {
     IJsonServiceTypes::JsonHandle JHND_MECHANICSDEFINITION = IJsonServiceTypes::JsonHandle(nullptr);
+    MechanicsDefinition mechanicsDefinition;
 
 } // namespace SimulationMode
