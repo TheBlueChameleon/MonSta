@@ -23,9 +23,9 @@ namespace CsvService
         return result;
     }
 
-    void freeCsvData(ICsvService::CsvHandle* handle)
+    void freeCsvData(ICsvService::CsvHandle& handle)
     {
-        csvService().freeCsvData(handle);
+        csvService().freeCsvData(&handle);
         rethrowHostError();
     }
 
@@ -53,6 +53,20 @@ namespace CsvService
     const size_t getRowWidth(const ICsvService::CsvHandle handle, const size_t rowIndex)
     {
         auto result = csvService().getRowWidth(handle, rowIndex);
+        rethrowHostError();
+        return result;
+    }
+
+    const bool hasRow(const ICsvService::CsvHandle handle, const std::string_view rowName)
+    {
+        auto result = csvService().hasRow(handle, rowName.data());
+        rethrowHostError();
+        return result;
+    }
+
+    const bool hasColumn(const ICsvService::CsvHandle handle, const std::string_view columnName)
+    {
+        auto result = csvService().hasColumn(handle, columnName.data());
         rethrowHostError();
         return result;
     }
@@ -90,9 +104,9 @@ namespace CsvService
         return result;
     }
 
-    void freeRowBuffer(ICsvService::RowData* buffer)
+    void freeRowBuffer(ICsvService::RowData& buffer)
     {
-        csvService().freeRowBuffer(buffer);
+        csvService().freeRowBuffer(&buffer);
         rethrowHostError();
     }
 
@@ -105,6 +119,26 @@ namespace CsvService
     void getRowByName(const ICsvService::CsvHandle handle, ICsvService::RowData buffer, const std::string_view rowName)
     {
         csvService().getRowByName(handle, buffer, rowName.data());
+        rethrowHostError();
+    }
+
+    ICsvService::ColumnData getColumn(const ICsvService::CsvHandle handle, const size_t columnIndex)
+    {
+        auto result = csvService().getColumn(handle, columnIndex);
+        rethrowHostError();
+        return result;
+    }
+
+    ICsvService::ColumnData getColumnByName(const ICsvService::CsvHandle handle, const std::string_view columnName)
+    {
+        auto result = csvService().getColumnByName(handle, columnName.data());
+        rethrowHostError();
+        return result;
+    }
+
+    void freeColumnBuffer(ICsvService::ColumnData& columnData)
+    {
+        csvService().freeColumnBuffer(&columnData);
         rethrowHostError();
     }
 
