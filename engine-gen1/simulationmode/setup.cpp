@@ -1,7 +1,10 @@
+#include <span>
+
 #include <base/enginebase.hpp>
 
-#include <services/loggerservice.hpp>
+#include <services/csvservice.hpp>
 #include <services/jsonservice.hpp>
+#include <services/loggerservice.hpp>
 
 #include "globals.hpp"
 #include "schemavalidationconstants.hpp"
@@ -10,6 +13,7 @@
 
 #include "registry.hpp"
 #include "setup.hpp"
+#include "typechart.hpp"
 
 using namespace EngineBase;
 using namespace SchemaValidation;
@@ -262,6 +266,27 @@ namespace SimulationMode
     // ---------------------------------------------------------------------- //
     // types definition
 
+    ICsvService::ColumnData assertTypeDataCompleteAndGetTypeNames(ICsvService::CsvHandle handle)
+    {
+        // *INDENT-OFF*
+        if (!CsvService::hasColumn(handle, TypeChart::ATTACKER)) { throw EngineError("Missing column: "s + TypeChart::ATTACKER); }
+        if (!CsvService::hasColumn(handle, TypeChart::CATEGORY)) { throw EngineError("Missing column: "s + TypeChart::CATEGORY); }
+        // *INDENT-ON*
+
+        ICsvService::ColumnData typeNames = CsvService::getColumnByName(handle, TypeChart::ATTACKER);
+        const auto typeNamesView = std::span(typeNames.data + 1, typeNames.data + typeNames.size);
+
+        for (const ICsvService::CellData type : typeNamesView)
+        {
+            if (!CsvService::hasColumn(handle, type.data))
+            {
+                throw EngineError("Missing column: "s + type.data);
+            }
+        }
+
+        return typeNames;
+    }
+
     void loadAndRegisterTypesDefinition(
         const std::filesystem::path& typeDefinitionFile,
         ErrorBuffer& eb
@@ -269,9 +294,20 @@ namespace SimulationMode
     {
         try
         {
-            LoggerService::traceF("  ... loading team definition from '{}'", typeDefinitionFile.c_str());
+            LoggerService::traceF("  ... loading types definition from '{}'", typeDefinitionFile.c_str());
 
+            ICsvService::CsvHandle csvHandle = CsvService::readCsvData(typeDefinitionFile, ICsvService::CsvOptions{});
 
+            auto typeNames = assertTypeDataCompleteAndGetTypeNames(csvHandle);
+            const auto typeNamesView = std::span(typeNames.data + 1, typeNames.data + typeNames.size);
+
+            for (const ICsvService::CellData type : typeNamesView)
+            {
+                LoggerService::infoF("### {}", type.data);
+            }
+
+            CsvService::freeColumnBuffer(typeNames);
+            CsvService::freeCsvData(csvHandle);
 
         }
         catch (const EngineError& e)

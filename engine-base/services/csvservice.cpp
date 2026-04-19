@@ -5,9 +5,9 @@ using namespace Services;
 
 namespace CsvService
 {
-    ICsvService::CsvHandle readCsvData(const std::string_view filename, const ICsvService::CsvOptions csvOptions)
+    ICsvService::CsvHandle readCsvData(const std::filesystem::__cxx11::path& filename, const ICsvService::CsvOptions csvOptions)
     {
-        auto result = csvService().readCsvData(filename.data(), csvOptions);
+        auto result = csvService().readCsvData(filename.c_str(), csvOptions);
         rethrowHostError();
         return result;
     }

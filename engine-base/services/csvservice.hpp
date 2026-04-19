@@ -1,6 +1,7 @@
 #ifndef CSVSERVICE_HPP
 #define CSVSERVICE_HPP
 
+#include <filesystem>
 #include <string_view>
 
 #include <services/ICsvService.hpp>
@@ -8,7 +9,7 @@
 namespace CsvService
 {
     ICsvService::CsvHandle readCsvData(
-        const std::string_view filename,
+        const std::filesystem::path& filename,
         const ICsvService::CsvOptions csvOptions
     );
 
