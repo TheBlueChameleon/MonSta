@@ -31,24 +31,26 @@ namespace JsonService
         CATCH_EM_ALL(IJsonServiceTypes::JsonSchemaElementBuilderHandle(nullptr))
     }
 
-    void HOST_API_CALL freeSchemaBuilder_dlx(IJsonServiceTypes::JsonSchemaBuilderHandle& handle)
+    void HOST_API_CALL freeSchemaBuilder_dlx(IJsonServiceTypes::JsonSchemaBuilderHandle* handle)
     {
         try
         {
-            assertSaneHandle(handle);
-            delete &toSchemaBuilder(handle);
-            handle.data = nullptr;
+            assertSanePointer(handle);
+            assertSaneHandle(*handle);
+            delete &toSchemaBuilder(*handle);
+            handle->data = nullptr;
         }
         CATCH_EM_ALL()
     }
 
-    void HOST_API_CALL freeSchemaElementBuilder_dlx(IJsonServiceTypes::JsonSchemaElementBuilderHandle& handle)
+    void HOST_API_CALL freeSchemaElementBuilder_dlx(IJsonServiceTypes::JsonSchemaElementBuilderHandle* handle)
     {
         try
         {
-            assertSaneHandle(handle);
-            delete &toSchemaElementBuilder(handle);
-            handle.data = nullptr;
+            assertSanePointer(handle);
+            assertSaneHandle(*handle);
+            delete &toSchemaElementBuilder(*handle);
+            handle->data = nullptr;
         }
         CATCH_EM_ALL()
     }

@@ -41,6 +41,7 @@ namespace JsonService
     void assertSaneTag(const IJsonServiceTypes::JsonTag tag);
     void assertSaneParseable(const char* const rawJson);
     void assertSaneFilename(const char* const file);
+    void assertSanePointer(const void* ptr);
 }
 
 #endif // HANDLECONVERTER_HPP

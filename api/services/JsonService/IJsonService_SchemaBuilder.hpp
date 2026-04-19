@@ -13,8 +13,8 @@ struct IJsonService_SchemaBuilder
     IJsonServiceTypes::JsonSchemaBuilderHandle(*const HOST_API_CALL instantiateSchemaBuilder)(const char* const name);
     IJsonServiceTypes::JsonSchemaElementBuilderHandle(*const HOST_API_CALL instantiateSchemaElementBuilder)(const char* const name);
 
-    void (*const HOST_API_CALL freeSchemaBuilder)(IJsonServiceTypes::JsonSchemaBuilderHandle& handle);
-    void (*const HOST_API_CALL freeSchemaElementBuilder)(IJsonServiceTypes::JsonSchemaElementBuilderHandle& handle);
+    void (*const HOST_API_CALL freeSchemaBuilder)(IJsonServiceTypes::JsonSchemaBuilderHandle* handle);
+    void (*const HOST_API_CALL freeSchemaElementBuilder)(IJsonServiceTypes::JsonSchemaElementBuilderHandle* handle);
 
     // ---------------------------------------------------------------------- //
     // JsonSchemaBuilder

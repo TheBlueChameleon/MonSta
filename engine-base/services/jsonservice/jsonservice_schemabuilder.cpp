@@ -25,13 +25,13 @@ namespace JsonService
 
     void freeSchemaBuilder(IJsonServiceTypes::JsonSchemaBuilderHandle& handle)
     {
-        jsonService().schemaBuilder.freeSchemaBuilder(handle);
+        jsonService().schemaBuilder.freeSchemaBuilder(&handle);
         rethrowHostError();
     }
 
     void freeSchemaElementBuilder(IJsonServiceTypes::JsonSchemaElementBuilderHandle& handle)
     {
-        jsonService().schemaBuilder.freeSchemaElementBuilder(handle);
+        jsonService().schemaBuilder.freeSchemaElementBuilder(&handle);
         rethrowHostError();
     }
 

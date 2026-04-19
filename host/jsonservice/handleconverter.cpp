@@ -142,4 +142,12 @@ namespace JsonService
             throw ClientRequestError("Client attempted operation on empty Json Tag");
         }
     }
+
+    void assertSanePointer(const void* ptr)
+    {
+        if (ptr == nullptr)
+        {
+            throw JsonError("Client attempted dereference null pointer");
+        }
+    }
 }
