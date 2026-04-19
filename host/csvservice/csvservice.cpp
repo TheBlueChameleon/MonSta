@@ -33,6 +33,8 @@ namespace CsvService
             getMaxWidth_dlx,
             getRowWidth_dlx,
 
+            hasRow_dlx,
+            hasColumn_dlx,
             getRowIndex_dlx,
             getColumnIndex_dlx,
 
@@ -44,6 +46,9 @@ namespace CsvService
 
             getRow_dlx,
             getRowByName_dlx,
+            getColumn_dlx,
+            getColumnByName_dlx,
+            freeColumnBuffer_dlx,
             getCell_dlx,
             getCellByName_dlx
         };

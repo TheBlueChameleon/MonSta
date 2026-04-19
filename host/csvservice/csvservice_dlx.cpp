@@ -177,7 +177,7 @@ namespace CsvService
         CATCH_ALL_OWN(0)
     }
 
-    const bool hasRow_dlx(const ICsvService::CsvHandle handle, const char* const rowName)
+    const bool HOST_API_CALL hasRow_dlx(const ICsvService::CsvHandle handle, const char* const rowName)
     {
         try
         {
@@ -187,7 +187,7 @@ namespace CsvService
         CATCH_ALL_OWN(false)
     }
 
-    const bool hasColumn_dlx(const ICsvService::CsvHandle handle, const char* const columnName)
+    const bool HOST_API_CALL hasColumn_dlx(const ICsvService::CsvHandle handle, const char* const columnName)
     {
         try
         {
