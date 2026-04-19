@@ -13,7 +13,7 @@ namespace SimulationMode
 
         private:
         public:
-            TypeChart();
+            TypeChart() = default;
     };
 }
 

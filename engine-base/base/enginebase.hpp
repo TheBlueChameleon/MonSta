@@ -6,8 +6,6 @@
 
 #include "errorbuffer.hpp"
 
-struct EngineError;
-
 namespace EngineBase
 {
     void passExceptionToHost(const EngineError& e);
