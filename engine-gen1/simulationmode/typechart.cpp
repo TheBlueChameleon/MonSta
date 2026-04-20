@@ -7,20 +7,6 @@
 using namespace std::string_literals;
 namespace SimulationMode
 {
-    size_t TypeChart::getIndex(const std::string_view typeName) const
-    {
-        const auto it = indices.find(typeName.data());
-        if (it == indices.end())
-        {
-            throw EngineError("Unknown type name: "s + typeName.data());
-        }
-        else
-        {
-            // it is pair<key, value>
-            return it->second;
-        }
-    }
-
     void TypeChart::setupTypes(const std::vector<std::string_view>& columnNames)
     {
         indices.clear();
@@ -67,6 +53,20 @@ namespace SimulationMode
         moveCategories.find(typeName.data())->second = category;
     }
 
+    size_t TypeChart::getIndex(const std::string_view typeName) const
+    {
+        const auto it = indices.find(typeName.data());
+        if (it == indices.end())
+        {
+            throw EngineError("Unknown type name: "s + typeName.data());
+        }
+        else
+        {
+            // it is pair<key, value>
+            return it->second;
+        }
+    }
+
     const MoveCategory TypeChart::getMoveCategoryForType(const std::string_view type)
     {
         const auto it = moveCategories.find(type.data());
@@ -75,6 +75,43 @@ namespace SimulationMode
             throw EngineError("Unknown type: "s + type.data());
         }
         return it->second;
+    }
+
+    double TypeChart::getMultiplyer(const size_t rowIndex, const size_t columnIndex) const
+    {
+        if (rowIndex >= table.size())
+        {
+            throw EngineError("Invalid row index: "s + std::to_string(rowIndex));
+        }
+        if (columnIndex >= table.size())        // this is a NxN table, so table.size() is valid here
+        {
+            throw EngineError("Invalid column index: "s + std::to_string(columnIndex));
+        }
+
+        return table[rowIndex][columnIndex];
+    }
+
+    double TypeChart::getMultiplyer(const std::string_view attackerTypeName, const std::string_view defenderTypeName) const
+    {
+        const auto rowIndex = getIndex(attackerTypeName);
+        const auto columnIndex = getIndex(defenderTypeName);
+        return table[rowIndex][columnIndex];
+    }
+
+    double TypeChart::getMultiplyer(const std::string_view attackerTypeName, const PokemonType& defenderType) const
+    {
+        const auto rowIndex = getIndex(attackerTypeName);
+        const auto columnIndex1 = getIndex(defenderType.primary);
+        const auto& targetRow = table[rowIndex];
+
+        double result = targetRow[columnIndex1];
+        if (defenderType.secondary.has_value())
+        {
+            const auto columnIndex2 = getIndex(defenderType.secondary.value());
+            result *= targetRow[columnIndex2];
+        }
+
+        return result;
     }
 
 }
