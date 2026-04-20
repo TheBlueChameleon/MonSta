@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <iostream>
 
 #include <base/errors.hpp>
 
@@ -68,16 +67,14 @@ namespace SimulationMode
         moveCategories.find(typeName.data())->second = category;
     }
 
-    void TypeChart::show() const
+    const MoveCategory TypeChart::getMoveCategoryForType(const std::string_view type)
     {
-        for (const auto& row : table)
+        const auto it = moveCategories.find(type.data());
+        if (it == moveCategories.end())
         {
-            for (const auto d : row)
-            {
-                std::cout << d << "\t";
-            }
-            std::cout << std::endl;
+            throw EngineError("Unknown type: "s + type.data());
         }
+        return it->second;
     }
 
 }

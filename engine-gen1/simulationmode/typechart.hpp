@@ -29,7 +29,7 @@ namespace SimulationMode
             void setupTypes(const std::vector<std::string_view>& columnNames);
             void setRow(const std::string_view typeName, const MoveCategory category, const std::vector<std::string_view>& effectiveness);
 
-            void show() const;
+            const MoveCategory getMoveCategoryForType(const std::string_view type);
     };
 }
 
