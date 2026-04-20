@@ -10,4 +10,6 @@ namespace SimulationMode
     TeamDefinition player1TeamDefinition;
     TeamDefinition player2TeamDefinition;
 
+    TypeChart typeChart;
+
 } // namespace SimulationMode

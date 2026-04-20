@@ -11,7 +11,7 @@ using namespace std::string_literals;
 
 namespace SimulationMode
 {
-    PokemonStatus getStatusFromName(const std::string_view name)
+    PokemonStatus getPokemonStatusFromName(const std::string_view name)
     {
         // *INDENT-OFF*
         if      (name == POKEMON_STATUS_NORMAL   ) {return SimulationMode::PokemonStatus::NORMAL;}

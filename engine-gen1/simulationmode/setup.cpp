@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <span>
 
 #include <base/enginebase.hpp>
@@ -10,6 +11,7 @@
 #include "schemavalidationconstants.hpp"
 
 #include "defs/teamdefinition.hpp"
+#include "defs/typeinfo.hpp"
 
 #include "registry.hpp"
 #include "setup.hpp"
@@ -143,7 +145,7 @@ namespace SimulationMode
         PokemonDefinition result;
 
         result.species      = getString(pokemonHandle, JKEY_POKEMON_SPECIES);
-        result.status       = getStatusFromName(getString(pokemonHandle, JKEY_POKEMON_STATUS));
+        result.status       = getPokemonStatusFromName(getString(pokemonHandle, JKEY_POKEMON_STATUS));
         result.level        = getInt(pokemonHandle, JKEY_POKEMON_LEVEL);
         result.hp_current   = getInt(pokemonHandle, JKEY_POKEMON_HPCURRENT);
         result.experience   = getInt(pokemonHandle, JKEY_POKEMON_EXP);
@@ -266,7 +268,7 @@ namespace SimulationMode
     // ---------------------------------------------------------------------- //
     // types definition
 
-    ICsvService::ColumnData assertTypeDataCompleteAndGetTypeNames(ICsvService::CsvHandle handle)
+    void assertTypeDataCompleteAndGetTypeNames(ICsvService::CsvHandle handle)
     {
         // *INDENT-OFF*
         if (!CsvService::hasColumn(handle, TypeChart::ATTACKER)) { throw EngineError("Missing column: "s + TypeChart::ATTACKER); }
@@ -284,7 +286,7 @@ namespace SimulationMode
             }
         }
 
-        return typeNames;
+        CsvService::freeColumnBuffer(typeNames);
     }
 
     void loadAndRegisterTypesDefinition(
@@ -297,16 +299,43 @@ namespace SimulationMode
             LoggerService::traceF("  ... loading types definition from '{}'", typeDefinitionFile.c_str());
 
             ICsvService::CsvHandle csvHandle = CsvService::readCsvData(typeDefinitionFile, ICsvService::CsvOptions{});
+            assertTypeDataCompleteAndGetTypeNames(csvHandle);
 
-            auto typeNames = assertTypeDataCompleteAndGetTypeNames(csvHandle);
-            const auto typeNamesView = std::span(typeNames.data + 1, typeNames.data + typeNames.size);
+            size_t rowCount = CsvService::getRowCount(csvHandle);
+            ICsvService::RowData rowBuffer = CsvService::reserveRowBuffer(csvHandle);
+            CsvService::getRow(csvHandle, rowBuffer, 0);
 
-            for (const ICsvService::CellData type : typeNamesView)
+            auto rowCellView = std::span<ICsvService::CellData>(
+                                   rowBuffer.data + 2,                // skip the "Attacker" and "Category" entries
+                                   rowBuffer.data + rowBuffer.size
+                               );
+            auto rowStringView = std::vector<std::string_view>(rowCellView.size());
+            const auto extract = [](const ICsvService::CellData& cell)
             {
-                LoggerService::infoF("### {}", type.data);
+                return cell.data;
+            };
+            std::transform(rowCellView.begin(), rowCellView.end(),
+                           rowStringView.begin(),
+                           extract
+                          );
+            typeChart.setupTypes(rowStringView);
+
+            for (size_t i = 1; i < rowCount; ++i)
+            {
+                CsvService::getRow(csvHandle, rowBuffer, i);
+                const auto rowName = rowBuffer.data[0].data;
+                const auto categoryName = rowBuffer.data[1].data;
+                const auto category = getMoveCategoryFromName(categoryName);
+                std::transform(rowCellView.begin(), rowCellView.end(),
+                               rowStringView.begin(),
+                               extract
+                              );
+                typeChart.setRow(rowName, category, rowStringView);
             }
 
-            CsvService::freeColumnBuffer(typeNames);
+            typeChart.show();
+
+            CsvService::freeRowBuffer(rowBuffer);
             CsvService::freeCsvData(csvHandle);
 
         }

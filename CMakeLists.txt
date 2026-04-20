@@ -237,9 +237,9 @@ add_executable(Host
     host/cli/cliinput.hpp
 
     host/operationmodes/operationmode.hpp
-    host/operationmodes/entrypoint.hpp host/operationmodes/entrypoint.cpp
+    host/operationmodes/entrypoint.hpp                                  host/operationmodes/entrypoint.cpp
 
-    host/operationmodes/help/helpmodeimplementation.hpp     host/operationmodes/help/helpmodeimplementation.cpp
+    host/operationmodes/help/helpmodeimplementation.hpp                 host/operationmodes/help/helpmodeimplementation.cpp
     host/operationmodes/help/helpmodedefinition.hpp
 
     host/operationmodes/remote/remoterundefinition.hpp
@@ -248,20 +248,20 @@ add_executable(Host
     host/operationmodes/schemaExport/schemaexportmodedefinition.hpp
 
     host/operationmodes/shared/basemodedefinition.hpp
-    host/operationmodes/shared/schemavalidationconstants.hpp host/operationmodes/shared/schemavalidationconstants.cpp
-    host/operationmodes/shared/utils.hpp            host/operationmodes/shared/utils.cpp
+    host/operationmodes/shared/schemavalidationconstants.hpp            host/operationmodes/shared/schemavalidationconstants.cpp
+    host/operationmodes/shared/utils.hpp                                host/operationmodes/shared/utils.cpp
 
     host/operationmodes/shared/defs/loggingdefinition.hpp
     host/operationmodes/shared/defs/pathsdefinition.hpp
 
-    host/operationmodes/remote/remotemodeimplemetnation.hpp host/operationmodes/remote/remotemodeimplemetnation.cpp
+    host/operationmodes/remote/remotemodeimplemetnation.hpp             host/operationmodes/remote/remotemodeimplemetnation.cpp
 
-    host/operationmodes/simulation/simulationmodeimplementation.hpp   host/operationmodes/simulation/simulationmodeimplementation.cpp
+    host/operationmodes/simulation/simulationmodeimplementation.hpp     host/operationmodes/simulation/simulationmodeimplementation.cpp
     host/operationmodes/simulation/simulationmodedefinition.hpp
     host/operationmodes/simulation/defs/matchdefinition.hpp
     host/operationmodes/simulation/defs/simulatordefinition.hpp
 
-    host/operationmodes/template/templatemodeimplementation.hpp     host/operationmodes/template/templatemodeimplementation.cpp
+    host/operationmodes/template/templatemodeimplementation.hpp         host/operationmodes/template/templatemodeimplementation.cpp
     host/operationmodes/template/templatemodedefinition.hpp
     host/operationmodes/template/defs/templatesdefinition.hpp
 
@@ -339,6 +339,7 @@ add_library(Engine-Gen1 SHARED
     engine-gen1/simulationmode/defs/pokemondefition.hpp
     engine-gen1/simulationmode/defs/pokemonstatus.hpp       engine-gen1/simulationmode/defs/pokemonstatus.cpp
     engine-gen1/simulationmode/defs/teamdefinition.hpp
+    engine-gen1/simulationmode/defs/typeinfo.hpp            engine-gen1/simulationmode/defs/typeinfo.cpp
 
     engine-gen1/simulationmode/setup.hpp            engine-gen1/simulationmode/setup.cpp
     engine-gen1/simulationmode/simulationmode.hpp   engine-gen1/simulationmode/simulationmode.cpp

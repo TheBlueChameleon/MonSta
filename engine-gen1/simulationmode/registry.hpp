@@ -6,6 +6,8 @@
 #include "defs/mechanicsdefinition.hpp"
 #include "defs/teamdefinition.hpp"
 
+#include "typechart.hpp"
+
 namespace SimulationMode
 {
     extern IJsonServiceTypes::JsonHandle JHND_MECHANICSDEFINITION;
@@ -15,6 +17,8 @@ namespace SimulationMode
     extern MechanicsDefinition mechanicsDefinition;
     extern TeamDefinition player1TeamDefinition;
     extern TeamDefinition player2TeamDefinition;
+
+    extern TypeChart typeChart;
 
 } // namespace SimulationMode
 
