@@ -18,7 +18,7 @@
         "player1Strategy" : "strategies/gen1_minimal.lua",
         "player2Team"     : "teams/gen1_computer_minimal.json",
         "player2Strategy" : "strategies/gen1_minimal.lua",
-        "pkmnDefs"        : "pkmnDefs/gen1_minimal.csv",
+        "pkmnDefs"        : "pkmnDefs/gen1.csv",
         "moveDefs"        : "moveDefs/gen1_minimal.csv",
         "typeDefs"        : "typeDefs/gen1.csv",
         "itemDefs"        : "itemDefs/gen1_minimal.csv"

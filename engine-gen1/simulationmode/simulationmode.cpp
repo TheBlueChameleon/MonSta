@@ -16,8 +16,8 @@ namespace SimulationMode
         loadAndRegisterMechanicsDefinition(matchDefinition.mechanics, eb);
         loadAndRegisterTeamDefinition(matchDefinition.player1Team, JHND_PLAYER1_TEAMDEFINITION, player1TeamDefinition, eb);
         loadAndRegisterTeamDefinition(matchDefinition.player2Team, JHND_PLAYER2_TEAMDEFINITION, player2TeamDefinition, eb);
-
         loadAndRegisterTypesDefinition(matchDefinition.typeDefs, eb);
+        loadAndRegisterPokemon(matchDefinition.pkmnDefs, eb);
 
         if (!eb.isClean())
         {
@@ -35,6 +35,7 @@ namespace SimulationMode
             LoggerService::infoF("### - {}", p.species);
         }
         LoggerService::infoF("### Dragon moves are {}", getMoveCategoryName(typeChart.getMoveCategoryForType("Dragon")));
+        LoggerService::infoF("### Dragonair is a {}", pokemonDatabase.getEntry("Dragonair").type.primary);
 
         LoggerService::debug("... done");
     }

@@ -30,6 +30,11 @@ namespace SimulationMode
         const std::filesystem::path& typeDefinitionFile,
         EngineBase::ErrorBuffer& eb
     );
+
+    void loadAndRegisterPokemon(
+        const std::filesystem::path& pokemonDefinitionFile,
+        EngineBase::ErrorBuffer& eb
+    );
 } // namespace SimulationMode
 
 #endif // SETUP_HPP

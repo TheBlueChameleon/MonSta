@@ -6,6 +6,7 @@
 #include "defs/mechanicsdefinition.hpp"
 #include "defs/teamdefinition.hpp"
 
+#include "pokemondatabase.hpp"
 #include "typechart.hpp"
 
 namespace SimulationMode
@@ -19,6 +20,7 @@ namespace SimulationMode
     extern TeamDefinition player2TeamDefinition;
 
     extern TypeChart typeChart;
+    extern PokemonDatabase pokemonDatabase;
 
 } // namespace SimulationMode
 

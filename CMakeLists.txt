@@ -336,15 +336,17 @@ add_library(Engine-Gen1 SHARED
     engine-gen1/schemavalidationconstants.hpp       engine-gen1/schemavalidationconstants.cpp
 
     engine-gen1/simulationmode/defs/mechanicsdefinition.hpp
+    engine-gen1/simulationmode/defs/pokemondatabaseentry.hpp     engine-gen1/simulationmode/defs/pokemondatabaseentry.cpp
     engine-gen1/simulationmode/defs/pokemondefition.hpp
     engine-gen1/simulationmode/defs/pokemonstatus.hpp       engine-gen1/simulationmode/defs/pokemonstatus.cpp
     engine-gen1/simulationmode/defs/teamdefinition.hpp
     engine-gen1/simulationmode/defs/typeinfo.hpp            engine-gen1/simulationmode/defs/typeinfo.cpp
 
+    engine-gen1/simulationmode/pokemondatabase.hpp  engine-gen1/simulationmode/pokemondatabase.cpp
+    engine-gen1/simulationmode/registry.hpp         engine-gen1/simulationmode/registry.cpp
     engine-gen1/simulationmode/setup.hpp            engine-gen1/simulationmode/setup.cpp
     engine-gen1/simulationmode/simulationmode.hpp   engine-gen1/simulationmode/simulationmode.cpp
     engine-gen1/simulationmode/typechart.hpp        engine-gen1/simulationmode/typechart.cpp
-    engine-gen1/simulationmode/registry.hpp         engine-gen1/simulationmode/registry.cpp
 
     engine-gen1/templatesmode/templatesmode.hpp     engine-gen1/templatesmode/templatesmode.cpp
 )

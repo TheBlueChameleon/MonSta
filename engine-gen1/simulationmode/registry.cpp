@@ -11,5 +11,6 @@ namespace SimulationMode
     TeamDefinition player2TeamDefinition;
 
     TypeChart typeChart;
+    PokemonDatabase pokemonDatabase;
 
 } // namespace SimulationMode
