@@ -11,6 +11,7 @@ struct ICsvService
     {
         char delimiter = ',';
         char quoteChar = '"';
+        char commentChar = '#';
         size_t headerRow =  0;
         size_t keyColumn = -1u;
     };

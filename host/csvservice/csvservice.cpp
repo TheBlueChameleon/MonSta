@@ -109,6 +109,35 @@ namespace CsvService
         return parser;
     }
 
+    static bool is_term(const char c)
+    {
+        return (c == CSV_CR) || (c == CSV_LF);
+    }
+
+    static void skipPastComments(
+        std::istream& stream,
+        const ICsvService::CsvOptions& csvOptions
+    )
+    {
+        while (true)
+        {
+            const char lineStart = stream.peek();
+            if (lineStart == csvOptions.commentChar)
+            {
+                char c;
+                do
+                {
+                    stream.get(c);
+                }
+                while (stream.good() && !is_term(c));
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+
     void IndexedCsvData::parse(
         std::istream& stream,
         const ICsvService::CsvOptions& csvOptions
@@ -118,6 +147,8 @@ namespace CsvService
         {
             throw CsvError("Could not read from "s + origin);
         }
+
+        skipPastComments(stream, csvOptions);
 
         auto parser = getParser(csvOptions);
         auto const readSize = 1024;

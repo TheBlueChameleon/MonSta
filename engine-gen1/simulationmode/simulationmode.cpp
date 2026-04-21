@@ -24,16 +24,17 @@ namespace SimulationMode
             throw EngineError(eb.compileErrorMessage().data());
         }
 
-        LoggerService::infoF("team 1 ({})", player1TeamDefinition.name);
+        LoggerService::infoF("### team 1 ({})", player1TeamDefinition.name);
         for (const auto p : player1TeamDefinition.pokemon)
         {
-            LoggerService::infoF("- {}", p.species);
+            LoggerService::infoF("### - {}", p.species);
         }
-        LoggerService::infoF("team 2 ({})", player2TeamDefinition.name);
+        LoggerService::infoF("### team 2({})", player2TeamDefinition.name);
         for (const auto p : player2TeamDefinition.pokemon)
         {
-            LoggerService::infoF("- {}", p.species);
+            LoggerService::infoF("### - {}", p.species);
         }
+        LoggerService::infoF("### Dragon moves are {}", getMoveCategoryName(typeChart.getMoveCategoryForType("Dragon")));
 
         LoggerService::debug("... done");
     }

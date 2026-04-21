@@ -1,2 +1,2 @@
-Name,Strength
-Tackle,35
+Name,Type,Strength,SecondaryEffect
+Tackle,Normal,35,
