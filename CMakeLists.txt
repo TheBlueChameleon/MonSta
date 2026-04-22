@@ -310,6 +310,7 @@ add_library(Engine-Base STATIC
     engine-base/services/errorservice.hpp   engine-base/services/errorservice.cpp
     engine-base/services/fileservice.hpp    engine-base/services/fileservice.cpp
     engine-base/services/jsonservice.hpp
+    engine-base/services/jsonservice/jsonwrapper.hpp                engine-base/services/jsonservice/jsonwrapper.cpp
     engine-base/services/jsonservice/jsonservice_database.hpp       engine-base/services/jsonservice/jsonservice_database.cpp
     engine-base/services/jsonservice/jsonservice_itemaccess.hpp     engine-base/services/jsonservice/jsonservice_itemaccess.cpp
     engine-base/services/jsonservice/jsonservice_schemabuilder.hpp  engine-base/services/jsonservice/jsonservice_schemabuilder.cpp

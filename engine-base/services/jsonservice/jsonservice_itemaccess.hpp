@@ -21,7 +21,6 @@ namespace JsonService
     const bool isUnsigned(const IJsonServiceTypes::JsonHandle handle);
     const bool isFloat(const IJsonServiceTypes::JsonHandle handle);
     const bool isString(const IJsonServiceTypes::JsonHandle handle);
-
     const bool isArray(const IJsonServiceTypes::JsonHandle handle);
     const bool isObject(const IJsonServiceTypes::JsonHandle handle);
 
