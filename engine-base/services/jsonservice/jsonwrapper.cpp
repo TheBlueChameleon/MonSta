@@ -92,12 +92,12 @@ namespace JsonService
         return JsonService::getAsString(handle);
     }
 
-    int JsonWrapper::getArraySize(const IJsonServiceTypes::JsonHandle handle) const
+    size_t JsonWrapper::getArraySize() const
     {
         return JsonService::getArraySize(handle);
     }
 
-    JsonWrapper JsonWrapper::getArrayItem(const IJsonServiceTypes::JsonHandle handle, const int index) const
+    JsonWrapper JsonWrapper::getArrayItem(const int index) const
     {
         return JsonService::getArrayItem(handle, index);
     }

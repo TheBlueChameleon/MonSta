@@ -38,8 +38,8 @@ namespace JsonService
             double                 getAsFloat() const;
             const std::string_view getAsString() const;
 
-            int getArraySize(const IJsonServiceTypes::JsonHandle handle) const;
-            JsonWrapper getArrayItem(const IJsonServiceTypes::JsonHandle handle, const int index) const;
+            size_t getArraySize() const;
+            JsonWrapper getArrayItem(const int index) const;
 
             MemoryService::MemoryBlock dump(int indent = 2) const;
     };

@@ -255,7 +255,7 @@ namespace JsonService
         CATCH_EM_ALL("")
     }
 
-    const int HOST_API_CALL getArraySize_dlx(const IJsonServiceTypes::JsonHandle handle)
+    const size_t HOST_API_CALL getArraySize_dlx(const IJsonServiceTypes::JsonHandle handle)
     {
         try
         {

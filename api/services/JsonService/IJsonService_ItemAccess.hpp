@@ -35,7 +35,7 @@ struct IJsonService_ItemAccess
     const double (*const HOST_API_CALL getAsFloat)(const IJsonServiceTypes::JsonHandle handle);
     const char* const(*const HOST_API_CALL getAsString)(const IJsonServiceTypes::JsonHandle handle);
 
-    const int (*const HOST_API_CALL getArraySize)(const IJsonServiceTypes::JsonHandle handle);
+    const size_t (*const HOST_API_CALL getArraySize)(const IJsonServiceTypes::JsonHandle handle);
     const IJsonServiceTypes::JsonHandle(*const HOST_API_CALL getArrayItem)(const IJsonServiceTypes::JsonHandle handle, const int index);
 
     void (*const HOST_API_CALL setToNull)(const IJsonServiceTypes::ModifiableJsonHandle handle);

@@ -30,7 +30,7 @@ namespace JsonService
     const double             getAsFloat(const IJsonServiceTypes::JsonHandle handle);
     const std::string_view   getAsString(const IJsonServiceTypes::JsonHandle handle);
 
-    const int getArraySize(const IJsonServiceTypes::JsonHandle handle);
+    const size_t getArraySize(const IJsonServiceTypes::JsonHandle handle);
     const IJsonServiceTypes::JsonHandle getArrayItem(const IJsonServiceTypes::JsonHandle handle, const int index);
 
     void setToNull(const IJsonServiceTypes::ModifiableJsonHandle handle);

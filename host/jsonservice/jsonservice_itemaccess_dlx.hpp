@@ -28,7 +28,7 @@ namespace JsonService
     const double HOST_API_CALL getAsFloat_dlx(const IJsonServiceTypes::JsonHandle handle);
     const char* const HOST_API_CALL getAsString_dlx(const IJsonServiceTypes::JsonHandle handle);
 
-    const int HOST_API_CALL getArraySize_dlx(const IJsonServiceTypes::JsonHandle handle);
+    const size_t HOST_API_CALL getArraySize_dlx(const IJsonServiceTypes::JsonHandle handle);
     const IJsonServiceTypes::JsonHandle HOST_API_CALL getArrayItem_dlx(const IJsonServiceTypes::JsonHandle handle, const int index);
 
     void HOST_API_CALL setToNull_dlx(const IJsonServiceTypes::ModifiableJsonHandle handle);

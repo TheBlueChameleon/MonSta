@@ -2,6 +2,9 @@
 
 #include "base/enginebase.hpp"
 
+#include "setup/mechanicsdefinitionsetup.hpp"
+#include "setup/teamdefinitionsetup.hpp"
+
 #include "registry.hpp"
 #include "setup.hpp"
 #include "simulationmode.hpp"

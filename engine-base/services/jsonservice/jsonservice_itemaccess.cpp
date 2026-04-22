@@ -127,7 +127,7 @@ namespace JsonService
         return result;
     }
 
-    const int getArraySize(const IJsonServiceTypes::JsonHandle handle)
+    const size_t getArraySize(const IJsonServiceTypes::JsonHandle handle)
     {
         const auto result = jsonService().itemAccess.getArraySize(handle);
         rethrowHostError();
