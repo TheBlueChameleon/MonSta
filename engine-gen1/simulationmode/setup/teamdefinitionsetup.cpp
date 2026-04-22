@@ -13,10 +13,9 @@
 #include "schemavalidationconstants.hpp"
 
 #include "simulationmode/defs/teamdefinition.hpp"
-// #include "simulationmode/defs/typeinfo.hpp"
 #include "simulationmode/registry.hpp"
 
-
+#include "setuperrorhandling.hpp"
 #include "teamdefinitionsetup.hpp"
 
 using namespace EngineBase;
@@ -28,17 +27,6 @@ namespace SimulationMode
     // ====================================================================== //
     // helpers
 
-    [[noreturn]] static void abort(
-        const std::filesystem::path& origin,
-        const std::string_view message
-    )
-    {
-        throw EngineError(
-            ApiStatusCode::INVALID_USER_INPUT,
-            "In team definition file '"s + origin.c_str() + "' " + message.data()
-        );
-    }
-
     static bool getHumanStatus(
         const std::filesystem::path& origin,
         const JsonService::JsonWrapper json
@@ -49,7 +37,6 @@ namespace SimulationMode
         else if (json.contains(JKEY_COMPUTER)) { return false; }
         else {
             abort(
-                origin,
                 "team definition neither contains '"s + JKEY_HUMAN + "' tag "
                 "nor '" + JKEY_COMPUTER + "' tag"
             );
@@ -138,13 +125,13 @@ namespace SimulationMode
     {
         if (!listJson.isArray())
         {
-            abort(origin, "The object under '"s + JKEY_POKEMON + "' is not a list");
+            abort("The object under '"s + JKEY_POKEMON + "' is not a list", ApiStatusCode::ILLEGAL_CLIENT_STATE);
         }
 
         const size_t listSize = listJson.getArraySize();
         if (listSize == 0)
         {
-            abort(origin, "The object under '"s + JKEY_POKEMON + "' is empty");
+            abort("The object under '"s + JKEY_POKEMON + "' is empty", ApiStatusCode::ILLEGAL_CLIENT_STATE);
         }
         else if (listSize > 6)
         {
@@ -200,7 +187,7 @@ namespace SimulationMode
         }
         catch (const EngineError& e)
         {
-            eb.append(e);
+            report(eb, e.what(), teamDefinitionFile);
         }
     }
 } // namespace SimulationMode

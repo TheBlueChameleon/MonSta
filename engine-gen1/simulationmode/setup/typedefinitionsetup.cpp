@@ -17,6 +17,7 @@
 #include "simulationmode/registry.hpp"
 #include "simulationmode/typechart.hpp"
 
+#include "setuperrorhandling.hpp"
 #include "typedefinitionsetup.hpp"
 
 using namespace EngineBase;
@@ -27,29 +28,6 @@ namespace SimulationMode
 {
     // ====================================================================== //
     // helpers
-
-    [[noreturn]] static void abort(
-        const std::string_view message,
-        const std::filesystem::path& origin
-    )
-    {
-        throw EngineError(
-            ApiStatusCode::INVALID_USER_INPUT,
-            "In team definition file '"s + origin.c_str() + "' " + message.data()
-        );
-    }
-
-    static void report(
-        ErrorBuffer& eb,
-        const std::string_view message,
-        const std::filesystem::path& origin
-    )
-    {
-        eb.append(
-            ApiStatusCode::INVALID_USER_INPUT,
-            "In team definition file '"s + origin.c_str() + "' " + message.data()
-        );
-    }
 
     static void fetchIntoStringView(
         const std::span<ICsvService::CellData>& rowCellView,
@@ -104,7 +82,7 @@ namespace SimulationMode
 
         if (!valid)
         {
-            abort("Type chart is incomplete", origin);
+            abort("Type chart is incomplete");
         }
 
         CsvService::freeColumnBuffer(typeNames);
@@ -153,7 +131,8 @@ namespace SimulationMode
         }
         catch (const EngineError& e)
         {
-            eb.append(e);
+            report(eb, e.what(), typeDefinitionFile);
         }
     }
+
 } // namespace SimulationMode

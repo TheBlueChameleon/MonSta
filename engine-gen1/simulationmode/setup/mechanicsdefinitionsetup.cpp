@@ -8,7 +8,7 @@
 
 #include "simulationmode/registry.hpp"
 
-#include "mechanicsdefinitionsetup.hpp"
+#include "setuperrorhandling.hpp"
 
 using namespace EngineBase;
 using namespace SchemaValidation;
@@ -57,7 +57,7 @@ namespace SimulationMode
         }
         catch (const EngineError& e)
         {
-            eb.append(e);
+            report(eb, e.what(), mechanicsDefinitionFile);
         }
     }
 

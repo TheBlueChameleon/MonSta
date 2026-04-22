@@ -17,7 +17,7 @@
 #include "simulationmode/registry.hpp"
 #include "simulationmode/typechart.hpp"
 
-#include "pokemondefinitionsetup.hpp"
+#include "setuperrorhandling.hpp"
 
 using namespace EngineBase;
 using namespace SchemaValidation;
@@ -64,10 +64,7 @@ namespace SimulationMode
 
             if (it == rowView.end())
             {
-                eb.append(ApiStatusCode::INVALID_USER_INPUT,
-                          "In pokemon definition file '"s + pokemonDefinitionFile.c_str() + "': "
-                          "Missing Column header '" +  searchTerm.data() + "'"
-                         );
+                report(eb, "Missing Column header '"s +  searchTerm.data() + "'", pokemonDefinitionFile);
                 resultValid = false;
             }
             else
@@ -135,23 +132,24 @@ namespace SimulationMode
             }
             catch (const EngineError& e)
             {
-                eb.append(e);
+                report(eb,
+                       e.what(),
+                       pokemonDefinitionFile
+                      );
             }
             catch (const std::invalid_argument&)
             {
-                eb.append(ApiStatusCode::INVALID_USER_INPUT,
-                          "In pokemon definition file '"s + pokemonDefinitionFile.c_str() + "': "
-                          "Invalid Argument in line "s + std::to_string(row + 1) + " "
-                          "in field '" + field.data() + "'"
-                         );
+                report(eb,
+                       "Invalid Argument in line "s + std::to_string(row + 1) + " in field '" + field.data() + "'",
+                       pokemonDefinitionFile
+                      );
             }
             catch (const std::out_of_range&)
             {
-                eb.append(ApiStatusCode::INVALID_USER_INPUT,
-                          "In pokemon definition file '"s + pokemonDefinitionFile.c_str() + "': "
-                          "Invalid Argument in line "s + std::to_string(row + 1) + " "
-                          "in field '" + field.data() + "'"
-                         );
+                report(eb,
+                       "Invalid Argument in line "s + std::to_string(row + 1) + " in field '" + field.data() + "'",
+                       pokemonDefinitionFile
+                      );
             }
         }
     }
@@ -188,7 +186,7 @@ namespace SimulationMode
         }
         catch (const EngineError& e)
         {
-            eb.append(e);
+            report(eb, e.what(), pokemonDefinitionFile);
         }
     }
 
