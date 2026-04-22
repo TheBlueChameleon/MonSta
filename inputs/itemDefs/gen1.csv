@@ -1,0 +1,30 @@
+# from: https://bulbapedia.bulbagarden.net/wiki/List_of_items_by_index_number_in_Generation_I
+#
+Name,Effect
+Antidote,HealStatus=poisoned
+Burn Heal,HealStatus=burnt
+Ice Heal,HealStatus=frozen
+Awakening,HealStatus=asleep
+Paralyze Heal,HealStatus=paralyzed
+Full Restore,HealStatus=allNonVolatile;Heal%=100
+Max Potion,Heal=999
+Hyper Potion,Heal=200
+Super Potion,Heal=50
+Potion,Heal=20
+X Accuracy,BypassAccuracyChecks
+Full Heal,HealStatus=allNonVolatile
+Revive,HealStatus=fainted;Heal%=50
+Max Revive,HealStatus=fainted;Heal%=100
+Dire Hit,RaiseCritRate
+Fresh Water,Heal=50
+Soda Pop,Heal=60
+Lemonade,Heal=80
+X Attack,RaiseAtk
+X Defense,RaiseDef
+X Speed,RaiseSpd
+X Special,RaiseSpc
+Poké Flute,HealStatusBoth=asleep;NotConsumed
+Ether,SelectMove;ReplenishPP=10
+Max Ether,SelectMove;ReplenishPP%=100
+Elixer,SelectAllMoves;ReplenishPP=10
+Max Elixir,SelectAllMoves;ReplenishPP%=100

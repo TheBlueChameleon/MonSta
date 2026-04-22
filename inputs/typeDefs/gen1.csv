@@ -1,5 +1,5 @@
-# the first lines are skipped
-# as long as they beginn with a comment marker
+# from: https://bulbapedia.bulbagarden.net/wiki/Type/Type_chart#Generation_I
+#
 "Attacker","Category","Normal","Fighting","Flying","Poison","Ground","Rock","Bug","Ghost","Fire","Water","Grass","Electric","Psychic","Ice","Dragon"
 "Normal"  ,"physical",      1 ,        1 ,      1 ,      1 ,      1 ,  0.5 ,   1 ,     0 ,    1 ,     1 ,     1 ,        1 ,       1 ,   1 ,      1
 "Fighting","physical",      2 ,        1 ,    0.5 ,    0.5 ,      1 ,    2 , 0.5 ,     0 ,    1 ,     1 ,     1 ,        1 ,     0.5 ,   2 ,      1
