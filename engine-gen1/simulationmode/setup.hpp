@@ -10,11 +10,6 @@ namespace EngineBase
 
 namespace SimulationMode
 {
-    void loadAndRegisterTypesDefinition(
-        const std::filesystem::path& typeDefinitionFile,
-        EngineBase::ErrorBuffer& eb
-    );
-
     void loadAndRegisterPokemon(
         const std::filesystem::path& pokemonDefinitionFile,
         EngineBase::ErrorBuffer& eb

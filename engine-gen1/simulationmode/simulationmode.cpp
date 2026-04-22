@@ -4,6 +4,7 @@
 
 #include "setup/mechanicsdefinitionsetup.hpp"
 #include "setup/teamdefinitionsetup.hpp"
+#include "setup/typedefinitionsetup.hpp"
 
 #include "registry.hpp"
 #include "setup.hpp"

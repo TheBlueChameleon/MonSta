@@ -74,7 +74,7 @@ namespace SimulationMode
     }
 
     // ====================================================================== //
-    // loaders and processors
+    // processors proper
 
     static PokemonDefinition processPokemon(
         const JsonService::JsonWrapper& pkmnDef,
