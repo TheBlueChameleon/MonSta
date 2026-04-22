@@ -11,12 +11,13 @@
 #include "globals.hpp"
 #include "schemavalidationconstants.hpp"
 
-#include "defs/teamdefinition.hpp"
-#include "defs/typeinfo.hpp"
+#include "simulationmode/defs/teamdefinition.hpp"
+#include "simulationmode/defs/typeinfo.hpp"
 
-#include "registry.hpp"
-#include "setup.hpp"
-#include "typechart.hpp"
+#include "simulationmode/registry.hpp"
+#include "simulationmode/typechart.hpp"
+
+#include "pokemondefinitionsetup.hpp"
 
 using namespace EngineBase;
 using namespace SchemaValidation;
@@ -24,14 +25,6 @@ using namespace std::string_literals;
 
 namespace SimulationMode
 {
-    // ---------------------------------------------------------------------- //
-    // types definition
-
-
-
-    // ---------------------------------------------------------------------- //
-    // pokemon definition
-
     std::unordered_map<std::string, size_t> assertPokemonDatabaseDataComplete(
         const std::filesystem::__cxx11::path& pokemonDefinitionFile,
         ICsvService::CsvHandle                handle,

@@ -6,8 +6,9 @@
 #include "setup/teamdefinitionsetup.hpp"
 #include "setup/typedefinitionsetup.hpp"
 
+#include "setup/pokemondefinitionsetup.hpp"
+
 #include "registry.hpp"
-#include "setup.hpp"
 #include "simulationmode.hpp"
 
 namespace SimulationMode

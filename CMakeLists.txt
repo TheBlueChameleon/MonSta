@@ -344,12 +344,12 @@ add_library(Engine-Gen1 SHARED
     engine-gen1/simulationmode/defs/typeinfo.hpp                    engine-gen1/simulationmode/defs/typeinfo.cpp
 
     engine-gen1/simulationmode/setup/mechanicsdefinitionsetup.hpp   engine-gen1/simulationmode/setup/mechanicsdefinitionsetup.cpp
+    engine-gen1/simulationmode/setup/pokemondefinitionsetup.hpp     engine-gen1/simulationmode/setup/pokemondefinitionsetup.cpp
     engine-gen1/simulationmode/setup/teamdefinitionsetup.hpp        engine-gen1/simulationmode/setup/teamdefinitionsetup.cpp
     engine-gen1/simulationmode/setup/typedefinitionsetup.hpp        engine-gen1/simulationmode/setup/typedefinitionsetup.cpp
 
     engine-gen1/simulationmode/pokemondatabase.hpp  engine-gen1/simulationmode/pokemondatabase.cpp
     engine-gen1/simulationmode/registry.hpp         engine-gen1/simulationmode/registry.cpp
-    engine-gen1/simulationmode/setup.hpp            engine-gen1/simulationmode/setup.cpp
     engine-gen1/simulationmode/simulationmode.hpp   engine-gen1/simulationmode/simulationmode.cpp
     engine-gen1/simulationmode/typechart.hpp        engine-gen1/simulationmode/typechart.cpp
 

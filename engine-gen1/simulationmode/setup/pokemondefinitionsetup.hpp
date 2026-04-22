@@ -1,5 +1,5 @@
-#ifndef SETUP_HPP
-#define SETUP_HPP
+#ifndef POKEMONDEFINITIONSETUP_H
+#define POKEMONDEFINITIONSETUP_H
 
 #include <filesystem>
 
@@ -14,6 +14,7 @@ namespace SimulationMode
         const std::filesystem::path& pokemonDefinitionFile,
         EngineBase::ErrorBuffer& eb
     );
+
 } // namespace SimulationMode
 
-#endif // SETUP_HPP
+#endif // POKEMONDEFINITIONSETUP_H
