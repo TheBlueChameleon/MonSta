@@ -31,10 +31,11 @@ namespace SchemaValidation
     static const std::string makeJsonList(std::initializer_list<const char* const> items)
     {
         const auto N = items.size();
+        int i = 0;
         std::stringstream buffer;
         buffer << "[";
 
-        for (int i = 0; auto item : items)
+        for (auto item : items)
         {
             ++i;
             buffer << "\"" << item << "\"";
@@ -52,6 +53,16 @@ namespace SchemaValidation
     {
         std::stringstream buffer;
         buffer << "{ \"required\": " << makeJsonList(items) << " }";
+        return buffer.str();
+    }
+
+    static const std::string makeArrayItemsBlock(const std::string_view key, const std::string_view value)
+    {
+        std::stringstream buffer;
+        buffer << "{\n";
+        buffer << R"("type"  : "array", )" "\n";
+        buffer << R"("items" : { ")" << key << "\" : \"" << value << "\" }\n";
+        buffer << "}";
         return buffer.str();
     }
 
@@ -153,6 +164,14 @@ namespace SchemaValidation
     // ====================================================================== //
     // Team Definition
 
+    static void addBasicOptions(JsonSchemaBuilder& result)
+    {
+        result.addProperty(JKEY_PLAYER_NAME, JsonType::STRING);
+        result.addProperty(JKEY_PLAYER_ITEMS, JsonType::ARRAY)
+        .setReference(JKEY_PLAYER_ITEMS)
+        .setDefault("[]");
+    }
+
     static void addBadgeOptions(
         JsonSchemaBuilder& result,
         const bool hasBoostAtk,
@@ -206,8 +225,7 @@ namespace SchemaValidation
         JsonSchemaBuilder result(JKEY_HUMAN);
         result.addRequired(JKEY_PLAYER_NAME);
 
-        result.addProperty(JKEY_PLAYER_NAME, JsonType::STRING);
-
+        addBasicOptions(result);
         addBadgeOptions(result, true, true,true, true);
         addMechanicsOptions(result, false, true);
 
@@ -219,8 +237,7 @@ namespace SchemaValidation
         JsonSchemaBuilder result(JKEY_COMPUTER);
         result.addRequired(JKEY_PLAYER_NAME);
 
-        result.addProperty(JKEY_PLAYER_NAME, JsonType::STRING);
-
+        addBasicOptions(result);
         addBadgeOptions(result, false, false, false, false);
         addMechanicsOptions(result, true, false);
 
@@ -326,6 +343,28 @@ namespace SchemaValidation
         return result;
     }
 
+    static const JsonSchemaBuilder makeItemsSchema()
+    {
+        JsonSchemaBuilder result(JKEY_PLAYER_ITEMS);
+
+        result.addOneOfRequirement("{\"maxItems\": 0}");
+        result.addOneOfRequirement(makeArrayItemsBlock("type", "string"));
+        result.addOneOfRequirement(makeArrayItemsBlock("$ref", "#/$defs/"s + JKEY_ITEM));
+
+        return result;
+    }
+
+    static const JsonSchemaBuilder makeItemSchema()
+    {
+        JsonSchemaBuilder result(JKEY_ITEM);
+
+        result.addProperty("name", JsonType::STRING);
+        result.addProperty("quantity", JsonType::INTEGER)
+        .setMinimum("1");
+
+        return result;
+    }
+
     void registerSchemaTeamDefinition()
     {
         auto builder = JsonService::JsonSchemaBuilder("<root>");
@@ -342,6 +381,8 @@ namespace SchemaValidation
         builder.addReference(JKEY_HUMAN, makeHumanSubSchema(), JsonType::OBJECT, false);
         builder.addReference(JKEY_COMPUTER, makeComputerSubSchema(), JsonType::OBJECT, false);
         builder.addSubSchema(makePokemonSubSchema());
+        builder.addSubSchema(makeItemsSchema());
+        builder.addSubSchema(makeItemSchema());
 
         builder.buildAndAdd(JTAG_TEAMDEFINITION);
     }

@@ -22,6 +22,7 @@ namespace SchemaValidation
     const auto JKEY_COMPUTER  = "computer";
     const auto JKEY_HUMAN     = "human";
     const auto JKEY_POKEMON   = "pokemon";
+    const auto JKEY_ITEM      = "item";
 
     const auto JKEY_PLAYER_NAME             = "name";
     const auto JKEY_PLAYER_BADGEATK         = "badgeBoost_ATK";
@@ -32,6 +33,7 @@ namespace SchemaValidation
     const auto JKEY_PLAYER_USEPP            = "usePP";
     const auto JKEY_PLAYER_EXPALL           = "ExpAll";
     const auto JKEY_PLAYER_OBEDIENCECAP     = "obedienceCap";
+    const auto JKEY_PLAYER_ITEMS            = "items";
 
     const auto JKEY_POKEMON_SPECIES = "species";
     const auto JKEY_POKEMON_LEVEL   = "level";

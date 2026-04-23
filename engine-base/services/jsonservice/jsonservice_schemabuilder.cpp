@@ -278,5 +278,4 @@ namespace JsonService
         jsonService().schemaBuilder.seb_setReference(handle, subSchemaName.data());
         rethrowHostError();
     }
-
 }
