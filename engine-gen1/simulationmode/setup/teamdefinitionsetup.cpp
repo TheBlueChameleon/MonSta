@@ -44,22 +44,6 @@ namespace SimulationMode
         // *INDENT-ON*
     }
 
-    static const char* const getPlayerBaseObjectName(const bool isHuman)
-    {
-        // *INDENT-OFF*
-        if (isHuman) { return JKEY_HUMAN;    }
-        else         { return JKEY_COMPUTER; }
-        // *INDENT-ON*
-    }
-
-    static std::string getPlayerObjectJsonPointer(const bool isHuman, std::string_view element)
-    {
-        std::ostringstream result;
-        result << "/" << getPlayerBaseObjectName(isHuman);
-        result << "/" << element;
-        return result.str();
-    }
-
     // ====================================================================== //
     // processors proper
 
@@ -148,6 +132,55 @@ namespace SimulationMode
         }
     }
 
+    void processItem(
+        const JsonService::JsonWrapper& itemJson,
+        const size_t index,
+        std::vector<std::string>& itemsList,
+        ErrorBuffer& eb
+    )
+    {
+        if (itemJson.isString())
+        {
+            itemsList.push_back(itemJson.getAsString().data());
+        }
+        else if (itemJson.isObject())
+        {
+            // TODO: eb.append Illegal status? Caught by Schema anyway...
+            const std::string_view name     = itemJson.navigateTo(JKEY_PLAYER_ITEMS_NAME).getAsString();
+            const size_t           quantity = itemJson.navigateTo(JKEY_PLAYER_ITEMS_QUANTITY).getAsInteger();
+            for (size_t i = 0; i < quantity; ++i)
+            {
+                itemsList.push_back(name.data());
+            }
+        }
+        else
+        {
+            eb.append(
+                ApiStatusCode::ILLEGAL_CLIENT_STATE,
+                "Item #"s + std::to_string(index) + " is of illegal type"
+            );
+        }
+    }
+
+    void processItemList(
+        const JsonService::JsonWrapper& listJson,
+        std::vector<std::string>& itemsList,
+        ErrorBuffer& eb
+    )
+    {
+        if (!listJson.isArray())
+        {
+            abort("The object under '"s + JKEY_PLAYER_ITEMS + "' is not a list", ApiStatusCode::ILLEGAL_CLIENT_STATE);
+        }
+
+        const size_t listSize = listJson.getArraySize();
+        for (size_t i = 0; i < listSize; ++i)
+        {
+            const auto itemJson = listJson.getArrayItem(i);
+            processItem(itemJson, i, itemsList, eb);
+        }
+    }
+
     void loadAndRegisterTeamDefinition(
         const std::filesystem::path& teamDefinitionFile,
         IJsonServiceTypes::JsonHandle& teamHandle,
@@ -168,15 +201,18 @@ namespace SimulationMode
             JsonService::JsonWrapper teamJson = JsonService::JsonWrapper(teamHandle);
 
             const bool isHuman = getHumanStatus(teamDefinitionFile, teamJson);
+            JsonService::JsonWrapper playerJson = isHuman ?
+                                                  teamJson.navigateTo(JKEY_HUMAN) :
+                                                  teamJson.navigateTo(JKEY_COMPUTER);
 
-            team.name           = teamJson.navigateTo(getPlayerObjectJsonPointer(isHuman, JKEY_PLAYER_NAME)).getAsString().data();
-            team.expAll         = teamJson.navigateTo(getPlayerObjectJsonPointer(isHuman, JKEY_PLAYER_EXPALL)).getAsBool();
-            team.badgeBoost_ATK = teamJson.navigateTo(getPlayerObjectJsonPointer(isHuman, JKEY_PLAYER_BADGEATK)).getAsBool();
-            team.badgeBoost_DEF = teamJson.navigateTo(getPlayerObjectJsonPointer(isHuman, JKEY_PLAYER_BADGEDEF)).getAsBool();
-            team.badgeBoost_SPC = teamJson.navigateTo(getPlayerObjectJsonPointer(isHuman, JKEY_PLAYER_BADGESPC)).getAsBool();
-            team.badgeBoost_SPD = teamJson.navigateTo(getPlayerObjectJsonPointer(isHuman, JKEY_PLAYER_BADGESPD)).getAsBool();
-            team.statMoveDebuf  = teamJson.navigateTo(getPlayerObjectJsonPointer(isHuman, JKEY_PLAYER_STATUSMOVEDEBUFF)).getAsBool();
-            team.usePP          = teamJson.navigateTo(getPlayerObjectJsonPointer(isHuman, JKEY_PLAYER_BADGEATK)).getAsBool();
+            team.name           = playerJson.navigateTo(JKEY_PLAYER_NAME).getAsString().data();
+            team.expAll         = playerJson.navigateTo(JKEY_PLAYER_EXPALL).getAsBool();
+            team.badgeBoost_ATK = playerJson.navigateTo(JKEY_PLAYER_BADGEATK).getAsBool();
+            team.badgeBoost_DEF = playerJson.navigateTo(JKEY_PLAYER_BADGEDEF).getAsBool();
+            team.badgeBoost_SPC = playerJson.navigateTo(JKEY_PLAYER_BADGESPC).getAsBool();
+            team.badgeBoost_SPD = playerJson.navigateTo(JKEY_PLAYER_BADGESPD).getAsBool();
+            team.statMoveDebuf  = playerJson.navigateTo(JKEY_PLAYER_STATUSMOVEDEBUFF).getAsBool();
+            team.usePP          = playerJson.navigateTo(JKEY_PLAYER_BADGEATK).getAsBool();
 
             processPokemonList(
                 teamDefinitionFile,
@@ -184,6 +220,15 @@ namespace SimulationMode
                 isHuman,
                 team.pokemon
             );
+
+            if (playerJson.contains(JKEY_PLAYER_ITEMS))
+            {
+                processItemList(
+                    playerJson.navigateTo(JKEY_PLAYER_ITEMS),
+                    team.items,
+                    eb
+                );
+            }
         }
         catch (const EngineError& e)
         {

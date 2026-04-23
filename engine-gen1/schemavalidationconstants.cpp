@@ -347,9 +347,8 @@ namespace SchemaValidation
     {
         JsonSchemaBuilder result(JKEY_PLAYER_ITEMS);
 
-        result.addOneOfRequirement("{\"maxItems\": 0}");
-        result.addOneOfRequirement(makeArrayItemsBlock("type", "string"));
-        result.addOneOfRequirement(makeArrayItemsBlock("$ref", "#/$defs/"s + JKEY_ITEM));
+        result.addAnyOfRequirement(makeArrayItemsBlock("type", "string"));
+        result.addAnyOfRequirement(makeArrayItemsBlock("$ref", "#/$defs/"s + JKEY_ITEM));
 
         return result;
     }
@@ -357,9 +356,11 @@ namespace SchemaValidation
     static const JsonSchemaBuilder makeItemSchema()
     {
         JsonSchemaBuilder result(JKEY_ITEM);
+        result.addRequired(JKEY_PLAYER_ITEMS_NAME);
+        result.addRequired(JKEY_PLAYER_ITEMS_QUANTITY);
 
-        result.addProperty("name", JsonType::STRING);
-        result.addProperty("quantity", JsonType::INTEGER)
+        result.addProperty(JKEY_PLAYER_ITEMS_NAME, JsonType::STRING);
+        result.addProperty(JKEY_PLAYER_ITEMS_QUANTITY, JsonType::INTEGER)
         .setMinimum("1");
 
         return result;

@@ -21,6 +21,7 @@ namespace SimulationMode
         bool statMoveDebuf;
         bool usePP;
 
+        std::vector<std::string>       items;
         std::vector<PokemonDefinition> pokemon;
     };
 }

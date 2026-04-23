@@ -34,6 +34,8 @@ namespace SchemaValidation
     const auto JKEY_PLAYER_EXPALL           = "ExpAll";
     const auto JKEY_PLAYER_OBEDIENCECAP     = "obedienceCap";
     const auto JKEY_PLAYER_ITEMS            = "items";
+    const auto JKEY_PLAYER_ITEMS_NAME       = "name";
+    const auto JKEY_PLAYER_ITEMS_QUANTITY   = "quantity";
 
     const auto JKEY_POKEMON_SPECIES = "species";
     const auto JKEY_POKEMON_LEVEL   = "level";

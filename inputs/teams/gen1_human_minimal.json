@@ -1,6 +1,7 @@
 {
     "human" : {
-        "name": "hooman"
+        "name": "hooman",
+        "items": ["foo", {"name": "bar", "quantity": 3}]
     },
     "pokemon": [
         {
