@@ -40,6 +40,7 @@ namespace SimulationMode
             LoggerService::infoF("### - {}", p.species);
         }
         LoggerService::infoF("### Dragon moves are {}", getMoveCategoryName(typeChart.getMoveCategoryForType("Dragon")));
+        LoggerService::infoF("### Dragon is type id {}", typeChart.getIndex("Dragon"));
         LoggerService::infoF("### Dragonair is a {}", pokemonDatabase.getEntry("Dragonair").type.primary);
 
         LoggerService::debug("... done");

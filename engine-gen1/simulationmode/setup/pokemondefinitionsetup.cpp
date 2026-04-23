@@ -25,9 +25,9 @@ using namespace std::string_literals;
 
 namespace SimulationMode
 {
-    std::unordered_map<std::string, size_t> assertPokemonDatabaseDataComplete(
-        const std::filesystem::__cxx11::path& pokemonDefinitionFile,
+    std::unordered_map<std::string, size_t> collectColumnIndices(
         ICsvService::CsvHandle                handle,
+        const std::filesystem::__cxx11::path& pokemonDefinitionFile,
         EngineBase::ErrorBuffer&              eb
     )
     {
@@ -69,9 +69,9 @@ namespace SimulationMode
     }
 
     void transferToPokemonDatabase(
-        const std::filesystem::__cxx11::path&           pokemonDefinitionFile,
         ICsvService::CsvHandle                          handle,
         const std::unordered_map<std::string, size_t>&  columnNames,
+        const std::filesystem::__cxx11::path&           pokemonDefinitionFile,
         EngineBase::ErrorBuffer&                        eb
     )
     {
@@ -151,18 +151,13 @@ namespace SimulationMode
 
             ICsvService::CsvHandle csvHandle = CsvService::readCsvData(pokemonDefinitionFile, ICsvService::CsvOptions{});
 
-            const std::unordered_map<std::string, size_t> columnNames =
-                assertPokemonDatabaseDataComplete(
-                    pokemonDefinitionFile,
-                    csvHandle,
-                    eb
-                );
+            const std::unordered_map<std::string, size_t> columnNames = collectColumnIndices(csvHandle, pokemonDefinitionFile, eb);
             if (!columnNames.empty())
             {
                 transferToPokemonDatabase(
-                    pokemonDefinitionFile,
                     csvHandle,
                     columnNames,
+                    pokemonDefinitionFile,
                     eb
                 );
             }

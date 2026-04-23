@@ -56,24 +56,38 @@ namespace SimulationMode
     // ====================================================================== //
     // processors proper
 
-    void assertTypeChartDataComplete(
+    std::unordered_map<std::string, size_t> collectColumnIndices(
         ICsvService::CsvHandle handle,
         ErrorBuffer& eb,
         const std::filesystem::path& origin
     )
     {
         bool valid = true;
+        std::unordered_map<std::string, size_t> result;
+
+        const auto rememberColumn =[&result, &handle](const char* const columnName)
+        {
+            result.try_emplace(columnName, CsvService::getColumnIndex(handle, columnName));
+        };
+
         // *INDENT-OFF*
         if (!CsvService::hasColumn(handle, TypeChart::ATTACKER)) { report(eb, "Missing column: "s + TypeChart::ATTACKER, origin); }
         if (!CsvService::hasColumn(handle, TypeChart::CATEGORY)) { report(eb, "Missing column: "s + TypeChart::CATEGORY, origin); }
         // *INDENT-ON*
+
+        rememberColumn(TypeChart::ATTACKER);
+        rememberColumn(TypeChart::CATEGORY);
 
         ICsvService::ColumnData typeNames = CsvService::getColumnByName(handle, TypeChart::ATTACKER);
         const auto typeNamesView = std::span(typeNames.data + 1, typeNames.data + typeNames.size);
 
         for (const ICsvService::CellData type : typeNamesView)
         {
-            if (!CsvService::hasColumn(handle, type.data))
+            if (CsvService::hasColumn(handle, type.data))
+            {
+                rememberColumn(type.data);
+            }
+            else
             {
                 valid = false;
                 report(eb, "Missing column: "s + type.data, origin);
@@ -86,30 +100,55 @@ namespace SimulationMode
         }
 
         CsvService::freeColumnBuffer(typeNames);
+
+        return result;
     }
 
-    void transferToTypeChart(ICsvService::CsvHandle handle)
+    void transferToTypeChart(
+        ICsvService::CsvHandle handle,
+        const std::unordered_map<std::string, size_t>& columnIndices
+    )
     {
-        const size_t rowCount = CsvService::getRowCount(handle);
         ICsvService::RowData rowBuffer = CsvService::reserveRowBuffer(handle);
         CsvService::getRow(handle, rowBuffer, 0);
 
-        auto rowCellView = std::span<ICsvService::CellData>(
-                               rowBuffer.data + 2,              // skip the "Attacker" and "Category" entries
-                               rowBuffer.data + rowBuffer.size
-                           );
-        auto rowStringView = std::vector<std::string_view>(rowCellView.size());
-        fetchIntoStringView(rowCellView, rowStringView);
-        typeChart.setupTypes(rowStringView);
+        auto typeDataView = std::vector<std::string_view>(rowBuffer.size - 2);  // do not observe ATTACKER, CATEGORY
 
+        // lookups are guaranteed to have results, or collectColumnIndices would have called abort.
+        const auto typeNameColumn = columnIndices.find(TypeChart::ATTACKER)->second;
+        const auto categoryColumn = columnIndices.find(TypeChart::CATEGORY)->second;
+
+        // copy all but ATTACKER, CATEGORY into typeDataView
+        const auto updateTypeDataView = [&typeDataView, &rowBuffer, &columnIndices]()
+        {
+            size_t i = 0;
+            for (const auto& entry : columnIndices)
+            {
+                if (entry.first == TypeChart::ATTACKER || entry.first == TypeChart::CATEGORY)
+                {
+                    continue;
+                }
+
+                const auto column = entry.second;
+                typeDataView[i] = getRowItem(rowBuffer, column);
+
+                ++i;
+            }
+        };
+
+        updateTypeDataView();
+        typeChart.setupTypes(typeDataView);
+
+        const size_t rowCount = CsvService::getRowCount(handle);
         for (size_t i = 1; i < rowCount; ++i)
         {
-            CsvService::getRow(handle, rowBuffer, i);           // also updates rowCellView
-            const auto rowName = getRowItem(rowBuffer, 0);
-            const auto categoryName = getRowItem(rowBuffer, 1);
+            CsvService::getRow(handle, rowBuffer, i);
+            const auto typeName     = getRowItem(rowBuffer, typeNameColumn);
+            const auto categoryName = getRowItem(rowBuffer, categoryColumn);
             const auto category = getMoveCategoryFromName(categoryName);
-            fetchIntoStringView(rowCellView, rowStringView);
-            typeChart.setRow(rowName, category, rowStringView);
+
+            updateTypeDataView();
+            typeChart.setRow(typeName, category, typeDataView);
         }
 
         CsvService::freeRowBuffer(rowBuffer);
@@ -125,8 +164,8 @@ namespace SimulationMode
             LoggerService::traceF("  ... loading types definition from '{}'", typeDefinitionFile.c_str());
 
             ICsvService::CsvHandle csvHandle = CsvService::readCsvData(typeDefinitionFile, ICsvService::CsvOptions{});
-            assertTypeChartDataComplete(csvHandle, eb, typeDefinitionFile);
-            transferToTypeChart(csvHandle);
+            const std::unordered_map<std::string, size_t> indices = collectColumnIndices(csvHandle, eb, typeDefinitionFile);
+            transferToTypeChart(csvHandle, indices);
             CsvService::freeCsvData(csvHandle);
         }
         catch (const EngineError& e)
