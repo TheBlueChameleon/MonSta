@@ -28,17 +28,11 @@ namespace SimulationMode
     std::unordered_map<std::string, size_t> assertPokemonDatabaseDataComplete(
         const std::filesystem::__cxx11::path& pokemonDefinitionFile,
         ICsvService::CsvHandle                handle,
-        ICsvService::RowData                  rowBuffer,
         EngineBase::ErrorBuffer&              eb
     )
     {
         bool resultValid = true;
         std::unordered_map<std::string, size_t> result;
-        CsvService::getRow(handle, rowBuffer, 0);
-        std::span<ICsvService::CellData> rowView(
-            rowBuffer.data,
-            rowBuffer.data + rowBuffer.size
-        );
 
         for (const std::string_view searchTerm :
              {
@@ -54,22 +48,15 @@ namespace SimulationMode
                  PokemonDatabase::EXPGROUP
              })
         {
-            const auto equals = [searchTerm](const ICsvService::CellData cell)
+            if (CsvService::hasColumn(handle, searchTerm))
             {
-                return searchTerm == cell.data;
-            };
-
-            auto it = std::find_if(rowView.begin(), rowView.end(), equals);
-            auto id = std::distance(rowView.begin(), it);
-
-            if (it == rowView.end())
-            {
-                report(eb, "Missing Column header '"s +  searchTerm.data() + "'", pokemonDefinitionFile);
-                resultValid = false;
+                const auto id = CsvService::getColumnIndex(handle, searchTerm);
+                result.try_emplace(searchTerm.data(), id);
             }
             else
             {
-                result.try_emplace(searchTerm.data(), id);
+                report(eb, "Missing Column header '"s +  searchTerm.data() + "'", pokemonDefinitionFile);
+                resultValid = false;
             }
         }
 
@@ -77,18 +64,19 @@ namespace SimulationMode
         {
             result.clear();
         }
+
         return result;
     }
 
     void transferToPokemonDatabase(
-        const std::filesystem::__cxx11::path&         pokemonDefinitionFile,
-        ICsvService::CsvHandle                        handle,
-        ICsvService::RowData                          rowBuffer,
-        const std::unordered_map<std::string, size_t> columnNames,
-        EngineBase::ErrorBuffer&                      eb
+        const std::filesystem::__cxx11::path&           pokemonDefinitionFile,
+        ICsvService::CsvHandle                          handle,
+        const std::unordered_map<std::string, size_t>&  columnNames,
+        EngineBase::ErrorBuffer&                        eb
     )
     {
         const size_t rowCount = CsvService::getRowCount(handle);
+        ICsvService::RowData rowBuffer = CsvService::reserveRowBuffer(handle);
         std::string_view field;
 
         const auto extractStringAndRememberField = [&field, &columnNames](
@@ -128,7 +116,6 @@ namespace SimulationMode
                 }
 
                 pokemonDatabase.addSpecies(species, entry);
-
             }
             catch (const EngineError& e)
             {
@@ -152,6 +139,8 @@ namespace SimulationMode
                       );
             }
         }
+
+        CsvService::freeRowBuffer(rowBuffer);
     }
 
     void loadAndRegisterPokemon(const std::filesystem::__cxx11::path& pokemonDefinitionFile, EngineBase::ErrorBuffer& eb)
@@ -161,13 +150,11 @@ namespace SimulationMode
             LoggerService::traceF("  ... loading pokemon definition from '{}'", pokemonDefinitionFile.c_str());
 
             ICsvService::CsvHandle csvHandle = CsvService::readCsvData(pokemonDefinitionFile, ICsvService::CsvOptions{});
-            ICsvService::RowData   rowBuffer = CsvService::reserveRowBuffer(csvHandle);
 
             const std::unordered_map<std::string, size_t> columnNames =
                 assertPokemonDatabaseDataComplete(
                     pokemonDefinitionFile,
                     csvHandle,
-                    rowBuffer,
                     eb
                 );
             if (!columnNames.empty())
@@ -175,19 +162,18 @@ namespace SimulationMode
                 transferToPokemonDatabase(
                     pokemonDefinitionFile,
                     csvHandle,
-                    rowBuffer,
                     columnNames,
                     eb
                 );
             }
 
-            CsvService::freeRowBuffer(rowBuffer);
             CsvService::freeCsvData(csvHandle);
         }
         catch (const EngineError& e)
         {
             report(eb, e.what(), pokemonDefinitionFile);
         }
+
     }
 
 } // namespace SimulationMode
