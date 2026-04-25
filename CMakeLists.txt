@@ -230,10 +230,10 @@ target_include_directories(Host-VersionService
 add_executable(Host
     ${apiHeaders}
 
-    host/api/clientwrapper.hpp      host/api/clientwrapper.cpp
-    host/api/hostapiprovider.hpp    host/api/hostapiprovider.cpp
+    host/api/clientwrapper.hpp                                          host/api/clientwrapper.cpp
+    host/api/hostapiprovider.hpp                                        host/api/hostapiprovider.cpp
 
-    host/cli/clihandler.hpp host/cli/clihandler.cpp
+    host/cli/clihandler.hpp                                             host/cli/clihandler.cpp
     host/cli/cliinput.hpp
 
     host/operationmodes/entrypoint.hpp                                  host/operationmodes/entrypoint.cpp
@@ -300,23 +300,23 @@ add_library(Engine-Base STATIC
 
     engine-base/base/clientapi.cpp
 
-    engine-base/base/errors.hpp             engine-base/base/errors.cpp
-    engine-base/base/errorbuffer.hpp        engine-base/base/errorbuffer.cpp
-    engine-base/base/enginebase.hpp         engine-base/base/enginebase.cpp
-    engine-base/base/globals.hpp            engine-base/base/globals.cpp
+    engine-base/base/errors.hpp                                     engine-base/base/errors.cpp
+    engine-base/base/errorbuffer.hpp                                engine-base/base/errorbuffer.cpp
+    engine-base/base/enginebase.hpp                                 engine-base/base/enginebase.cpp
+    engine-base/base/globals.hpp                                    engine-base/base/globals.cpp
 
-    engine-base/services/services.hpp       engine-base/services/services.cpp
-    engine-base/services/csvservice.hpp     engine-base/services/csvservice.cpp
-    engine-base/services/errorservice.hpp   engine-base/services/errorservice.cpp
-    engine-base/services/fileservice.hpp    engine-base/services/fileservice.cpp
+    engine-base/services/services.hpp                               engine-base/services/services.cpp
+    engine-base/services/csvservice.hpp                             engine-base/services/csvservice.cpp
+    engine-base/services/errorservice.hpp                           engine-base/services/errorservice.cpp
+    engine-base/services/fileservice.hpp                            engine-base/services/fileservice.cpp
     engine-base/services/jsonservice.hpp
     engine-base/services/jsonservice/jsonwrapper.hpp                engine-base/services/jsonservice/jsonwrapper.cpp
     engine-base/services/jsonservice/jsonservice_database.hpp       engine-base/services/jsonservice/jsonservice_database.cpp
     engine-base/services/jsonservice/jsonservice_itemaccess.hpp     engine-base/services/jsonservice/jsonservice_itemaccess.cpp
     engine-base/services/jsonservice/jsonservice_schemabuilder.hpp  engine-base/services/jsonservice/jsonservice_schemabuilder.cpp
     engine-base/services/jsonservice/schemabuilder_wrapper.hpp      engine-base/services/jsonservice/schemabuilder_wrapper.cpp
-    engine-base/services/loggerservice.hpp  engine-base/services/loggerservice.cpp
-    engine-base/services/memoryservice.hpp  engine-base/services/memoryservice.cpp
+    engine-base/services/loggerservice.hpp                          engine-base/services/loggerservice.cpp
+    engine-base/services/memoryservice.hpp                          engine-base/services/memoryservice.cpp
 )
 
 target_include_directories(Engine-Base
@@ -333,8 +333,11 @@ add_library(Engine-Gen1 SHARED
     ${apiHeaders}
 
     engine-gen1/clientapi.cpp
-    engine-gen1/globals.hpp                         engine-gen1/globals.cpp
-    engine-gen1/schemavalidationconstants.hpp       engine-gen1/schemavalidationconstants.cpp
+    engine-gen1/globals.hpp                                         engine-gen1/globals.cpp
+    engine-gen1/schemavalidationconstants.hpp                       engine-gen1/schemavalidationconstants.cpp
+
+    engine-gen1/simulationmode/arena/pokemoninstance.hpp            engine-gen1/simulationmode/arena/pokemoninstance.cpp
+    engine-gen1/simulationmode/arena/scene.hpp
 
     engine-gen1/simulationmode/defs/mechanicsdefinition.hpp
     engine-gen1/simulationmode/defs/pokemondatabaseentry.hpp        engine-gen1/simulationmode/defs/pokemondatabaseentry.cpp
@@ -343,19 +346,25 @@ add_library(Engine-Gen1 SHARED
     engine-gen1/simulationmode/defs/teamdefinition.hpp
     engine-gen1/simulationmode/defs/typeinfo.hpp                    engine-gen1/simulationmode/defs/typeinfo.cpp
 
+    engine-gen1/simulationmode/registry/pokemondatabase.hpp         engine-gen1/simulationmode/registry/pokemondatabase.cpp
+    engine-gen1/simulationmode/registry/registry.hpp                engine-gen1/simulationmode/registry/registry.cpp
+    engine-gen1/simulationmode/registry/typechart.hpp               engine-gen1/simulationmode/registry/typechart.cpp
+
+    engine-gen1/simulationmode/registry/moves/move.hpp              engine-gen1/simulationmode/registry/moves/move.cpp
+    engine-gen1/simulationmode/registry/moves/secondaryeffect.hpp
+
+    engine-gen1/simulationmode/registry/effects/abstracteffecthandler.hpp           engine-gen1/simulationmode/registry/effects/abstracteffecthandler.cpp
+    engine-gen1/simulationmode/registry/effects/abstracteffecthandlerbuilder.hpp    engine-gen1/simulationmode/registry/effects/abstracteffecthandlerbuilder.cpp
+
     engine-gen1/simulationmode/setup/mechanicsdefinitionsetup.hpp   engine-gen1/simulationmode/setup/mechanicsdefinitionsetup.cpp
     engine-gen1/simulationmode/setup/pokemondefinitionsetup.hpp     engine-gen1/simulationmode/setup/pokemondefinitionsetup.cpp
     engine-gen1/simulationmode/setup/setuperrorhandling.hpp         engine-gen1/simulationmode/setup/setuperrorhandling.cpp
     engine-gen1/simulationmode/setup/teamdefinitionsetup.hpp        engine-gen1/simulationmode/setup/teamdefinitionsetup.cpp
     engine-gen1/simulationmode/setup/typedefinitionsetup.hpp        engine-gen1/simulationmode/setup/typedefinitionsetup.cpp
 
-    engine-gen1/simulationmode/registry/pokemondatabase.hpp         engine-gen1/simulationmode/registry/pokemondatabase.cpp
-    engine-gen1/simulationmode/registry/registry.hpp                engine-gen1/simulationmode/registry/registry.cpp
-    engine-gen1/simulationmode/registry/typechart.hpp               engine-gen1/simulationmode/registry/typechart.cpp
+    engine-gen1/simulationmode/simulationmode.hpp                   engine-gen1/simulationmode/simulationmode.cpp
 
-    engine-gen1/simulationmode/simulationmode.hpp   engine-gen1/simulationmode/simulationmode.cpp
-
-    engine-gen1/templatesmode/templatesmode.hpp     engine-gen1/templatesmode/templatesmode.cpp
+    engine-gen1/templatesmode/templatesmode.hpp                     engine-gen1/templatesmode/templatesmode.cpp
 )
 
 target_link_libraries(Engine-Gen1 PUBLIC

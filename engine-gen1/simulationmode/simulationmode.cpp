@@ -45,4 +45,9 @@ namespace SimulationMode
 
         LoggerService::debug("... done");
     }
+
+    void registerEffects()
+    {
+
+    }
 }

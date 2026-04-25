@@ -60,6 +60,8 @@ bool init_engine()
     SchemaValidation::registerMechanicsDefinition();
     SchemaValidation::registerSchemaTeamDefinition();
 
+    SimulationMode::registerEffects();
+
     LoggerService::debug("... done");
     return true;
 }
