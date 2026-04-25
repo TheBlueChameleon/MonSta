@@ -3,10 +3,12 @@
 
 namespace SimulationMode
 {
-    class AbstractEffectHandler
+    class PokemonInstance;
+    class Scene;
+
+    struct AbstractEffectHandler
     {
-        public:
-            AbstractEffectHandler();
+        virtual bool execute(PokemonInstance& self, PokemonInstance& enemy, Scene& scene) = 0;
     };
 
 } // namespace SimulationMode

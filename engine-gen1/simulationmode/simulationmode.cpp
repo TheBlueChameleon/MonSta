@@ -2,7 +2,7 @@
 
 #include "base/enginebase.hpp"
 
-#include "registry/registry.hpp"
+#include "shared/registry/registry.hpp"
 
 #include "setup/mechanicsdefinitionsetup.hpp"
 #include "setup/teamdefinitionsetup.hpp"

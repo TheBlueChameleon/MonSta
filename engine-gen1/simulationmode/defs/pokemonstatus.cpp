@@ -2,7 +2,7 @@
 
 #include "base/errors.hpp"
 
-#include "schemavalidationconstants.hpp"
+#include "shared/schemavalidationconstants.hpp"
 
 #include "pokemonstatus.hpp"
 

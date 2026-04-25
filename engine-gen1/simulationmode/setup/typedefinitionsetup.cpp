@@ -8,14 +8,13 @@
 #include <services/jsonservice.hpp>
 #include <services/loggerservice.hpp>
 
-#include "globals.hpp"
-#include "schemavalidationconstants.hpp"
+#include "shared/globals.hpp"
+#include "shared/schemavalidationconstants.hpp"
+#include "shared/registry/registry.hpp"
+#include "shared/registry/typechart.hpp"
 
 #include "simulationmode/defs/teamdefinition.hpp"
 #include "simulationmode/defs/typeinfo.hpp"
-
-#include "simulationmode/registry/registry.hpp"
-#include "simulationmode/registry/typechart.hpp"
 
 #include "setuperrorhandling.hpp"
 #include "typedefinitionsetup.hpp"

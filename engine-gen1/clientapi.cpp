@@ -6,7 +6,7 @@
 #include "base/errors.hpp"
 #include "base/globals.hpp"
 
-#include "schemavalidationconstants.hpp"
+#include "shared/schemavalidationconstants.hpp"
 
 #include "simulationmode/simulationmode.hpp"
 
