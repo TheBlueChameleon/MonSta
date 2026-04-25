@@ -345,6 +345,7 @@ add_library(Engine-Gen1 SHARED
 
     engine-gen1/shared/registry/pokemondatabase.hpp                 engine-gen1/shared/registry/pokemondatabase.cpp
     engine-gen1/shared/registry/registry.hpp                        engine-gen1/shared/registry/registry.cpp
+    engine-gen1/shared/registry/setup.hpp                           engine-gen1/shared/registry/setup.cpp
     engine-gen1/shared/registry/typechart.hpp                       engine-gen1/shared/registry/typechart.cpp
 
     engine-gen1/shared/registry/effects/abstracteffecthandler.hpp

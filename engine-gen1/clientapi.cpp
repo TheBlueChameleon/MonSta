@@ -7,6 +7,7 @@
 #include "base/globals.hpp"
 
 #include "shared/schemavalidationconstants.hpp"
+#include "shared/registry/setup.hpp"
 
 #include "simulationmode/simulationmode.hpp"
 
@@ -60,7 +61,7 @@ bool init_engine()
     SchemaValidation::registerMechanicsDefinition();
     SchemaValidation::registerSchemaTeamDefinition();
 
-    SimulationMode::registerEffects();
+    Registry::registerEffects();
 
     LoggerService::debug("... done");
     return true;

@@ -6,7 +6,6 @@
 namespace SimulationMode
 {
     void setupSimulationMode(const IMatchDefinition& matchDefinition);
-    void registerEffects();
 }
 
 #endif // SIMULATIONMODE_HPP
