@@ -365,6 +365,8 @@ add_library(Engine-Gen1 SHARED
 
     engine-gen1/simulationmode/simulationmode.hpp                   engine-gen1/simulationmode/simulationmode.cpp
 
+    engine-gen1/templatesmode/csvtemplateswriter.hpp                engine-gen1/templatesmode/csvtemplateswriter.cpp
+    engine-gen1/templatesmode/jsontemplateswriter.hpp               engine-gen1/templatesmode/jsontemplateswriter.cpp
     engine-gen1/templatesmode/templatesmode.hpp                     engine-gen1/templatesmode/templatesmode.cpp
 )
 
