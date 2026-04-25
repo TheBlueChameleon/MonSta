@@ -45,12 +45,74 @@ namespace SimulationMode
         // *INDENT-ON*
     }
 
+    static void reportViolation(const std::string violationDescription)
+    {
+        Registry::metaViolations.push_back(violationDescription);
+        LoggerService::warn(violationDescription.data());
+    }
+
     // ====================================================================== //
     // processors proper
 
+    static void warnIllegalPokemonStatBased(
+        const std::string_view statName,
+        const std::string_view pokemonName,
+        const int statValue,
+        const int statCap,
+        const std::filesystem::path& origin
+    )
+    {
+        if (statValue > Registry::mechanicsDefinition.dvCap)
+        {
+            std::ostringstream violationDescription;
+            violationDescription << "In " << origin.c_str() << ":\n";
+            violationDescription << "Detected a Pokemon of species " << pokemonName << " ";
+            violationDescription << "with " << statName << " " << statValue << ".\n";
+            violationDescription << "This is above the cap of " << statCap;
+            reportViolation(violationDescription.str());
+        }
+    }
+
+    static void warnIllegalPokemon(
+        const PokemonDefinition& pokemon,
+        const std::filesystem::path& origin
+    )
+    {
+        const size_t dvSum =
+            pokemon.dv_ATK +
+            pokemon.dv_DEF +
+            pokemon.dv_SPC +
+            pokemon.dv_SPC +
+            pokemon.dv_HP;
+
+        const size_t sxSum =
+            pokemon.statusExperience_ATK +
+            pokemon.statusExperience_DEF +
+            pokemon.statusExperience_SPC +
+            pokemon.statusExperience_SPD +
+            pokemon.statusExperience_HP;
+
+        warnIllegalPokemonStatBased("level", pokemon.species, pokemon.level, Registry::mechanicsDefinition.levelCap, origin);
+
+        warnIllegalPokemonStatBased("HP DV", pokemon.species, pokemon.dv_HP, Registry::mechanicsDefinition.dvCap, origin);
+        warnIllegalPokemonStatBased("ATK DV", pokemon.species, pokemon.dv_ATK, Registry::mechanicsDefinition.dvCap, origin);
+        warnIllegalPokemonStatBased("DEF DV", pokemon.species, pokemon.dv_DEF, Registry::mechanicsDefinition.dvCap, origin);
+        warnIllegalPokemonStatBased("SPC DV", pokemon.species, pokemon.dv_SPC, Registry::mechanicsDefinition.dvCap, origin);
+        warnIllegalPokemonStatBased("SPC DV", pokemon.species, pokemon.dv_SPD, Registry::mechanicsDefinition.dvCap, origin);
+        warnIllegalPokemonStatBased("DV sum", pokemon.species, dvSum, Registry::mechanicsDefinition.dvSumCap, origin);
+
+        warnIllegalPokemonStatBased("HP StatExperience", pokemon.species,  pokemon.statusExperience_HP,  Registry::mechanicsDefinition.statExpCap, origin);
+        warnIllegalPokemonStatBased("ATK StatExperience", pokemon.species, pokemon.statusExperience_ATK, Registry::mechanicsDefinition.statExpCap, origin);
+        warnIllegalPokemonStatBased("DEF StatExperience", pokemon.species, pokemon.statusExperience_DEF, Registry::mechanicsDefinition.statExpCap, origin);
+        warnIllegalPokemonStatBased("SPC StatExperience", pokemon.species, pokemon.statusExperience_SPC, Registry::mechanicsDefinition.statExpCap, origin);
+        warnIllegalPokemonStatBased("SPC StatExperience", pokemon.species, pokemon.statusExperience_SPD, Registry::mechanicsDefinition.statExpCap, origin);
+        warnIllegalPokemonStatBased("StatExperience sum", pokemon.species, sxSum, Registry::mechanicsDefinition.statExpSumCap, origin);
+    }
+
     static PokemonDefinition processPokemon(
         const JsonService::JsonWrapper& pkmnDef,
-        bool humanMode
+        bool humanMode,
+        const std::filesystem::path& origin
     )
     {
         PokemonDefinition result;
@@ -98,14 +160,15 @@ namespace SimulationMode
         result.attack_4_pp          = pkmnDef.navigateTo(JKEY_POKEMON_ATTACK1PP).getAsInteger();
         result.attack_4_pp_current  = pkmnDef.navigateTo(JKEY_POKEMON_ATTACK1PPCURRENT).getAsInteger();
 
+        warnIllegalPokemon(result, origin);
         return result;
     }
 
     static void processPokemonList(
-        const std::filesystem::path& origin,
         const JsonService::JsonWrapper& listJson,
+        std::vector<PokemonDefinition>& pokemonList,
         bool humanMode,
-        std::vector<PokemonDefinition>& pokemonList
+        const std::filesystem::path& origin
     )
     {
         if (!listJson.isArray())
@@ -118,25 +181,28 @@ namespace SimulationMode
         {
             abort("The object under '"s + JKEY_POKEMON + "' is empty", ApiStatusCode::ILLEGAL_CLIENT_STATE);
         }
-        else if (listSize > 6)
+        else if (listSize > Registry::mechanicsDefinition.teamSizeMax)
         {
-            LoggerService::warnF(
-                "Detected an overlarge team (size {}) in {}",
-                listSize, origin.c_str()
-            );
+            std::ostringstream violationDescription;
+            violationDescription << "In " << origin.c_str() << ":\n";
+            violationDescription << "Detected an overlarge team of size " << listSize << ".\n";
+            violationDescription << "This is above the team size cap of " << Registry::mechanicsDefinition.teamSizeMax;
+            reportViolation(violationDescription.str());
         }
 
         for (size_t i = 0; i < listSize; ++i)
         {
             const auto itemHandle = listJson.getArrayItem(i);
-            pokemonList.push_back(processPokemon(itemHandle, humanMode));
+            pokemonList.push_back(
+                processPokemon(itemHandle, humanMode, origin)
+            );
         }
     }
 
-    void processItem(
+    static void processItem(
         const JsonService::JsonWrapper& itemJson,
-        const size_t index,
         std::vector<std::string>& itemsList,
+        const size_t index,
         ErrorBuffer& eb
     )
     {
@@ -146,7 +212,6 @@ namespace SimulationMode
         }
         else if (itemJson.isObject())
         {
-            // TODO: eb.append Illegal status? Caught by Schema anyway...
             const std::string_view name     = itemJson.navigateTo(JKEY_PLAYER_ITEMS_NAME).getAsString();
             const size_t           quantity = itemJson.navigateTo(JKEY_PLAYER_ITEMS_QUANTITY).getAsInteger();
             for (size_t i = 0; i < quantity; ++i)
@@ -158,12 +223,12 @@ namespace SimulationMode
         {
             eb.append(
                 ApiStatusCode::ILLEGAL_CLIENT_STATE,
-                "Item #"s + std::to_string(index) + " is of illegal type"
+                "Illegal syntax in definition of Item #"s + std::to_string(index)
             );
         }
     }
 
-    void processItemList(
+    static void processItemList(
         const JsonService::JsonWrapper& listJson,
         std::vector<std::string>& itemsList,
         ErrorBuffer& eb
@@ -178,7 +243,7 @@ namespace SimulationMode
         for (size_t i = 0; i < listSize; ++i)
         {
             const auto itemJson = listJson.getArrayItem(i);
-            processItem(itemJson, i, itemsList, eb);
+            processItem(itemJson, itemsList, i, eb);
         }
     }
 
@@ -216,10 +281,10 @@ namespace SimulationMode
             team.usePP          = playerJson.navigateTo(JKEY_PLAYER_BADGEATK).getAsBool();
 
             processPokemonList(
-                teamDefinitionFile,
                 teamJson.navigateTo(JKEY_POKEMON),
+                team.pokemon,
                 isHuman,
-                team.pokemon
+                teamDefinitionFile
             );
 
             if (playerJson.contains(JKEY_PLAYER_ITEMS))

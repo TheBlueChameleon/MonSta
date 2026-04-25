@@ -32,11 +32,16 @@ namespace SimulationMode
                                        );
             JsonService::JsonWrapper md = (JHND_MECHANICSDEFINITION);
 
-            mechanicsDefinition.levelCap    = md.navigateTo(JKEY_MECHANICS_LEVELCAP).getAsInteger();
-            mechanicsDefinition.statsMin    = md.navigateTo(JKEY_MECHANICS_STATSMIN).getAsInteger();
-            mechanicsDefinition.statsMax    = md.navigateTo(JKEY_MECHANICS_STATSMAX).getAsInteger();
-            mechanicsDefinition.obedience   = md.navigateTo(JKEY_MECHANICS_OBEDIENCE).getAsBool();
-            mechanicsDefinition.gen1miss    = md.navigateTo(JKEY_MECHANICS_GEN1MISS).getAsBool();
+            mechanicsDefinition.levelCap        = md.navigateTo(JKEY_MECHANICS_LEVELCAP).getAsInteger();
+            mechanicsDefinition.statsMin        = md.navigateTo(JKEY_MECHANICS_STATSMIN).getAsInteger();
+            mechanicsDefinition.statsMax        = md.navigateTo(JKEY_MECHANICS_STATSMAX).getAsInteger();
+            mechanicsDefinition.teamSizeMax     = md.navigateTo(JKEY_MECHANICS_TEAMSIZEMAX).getAsInteger();
+            mechanicsDefinition.dvCap           = md.navigateTo(JKEY_MECHANICS_DVCAP).getAsInteger();
+            mechanicsDefinition.dvSumCap        = md.navigateTo(JKEY_MECHANICS_DVSUMCAP).getAsInteger();
+            mechanicsDefinition.statExpCap      = md.navigateTo(JKEY_MECHANICS_STATEXPCAP).getAsInteger();
+            mechanicsDefinition.statExpSumCap   = md.navigateTo(JKEY_MECHANICS_STATEXPSUMCAP).getAsInteger();
+            mechanicsDefinition.obedience       = md.navigateTo(JKEY_MECHANICS_OBEDIENCE).getAsBool();
+            mechanicsDefinition.gen1miss        = md.navigateTo(JKEY_MECHANICS_GEN1MISS).getAsBool();
 
             mechanicsDefinition.bideGlitch                  = md.navigateTo(JKEY_MECHANICS_BIDE_GLITCH).getAsBool();
             mechanicsDefinition.counterGlitch               = md.navigateTo(JKEY_MECHANICS_COUNTERGLITCH).getAsBool();

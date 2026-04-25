@@ -8,6 +8,12 @@ namespace MetaDefinition
         int levelCap;
         int statsMin;
         int statsMax;
+        int teamSizeMax;
+        int dvCap;
+        int dvSumCap;
+        int statExpCap;
+        int statExpSumCap;
+
         bool obedience;
         bool gen1miss;
         bool bideGlitch;

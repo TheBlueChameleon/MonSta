@@ -91,6 +91,26 @@ namespace SchemaValidation
         .setDefault("999");
 
         builder
+        .addProperty(JKEY_MECHANICS_TEAMSIZEMAX, JsonType::INTEGER)
+        .setDefault("6");
+
+        builder
+        .addProperty(JKEY_MECHANICS_DVCAP, JsonType::INTEGER)
+        .setDefault("15");
+
+        builder
+        .addProperty(JKEY_MECHANICS_DVSUMCAP, JsonType::INTEGER)
+        .setDefault("75");      // 5*15
+
+        builder
+        .addProperty(JKEY_MECHANICS_STATEXPCAP, JsonType::INTEGER)
+        .setDefault("65535");
+
+        builder
+        .addProperty(JKEY_MECHANICS_STATEXPSUMCAP, JsonType::INTEGER)
+        .setDefault("327675");   // 5*65535
+
+        builder
         .addProperty(JKEY_MECHANICS_OBEDIENCE, JsonType::BOOLEAN)
         .setDefault("true");
 

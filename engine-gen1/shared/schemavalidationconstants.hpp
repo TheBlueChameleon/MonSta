@@ -77,6 +77,12 @@ namespace SchemaValidation
     const auto JKEY_MECHANICS_LEVELCAP                  = "levelCap";
     const auto JKEY_MECHANICS_STATSMIN                  = "statsMin";
     const auto JKEY_MECHANICS_STATSMAX                  = "statsMax";
+    const auto JKEY_MECHANICS_TEAMSIZEMAX               = "teamSizeMax";
+    const auto JKEY_MECHANICS_DVCAP                     = "DvCap";
+    const auto JKEY_MECHANICS_DVSUMCAP                  = "DvSumCap";
+    const auto JKEY_MECHANICS_STATEXPCAP                = "StatExpCap";
+    const auto JKEY_MECHANICS_STATEXPSUMCAP             = "StatExpSumCap";
+
     const auto JKEY_MECHANICS_OBEDIENCE                 = "obedience";
     const auto JKEY_MECHANICS_GEN1MISS                  = "gen1miss";
     const auto JKEY_MECHANICS_BIDE_GLITCH               = "bideGlitch";

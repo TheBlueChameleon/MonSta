@@ -15,4 +15,6 @@ namespace Registry
     TypeChart typeChart;
     PokemonDatabase pokemonDatabase;
 
+    std::list<std::string> metaViolations;
+
 } // namespace SimulationMode

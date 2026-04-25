@@ -1,6 +1,9 @@
 #ifndef REGISTRY_HPP
 #define REGISTRY_HPP
 
+#include <list>
+#include <string>
+
 #include <services/JsonService/IJsonService_Types.hpp>
 
 #include "shared/defs/mechanicsdefinition.hpp"
@@ -21,6 +24,8 @@ namespace Registry
 
     extern TypeChart typeChart;
     extern PokemonDatabase pokemonDatabase;
+
+    extern std::list<std::string> metaViolations;
 
 } // namespace SimulationMode
 

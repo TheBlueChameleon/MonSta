@@ -17,7 +17,6 @@ namespace MetaDefinition
 
 namespace SimulationMode
 {
-
     void loadAndRegisterTeamDefinition(
         const std::filesystem::path& teamDefinitionFile,
         IJsonServiceTypes::JsonHandle& teamHandle,
