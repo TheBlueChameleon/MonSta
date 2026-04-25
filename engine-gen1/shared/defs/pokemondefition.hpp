@@ -5,7 +5,7 @@
 
 #include "pokemonstatus.hpp"
 
-namespace SimulationMode
+namespace MetaDefinition
 {
     struct PokemonDefinition
     {

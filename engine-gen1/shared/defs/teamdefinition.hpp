@@ -6,7 +6,7 @@
 
 #include "pokemondefition.hpp"
 
-namespace SimulationMode
+namespace MetaDefinition
 {
     struct TeamDefinition
     {

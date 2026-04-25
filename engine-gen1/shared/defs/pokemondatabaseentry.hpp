@@ -5,7 +5,7 @@
 
 #include "typeinfo.hpp"
 
-namespace SimulationMode
+namespace MetaDefinition
 {
     static constexpr auto FAST        = "Fast";
     static constexpr auto MEDIUM_FAST = "Medium Fast";

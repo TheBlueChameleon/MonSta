@@ -5,7 +5,9 @@
 #include "typechart.hpp"
 
 using namespace std::string_literals;
-namespace SimulationMode
+using namespace MetaDefinition;
+
+namespace Registry
 {
     void TypeChart::setupTypes(const std::vector<std::string_view>& columnNames)
     {

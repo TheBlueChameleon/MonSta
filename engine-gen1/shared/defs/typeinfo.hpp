@@ -4,7 +4,7 @@
 #include <optional>
 #include <string>
 
-namespace SimulationMode
+namespace MetaDefinition
 {
     static constexpr auto PHYSICAL = "physical";
     static constexpr auto SPECIAL  = "special";

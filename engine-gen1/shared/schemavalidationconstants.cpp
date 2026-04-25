@@ -6,11 +6,10 @@
 
 #include "shared/defs/pokemonstatus.hpp"
 
-#include "globals.hpp"
 #include "schemavalidationconstants.hpp"
 
 using namespace std::string_literals;
-using namespace SimulationMode;
+using namespace MetaDefinition;
 using namespace IJsonServiceTypes;
 using namespace JsonService;
 
@@ -19,8 +18,9 @@ namespace SchemaValidation
     // ====================================================================== //
     // Constants
 
-    const std::string jtag_mechanicsDefinition = Globals::jtag_base + filename_mechanicsDefinitionSchema;
-    const std::string jtag_teamDefinition      = Globals::jtag_base + filename_teamDefinitionSchema;
+    const std::string jtag_base = ":storage:/gen1/";
+    const std::string jtag_mechanicsDefinition = jtag_base + filename_mechanicsDefinitionSchema;
+    const std::string jtag_teamDefinition      = jtag_base + filename_teamDefinitionSchema;
 
     const IJsonServiceTypes::JsonTag JTAG_MECHANICSDEFINITION = JsonTag(jtag_mechanicsDefinition.data());
     const IJsonServiceTypes::JsonTag JTAG_TEAMDEFINITION      = JsonTag(jtag_teamDefinition.data());
@@ -266,13 +266,13 @@ namespace SchemaValidation
         .setDefault("false");
 
         result.addProperty(JKEY_POKEMON_STATUS)
-        .setEnum(makeJsonList({SimulationMode::POKEMON_STATUS_NORMAL,
-                               SimulationMode::POKEMON_STATUS_PARALYZED,
-                               SimulationMode::POKEMON_STATUS_POISONED,
-                               SimulationMode::POKEMON_STATUS_ASLEEP,
-                               SimulationMode::POKEMON_STATUS_BURNT,
-                               SimulationMode::POKEMON_STATUS_FROZEN,
-                               SimulationMode::POKEMON_STATUS_FAINTED
+        .setEnum(makeJsonList({MetaDefinition::POKEMON_STATUS_NORMAL,
+                               MetaDefinition::POKEMON_STATUS_PARALYZED,
+                               MetaDefinition::POKEMON_STATUS_POISONED,
+                               MetaDefinition::POKEMON_STATUS_ASLEEP,
+                               MetaDefinition::POKEMON_STATUS_BURNT,
+                               MetaDefinition::POKEMON_STATUS_FROZEN,
+                               MetaDefinition::POKEMON_STATUS_FAINTED
                               }))
         .setDefault("\""s + POKEMON_STATUS_NORMAL + "\"");
 

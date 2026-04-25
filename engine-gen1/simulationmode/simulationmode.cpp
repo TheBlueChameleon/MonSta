@@ -11,6 +11,8 @@
 
 #include "simulationmode.hpp"
 
+using namespace Registry;
+
 namespace SimulationMode
 {
     void setupSimulationMode(const IMatchDefinition& matchDefinition)

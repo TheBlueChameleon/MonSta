@@ -1,7 +1,7 @@
 #include "move.hpp"
 
-namespace SimulationMode {
-
-Move::Move() {}
+namespace MetaDefinition
+{
+    Move::Move() {}
 
 } // namespace SimulationMode

@@ -1,7 +1,7 @@
 #ifndef SECONDARYEFFECT_HPP
 #define SECONDARYEFFECT_HPP
 
-namespace SimulationMode
+namespace MetaDefinition
 {
     struct SecondaryEffect {};
 }

@@ -334,7 +334,6 @@ add_library(Engine-Gen1 SHARED
 
     engine-gen1/clientapi.cpp
 
-    engine-gen1/shared/globals.hpp                                  engine-gen1/shared/globals.cpp
     engine-gen1/shared/schemavalidationconstants.hpp                engine-gen1/shared/schemavalidationconstants.cpp
 
     engine-gen1/shared/defs/mechanicsdefinition.hpp

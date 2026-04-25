@@ -8,7 +8,6 @@
 #include <services/jsonservice.hpp>
 #include <services/loggerservice.hpp>
 
-#include "shared/globals.hpp"
 #include "shared/schemavalidationconstants.hpp"
 
 #include "shared/defs/teamdefinition.hpp"
@@ -20,6 +19,8 @@
 #include "setuperrorhandling.hpp"
 
 using namespace EngineBase;
+using namespace MetaDefinition;
+using namespace Registry;
 using namespace SchemaValidation;
 using namespace std::string_literals;
 

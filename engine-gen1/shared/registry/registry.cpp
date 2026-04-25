@@ -1,6 +1,8 @@
 #include "registry.hpp"
 
-namespace SimulationMode
+using namespace MetaDefinition;
+
+namespace Registry
 {
     IJsonServiceTypes::JsonHandle JHND_MECHANICSDEFINITION = IJsonServiceTypes::JsonHandle(nullptr);
     IJsonServiceTypes::JsonHandle JHND_PLAYER1_TEAMDEFINITION = IJsonServiceTypes::JsonHandle(nullptr);

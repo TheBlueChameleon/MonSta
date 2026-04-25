@@ -4,7 +4,7 @@
 #include <functional>
 #include <string>
 
-namespace SimulationMode
+namespace MetaDefinition
 {
     class EffectHandler;
     struct EffectHandlerDescriptor

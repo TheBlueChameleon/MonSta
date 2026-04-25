@@ -1,13 +1,13 @@
 #ifndef MOVE_HPP
 #define MOVE_HPP
 
-namespace SimulationMode {
-
-class Move
+namespace MetaDefinition
 {
-public:
-    Move();
-};
+    class Move
+    {
+        public:
+            Move();
+    };
 
 } // namespace SimulationMode
 

@@ -9,18 +9,18 @@
 using namespace SchemaValidation;
 using namespace std::string_literals;
 
-namespace SimulationMode
+namespace MetaDefinition
 {
     PokemonStatus getPokemonStatusFromName(const std::string_view name)
     {
         // *INDENT-OFF*
-        if      (name == POKEMON_STATUS_NORMAL   ) {return SimulationMode::PokemonStatus::NORMAL;}
-        else if (name == POKEMON_STATUS_PARALYZED) {return SimulationMode::PokemonStatus::PARALYZED;}
-        else if (name == POKEMON_STATUS_POISONED ) {return SimulationMode::PokemonStatus::POISONED;}
-        else if (name == POKEMON_STATUS_ASLEEP   ) {return SimulationMode::PokemonStatus::ASLEEP;}
-        else if (name == POKEMON_STATUS_BURNT    ) {return SimulationMode::PokemonStatus::BURNT;}
-        else if (name == POKEMON_STATUS_FROZEN   ) {return SimulationMode::PokemonStatus::FROZEN;}
-        else if (name == POKEMON_STATUS_FAINTED  ) {return SimulationMode::PokemonStatus::FAINTED;}
+        if      (name == POKEMON_STATUS_NORMAL   ) {return MetaDefinition::PokemonStatus::NORMAL;}
+        else if (name == POKEMON_STATUS_PARALYZED) {return MetaDefinition::PokemonStatus::PARALYZED;}
+        else if (name == POKEMON_STATUS_POISONED ) {return MetaDefinition::PokemonStatus::POISONED;}
+        else if (name == POKEMON_STATUS_ASLEEP   ) {return MetaDefinition::PokemonStatus::ASLEEP;}
+        else if (name == POKEMON_STATUS_BURNT    ) {return MetaDefinition::PokemonStatus::BURNT;}
+        else if (name == POKEMON_STATUS_FROZEN   ) {return MetaDefinition::PokemonStatus::FROZEN;}
+        else if (name == POKEMON_STATUS_FAINTED  ) {return MetaDefinition::PokemonStatus::FAINTED;}
         // *INDENT-ON*
 
         throw EngineError("Unknown Status name: "s + name.data());
@@ -30,19 +30,19 @@ namespace SimulationMode
     {
         switch (status)
         {
-            case SimulationMode::PokemonStatus::NORMAL:
+            case MetaDefinition::PokemonStatus::NORMAL:
                 return POKEMON_STATUS_NORMAL;
-            case SimulationMode::PokemonStatus::PARALYZED:
+            case MetaDefinition::PokemonStatus::PARALYZED:
                 return POKEMON_STATUS_PARALYZED;
-            case SimulationMode::PokemonStatus::POISONED:
+            case MetaDefinition::PokemonStatus::POISONED:
                 return POKEMON_STATUS_POISONED;
-            case SimulationMode::PokemonStatus::ASLEEP:
+            case MetaDefinition::PokemonStatus::ASLEEP:
                 return POKEMON_STATUS_ASLEEP;
-            case SimulationMode::PokemonStatus::BURNT:
+            case MetaDefinition::PokemonStatus::BURNT:
                 return POKEMON_STATUS_BURNT;
-            case SimulationMode::PokemonStatus::FROZEN:
+            case MetaDefinition::PokemonStatus::FROZEN:
                 return POKEMON_STATUS_FROZEN;
-            case SimulationMode::PokemonStatus::FAINTED:
+            case MetaDefinition::PokemonStatus::FAINTED:
                 return POKEMON_STATUS_FAINTED;
         }
 

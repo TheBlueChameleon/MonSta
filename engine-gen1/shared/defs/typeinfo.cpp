@@ -4,9 +4,8 @@
 
 using namespace std::string_literals;
 
-namespace SimulationMode
+namespace MetaDefinition
 {
-
     MoveCategory getMoveCategoryFromName(const std::string_view name)
     {
         // *INDENT-OFF*
@@ -22,11 +21,11 @@ namespace SimulationMode
     {
         switch (category)
         {
-            case SimulationMode::MoveCategory::PHYSICAL:
+            case MoveCategory::PHYSICAL:
                 return PHYSICAL;
-            case SimulationMode::MoveCategory::SPECIAL:
+            case MoveCategory::SPECIAL:
                 return SPECIAL;
-            case SimulationMode::MoveCategory::STATUS:
+            case MoveCategory::STATUS:
                 return STATUS;
         }
 

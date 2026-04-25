@@ -3,15 +3,15 @@
 #include <services/jsonservice.hpp>
 #include <services/loggerservice.hpp>
 
-#include "shared/globals.hpp"
 #include "shared/schemavalidationconstants.hpp"
 #include "shared/registry/registry.hpp"
 
 #include "setuperrorhandling.hpp"
 
-using namespace EngineBase;
-using namespace SchemaValidation;
 using namespace std::string_literals;
+using namespace EngineBase;
+using namespace Registry;
+using namespace SchemaValidation;
 
 namespace SimulationMode
 {
@@ -24,7 +24,7 @@ namespace SimulationMode
         {
             LoggerService::traceF("  ... loading mechanics definition from '{}'", mechanicsDefinitionFile.c_str());
 
-            std::string mechanicsHandleName = Globals::jtag_base + mechanicsDefinitionFile.c_str();
+            std::string mechanicsHandleName = jtag_base + mechanicsDefinitionFile.c_str();
             JHND_MECHANICSDEFINITION = JsonService::readValidatePatchAndAdd(
                                            IJsonServiceTypes::JsonTag(mechanicsHandleName.data()),
                                            mechanicsDefinitionFile,

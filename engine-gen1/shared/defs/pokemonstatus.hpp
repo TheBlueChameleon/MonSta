@@ -3,7 +3,7 @@
 
 #include <string_view>
 
-namespace SimulationMode
+namespace MetaDefinition
 {
     static constexpr auto POKEMON_STATUS_NORMAL    = "normal";
     static constexpr auto POKEMON_STATUS_PARALYZED = "paralyzed";

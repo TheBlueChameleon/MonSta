@@ -4,7 +4,7 @@
 
 using namespace std::string_literals;
 
-namespace SimulationMode
+namespace MetaDefinition
 {
     ExperienceGroup getExperienceGroupFromName(const std::string_view name)
     {
@@ -25,13 +25,13 @@ namespace SimulationMode
     {
         switch (experienceGroup)
         {
-            case SimulationMode::ExperienceGroup::FAST:
+            case MetaDefinition::ExperienceGroup::FAST:
                 break;
-            case SimulationMode::ExperienceGroup::MEDIUM_FAST:
+            case MetaDefinition::ExperienceGroup::MEDIUM_FAST:
                 break;
-            case SimulationMode::ExperienceGroup::MEDIUM_SLOW:
+            case MetaDefinition::ExperienceGroup::MEDIUM_SLOW:
                 break;
-            case SimulationMode::ExperienceGroup::SLOW:
+            case MetaDefinition::ExperienceGroup::SLOW:
                 break;
         }
 

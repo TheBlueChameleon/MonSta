@@ -9,15 +9,15 @@
 #include "pokemondatabase.hpp"
 #include "typechart.hpp"
 
-namespace SimulationMode
+namespace Registry
 {
     extern IJsonServiceTypes::JsonHandle JHND_MECHANICSDEFINITION;
     extern IJsonServiceTypes::JsonHandle JHND_PLAYER1_TEAMDEFINITION;
     extern IJsonServiceTypes::JsonHandle JHND_PLAYER2_TEAMDEFINITION;
 
-    extern MechanicsDefinition mechanicsDefinition;
-    extern TeamDefinition player1TeamDefinition;
-    extern TeamDefinition player2TeamDefinition;
+    extern MetaDefinition::MechanicsDefinition mechanicsDefinition;
+    extern MetaDefinition::TeamDefinition player1TeamDefinition;
+    extern MetaDefinition::TeamDefinition player2TeamDefinition;
 
     extern TypeChart typeChart;
     extern PokemonDatabase pokemonDatabase;

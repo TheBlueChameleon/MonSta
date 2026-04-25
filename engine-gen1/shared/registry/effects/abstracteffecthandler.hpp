@@ -1,7 +1,7 @@
 #ifndef ABSTRACTEFFECTHANDLER_HPP
 #define ABSTRACTEFFECTHANDLER_HPP
 
-namespace SimulationMode
+namespace MetaDefinition
 {
     class PokemonInstance;
     class Scene;

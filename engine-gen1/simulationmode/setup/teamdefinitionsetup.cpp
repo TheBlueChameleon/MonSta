@@ -9,7 +9,6 @@
 #include <services/jsonservice.hpp>
 #include <services/loggerservice.hpp>
 
-#include "shared/globals.hpp"
 #include "shared/schemavalidationconstants.hpp"
 #include "shared/registry/registry.hpp"
 
@@ -18,9 +17,11 @@
 #include "setuperrorhandling.hpp"
 #include "teamdefinitionsetup.hpp"
 
-using namespace EngineBase;
-using namespace SchemaValidation;
 using namespace std::string_literals;
+using namespace EngineBase;
+using namespace Registry;
+using namespace MetaDefinition;
+using namespace SchemaValidation;
 
 namespace SimulationMode
 {
@@ -192,7 +193,7 @@ namespace SimulationMode
         {
             LoggerService::traceF("  ... loading team definition from '{}'", teamDefinitionFile.c_str());
 
-            std::string teamHandleName = Globals::jtag_base + teamDefinitionFile.c_str();
+            std::string teamHandleName = jtag_base + teamDefinitionFile.c_str();
             teamHandle = JsonService::readValidatePatchAndAdd(
                              IJsonServiceTypes::JsonTag(teamHandleName.data()),
                              teamDefinitionFile,

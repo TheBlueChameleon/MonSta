@@ -1,7 +1,7 @@
 #ifndef MECHANICSDEFINITION_H
 #define MECHANICSDEFINITION_H
 
-namespace SimulationMode
+namespace MetaDefinition
 {
     struct MechanicsDefinition
     {

@@ -10,14 +10,18 @@ namespace EngineBase
     class ErrorBuffer;
 }
 
-namespace SimulationMode
+namespace MetaDefinition
 {
     class TeamDefinition;
+}
+
+namespace SimulationMode
+{
 
     void loadAndRegisterTeamDefinition(
         const std::filesystem::path& teamDefinitionFile,
         IJsonServiceTypes::JsonHandle& teamHandle,
-        TeamDefinition& team,
+        MetaDefinition::TeamDefinition& team,
         EngineBase::ErrorBuffer& eb
     );
 

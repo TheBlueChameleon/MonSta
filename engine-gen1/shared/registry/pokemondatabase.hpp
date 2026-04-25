@@ -6,7 +6,7 @@
 
 #include "shared/defs/pokemondatabaseentry.hpp"
 
-namespace SimulationMode
+namespace Registry
 {
     class PokemonDatabase
     {
@@ -23,14 +23,14 @@ namespace SimulationMode
             static constexpr auto EXPGROUP  = "ExpGroup";
 
         private:
-            std::unordered_map<std::string, PokemonDatabaseEntry> database;
+            std::unordered_map<std::string, MetaDefinition::PokemonDatabaseEntry> database;
 
         public:
             PokemonDatabase() = default;
 
-            void addSpecies(const std::string& species, const PokemonDatabaseEntry& entry);
+            void addSpecies(const std::string& species, const MetaDefinition::PokemonDatabaseEntry& entry);
 
-            const PokemonDatabaseEntry& getEntry(const std::string_view species);
+            const MetaDefinition::PokemonDatabaseEntry& getEntry(const std::string_view species);
     };
 }
 

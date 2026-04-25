@@ -3,8 +3,9 @@
 #include "pokemondatabase.hpp"
 
 using namespace std::string_literals;
+using namespace MetaDefinition;
 
-namespace SimulationMode
+namespace Registry
 {
     void PokemonDatabase::addSpecies(const std::string& species, const PokemonDatabaseEntry& entry)
     {
