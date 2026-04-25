@@ -4,7 +4,7 @@
 #include <string>
 #include <unordered_map>
 
-#include "simulationmode/defs/pokemondatabaseentry.hpp"
+#include "shared/defs/pokemondatabaseentry.hpp"
 
 namespace SimulationMode
 {

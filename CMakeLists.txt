@@ -337,6 +337,13 @@ add_library(Engine-Gen1 SHARED
     engine-gen1/shared/globals.hpp                                  engine-gen1/shared/globals.cpp
     engine-gen1/shared/schemavalidationconstants.hpp                engine-gen1/shared/schemavalidationconstants.cpp
 
+    engine-gen1/shared/defs/mechanicsdefinition.hpp
+    engine-gen1/shared/defs/pokemondatabaseentry.hpp        engine-gen1/shared/defs/pokemondatabaseentry.cpp
+    engine-gen1/shared/defs/pokemondefition.hpp
+    engine-gen1/shared/defs/pokemonstatus.hpp               engine-gen1/shared/defs/pokemonstatus.cpp
+    engine-gen1/shared/defs/teamdefinition.hpp
+    engine-gen1/shared/defs/typeinfo.hpp                    engine-gen1/shared/defs/typeinfo.cpp
+
     engine-gen1/shared/registry/pokemondatabase.hpp                 engine-gen1/shared/registry/pokemondatabase.cpp
     engine-gen1/shared/registry/registry.hpp                        engine-gen1/shared/registry/registry.cpp
     engine-gen1/shared/registry/typechart.hpp                       engine-gen1/shared/registry/typechart.cpp
@@ -349,13 +356,6 @@ add_library(Engine-Gen1 SHARED
 
     engine-gen1/simulationmode/arena/pokemoninstance.hpp            engine-gen1/simulationmode/arena/pokemoninstance.cpp
     engine-gen1/simulationmode/arena/scene.hpp
-
-    engine-gen1/simulationmode/defs/mechanicsdefinition.hpp
-    engine-gen1/simulationmode/defs/pokemondatabaseentry.hpp        engine-gen1/simulationmode/defs/pokemondatabaseentry.cpp
-    engine-gen1/simulationmode/defs/pokemondefition.hpp
-    engine-gen1/simulationmode/defs/pokemonstatus.hpp               engine-gen1/simulationmode/defs/pokemonstatus.cpp
-    engine-gen1/simulationmode/defs/teamdefinition.hpp
-    engine-gen1/simulationmode/defs/typeinfo.hpp                    engine-gen1/simulationmode/defs/typeinfo.cpp
 
     engine-gen1/simulationmode/setup/mechanicsdefinitionsetup.hpp   engine-gen1/simulationmode/setup/mechanicsdefinitionsetup.cpp
     engine-gen1/simulationmode/setup/pokemondefinitionsetup.hpp     engine-gen1/simulationmode/setup/pokemondefinitionsetup.cpp

@@ -10,11 +10,12 @@
 
 #include "shared/globals.hpp"
 #include "shared/schemavalidationconstants.hpp"
+
+#include "shared/defs/teamdefinition.hpp"
+#include "shared/defs/typeinfo.hpp"
+
 #include "shared/registry/registry.hpp"
 #include "shared/registry/typechart.hpp"
-
-#include "simulationmode/defs/teamdefinition.hpp"
-#include "simulationmode/defs/typeinfo.hpp"
 
 #include "setuperrorhandling.hpp"
 

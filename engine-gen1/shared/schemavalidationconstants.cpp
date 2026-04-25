@@ -4,7 +4,7 @@
 #include "services/jsonservice.hpp"
 #include "services/memoryservice.hpp"
 
-#include "simulationmode/defs/pokemonstatus.hpp"
+#include "shared/defs/pokemonstatus.hpp"
 
 #include "globals.hpp"
 #include "schemavalidationconstants.hpp"

@@ -6,7 +6,7 @@
 #include <vector>
 #include <unordered_map>
 
-#include "simulationmode/defs/typeinfo.hpp"
+#include "shared/defs/typeinfo.hpp"
 
 namespace SimulationMode
 {
