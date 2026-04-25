@@ -13,17 +13,11 @@ struct CliInput
     static constexpr auto CREATE_DIRECTORIES = "createDirectories";
     static constexpr auto DRY_MODE           = "dryMode";
 
-    static constexpr auto SIMULATION   = "SIMULATION";
-    static constexpr auto TEMPLATES    = "TEMPLATES";
-    static constexpr auto SCHEMAEXPORT = "SCHEMAEXPORT";
-    static constexpr auto REMOTE       = "REMOTE";
-    static constexpr auto HELP         = "HELP";
-
-    const OperationMode mode;
-    const std::string   data;
-    const bool          overwrite;
-    const bool          createDirectories;
-    const bool          dryMode;
+    const OperationModes::OperationMode mode;
+    const std::string                   data;
+    const bool                          overwrite;
+    const bool                          createDirectories;
+    const bool                          dryMode;
 };
 
 #endif // CLIINPUT_H

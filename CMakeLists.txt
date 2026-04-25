@@ -236,8 +236,8 @@ add_executable(Host
     host/cli/clihandler.hpp host/cli/clihandler.cpp
     host/cli/cliinput.hpp
 
-    host/operationmodes/operationmode.hpp
     host/operationmodes/entrypoint.hpp                                  host/operationmodes/entrypoint.cpp
+    host/operationmodes/operationmode.hpp                               host/operationmodes/operationmode.cpp
 
     host/operationmodes/help/helpmodeimplementation.hpp                 host/operationmodes/help/helpmodeimplementation.cpp
     host/operationmodes/help/helpmodedefinition.hpp

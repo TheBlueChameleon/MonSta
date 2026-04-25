@@ -39,16 +39,16 @@ static void configureParser(ArgParser& parser)
     .nargs(1)
     .help("Sets the operation mode.\n"
           "One of "s +
-          CliInput::SIMULATION + ", " +
-          CliInput::TEMPLATES + ", " +
-          CliInput::SCHEMAEXPORT + ", " +
-          CliInput::REMOTE + ", " +
-          CliInput::HELP + "."
+          OperationModes::SIMULATION + ", " +
+          OperationModes::TEMPLATES + ", " +
+          OperationModes::SCHEMAEXPORT + ", " +
+          OperationModes::REMOTE + ", " +
+          OperationModes::HELP + "."
          );
 
     parser.add_argument(CliInput::DATA)
     .help("The data to be processed.\n"
-          "Use "s + CliInput::HELP + " <mode> for details."
+          "Use "s + OperationModes::HELP + " <mode> for details."
          );
 
 #define makeFlag(str) "-"s + str[0], "--"s + str
@@ -94,19 +94,6 @@ static void runParser(ArgParser& parser, const int argc, const char* const argv[
     }
 }
 
-static OperationMode modeFromString(const std::string_view modeString)
-{
-    // *INDENT-OFF*
-    if (modeString == CliInput::SIMULATION  ) return OperationMode::SIMULATION;
-    if (modeString == CliInput::TEMPLATES    ) return OperationMode::TEMPLATES;
-    if (modeString == CliInput::SCHEMAEXPORT) return OperationMode::SCHEMAEXPORT;
-    if (modeString == CliInput::REMOTE      ) return OperationMode::REMOTE;
-    if (modeString == CliInput::HELP        ) return OperationMode::HELP;
-    // *INDENT-ON*
-
-    throw IllegalHostStateException("Invalid mode identifier: '"s + modeString.data() + "'");
-}
-
 static void validateAsInputFile(const std::string_view data)
 {
     const auto path = std::filesystem::path(data);
@@ -116,7 +103,6 @@ static void validateAsInputFile(const std::string_view data)
         throw InvalidUserInput("'"s + data.data() + "' does not exist.");
     }
 
-    // TODO: check if this also works with symlinks
     if (!std::filesystem::is_regular_file(path))
     {
         throw InvalidUserInput("'"s + data.data() + "' is not a file.");
@@ -149,7 +135,7 @@ static void validateAsRemote(const std::string_view data)
 static CliInput readAndValidateParser(const ArgParser& parser)
 {
     const auto modeString = parser.get(CliInput::MODE);
-    OperationMode mode = modeFromString(modeString);
+    OperationMode mode = getOperationModeFromString(modeString);
 
     const auto data = parser.get(CliInput::DATA);
 #define getFlag(flagName) parser.get<bool>(flagName)
@@ -346,7 +332,7 @@ static std::shared_ptr<const BaseModeDefinition> unpackHelpInput(const CliInput&
     const std::string_view target = cliInput.data;
     try
     {
-        const auto mode = modeFromString(target);
+        const auto mode = getOperationModeFromString(target);
         return std::make_shared<HelpModeDefinition>(cliInput, mode);
     }
     catch (const IllegalHostStateException& err)
