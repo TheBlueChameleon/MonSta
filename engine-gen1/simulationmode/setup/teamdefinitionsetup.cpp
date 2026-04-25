@@ -13,7 +13,8 @@
 #include "schemavalidationconstants.hpp"
 
 #include "simulationmode/defs/teamdefinition.hpp"
-#include "simulationmode/registry.hpp"
+
+#include "simulationmode/registry/registry.hpp"
 
 #include "setuperrorhandling.hpp"
 #include "teamdefinitionsetup.hpp"

@@ -2,13 +2,13 @@
 
 #include "base/enginebase.hpp"
 
+#include "registry/registry.hpp"
+
 #include "setup/mechanicsdefinitionsetup.hpp"
 #include "setup/teamdefinitionsetup.hpp"
 #include "setup/typedefinitionsetup.hpp"
-
 #include "setup/pokemondefinitionsetup.hpp"
 
-#include "registry.hpp"
 #include "simulationmode.hpp"
 
 namespace SimulationMode

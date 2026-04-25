@@ -3,8 +3,8 @@
 
 #include <services/JsonService/IJsonService_Types.hpp>
 
-#include "defs/mechanicsdefinition.hpp"
-#include "defs/teamdefinition.hpp"
+#include "simulationmode/defs/mechanicsdefinition.hpp"
+#include "simulationmode/defs/teamdefinition.hpp"
 
 #include "pokemondatabase.hpp"
 #include "typechart.hpp"

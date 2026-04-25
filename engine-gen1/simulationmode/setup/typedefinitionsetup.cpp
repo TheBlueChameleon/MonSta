@@ -14,8 +14,8 @@
 #include "simulationmode/defs/teamdefinition.hpp"
 #include "simulationmode/defs/typeinfo.hpp"
 
-#include "simulationmode/registry.hpp"
-#include "simulationmode/typechart.hpp"
+#include "simulationmode/registry/registry.hpp"
+#include "simulationmode/registry/typechart.hpp"
 
 #include "setuperrorhandling.hpp"
 #include "typedefinitionsetup.hpp"

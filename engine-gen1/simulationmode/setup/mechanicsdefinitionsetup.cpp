@@ -6,7 +6,7 @@
 #include "globals.hpp"
 #include "schemavalidationconstants.hpp"
 
-#include "simulationmode/registry.hpp"
+#include "simulationmode/registry/registry.hpp"
 
 #include "setuperrorhandling.hpp"
 
