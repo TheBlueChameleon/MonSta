@@ -1,5 +1,3 @@
-#include <sstream>
-
 #include "memoryservice/memoryservice.hpp"
 
 #include "versionservice.hpp"
@@ -39,8 +37,7 @@ namespace VersionService
 
     IMemoryService::MemoryBlock HOST_API_CALL to_string_dlx(const Version v)
     {
-        std::stringstream s;
-        s << v;
-        return MemoryService::createFromView(s.view());
+        std::string foo = VersionService::to_string(v);
+        return MemoryService::createFromView(foo);
     }
 }

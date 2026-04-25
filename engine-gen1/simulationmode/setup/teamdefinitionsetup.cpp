@@ -1,6 +1,6 @@
 #include <algorithm>
+#include <format>
 #include <span>
-#include <sstream>
 #include <unordered_map>
 
 #include <base/enginebase.hpp>
@@ -64,12 +64,15 @@ namespace SimulationMode
     {
         if (statValue > Registry::mechanicsDefinition.dvCap)
         {
-            std::ostringstream violationDescription;
-            violationDescription << "In " << origin.c_str() << ":\n";
-            violationDescription << "Detected a Pokemon of species " << pokemonName << " ";
-            violationDescription << "with " << statName << " " << statValue << ".\n";
-            violationDescription << "This is above the cap of " << statCap;
-            reportViolation(violationDescription.str());
+            reportViolation(std::format(
+                                "In '{}':\n"
+                                "Detected Pokémon species '{}' with {} {}.\n"
+                                "This is above the cap of {}.",
+                                origin.c_str(),
+                                pokemonName,
+                                statName, statValue,
+                                statCap
+                            ));
         }
     }
 
@@ -183,11 +186,13 @@ namespace SimulationMode
         }
         else if (listSize > Registry::mechanicsDefinition.teamSizeMax)
         {
-            std::ostringstream violationDescription;
-            violationDescription << "In " << origin.c_str() << ":\n";
-            violationDescription << "Detected an overlarge team of size " << listSize << ".\n";
-            violationDescription << "This is above the team size cap of " << Registry::mechanicsDefinition.teamSizeMax;
-            reportViolation(violationDescription.str());
+            reportViolation(std::format(
+                                "In '{}':\n"
+                                "Detected an overlarge team of size {}.\n"
+                                "This is above the cap of {}.",
+                                origin.c_str(),
+                                listSize, Registry::mechanicsDefinition.teamSizeMax
+                            ));
         }
 
         for (size_t i = 0; i < listSize; ++i)

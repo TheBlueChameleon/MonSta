@@ -2,9 +2,9 @@
 #include <FeatureTags.hpp>
 #include <Version.hpp>
 
-#include "base/enginebase.hpp"
-#include "base/errors.hpp"
-#include "base/globals.hpp"
+#include <base/enginebase.hpp>
+#include <base/errors.hpp>
+#include <base/globals.hpp>
 
 #include "shared/schemavalidationconstants.hpp"
 #include "shared/registry/setup.hpp"
@@ -58,11 +58,20 @@ bool init_engine()
         FEATURE_TEMPLATEMODE_V1_0
     };
 
-    SchemaValidation::registerMechanicsDefinition();
-    SchemaValidation::registerSchemaTeamDefinition();
+    try
+    {
+        SchemaValidation::registerMechanicsDefinition();
+        SchemaValidation::registerSchemaTeamDefinition();
 
-    Registry::registerEffects();
+        Registry::registerEffects();
 
-    LoggerService::debug("... done");
+        LoggerService::debug("... done");
+    }
+    catch (const EngineError& e)
+    {
+        EngineBase::passExceptionToHost(e);
+        return false;
+    }
+
     return true;
 }

@@ -1,3 +1,4 @@
+#include <format>
 #include <sstream>
 
 #include "errorbuffer.hpp"
@@ -36,8 +37,10 @@ namespace EngineBase
         buffer << "ErrNo." << "\t" << "Description" << "\n";
         for (const auto& error : errors)
         {
-            buffer << std::to_string(static_cast<int>(error.errorCode)) << "\t";
-            buffer << error.errorMessage << "\n";
+            buffer << std::format(
+                       "{}\t{}",
+                       static_cast<int>(error.errorCode), error.errorMessage
+                   ) << "\n";
         }
 
         return buffer.str();

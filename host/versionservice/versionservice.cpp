@@ -1,4 +1,4 @@
-#include <sstream>
+#include <format>
 
 #include "memoryservice/memoryservice.hpp"
 
@@ -22,9 +22,9 @@ namespace VersionService
 
     std::string to_string(const Version& v)
     {
-        std::stringstream s;
-        s << v;
-        return s.str();
+        return std::format("{}.{}.{}.{}",
+                           v.major, v.minor, v.patch, v.build
+                          );
     }
 }
 
@@ -62,5 +62,5 @@ bool operator!=(const Version& lhs, const Version& rhs)
 
 std::ostream& operator<<(std::ostream& os, const Version& v)
 {
-    return os << v.major << "." << v.minor << "." << v.patch << "." << v.build;
+    return os << VersionService::to_string(v);
 }

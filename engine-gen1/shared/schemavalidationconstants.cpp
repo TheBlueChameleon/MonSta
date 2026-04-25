@@ -1,3 +1,4 @@
+#include <format>
 #include <sstream>
 #include <string>
 
@@ -51,19 +52,18 @@ namespace SchemaValidation
 
     static const std::string makeRequiredBlock(std::initializer_list<const char* const> items)
     {
-        std::stringstream buffer;
-        buffer << "{ \"required\": " << makeJsonList(items) << " }";
-        return buffer.str();
+        return std::format("{{ \"required\": {} }}", makeJsonList(items));
     }
 
     static const std::string makeArrayItemsBlock(const std::string_view key, const std::string_view value)
     {
-        std::stringstream buffer;
-        buffer << "{\n";
-        buffer << R"("type"  : "array", )" "\n";
-        buffer << R"("items" : { ")" << key << "\" : \"" << value << "\" }\n";
-        buffer << "}";
-        return buffer.str();
+        return std::format(
+                   "{{ "
+                   R"("type"  : "array", )"
+                   R"("items" : {{ "{}" : "{}" }})"
+                   " }}",
+                   key, value
+               );
     }
 
     const char* const boolToLiteral(const bool flag)
