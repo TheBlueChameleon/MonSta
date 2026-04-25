@@ -1,44 +1,17 @@
-#include <format>
-#include <string>
-
 #include <runmodes/ITemplatesDefinition.hpp>
 
-#include <services/fileservice.hpp>
 #include <services/loggerservice.hpp>
 
 #include "shared/schemavalidationconstants.hpp"
 
+#include "allowedvalueswriter.hpp"
 #include "csvtemplateswriter.hpp"
 #include "jsontemplateswriter.hpp"
+#include "strategyfilewriter.hpp"
 #include "templatesmode.hpp"
-
-using namespace std::string_literals;
 
 namespace TemplateMode
 {
-    static std::string_view writeStrategyFile(
-        const std::string_view inputName,
-        const std::string_view defaultName
-    )
-    {
-        if (!inputName.empty())
-        {
-            return inputName;
-        }
-
-        const auto strategy = R"(to be done)";
-
-        FileService::write(defaultName, strategy);
-
-        return defaultName;
-    }
-
-    static void writeAllowedValueFile()
-    {
-        const auto content = R"(to be done)";
-        FileService::write(ALLOWED_VALUES_FILE, content);
-    }
-
     const ITemplatesDefinition run(const ITemplatesDefinition& templatesDefinition)
     {
         if (templatesDefinition.writeSchemas)
