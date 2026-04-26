@@ -1,3 +1,5 @@
+#include "services/errorservice.hpp"
+
 #include "errors.hpp"
 
 EngineError::EngineError(const ApiStatusCode errorCode) :
@@ -12,4 +14,13 @@ EngineError::EngineError(const ApiStatusCode errorCode, std::string_view message
 ApiStatusCode EngineError::getErrorCode() const
 {
     return errorCode;
+}
+
+namespace EngineBase
+{
+    void passExceptionToHost(const EngineError& e)
+    {
+        ErrorService::setError(e.getErrorCode(), e.what());
+        ErrorService::terminateAbnormally();
+    }
 }

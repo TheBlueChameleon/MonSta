@@ -1,4 +1,4 @@
-#include <base/enginebase.hpp>
+#include <base/errorbuffer.hpp>
 
 #include <services/jsonservice.hpp>
 #include <services/loggerservice.hpp>

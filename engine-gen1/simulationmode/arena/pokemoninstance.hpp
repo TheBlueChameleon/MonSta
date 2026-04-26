@@ -7,6 +7,9 @@ namespace SimulationMode
     {
         public:
             PokemonInstance();
+
+            void takeDamage(const int amount);
+            void recoverHealth(const int amount);
     };
 
 } // namespace SimulationMode

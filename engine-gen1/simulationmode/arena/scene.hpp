@@ -3,7 +3,10 @@
 
 namespace SimulationMode
 {
-    struct Scene {};
+    struct Scene
+    {
+        int lastDamageDone;
+    };
 }
 
 #endif // SCENE_HPP

@@ -19,4 +19,9 @@ class EngineError : public std::runtime_error
         ApiStatusCode getErrorCode() const;
 };
 
+namespace EngineBase
+{
+    void passExceptionToHost(const EngineError& e);
+}
+
 #endif // ERRORS_HPP

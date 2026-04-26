@@ -75,9 +75,9 @@ add_subdirectory(libcsv)
 # Shared
 
 set(apiHeaders
+    api/ApiStatusCode.hpp
     api/CallingConventions.hpp
     api/ClientApi.hpp
-    api/ApiStatusCode.hpp
     api/FeatureTags.hpp
     api/HostApi.hpp
     api/Version.hpp
@@ -161,12 +161,12 @@ target_include_directories(Host-FileService
 
 add_library(Host-JsonService STATIC
     host/jsonservice/handleconverter.hpp                host/jsonservice/handleconverter.cpp
+    host/jsonservice/jsonschemabuilder.hpp              host/jsonservice/jsonschemabuilder.cpp
     host/jsonservice/jsonservice.hpp                    host/jsonservice/jsonservice.cpp
     host/jsonservice/jsonservice_database_dlx.hpp       host/jsonservice/jsonservice_database_dlx.cpp
     host/jsonservice/jsonservice_itemaccess_dlx.hpp     host/jsonservice/jsonservice_itemaccess_dlx.cpp
     host/jsonservice/jsonservice_schemabuilder_dlx.hpp  host/jsonservice/jsonservice_schemabuilder_dlx.cpp
     host/jsonservice/jsonservicedatabase.hpp            host/jsonservice/jsonservicedatabase.cpp
-    host/jsonservice/jsonschemabuilder.hpp              host/jsonservice/jsonschemabuilder.cpp
 )
 
 target_include_directories(Host-JsonService
@@ -239,13 +239,13 @@ add_executable(Host
     host/operationmodes/entrypoint.hpp                                  host/operationmodes/entrypoint.cpp
     host/operationmodes/operationmode.hpp                               host/operationmodes/operationmode.cpp
 
-    host/operationmodes/help/helpmodeimplementation.hpp                 host/operationmodes/help/helpmodeimplementation.cpp
     host/operationmodes/help/helpmodedefinition.hpp
+    host/operationmodes/help/helpmodeimplementation.hpp                 host/operationmodes/help/helpmodeimplementation.cpp
 
     host/operationmodes/remote/remoterundefinition.hpp
 
-    host/operationmodes/schemaExport/schemaexportmodeimplementation.hpp host/operationmodes/schemaExport/schemaexportmodeimplementation.cpp
     host/operationmodes/schemaExport/schemaexportmodedefinition.hpp
+    host/operationmodes/schemaExport/schemaexportmodeimplementation.hpp host/operationmodes/schemaExport/schemaexportmodeimplementation.cpp
 
     host/operationmodes/shared/basemodedefinition.hpp
     host/operationmodes/shared/schemavalidationconstants.hpp            host/operationmodes/shared/schemavalidationconstants.cpp
@@ -256,20 +256,17 @@ add_executable(Host
 
     host/operationmodes/remote/remotemodeimplemetnation.hpp             host/operationmodes/remote/remotemodeimplemetnation.cpp
 
-    host/operationmodes/simulation/simulationmodeimplementation.hpp     host/operationmodes/simulation/simulationmodeimplementation.cpp
     host/operationmodes/simulation/simulationmodedefinition.hpp
+    host/operationmodes/simulation/simulationmodeimplementation.hpp     host/operationmodes/simulation/simulationmodeimplementation.cpp
     host/operationmodes/simulation/defs/matchdefinition.hpp
     host/operationmodes/simulation/defs/simulatordefinition.hpp
 
-    host/operationmodes/template/templatemodeimplementation.hpp         host/operationmodes/template/templatemodeimplementation.cpp
     host/operationmodes/template/templatemodedefinition.hpp
+    host/operationmodes/template/templatemodeimplementation.hpp         host/operationmodes/template/templatemodeimplementation.cpp
     host/operationmodes/template/defs/templatesdefinition.hpp
 
     host/constants.hpp host/constants.cpp
     host/main.cpp
-
-    inputs/config/simulation.json
-    inputs/config/templates.json
 )
 
 target_include_directories(Host
@@ -302,10 +299,9 @@ add_library(Engine-Base STATIC
 
     engine-base/base/errors.hpp                                     engine-base/base/errors.cpp
     engine-base/base/errorbuffer.hpp                                engine-base/base/errorbuffer.cpp
-    engine-base/base/enginebase.hpp                                 engine-base/base/enginebase.cpp
     engine-base/base/globals.hpp                                    engine-base/base/globals.cpp
+    engine-base/base/stringutils.hpp                                engine-base/base/stringutils.cpp
 
-    engine-base/services/services.hpp                               engine-base/services/services.cpp
     engine-base/services/csvservice.hpp                             engine-base/services/csvservice.cpp
     engine-base/services/errorservice.hpp                           engine-base/services/errorservice.cpp
     engine-base/services/fileservice.hpp                            engine-base/services/fileservice.cpp
@@ -317,6 +313,7 @@ add_library(Engine-Base STATIC
     engine-base/services/jsonservice/schemabuilder_wrapper.hpp      engine-base/services/jsonservice/schemabuilder_wrapper.cpp
     engine-base/services/loggerservice.hpp                          engine-base/services/loggerservice.cpp
     engine-base/services/memoryservice.hpp                          engine-base/services/memoryservice.cpp
+    engine-base/services/services.hpp                               engine-base/services/services.cpp
 )
 
 target_include_directories(Engine-Base
@@ -337,11 +334,11 @@ add_library(Engine-Gen1 SHARED
     engine-gen1/shared/schemavalidationconstants.hpp                engine-gen1/shared/schemavalidationconstants.cpp
 
     engine-gen1/shared/defs/mechanicsdefinition.hpp
-    engine-gen1/shared/defs/pokemondatabaseentry.hpp        engine-gen1/shared/defs/pokemondatabaseentry.cpp
+    engine-gen1/shared/defs/pokemondatabaseentry.hpp                engine-gen1/shared/defs/pokemondatabaseentry.cpp
     engine-gen1/shared/defs/pokemondefition.hpp
-    engine-gen1/shared/defs/pokemonstatus.hpp               engine-gen1/shared/defs/pokemonstatus.cpp
+    engine-gen1/shared/defs/pokemonstatus.hpp                       engine-gen1/shared/defs/pokemonstatus.cpp
     engine-gen1/shared/defs/teamdefinition.hpp
-    engine-gen1/shared/defs/typeinfo.hpp                    engine-gen1/shared/defs/typeinfo.cpp
+    engine-gen1/shared/defs/typeinfo.hpp                            engine-gen1/shared/defs/typeinfo.cpp
 
     engine-gen1/shared/registry/pokemondatabase.hpp                 engine-gen1/shared/registry/pokemondatabase.cpp
     engine-gen1/shared/registry/registry.hpp                        engine-gen1/shared/registry/registry.cpp
@@ -349,7 +346,9 @@ add_library(Engine-Gen1 SHARED
     engine-gen1/shared/registry/typechart.hpp                       engine-gen1/shared/registry/typechart.cpp
 
     engine-gen1/shared/registry/effects/abstracteffecthandler.hpp
+    engine-gen1/shared/registry/effects/drain.hpp                   engine-gen1/shared/registry/effects/drain.cpp
     engine-gen1/shared/registry/effects/effecthandlerdescriptor.hpp
+    engine-gen1/shared/registry/effects/numberinterpretation.hpp    engine-gen1/shared/registry/effects/numberinterpretation.cpp
 
     engine-gen1/shared/registry/moves/move.hpp                      engine-gen1/shared/registry/moves/move.cpp
     engine-gen1/shared/registry/moves/secondaryeffect.hpp

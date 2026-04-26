@@ -11,7 +11,7 @@ namespace MetaDefinition
     {
         std::string effectName;
         std::string effectHelpText;
-        std::function<EffectHandler&(const std::string_view)> effectBuilder;
+        std::function<EffectHandler(const std::string_view)> effectBuilder;
     };
 }
 #endif // EFFECTHANDLERDESCRIPTOR_H

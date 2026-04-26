@@ -3,7 +3,7 @@
 #include <span>
 #include <unordered_map>
 
-#include <base/enginebase.hpp>
+#include <base/errorbuffer.hpp>
 
 #include <services/csvservice.hpp>
 #include <services/jsonservice.hpp>
