@@ -3,19 +3,26 @@
 
 #include <string_view>
 
+#include "params/numberinterpretation.hpp"
+#include "params/target.hpp"
+
 #include "abstracteffecthandler.hpp"
-#include "numberinterpretation.hpp"
 
 namespace MetaDefinition
 {
     class Drain : public AbstractEffectHandler
     {
         private:
-            const NumberInterpretation basis;
+            const EffectParams::NumberInterpretation basis;
             const double value;
+            const EffectParams::Target target;
 
         public:
-            Drain(const NumberInterpretation basis, const double value);
+            Drain(
+                const EffectParams::NumberInterpretation basis,
+                const double value,
+                const EffectParams::Target target
+            );
             static Drain buildEffect(const std::string_view parameterDescriptor);
 
             bool execute(

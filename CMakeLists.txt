@@ -345,10 +345,12 @@ add_library(Engine-Gen1 SHARED
     engine-gen1/shared/registry/setup.hpp                           engine-gen1/shared/registry/setup.cpp
     engine-gen1/shared/registry/typechart.hpp                       engine-gen1/shared/registry/typechart.cpp
 
-    engine-gen1/shared/registry/effects/abstracteffecthandler.hpp
+    engine-gen1/shared/registry/effects/abstracteffecthandler.hpp   engine-gen1/shared/registry/effects/abstracteffecthandler.cpp
     engine-gen1/shared/registry/effects/drain.hpp                   engine-gen1/shared/registry/effects/drain.cpp
     engine-gen1/shared/registry/effects/effecthandlerdescriptor.hpp
-    engine-gen1/shared/registry/effects/numberinterpretation.hpp    engine-gen1/shared/registry/effects/numberinterpretation.cpp
+
+    engine-gen1/shared/registry/effects/params/numberinterpretation.hpp engine-gen1/shared/registry/effects/params/numberinterpretation.cpp
+    engine-gen1/shared/registry/effects/params/target.hpp               engine-gen1/shared/registry/effects/params/target.cpp
 
     engine-gen1/shared/registry/moves/move.hpp                      engine-gen1/shared/registry/moves/move.cpp
     engine-gen1/shared/registry/moves/secondaryeffect.hpp

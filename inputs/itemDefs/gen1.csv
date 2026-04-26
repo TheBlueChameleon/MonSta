@@ -8,16 +8,16 @@ Ice Heal,     Heal=Target:ChooseSelf|Status:frozen
 Awakening,    Heal=Target:ChooseSelf|Status:asleep
 Paralyze Heal,Heal=Target:ChooseSelf|Status:paralyzed
 Full Heal,    Heal=Target:ChooseSelf|Status:allNonVolatile
-Full Restore, Heal=Target:ChooseSelf|Status:allNonVolatile; Heal=Target:Last|%:100
-Revive,       Heal=Target:ChooseSelf|fainted; Heal=Target:Last|%:50
-Max Revive,   Heal=Target:ChooseSelf|fainted; Heal=Target:Last|%:100
-Potion,       Heal=Target:ChooseSelf|HP:20
-Super Potion, Heal=Target:ChooseSelf|HP:50
-Fresh Water,  Heal=Target:ChooseSelf|HP:50
-Soda Pop,     Heal=Target:ChooseSelf|HP:60
-Lemonade,     Heal=Target:ChooseSelf|HP:80
-Hyper Potion, Heal=Target:ChooseSelf|HP:200
-Max Potion,   Heal=Target:ChooseSelf|HP:999
+Full Restore, Heal=Target:ChooseSelf|Status:allNonVolatile; Heal=Target:Last|Status:HP|Percentage:100
+Revive,       Heal=Target:ChooseSelf|Status:fainted;        Heal=Target:Last|Status:HP|Percentage:50
+Max Revive,   Heal=Target:ChooseSelf|Status:fainted;        Heal=Target:Last|Status:HP|Percentage:100
+Potion,       Heal=Target:ChooseSelf|Status:HP|Absolute:20
+Super Potion, Heal=Target:ChooseSelf|Status:HP|Absolute:50
+Fresh Water,  Heal=Target:ChooseSelf|Status:HP|Absolute:50
+Soda Pop,     Heal=Target:ChooseSelf|Status:HP|Absolute:60
+Lemonade,     Heal=Target:ChooseSelf|Status:HP|Absolute:80
+Hyper Potion, Heal=Target:ChooseSelf|Status:HP|Absolute:200
+Max Potion,   Heal=Target:ChooseSelf|Status:HP|Absolute:999
 X Accuracy,   BypassAccuracyChecks=Target:Self
 Dire Hit,     Stage=Target:Self|CRT:+1
 X Attack,     Stage=Target:Self|ATK:+1

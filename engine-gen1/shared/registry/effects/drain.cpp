@@ -8,30 +8,31 @@
 
 #include "drain.hpp"
 
+using namespace std::string_literals;
+
 namespace MetaDefinition
 {
-    Drain::Drain(const NumberInterpretation basis, const double value) :
+    using namespace EffectParams;
+
+    Drain::Drain(
+        const NumberInterpretation basis,
+        const double value,
+        const Target target
+    ) :
         basis(basis),
-        value(value)
+        value(value),
+        target(target)
     {}
 
     Drain Drain::buildEffect(const std::string_view parameterDescriptor)
     {
-        const auto params = EngineBase::splitArgsOrdered(parameterDescriptor);
+        const AbstractEffectHandler::KeyValueMap params = EngineBase::splitArgs(parameterDescriptor);
 
-        if (params.size() != 1)
-        {
-            throw EngineError(
-                ApiStatusCode::INVALID_USER_INPUT,
-                "Effect Drain needs exactly one parameter"
-            );
-        }
+        assertOnlySupportedParams({TARGET, PERCENTAGE, ABSOLUTE}, params);
+        const auto target = extractTarget(params, Target::Self);
+        const auto [basis, value] = extractEffectStrength(params);
 
-        const auto& parameter = params.front();
-        const auto basis = getNumberInterpretationFromName(parameter.first);
-        const auto value = std::stod(parameter.second);
-
-        return Drain(basis, value);
+        return Drain(basis, value, target);
     }
 
     bool Drain::execute(SimulationMode::PokemonInstance& self,

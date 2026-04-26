@@ -1,0 +1,29 @@
+#ifndef TARGET_HPP
+#define TARGET_HPP
+
+#include <string_view>
+
+namespace MetaDefinition
+{
+    namespace EffectParams
+    {
+        constexpr auto TARGET = "Target";
+
+        constexpr auto SELF        = "Self";
+        constexpr auto ENEMY       = "Enemy";
+        constexpr auto BOTH        = "Both";
+        constexpr auto LAST        = "Last";
+        constexpr auto CHOOSESELF  = "ChooseSelf";
+        constexpr auto CHOOSEENEMY = "ChooseEnemy";
+        constexpr auto RANDOMSELF  = "RandomSelf";
+        constexpr auto RANDOMENEMY = "RandomEnemy";
+
+        enum class Target {Self, Enemy, Both, Last, ChooseSelf, ChooseEnemy, RandomSelf, RandomEnemy};
+
+        Target getTargetFromName(const std::string_view name);
+        std::string_view getTargetName(const Target target);
+
+    }   // namespace EffectParams
+}       // namespace MetaDefinition
+
+#endif // TARGET_HPP
