@@ -132,11 +132,13 @@ That is, a list of effects may look like the following:
 Whitespaces before and after the equals sign will be ignored.
 
 Some parameters are themselves key-value-pairs.
-(E.g.: for multihit-moves, you can specify a list of options comprising of the number of times the multihit-move hits and the probability of that option being chosen).
+(E.g.: status moves may target the enemy or the own active pokemon. This information is given by the key 'Target' and the value of either 'Enemy' or 'Self').
 Such parameters are a bar-separated list, in which key and value are associated by a colon.
 That is, they may look like the following:
   EFFECT = KEY1 : VALUE1 | KEY2 : VALUE2 | ...
 Any whitespaces in the list are ignored.
+
+Note that the order of effects is relevant; they are executed in the order they are specified in the corresponding files.
 )";
 
         constexpr auto FOO = R"(

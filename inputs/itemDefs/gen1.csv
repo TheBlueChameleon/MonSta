@@ -1,30 +1,30 @@
 # from: https://bulbapedia.bulbagarden.net/wiki/List_of_items_by_index_number_in_Generation_I
 #
 Name,Effect
-Antidote,HealStatus=poisoned
-Burn Heal,HealStatus=burnt
-Ice Heal,HealStatus=frozen
-Awakening,HealStatus=asleep
-Paralyze Heal,HealStatus=paralyzed
-Full Restore,HealStatus=allNonVolatile;Heal%=100
-Max Potion,Heal=999
-Hyper Potion,Heal=200
-Super Potion,Heal=50
-Potion,Heal=20
-X Accuracy,BypassAccuracyChecks
-Full Heal,HealStatus=allNonVolatile
-Revive,HealStatus=fainted;Heal%=50
-Max Revive,HealStatus=fainted;Heal%=100
-Dire Hit,RaiseCritRate
-Fresh Water,Heal=50
-Soda Pop,Heal=60
-Lemonade,Heal=80
-X Attack,RaiseAtk
-X Defense,RaiseDef
-X Speed,RaiseSpd
-X Special,RaiseSpc
-Poké Flute,HealStatusBoth=asleep;NotConsumed
-Ether,SelectMove;ReplenishPP=10
-Max Ether,SelectMove;ReplenishPP%=100
-Elixer,SelectAllMoves;ReplenishPP=10
-Max Elixir,SelectAllMoves;ReplenishPP%=100
+Poké Flute,   Heal=Target:Both|Status:asleep;NotConsumed
+Antidote,     Heal=Target:ChooseSelf|Status:poisoned
+Burn Heal,    Heal=Target:ChooseSelf|Status:burnt
+Ice Heal,     Heal=Target:ChooseSelf|Status:frozen
+Awakening,    Heal=Target:ChooseSelf|Status:asleep
+Paralyze Heal,Heal=Target:ChooseSelf|Status:paralyzed
+Full Heal,    Heal=Target:ChooseSelf|Status:allNonVolatile
+Full Restore, Heal=Target:ChooseSelf|Status:allNonVolatile; Heal=Target:Last|%:100
+Revive,       Heal=Target:ChooseSelf|fainted; Heal=Target:Last|%:50
+Max Revive,   Heal=Target:ChooseSelf|fainted; Heal=Target:Last|%:100
+Potion,       Heal=Target:ChooseSelf|HP:20
+Super Potion, Heal=Target:ChooseSelf|HP:50
+Fresh Water,  Heal=Target:ChooseSelf|HP:50
+Soda Pop,     Heal=Target:ChooseSelf|HP:60
+Lemonade,     Heal=Target:ChooseSelf|HP:80
+Hyper Potion, Heal=Target:ChooseSelf|HP:200
+Max Potion,   Heal=Target:ChooseSelf|HP:999
+X Accuracy,   BypassAccuracyChecks=Target:Self
+Dire Hit,     Stage=Target:Self|CRT:+1
+X Attack,     Stage=Target:Self|ATK:+1
+X Defense,    Stage=Target:Self|DEF:+1
+X Special,    Stage=Target:Self|SPC:+1
+X Speed,      Stage=Target:Self|SPD:+1
+Ether,        Heal=Target:ChooseSelf|Move:Select|PP:10
+Max Ether,    Heal=Target:ChooseSelf|Move:Select|PP:%100
+Elixer,       Heal=Target:ChooseSelf|Move:All   |PP:10
+Max Elixir,   Heal=Target:ChooseSelf|Move:All   |PP:%100

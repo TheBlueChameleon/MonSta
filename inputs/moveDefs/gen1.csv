@@ -1,169 +1,169 @@
-# from: https://www.psypokes.com/rby/attacks.php,,,,,,,
-# details from: https://bulbapedia.bulbagarden.net/wiki/Category:Generation_I_moves,,,,,,,
-# ,,,,,,,
+# from: https://www.psypokes.com/rby/attacks.php
+# details from: https://bulbapedia.bulbagarden.net/wiki/Category:Generation_I_moves
+#
 Name,Type,PP,Power,Accuracy,Priority,Effect,EffectChance
-Absorb,Grass,20,20,100,0,Absorb% = 50,100
-Acid,Poison,30,40,100,0,StageEnemy = Def:-1,33
-Acid Armor,Poison,40,0,100,0,StageSelf = Def:+2,100
-Agility,Psychic,30,0,100,0,StageSelf = Spd:+2,100
-Amnesia,Psychic,20,0,100,0,StageSelf = Spc:+2,100
-Aurora Beam,Ice,20,65,100,0,StageEnemy = Atk:-1,33
-Barrage,Normal,20,15,85,0,MultiHit = 2:37.5|3:37.5|4:12.5|5:12.5,100
-Barrier,Psychic,30,0,100,0,StageSelf=Def:+2,100
+Absorb,Grass,20,20,100,0,Absorb=%:50,100
+Acid,Poison,30,40,100,0,Stage=Target:Enemy|DEF:-1,33
+Acid Armor,Poison,40,0,100,0,Stage=Target:Self|DEF:+2,100
+Agility,Psychic,30,0,100,0,Stage=Target:Self|SPD:+2,100
+Amnesia,Psychic,20,0,100,0,Stage=Target:Self|SPC:+2,100
+Aurora Beam,Ice,20,65,100,0,Stage=Target:Enemy|ATK:-1,33
+Barrage,Normal,20,15,85,0,MultiHit=2:37.5|3:37.5|4:12.5|5:12.5,100
+Barrier,Psychic,30,0,100,0,Stage=Target:Self|DEF:+2,100
 Bide,Normal,10,0,100,0,Bide,100
 Bind,Normal,20,15,75,0,RepeatMove=2:37.5|3:37.5|4:12.5|5:12.5;Bind,
-Bite,Normal,25,60,100,0,StatusEnemy=flinched,10
-Blizzard,Ice,5,120,90,0,StatusEnemy=frozen,10
-Body Slam,Normal,15,85,100,0,StatusEnemy=paralyzed,30
-Bone Club,Ground,20,65,85,0,StatusEnemy=flinched,10
+Bite,Normal,25,60,100,0,Status=Target:Enemy|flinched,10
+Blizzard,Ice,5,120,90,0,Immune=Ice;Status=Target:Enemy|frozen,10
+Body Slam,Normal,15,85,100,0,Immune=Normal;Status=Target:Enemy|paralyzed,30
+Bone Club,Ground,20,65,85,0,Status=Target:Enemy|flinched,10
 Bonemerang,Ground,10,50,90,0,MultiHit=2:100,10
-Bubble,Water,30,20,100,0,StageEnemy=Spd:-1,33
-Bubblebeam,Water,20,65,100,0,StageEnemy=Spd:-1,33
+Bubble,Water,30,20,100,0,Stage=Target:Enemy|SPD:-1,33
+Bubblebeam,Water,20,65,100,0,Stage=Target:Enemy|SPD:-1,33
 Clamp,Water,10,35,75,0,RepeatMove = 2:37.5 | 3:37.5 | 4:12.5 | 5:12.5 ; Bind,100
 Comet Punch,Normal,15,18,85,0,MultiHit=2:37.5|3:37.5|4:12.5|5:12.5,100
-Confuse Ray,Ghost,10,0,100,0,StatusEnemy=confused,100
-Confusion,Psychic,25,50,100,0,StatusEnemy=confused,10
-Constrict,Normal,35,10,100,0,StageEnemy=Spd:-1,33
-Conversion,Normal,30,0,100,0,SetTypeSelf=enemy,100
+Confuse Ray,Ghost,10,0,100,0,Status=Target:Enemy|confused,100
+Confusion,Psychic,25,50,100,0,Status=Target:Enemy|confused,10
+Constrict,Normal,35,10,100,0,Stage=Target:Enemy|SPD:-1,33
+Conversion,Normal,30,0,100,0,SetType=Target:Self|Source:Enemy,100
 Counter,Fighting,20,0,100,-5,Counter = Normal | Fighting,100
 Crabhammer,Water,10,90,85,0,IncreasedCritRate,100
 Cut,Normal,30,50,95,0,,
-Defense Curl,Normal,40,0,100,0,StageSelf=Def:+1,100
+Defense Curl,Normal,40,0,100,0,Stage=Target:Self|DEF:+1,100
 Dig,Ground,10,100,100,0,SemiInvulnerable; RequireCharge=1,100
 Disable,Normal,20,0,55,0,Disable=7,100
 Dizzy Punch,Normal,10,70,100,0,,
 Double Kick,Fighting,30,30,100,0,MultiHit=2:100,100
-Double Team,Normal,15,0,100,0,StageSelf=Evasion:+1,100
-Double-Edge,Normal,15,100,100,0,Recoil%=25,100
+Double Team,Normal,15,0,100,0,Stage=Target:Self|EVA:+1,100
+Double-Edge,Normal,15,100,100,0,Recoil=%:25,100
 Double Slap,Normal,10,15,85,0,MultiHit=2:37.5 | 3:37.5 | 4:12.5 | 5:12.5,100
 Dragon Rage,Dragon,10,0,100,0,Damage=40,100
-Dream Eater,Psychic,15,100,100,0,RequireStatusEnemy=asleep;Absorb%=50,100
+Dream Eater,Psychic,15,100,100,0,RequireStatus=Target:Enemy|asleep;Absorb=%:50,100
 Drill Peck,Flying,20,80,100,0,,
 Earthquake,Ground,10,100,100,0,,
 Egg Bomb,Normal,10,100,75,0,,
-Ember,Fire,25,40,100,0,StatusEnemy=burnt,10
-Explosion,Normal,5,170,100,0,HPSelf=0; TempStatEnemy%=Def:50,100
-Fire Blast,Fire,5,120,85,0,StatusEnemy=burnt,30
-Fire Punch,Fire,15,75,100,0,StatusEnemy=burnt,10
+Ember,Fire,25,40,100,0,Immune=Fire;Status=Target:Enemy|burnt,10
+Explosion,Normal,5,170,100,0,HP=Target:Self|0; TempStat=Target:Enemy|DEF:%50,100
+Fire Blast,Fire,5,120,85,0,Immune=Fire;Status=Target:Enemy|burnt,30
+Fire Punch,Fire,15,75,100,0,Immune=Fire;Status=Target:Enemy|burnt,10
 Fire Spin,Fire,15,15,70,0,RepeatMove = 2:37.5 | 3:37.5 | 4:12.5 | 5:12.5 ; Bind,100
-Fissure,Ground,5,0,30,0,RequireHigherStat=Spd; OHKO,100
-Flamethrower,Fire,15,95,100,0,StatusEnemy=burnt,10
-Flash,Normal,20,0,70,0,StageEnemy = Accuracy:-1,100
+Fissure,Ground,5,0,30,0,RequireHigherStat=SPD; Damage=65535,100
+Flamethrower,Fire,15,95,100,0,Immune=Fire;Status=Target:Enemy|burnt,10
+Flash,Normal,20,0,70,0,Stage=Target:Enemy|ACC:-1,100
 Fly,Flying,15,70,95,0,SemiInvulnerable; RequireCharge=1,100
-Focus Energy,Normal,30,0,100,0,StageSelf = CritRate:+1,100
+Focus Energy,Normal,30,0,100,0,Stage=Target:Self|CRT:+1,100
 Fury Attack,Normal,20,15,85,0,MultiHit=2:37.5 | 3:37.5 | 4:12.5 | 5:12.5,100
 Fury Swipes,Normal,15,10,80,0,MultiHit=2:37.5 | 3:37.5 | 4:12.5 | 5:12.5,100
-Glare,Normal,30,0,75,0,StatusEnemy=paralyzed,100
-Growl,Normal,40,0,100,0,StageEnemy=Atk:-1,100
-Growth,Normal,40,0,100,0,StageSelf=Spc:+1,100
-Guillotine,Normal,5,0,30,0,RequireHigherStat=Spd; OHKO,100
+Glare,Normal,30,0,75,0,Status=Target:Enemy|paralyzed,100
+Growl,Normal,40,0,100,0,Stage=Target:Enemy|ATK:-1,100
+Growth,Normal,40,0,100,0,Stage=Target:Self|SPC:+1,100
+Guillotine,Normal,5,0,30,0,RequireHigherStat=SPD; Damage=65535,100
 Gust,Normal,35,40,100,0,,
-Harden,Normal,30,0,100,0,StageSelf=Def:+1,100
+Harden,Normal,30,0,100,0,Stage=Target:Self|DEF:+1,100
 Haze,Ice,30,0,100,0,Haze,100
-Headbutt,Normal,15,70,100,0,StatusEnemy=flinched,30
+Headbutt,Normal,15,70,100,0,Status=Target:Enemy|flinched,30
 Hi Jump Kick,Fighting,20,85,90,0,FailRecoil=1,100
 Horn Attack,Normal,25,65,100,0,,
-Horn Drill,Normal,5,0,30,0,RequireHigherStat=Spd; OHKO,100
+Horn Drill,Normal,5,0,30,0,RequireHigherStat=SPD; Damage=65535,100
 Hydro Pump,Water,5,120,80,0,,
 Hyper Beam,Normal,5,150,90,0,RequireRecharge=1,100
-Hyper Fang,Normal,15,80,90,0,StatusEnemy=flinched,10
-Hypnosis,Psychic,20,0,60,0,StatusEnemy=asleep,100
-Ice Beam,Ice,10,95,100,0,StatusEnemy=frozen,10
-Ice Punch,Ice,15,75,100,0,StatusEnemy=frozen,10
+Hyper Fang,Normal,15,80,90,0,Status=Target:Enemy|flinched,10
+Hypnosis,Psychic,20,0,60,0,Status=Target:Enemy|asleep,100
+Ice Beam,Ice,10,95,100,0,Immune=Ice;Status=Target:Enemy|frozen,10
+Ice Punch,Ice,15,75,100,0,Immune=Ice;Status=Target:Enemy|frozen,10
 Jump Kick,Fighting,20,70,95,0,FailRecoil=1,100
 Karate Chop,Normal,25,55,100,0,IncreasedCritRate,100
-Kinesis,Psychic,15,0,80,0,StageEnemy=Accuracy:-1,100
-Leech Life,Bug,15,20,100,0,Absorb%=50,100
-Leech Seed,Grass,10,0,90,0,Leech%=6.25,100
-Leer,Normal,30,0,100,0,StageEnemy=Def:-1,100
-Lick,Ghost,30,20,100,0,Immune=Ghost; StatusEnemy=paralyzed,30
+Kinesis,Psychic,15,0,80,0,Stage=Target:Enemy|ACC:-1,100
+Leech Life,Bug,15,20,100,0,Absorb=%:50,100
+Leech Seed,Grass,10,0,90,0,Leech=%:6.25,100
+Leer,Normal,30,0,100,0,Stage=Target:Enemy|DEF:-1,100
+Lick,Ghost,30,20,100,0,Immune=Ghost; Status=Target:Enemy|paralyzed,30
 Light Screen,Psychic,30,0,100,0,Screen=special,100
-Lovely Kiss,Normal,10,0,75,0,StatusEnemy=asleep,100
-Low Kick,Fighting,20,50,90,0,StatusEnemy=flinched,30
-Meditate,Psychic,40,0,100,0,StageSelf=Atk:+1,100
-Mega Drain,Grass,10,40,100,0,Absorb%=50,100
+Lovely Kiss,Normal,10,0,75,0,Status=Target:Enemy|asleep,100
+Low Kick,Fighting,20,50,90,0,Status=Target:Enemy|flinched,30
+Meditate,Psychic,40,0,100,0,Stage=Target:Self|ATK:+1,100
+Mega Drain,Grass,10,40,100,0,Absorb=%:50,100
 Mega Kick,Normal,5,120,75,0,,
 Mega Punch,Normal,20,80,85,0,,
 Metronome,Normal,10,0,100,0,Metronome,100
 Mimic,Normal,10,0,100,0,Mimic,100
-Minimize,Normal,20,0,100,0,StageSelf=Evasion:+1,100
+Minimize,Normal,20,0,100,0,Stage=Target:Self|EVA:+1,100
 Mirror Move,Flying,20,0,100,0,MirrorMove,100
-Mist,Ice,30,0,100,0,Screen=Status,100
+Mist,Ice,30,0,100,0,Screen=status,100
 Night Shade,Ghost,15,0,100,0,Damage=Level,100
 Pay Day,Normal,20,40,100,0,,
 Peck,Flying,35,35,100,0,,
-Petal Dance,Grass,20,70,100,0,RepeatMove=3:75 | 4:25 ; StatusSelfAfter=confused,100
+Petal Dance,Grass,20,70,100,0,RepeatMove=3:75 | 4:25 ; StatusAfter=Target:Self|confused,100
 Pin Missile,Bug,20,14,85,0,MultiHit=2:37.5 | 3:37.5 | 4:12.5 | 5:12.5,100
-Poison Gas,Poison,40,0,55,0,StatusEnemy=poisoned,100
-Poison Sting,Poison,35,15,100,0,StatusEnemy=poisoned,20
-Poisonpowder,Poison,35,0,75,0,StatusEnemy=poisoned,100
+Poison Gas,Poison,40,0,55,0,Immune=Poison;Status=Target:Enemy|poisoned,100
+Poison Sting,Poison,35,15,100,0,Immune=Poison;Status=Target:Enemy|poisoned,20
+Poisonpowder,Poison,35,0,75,0,Immune=Poison;Status=Target:Enemy|poisoned,100
 Pound,Normal,35,40,100,0,,
-Psybeam,Psychic,20,65,100,0,StatusEnemy=confused,10
-Psychic,Psychic,10,90,100,0,StageEnemy=Spc:-1,30
+Psybeam,Psychic,20,65,100,0,Status=Target:Enemy|confused,10
+Psychic,Psychic,10,90,100,0,Stage=Target:Enemy|SPC:-1,30
 Psywave,Psychic,15,0,80,0,Damage=Psywave,100
 Quick Attack,Normal,30,40,100,1,,
 Rage,Normal,20,20,100,0,Rage,100
 Razor Leaf,Grass,25,55,95,0,IncreasedCritRate,100
 Razor Wind,Normal,10,80,75,0,RequireCharge=1,100
-Recover,Normal,20,0,100,0,HealSelf%=50,100
+Recover,Normal,20,0,100,0,HealSelf=%:50,100
 Reflect,Psychic,20,0,100,0,Screen=physical,100
-Rest,Psychic,10,0,100,0,StatusSelf=asleep; WakeUp=2; HealSelf%=100,100
+Rest,Psychic,10,0,100,0,Status=Target:Self|asleep|SleepCounter:2; Heal=Target:Self|%:100,100
 Roar,Normal,20,0,100,0,Roar,100
 Rock Slide,Rock,10,75,90,0,,
 Rock Throw,Rock,15,50,65,0,,
-Rolling Kick,Fighting,15,60,85,0,StatusEnemy=flinched,30
-Sand-Attack,Normal,15,0,100,0,StageEnemy=Accuracy:-1,100
+Rolling Kick,Fighting,15,60,85,0,Status=Target:Enemy|flinched,30
+Sand-Attack,Normal,15,0,100,0,Stage=Target:Enemy|ACC:-1,100
 Scratch,Normal,35,40,100,0,,
-Screech,Normal,10,0,85,0,StageEnemy=Def:-2,100
+Screech,Normal,10,0,85,0,Stage=Target:Enemy|DEF:-2,100
 Seismic Toss,Fighting,20,0,100,0,Damage=Level,100
-Selfdestruct,Normal,5,130,100,0,HPSelf=0; TempStatEnemy%=Def:50,100
-Sharpen,Normal,30,0,100,0,StageSelf=Atk:+1,100
-Sing,Normal,15,0,55,0,StatusEnemy=asleep,100
+Selfdestruct,Normal,5,130,100,0,HP=Target:Self|0; TempStat=Target:Enemy|DEF:%50,100
+Sharpen,Normal,30,0,100,0,Stage=Target:Self|ATK:+1,100
+Sing,Normal,15,0,55,0,Status=Target:Enemy|asleep,100
 Skull Bash,Normal,15,100,100,0,RequireCharge=1,100
 Sky Attack,Flying,5,140,90,0,RequireCharge=1,100
 Slam,Normal,20,80,75,0,,
 Slash,Normal,20,70,100,0,IncreasedCritRate,100
-Sleep Powder,Grass,15,0,75,0,StatusEnemy=asleep,100
-Sludge,Poison,20,65,100,0,StatusEnemy=poisoned,40
-Smog,Poison,20,20,100,0,StatusEnemy=poisoned,30
-Smokescreen,Normal,20,0,100,0,StageEnemy=Accuracy:-1,100
-Softboiled,Normal,10,0,100,0,HealSelf%=50,100
+Sleep Powder,Grass,15,0,75,0,Status=Target:Enemy|asleep,100
+Sludge,Poison,20,65,100,0,Status=Target:Enemy|poisoned,40
+Smog,Poison,20,20,100,0,Status=Target:Enemy|poisoned,30
+Smokescreen,Normal,20,0,100,0,Stage=Target:Enemy|ACC:-1,100
+Softboiled,Normal,10,0,100,0,Heal=Target:Self|%:50,100
 Solarbeam,Grass,10,120,100,0,RequireCharge=1,100
 Sonicboom,Normal,20,0,90,0,Damage=20,100
 Spike Cannon,Normal,15,20,100,0,MultiHit=2:37.5|3:37.5|4:12.5|5:12.5,100
 Splash,Normal,40,0,100,0,,
-Spore,Grass,15,0,100,0,StatusEnemy=asleep,100
-Stomp,Normal,20,65,100,0,StatusEnemy=flinched,30
+Spore,Grass,15,0,100,0,Status=Target:Enemy|asleep,100
+Stomp,Normal,20,65,100,0,Status=Target:Enemy|flinched,30
 Strength,Normal,15,80,100,0,,
-String Shot,Bug,40,0,95,0,StageEnemy=Spd:-1,100
-Struggle,Normal,1,50,100,0,NoPP; Recoil%=25,100
-Stun Spore,Grass,30,0,75,0,StatusEnemy=paralyzed,100
-Submission,Fighting,20,80,80,0,Recoil%=25,100
+String Shot,Bug,40,0,95,0,Stage=Target:Enemy|SPD:-1,100
+Struggle,Normal,1,50,100,0,NoPP; Recoil=%:25,100
+Stun Spore,Grass,30,0,75,0,Status=Target:Enemy|paralyzed,100
+Submission,Fighting,20,80,80,0,Recoil=%:25,100
 Substitute,Normal,10,0,100,0,Substitute=25,100
-Super Fang,Normal,10,0,90,0,Damage%=50,100
-Supersonic,Normal,20,0,55,0,StatusEnemy=confused,100
+Super Fang,Normal,10,0,90,0,Damage=%:50,100
+Supersonic,Normal,20,0,55,0,Status=Target:Enemy|confused,100
 Surf,Water,15,95,100,0,,
 Swift,Normal,20,60,100,0,AlwaysHits,100
-Swords Dance,Normal,30,0,100,0,StageSelf=Atk:+2,100
+Swords Dance,Normal,30,0,100,0,Stage=Target:Self|ATK:+2,100
 Tackle,Normal,35,35,95,0,,
-Tail Whip,Normal,30,0,100,0,StageEnemy=Def:-1,100
-Take Down,Normal,20,90,85,0,Recoil%=25,100
+Tail Whip,Normal,30,0,100,0,Stage=Target:Enemy|DEF:-1,100
+Take Down,Normal,20,90,85,0,Recoil=%:25,100
 Teleport,Psychic,20,0,100,0,,
-Thrash,Normal,20,90,100,0,RepeatMove=3:75 | 4:25 ; StatusSelfAfter=confused,100
-Thunder,Electric,10,120,70,0,StatusEnemy=paralyzed,10
-Thunder Wave,Electric,20,0,100,0,StatusEnemy=paralyzed,100
-Thunderbolt,Electric,15,95,100,0,StatusEnemy=paralyzed,10
-Thunderpunch,Electric,15,75,100,0,StatusEnemy=paralyzed,10
-Thundershock,Electric,30,40,100,0,StatusEnemy=paralyzed,10
-Toxic,Poison,10,0,85,0,StatusEnemy=badlyPoisoned,100
+Thrash,Normal,20,90,100,0,RepeatMove=3:75 | 4:25 ; StatusAfter=Target:Self|confused,100
+Thunder,Electric,10,120,70,0,Status=Target:Enemy|paralyzed,10
+Thunder Wave,Electric,20,0,100,0,Status=Target:Enemy|paralyzed,100
+Thunderbolt,Electric,15,95,100,0,Status=Target:Enemy|paralyzed,10
+Thunderpunch,Electric,15,75,100,0,Status=Target:Enemy|paralyzed,10
+Thundershock,Electric,30,40,100,0,Status=Target:Enemy|paralyzed,10
+Toxic,Poison,10,0,85,0,Status=Target:Enemy|badlyPoisoned,100
 Transform,Normal,10,0,100,0,Transform,100
 Tri Attack,Normal,10,80,100,0,,
-Twineedle,Bug,20,25,100,0,MultiHit=2:100;StatusEnemy=poisoned,20
+Twineedle,Bug,20,25,100,0,MultiHit=2:100;Status=Target:Enemy|poisoned,20
 Vicegrip,Normal,30,55,100,0,,
 Vine Whip,Grass,10,35,100,0,,
 Water Gun,Water,25,40,100,0,,
 Waterfall,Water,15,80,100,0,,
 Whirlwind,Normal,20,0,85,0,Roar,100
 Wing Attack,Flying,35,35,100,0,,
-Withdraw,Water,40,0,100,0,StageSelf=Def:+1,100
+Withdraw,Water,40,0,100,0,Stage=Target:Self|DEF:+1,100
 Wrap,Normal,20,15,85,0,RepeatMove=2:37.5|3:37.5|4:12.5|5:12.5; Bind,100
