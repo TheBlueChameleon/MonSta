@@ -21,7 +21,7 @@ namespace TemplateMode
 
         if (templatesDefinition.writeAllowedValues)
         {
-            writeAllowedValueFile();
+            writeAllowedValueFile(ALLOWED_VALUES_FILE);
         }
 
         const auto mechanicsDefinitionFile = writeMechanicsDefinitionFile(templatesDefinition.mechanicsDefinition, MECHANICS_DEFINITION_FILE);
