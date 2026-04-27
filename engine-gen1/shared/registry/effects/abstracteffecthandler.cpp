@@ -1,3 +1,5 @@
+#include <sstream>
+
 #include <base/errorbuffer.hpp>
 
 #include "abstracteffecthandler.hpp"
@@ -16,6 +18,33 @@ namespace MetaDefinition
         throw EngineError(
             ApiStatusCode::INVALID_USER_INPUT,
             "Effect '"s + effectName.data() + "' needs a parameter '" + paramName.data() + "'"
+        );
+    }
+
+    void AbstractEffectHandler::missingParameter(
+        const std::string_view effectName,
+        const std::initializer_list<std::string_view> paramNames
+    )
+    {
+        std::ostringstream namesList;
+        for (const auto& paramName : paramNames)
+        {
+            int i = 1;
+            namesList << "'" << paramName << "'";
+            namesList << (i < paramNames.size() ? ", " : "");
+            ++i;
+        }
+        throw EngineError(
+            ApiStatusCode::INVALID_USER_INPUT,
+            "Effect '"s + effectName.data() + "' needs one of the following parameters: " + namesList.str()
+        );
+    }
+
+    void AbstractEffectHandler::notImplementedTarget(const std::string_view effectName, const EffectParams::Target target)
+    {
+        throw EngineError(
+            ApiStatusCode::ILLEGAL_CLIENT_STATE,
+            "Not implemented: "s + effectName.data() + " with target "s + getTargetName(target).data()
         );
     }
 
@@ -87,13 +116,13 @@ namespace MetaDefinition
         const KeyValueMap& params
     )
     {
-        auto it = params.find(HP_PERCENTAGE);
+        auto it = params.find(HPAMOUNT_PERCENTAGE);
         if (it != params.end())
         {
             return {HPBasis::Percentage, std::stod(it->second)};
         }
 
-        it = params.find(HP_ABSOLUTE);
+        it = params.find(HPAMOUNT_ABSOLUTE);
         if (it != params.end())
         {
             return {HPBasis::Absolute, std::stod(it->second)};
@@ -101,7 +130,7 @@ namespace MetaDefinition
 
         throw EngineError(
             ApiStatusCode::INVALID_USER_INPUT,
-            "Parameters for effect Drain contain neither "s + HP_PERCENTAGE + " nor " + HP_ABSOLUTE
+            "Parameters for effect Drain contain neither "s + HPAMOUNT_PERCENTAGE + " nor " + HPAMOUNT_ABSOLUTE
         );
     }
 }

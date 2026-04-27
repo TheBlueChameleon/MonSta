@@ -9,13 +9,13 @@ namespace MetaDefinition
     {
         constexpr auto TARGET = "Target";
 
-        constexpr auto SELF        = "Self";
-        constexpr auto ENEMY       = "Enemy";
-        constexpr auto BOTH        = "Both";
-        constexpr auto CHOOSESELF  = "ChooseSelf";
-        constexpr auto CHOOSEENEMY = "ChooseEnemy";
-        constexpr auto RANDOMSELF  = "RandomSelf";
-        constexpr auto RANDOMENEMY = "RandomEnemy";
+        constexpr auto TARGET_SELF        = "Self";
+        constexpr auto TARGET_ENEMY       = "Enemy";
+        constexpr auto TARGET_BOTH        = "Both";
+        constexpr auto TARGET_CHOOSESELF  = "ChooseSelf";
+        constexpr auto TARGET_CHOOSEENEMY = "ChooseEnemy";
+        constexpr auto TARGET_RANDOMSELF  = "RandomSelf";
+        constexpr auto TARGET_RANDOMENEMY = "RandomEnemy";
 
         enum class Target {Self, Enemy, Both, ChooseSelf, ChooseEnemy, RandomSelf, RandomEnemy};
 

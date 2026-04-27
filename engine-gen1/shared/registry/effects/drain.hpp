@@ -10,29 +10,32 @@
 
 namespace MetaDefinition
 {
-    class Drain : public AbstractEffectHandler
+    namespace Effects
     {
-        public:
-            static constexpr auto EFFECT_NAME = "Drain";
+        class Drain : public AbstractEffectHandler
+        {
+            public:
+                static constexpr auto EFFECT_NAME = "Drain";
 
-        private:
-            const EffectParams::HPAmount amount;
-            const EffectParams::Target   target;
+            private:
+                const EffectParams::HPAmount amount;
+                const EffectParams::Target   target;
 
-        public:
-            Drain(
-                const EffectParams::HPAmount amount,
-                const EffectParams::Target   target
-            );
-            static Drain buildEffect(const std::string_view parameterDescriptor);
+            public:
+                Drain(
+                    const EffectParams::HPAmount amount,
+                    const EffectParams::Target   target
+                );
+                static Drain buildEffect(const std::string_view parameterDescriptor);
 
-            void execute(
-                SimulationMode::PokemonInstance& self,
-                SimulationMode::PokemonInstance& enemy,
-                SimulationMode::Scene& scene
-            );
-    };
+                void execute(
+                    SimulationMode::PokemonInstance& self,
+                    SimulationMode::PokemonInstance& enemy,
+                    SimulationMode::Scene& scene
+                );
+        };
 
-} // namespace MetaDefinition
+    }   // namespace Effects
+}       // namespace MetaDefinition
 
 #endif // DRAIN_H

@@ -11,8 +11,8 @@ namespace MetaDefinition
         HPBasis getHPBasisFromName(const std::string_view name)
         {
             // *INDENT-OFF*
-            if      (name == HP_ABSOLUTE)   { return HPBasis::Absolute;  }
-            else if (name == HP_PERCENTAGE) { return HPBasis::Percentage; }
+            if      (name == HPAMOUNT_ABSOLUTE)   { return HPBasis::Absolute;  }
+            else if (name == HPAMOUNT_PERCENTAGE) { return HPBasis::Percentage; }
             else                         { throw  EngineError(ApiStatusCode::ILLEGAL_CLIENT_STATE, "Unknown NumberInterpretation: '"s + name.data() + "'");}
             // *INDENT-ON*
         }
@@ -22,9 +22,9 @@ namespace MetaDefinition
             switch (numberInterpretation)
             {
                 case HPBasis::Absolute:
-                    return HP_ABSOLUTE;
+                    return HPAMOUNT_ABSOLUTE;
                 case HPBasis::Percentage:
-                    return HP_PERCENTAGE;
+                    return HPAMOUNT_PERCENTAGE;
             }
 
             throw  EngineError(

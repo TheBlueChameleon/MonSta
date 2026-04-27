@@ -348,8 +348,10 @@ add_library(Engine-Gen1 SHARED
     engine-gen1/shared/registry/effects/abstracteffecthandler.hpp   engine-gen1/shared/registry/effects/abstracteffecthandler.cpp
     engine-gen1/shared/registry/effects/drain.hpp                   engine-gen1/shared/registry/effects/drain.cpp
     engine-gen1/shared/registry/effects/effecthandlerdescriptor.hpp
+    engine-gen1/shared/registry/effects/stage.hpp                   engine-gen1/shared/registry/effects/stage.cpp
 
     engine-gen1/shared/registry/effects/params/hpamount.hpp         engine-gen1/shared/registry/effects/params/hpamount.cpp
+    engine-gen1/shared/registry/effects/params/statstage.hpp        engine-gen1/shared/registry/effects/params/statstage.cpp
     engine-gen1/shared/registry/effects/params/target.hpp           engine-gen1/shared/registry/effects/params/target.cpp
 
     engine-gen1/shared/registry/moves/move.hpp                      engine-gen1/shared/registry/moves/move.cpp

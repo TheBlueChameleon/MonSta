@@ -32,6 +32,15 @@ namespace MetaDefinition
                 const std::string_view effectName,
                 const std::string_view paramName
             );
+            [[noreturn]] static void missingParameter(
+                const std::string_view effectName,
+                const std::initializer_list<std::string_view> paramNames
+            );
+
+            [[noreturn]] static void notImplementedTarget(
+                const std::string_view effectName,
+                const EffectParams::Target target
+            );
 
         public:
             static void assertOnlySupportedParams(

@@ -11,13 +11,13 @@ namespace MetaDefinition
         Target getTargetFromName(const std::string_view name)
         {
             // *INDENT-OFF*
-            if      (name == SELF)          { return Target::Self;        }
-            else if (name == ENEMY)         { return Target::Enemy;       }
-            else if (name == BOTH)          { return Target::Both;        }
-            else if (name == CHOOSESELF)    { return Target::ChooseSelf;  }
-            else if (name == CHOOSEENEMY)   { return Target::ChooseEnemy; }
-            else if (name == RANDOMSELF)    { return Target::RandomSelf;  }
-            else if (name == RANDOMENEMY)   { return Target::RandomEnemy; }
+            if      (name == TARGET_SELF)          { return Target::Self;        }
+            else if (name == TARGET_ENEMY)         { return Target::Enemy;       }
+            else if (name == TARGET_BOTH)          { return Target::Both;        }
+            else if (name == TARGET_CHOOSESELF)    { return Target::ChooseSelf;  }
+            else if (name == TARGET_CHOOSEENEMY)   { return Target::ChooseEnemy; }
+            else if (name == TARGET_RANDOMSELF)    { return Target::RandomSelf;  }
+            else if (name == TARGET_RANDOMENEMY)   { return Target::RandomEnemy; }
             else { throw  EngineError(ApiStatusCode::ILLEGAL_CLIENT_STATE, "Unknown Target: '"s + name.data() + "'");}
             // *INDENT-ON*
         }
@@ -27,19 +27,19 @@ namespace MetaDefinition
             switch (target)
             {
                 case MetaDefinition::EffectParams::Target::Self:
-                    return SELF;
+                    return TARGET_SELF;
                 case MetaDefinition::EffectParams::Target::Enemy:
-                    return ENEMY;
+                    return TARGET_ENEMY;
                 case MetaDefinition::EffectParams::Target::Both:
-                    return BOTH;
+                    return TARGET_BOTH;
                 case MetaDefinition::EffectParams::Target::ChooseSelf:
-                    return CHOOSESELF;
+                    return TARGET_CHOOSESELF;
                 case MetaDefinition::EffectParams::Target::ChooseEnemy:
-                    return CHOOSEENEMY;
+                    return TARGET_CHOOSEENEMY;
                 case MetaDefinition::EffectParams::Target::RandomSelf:
-                    return RANDOMSELF;
+                    return TARGET_RANDOMSELF;
                 case MetaDefinition::EffectParams::Target::RandomEnemy:
-                    return RANDOMENEMY;
+                    return TARGET_RANDOMENEMY;
             }
             throw  EngineError(ApiStatusCode::ILLEGAL_CLIENT_STATE, "Unknown Target ID: "s + std::to_string(static_cast<int>(target)));
         }

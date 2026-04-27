@@ -27,4 +27,4 @@ X Attack,     Stage=Target:Self|ATK:+1
 X Defense,    Stage=Target:Self|DEF:+1
 X Special,    Stage=Target:Self|SPC:+1
 X Speed,      Stage=Target:Self|SPD:+1
-X Accuracy,   BypassAccuracyChecks=Target:Self
+X Accuracy,   BypassAccuracyChecks=Target:Self|Duration:WhileActive

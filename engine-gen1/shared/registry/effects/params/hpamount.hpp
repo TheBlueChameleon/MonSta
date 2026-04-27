@@ -7,8 +7,8 @@ namespace MetaDefinition
 {
     namespace EffectParams
     {
-        constexpr auto HP_ABSOLUTE   = "HP";
-        constexpr auto HP_PERCENTAGE = "HP%";
+        constexpr auto HPAMOUNT_ABSOLUTE   = "HP";
+        constexpr auto HPAMOUNT_PERCENTAGE = "HP%";
 
         enum class HPBasis {Absolute, Percentage};
 

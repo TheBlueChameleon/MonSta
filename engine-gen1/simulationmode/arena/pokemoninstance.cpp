@@ -14,4 +14,9 @@ namespace SimulationMode
 
     }
 
+    void PokemonInstance::changeStatStage(const MetaDefinition::EffectParams::StatStage stat, int amount)
+    {
+
+    }
+
 } // namespace SimulationMode
