@@ -60,7 +60,6 @@ class ClientWrapper
 
         const Version* _CLIENT_VERSION;
         const Version* _MIN_HOST_VERSION;
-        const Version* _MAX_HOST_VERSION;
 
         bool(*HOST_API_CALL _init)(HostApi* hostApi);
         void(*HOST_API_CALL _hangUp)();
@@ -96,7 +95,6 @@ class ClientWrapper
 
         Version getClientVersion() const;
         Version getMinHostVersion() const;
-        Version getMaxHostVersion() const;
 
         void terminateAbnormally();
 

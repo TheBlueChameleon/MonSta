@@ -18,7 +18,6 @@ HOST_API_EXPORT
 {
     extern const Version CLIENT_VERSION;
     extern const Version MIN_HOST_VERSION;
-    extern const Version MAX_HOST_VERSION;
 
     bool HOST_API_CALL init(HostApi* hostApi);
     void HOST_API_CALL hangUp();

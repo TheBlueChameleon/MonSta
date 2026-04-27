@@ -84,7 +84,6 @@ void ClientWrapper::extractSymbols()
 
     FETCH(CLIENT_VERSION);
     FETCH(MIN_HOST_VERSION);
-    FETCH(MAX_HOST_VERSION);
 
     FETCH(init);
     FETCH(hasFeature);
@@ -140,14 +139,6 @@ void ClientWrapper::initAndAssertCompatibility()
         LoggerService::criticalF("Host Version is {} but at least Version {} is required for this client.",
                                  VersionService::to_string(HOST_VERSION),
                                  VersionService::to_string(getMinHostVersion())
-                                );
-        throw CriticalAbort("Incompatible Host Version");
-    }
-    if (HOST_VERSION > getMaxHostVersion())
-    {
-        LoggerService::criticalF("Host Version is {} but at least Version {} is required for this client.",
-                                 VersionService::to_string(HOST_VERSION),
-                                 VersionService::to_string(getMaxHostVersion())
                                 );
         throw CriticalAbort("Incompatible Host Version");
     }
@@ -249,11 +240,6 @@ Version ClientWrapper::getClientVersion() const
 Version ClientWrapper::getMinHostVersion() const
 {
     return *_MIN_HOST_VERSION;
-}
-
-Version ClientWrapper::getMaxHostVersion() const
-{
-    return *_MAX_HOST_VERSION;
 }
 
 void ClientWrapper::terminateAbnormally()
