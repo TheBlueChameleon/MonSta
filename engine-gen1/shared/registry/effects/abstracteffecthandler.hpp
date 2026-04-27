@@ -6,7 +6,7 @@
 #include <unordered_map>
 
 #include "params/target.hpp"
-#include "params/numberinterpretation.hpp"
+#include "params/hpamount.hpp"
 
 namespace EngineBase
 {
@@ -27,17 +27,40 @@ namespace MetaDefinition
             using KeySet      = std::set<std::string>;
             using KeyValueMap = std::unordered_map<std::string, std::string>;
 
-            virtual bool execute(SimulationMode::PokemonInstance& self,
-                                 SimulationMode::PokemonInstance& enemy,
-                                 SimulationMode::Scene& scene) = 0;
+        protected:
+            [[noreturn]] static void missingParameter(
+                const std::string_view effectName,
+                const std::string_view paramName
+            );
 
+        public:
             static void assertOnlySupportedParams(
+                const std::string_view effectName,
                 const KeySet& supportedParamKeys,
                 const KeyValueMap& actualParams
             );
 
-            static EffectParams::Target extractTarget(const KeyValueMap& params, const EffectParams::Target defaultValue);
-            static std::pair<EffectParams::NumberInterpretation, double> extractEffectStrength(const KeyValueMap& params);
+            static EffectParams::Target extractTarget(
+                const std::string_view effectName,
+                const KeyValueMap& params
+            );
+            static EffectParams::Target extractTarget(
+                const std::string_view effectName,
+                const KeyValueMap& params,
+                const EffectParams::Target defaultValue
+            );
+
+            static EffectParams::HPAmount extractHPAmount(
+                const std::string_view effectName,
+                const KeyValueMap& params
+            );
+
+        public:
+            virtual void execute(
+                SimulationMode::PokemonInstance& self,
+                SimulationMode::PokemonInstance& enemy,
+                SimulationMode::Scene& scene
+            ) = 0;
     };
 
 } // namespace SimulationMode

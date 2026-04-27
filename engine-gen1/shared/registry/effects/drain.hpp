@@ -3,7 +3,7 @@
 
 #include <string_view>
 
-#include "params/numberinterpretation.hpp"
+#include "params/hpamount.hpp"
 #include "params/target.hpp"
 
 #include "abstracteffecthandler.hpp"
@@ -12,20 +12,21 @@ namespace MetaDefinition
 {
     class Drain : public AbstractEffectHandler
     {
+        public:
+            static constexpr auto EFFECT_NAME = "Drain";
+
         private:
-            const EffectParams::NumberInterpretation basis;
-            const double value;
-            const EffectParams::Target target;
+            const EffectParams::HPAmount amount;
+            const EffectParams::Target   target;
 
         public:
             Drain(
-                const EffectParams::NumberInterpretation basis,
-                const double value,
-                const EffectParams::Target target
+                const EffectParams::HPAmount amount,
+                const EffectParams::Target   target
             );
             static Drain buildEffect(const std::string_view parameterDescriptor);
 
-            bool execute(
+            void execute(
                 SimulationMode::PokemonInstance& self,
                 SimulationMode::PokemonInstance& enemy,
                 SimulationMode::Scene& scene

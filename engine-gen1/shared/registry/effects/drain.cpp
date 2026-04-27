@@ -15,12 +15,10 @@ namespace MetaDefinition
     using namespace EffectParams;
 
     Drain::Drain(
-        const NumberInterpretation basis,
-        const double value,
+        const EffectParams::HPAmount amount,
         const Target target
     ) :
-        basis(basis),
-        value(value),
+        amount(amount),
         target(target)
     {}
 
@@ -28,31 +26,51 @@ namespace MetaDefinition
     {
         const AbstractEffectHandler::KeyValueMap params = EngineBase::splitArgs(parameterDescriptor);
 
-        assertOnlySupportedParams({TARGET, PERCENTAGE, ABSOLUTE}, params);
-        const auto target = extractTarget(params, Target::Self);
-        const auto [basis, value] = extractEffectStrength(params);
+        assertOnlySupportedParams(EFFECT_NAME, {TARGET, HP_PERCENTAGE, HP_ABSOLUTE}, params);
+        const auto target = extractTarget(EFFECT_NAME, params, Target::Self);
+        const auto amount = extractHPAmount(EFFECT_NAME, params);
 
-        return Drain(basis, value, target);
+        return Drain(amount, target);
     }
 
-    bool Drain::execute(SimulationMode::PokemonInstance& self,
-                        SimulationMode::PokemonInstance& enemy,
-                        SimulationMode::Scene& scene
-                       )
+    void Drain::execute(
+        SimulationMode::PokemonInstance& self,
+        SimulationMode::PokemonInstance& enemy,
+        SimulationMode::Scene& scene
+    )
     {
-        int amount;
-        switch (basis)
+        int recovered;
+        switch (amount.basis)
         {
-            case MetaDefinition::NumberInterpretation::Absolute:
-                amount = value < scene.lastDamageDone ? value : scene.lastDamageDone;
+            case MetaDefinition::HPBasis::Absolute:
+                recovered = amount.value < scene.lastDamageDone ? amount.value : scene.lastDamageDone;
                 break;
-            case MetaDefinition::NumberInterpretation::Percentage:
-                amount = value / 100.0 * scene.lastDamageDone;
+            case MetaDefinition::HPBasis::Percentage:
+                recovered = amount.value / 100.0 * scene.lastDamageDone;
                 break;
         }
 
-        self.recoverHealth(amount);
-
-        return true;
+        switch (target)
+        {
+            case MetaDefinition::EffectParams::Target::Self:
+                self.recoverHealth(recovered);
+                break;
+            case MetaDefinition::EffectParams::Target::Enemy:
+                enemy.recoverHealth(recovered);
+                break;
+            case MetaDefinition::EffectParams::Target::Both:
+                self.recoverHealth(recovered);
+                enemy.recoverHealth(recovered);
+                break;
+            case MetaDefinition::EffectParams::Target::ChooseSelf:
+            case MetaDefinition::EffectParams::Target::ChooseEnemy:
+            case MetaDefinition::EffectParams::Target::RandomSelf:
+            case MetaDefinition::EffectParams::Target::RandomEnemy:
+                throw EngineError(
+                    ApiStatusCode::ILLEGAL_CLIENT_STATE,
+                    "Not implemented: Drain with target "s + getTargetName(target).data()
+                );
+                break;
+        }
     }
 } // namespace MetaDefinition

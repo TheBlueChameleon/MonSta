@@ -8,7 +8,19 @@ namespace MetaDefinition
 {
     using namespace EffectParams;
 
+    void AbstractEffectHandler::missingParameter(
+        const std::string_view effectName,
+        const std::string_view paramName
+    )
+    {
+        throw EngineError(
+            ApiStatusCode::INVALID_USER_INPUT,
+            "Effect '"s + effectName.data() + "' needs a parameter '" + paramName.data() + "'"
+        );
+    }
+
     void AbstractEffectHandler::assertOnlySupportedParams(
+        const std::string_view effectName,
         const KeySet& supportedParamKeys,
         const KeyValueMap& actualParams
     )
@@ -20,7 +32,7 @@ namespace MetaDefinition
             {
                 eb.append(
                     ApiStatusCode::INVALID_USER_INPUT,
-                    ""s + kvPair.first
+                    "Effect '"s + effectName.data() + "' does not support parameter '" + kvPair.first + "'"
                 );
             }
         }
@@ -35,6 +47,25 @@ namespace MetaDefinition
     }
 
     Target AbstractEffectHandler::extractTarget(
+        const std::string_view effectName,
+        const KeyValueMap& params
+    )
+    {
+        const auto it = params.find(TARGET);
+        if (it == params.end())
+        {
+            missingParameter(effectName, TARGET);
+        }
+        else
+        {
+            const auto value = it->second;
+            return getTargetFromName(value);
+        }
+
+    }
+
+    Target AbstractEffectHandler::extractTarget(
+        const std::string_view effectName,
         const KeyValueMap& params,
         const EffectParams::Target defaultValue
     )
@@ -51,23 +82,26 @@ namespace MetaDefinition
         }
     }
 
-    std::pair<NumberInterpretation, double> AbstractEffectHandler::extractEffectStrength(const KeyValueMap& params)
+    HPAmount AbstractEffectHandler::extractHPAmount(
+        const std::string_view effectName,
+        const KeyValueMap& params
+    )
     {
-        auto it = params.find(PERCENTAGE);
+        auto it = params.find(HP_PERCENTAGE);
         if (it != params.end())
         {
-            return std::make_pair(NumberInterpretation::Percentage, std::stod(it->second));
+            return {HPBasis::Percentage, std::stod(it->second)};
         }
 
-        it = params.find(ABSOLUTE);
+        it = params.find(HP_ABSOLUTE);
         if (it != params.end())
         {
-            return std::make_pair(NumberInterpretation::Absolute, std::stod(it->second));
+            return {HPBasis::Absolute, std::stod(it->second)};
         }
 
         throw EngineError(
             ApiStatusCode::INVALID_USER_INPUT,
-            "Parameters for effect Drain contain neither "s + PERCENTAGE + " nor " + ABSOLUTE
+            "Parameters for effect Drain contain neither "s + HP_PERCENTAGE + " nor " + HP_ABSOLUTE
         );
     }
 }

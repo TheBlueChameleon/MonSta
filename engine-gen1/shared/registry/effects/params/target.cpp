@@ -14,7 +14,6 @@ namespace MetaDefinition
             if      (name == SELF)          { return Target::Self;        }
             else if (name == ENEMY)         { return Target::Enemy;       }
             else if (name == BOTH)          { return Target::Both;        }
-            else if (name == LAST)          { return Target::Last;        }
             else if (name == CHOOSESELF)    { return Target::ChooseSelf;  }
             else if (name == CHOOSEENEMY)   { return Target::ChooseEnemy; }
             else if (name == RANDOMSELF)    { return Target::RandomSelf;  }
@@ -33,8 +32,6 @@ namespace MetaDefinition
                     return ENEMY;
                 case MetaDefinition::EffectParams::Target::Both:
                     return BOTH;
-                case MetaDefinition::EffectParams::Target::Last:
-                    return LAST;
                 case MetaDefinition::EffectParams::Target::ChooseSelf:
                     return CHOOSESELF;
                 case MetaDefinition::EffectParams::Target::ChooseEnemy:
