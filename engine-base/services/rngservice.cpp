@@ -1,3 +1,4 @@
+#include <limits>
 #include <random>
 
 #include "errorservice.hpp"
@@ -15,32 +16,23 @@ namespace RngService
     static Generator rngProxy;
     static std::uniform_real_distribution<double> distPercent(0,1);
 
-    Generator::Generator() :
-        _min(getEngineMin()), _max(getEngineMax())
-    {}
-
-    const Generator::result_type Generator::min() const
-    {
-        return _min;
-    }
-
-    const Generator::result_type Generator::max() const
-    {
-        return _max;
-    }
-
     Generator::result_type Generator::operator()() const
     {
         return getRandomInt();
     }
 
+    constexpr Generator::result_type Generator::min()
+    {
+        return std::numeric_limits<result_type>::min();
+    }
+
+    constexpr Generator::result_type Generator::max()
+    {
+        return std::numeric_limits<result_type>::max();
+    }
+
     // ====================================================================== //
     // generator backed convenience
-
-    Generator& getGeneratorInstance()
-    {
-        return rngProxy;
-    }
 
     double getRandomPercentage()
     {
@@ -50,6 +42,16 @@ namespace RngService
     bool getBiasedCoinFlip(const double pTrue)
     {
         return std::bernoulli_distribution(pTrue)(rngProxy);
+    }
+
+    int getIntBetween(const int lower, const int upper)
+    {
+        return std::uniform_int_distribution(lower, upper)(rngProxy);
+    }
+
+    double getRealBetween(const double lower, const double upper)
+    {
+        return std::uniform_real_distribution(lower, upper)(rngProxy);
     }
 
     // ====================================================================== //

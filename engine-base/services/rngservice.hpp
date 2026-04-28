@@ -9,21 +9,19 @@ namespace RngService
     {
         public:
             using result_type = uint64_t;
-        private:
-            const result_type _min;
-            const result_type _max;
 
-        public:
-            Generator();
-            const result_type min() const;
-            const result_type max() const;
+            Generator() = default;
+
             result_type operator()() const;
+
+            static constexpr result_type min();
+            static constexpr result_type max();
     };
 
-    Generator& getGeneratorInstance();
-
-    double getRandomPercentage();
-    bool   getBiasedCoinFlip(const double pTrue = 0.5);
+    double  getRandomPercentage();
+    bool    getBiasedCoinFlip(const double pTrue = 0.5);
+    int     getIntBetween(const int lower, const int upper);
+    double  getRealBetween(const double lower, const double upper);
 
     uint64_t getEngineMin();
     uint64_t getEngineMax();
