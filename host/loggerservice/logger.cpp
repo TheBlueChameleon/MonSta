@@ -35,13 +35,13 @@ std::string Logger::getPattern() const
     return this->pattern;
 }
 
-void Logger::setPattern(const std::string& pattern)
+void Logger::setPattern(const std::string_view pattern)
 {
     this->pattern = pattern;
 
     for (auto& sink : logger->sinks())
     {
-        sink->set_pattern(pattern.c_str());
+        sink->set_pattern(pattern.data());
     }
 }
 
@@ -117,32 +117,32 @@ std::shared_ptr<spdlog::sinks::sink> Logger::getFileSink() const
     }
 }
 
-void Logger::trace(const char* const msg) const
+void Logger::trace(const std::string_view msg) const
 {
     logger->trace(msg);
 }
 
-void Logger::debug(const char* const msg) const
+void Logger::debug(const std::string_view msg) const
 {
     logger->debug(msg);
 }
 
-void Logger::info(const char* const msg) const
+void Logger::info(const std::string_view msg) const
 {
     logger->info(msg);
 }
 
-void Logger::warn(const char* const msg) const
+void Logger::warn(const std::string_view msg) const
 {
     logger->warn(msg);
 }
 
-void Logger::error(const char* const msg) const
+void Logger::error(const std::string_view msg) const
 {
     logger->error(msg);
 }
 
-void Logger::critical(const char* const msg) const
+void Logger::critical(const std::string_view msg) const
 {
     logger->critical(msg);
 }

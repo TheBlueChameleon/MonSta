@@ -30,7 +30,7 @@ class Logger
         void setLogLevel(const ILoggerService::LogLevel level);
 
         std::string getPattern() const;
-        void setPattern(const std::string& pattern);
+        void setPattern(const std::string_view pattern);
 
         std::optional<std::filesystem::path> getLogFile() const;
         void setLogFile(const std::filesystem::path filename);
@@ -42,12 +42,12 @@ class Logger
         std::shared_ptr<spdlog::sinks::sink> getConsSink() const;
         std::shared_ptr<spdlog::sinks::sink> getFileSink() const;
 
-        void trace(const char* const msg) const;
-        void debug(const char* const msg) const;
-        void info(const char* const msg) const;
-        void warn(const char* const msg) const;
-        void error(const char* const msg) const;
-        void critical(const char* const msg) const;
+        void trace(const std::string_view msg) const;
+        void debug(const std::string_view msg) const;
+        void info(const std::string_view msg) const;
+        void warn(const std::string_view msg) const;
+        void error(const std::string_view msg) const;
+        void critical(const std::string_view msg) const;
 
         template <typename... Args>
         void trace(std::format_string<Args...> fmt, Args&& ...args) const

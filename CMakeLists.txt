@@ -197,6 +197,7 @@ target_link_libraries(Host-JsonService
 add_library(Host-LoggerService STATIC
     host/loggerservice/logger.hpp               host/loggerservice/logger.cpp
     host/loggerservice/loggerservice.hpp        host/loggerservice/loggerservice.cpp
+    host/loggerservice/loggerservice_dlx.hpp    host/loggerservice/loggerservice_dlx.cpp
 )
 
 target_include_directories(Host-LoggerService

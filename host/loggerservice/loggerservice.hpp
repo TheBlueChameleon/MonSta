@@ -19,12 +19,12 @@ namespace LoggerService
     void setLogLevel(const ILoggerService::LogLevel level);
     void setLogFile(const std::filesystem::path filename);
 
-    void trace(const char* const msg);
-    void debug(const char* const msg);
-    void info(const char* const msg);
-    void warn(const char* const msg);
-    void error(const char* const msg);
-    void critical(const char* const msg);
+    void trace(const std::string_view msg);
+    void debug(const std::string_view msg);
+    void info(const std::string_view msg);
+    void warn(const std::string_view msg);
+    void error(const std::string_view msg);
+    void critical(const std::string_view msg);
 
     template <typename... Args>
     void traceF(std::format_string<Args...> fmt, Args&& ...args)
