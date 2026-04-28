@@ -13,9 +13,9 @@ struct IMemoryService
         size_t size;
     };
 
-    MemoryBlock(*const HOST_API_CALL allocate)(const size_t size);
-    MemoryBlock(*const HOST_API_CALL create)(const char* const data, size_t size);
-    void (*const HOST_API_CALL free)(MemoryBlock* data);
+    MemoryBlock(HOST_API_CALL* const allocate)(const size_t size);
+    MemoryBlock(HOST_API_CALL* const create)(const char* const data, size_t size);
+    void (HOST_API_CALL* const free)(MemoryBlock* data);
 };
 
 #endif // IMEMORYSERVICE_H

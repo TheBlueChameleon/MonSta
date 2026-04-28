@@ -9,50 +9,50 @@
 
 struct IJsonService_ItemAccess
 {
-    const IJsonServiceTypes::JsonHandle(*const HOST_API_CALL navigateTo)(
+    const IJsonServiceTypes::JsonHandle(HOST_API_CALL* const navigateTo)(
         const IJsonServiceTypes::JsonHandle,
         const char* const jsonPointer
     );
-    IJsonServiceTypes::ModifiableJsonHandle(*const HOST_API_CALL navigateToModifiable)(
+    IJsonServiceTypes::ModifiableJsonHandle(HOST_API_CALL* const navigateToModifiable)(
         IJsonServiceTypes::ModifiableJsonHandle handle,
         const char* const jsonPointer
     );
-    const bool (*const HOST_API_CALL containts)(const IJsonServiceTypes::JsonHandle, const char* const elementName);
+    const bool (HOST_API_CALL* const containts)(const IJsonServiceTypes::JsonHandle, const char* const elementName);
 
-    const IJsonServiceTypes::JsonType(*const HOST_API_CALL getType)(const IJsonServiceTypes::JsonHandle handle);
-    const bool (*const HOST_API_CALL isNull)(const IJsonServiceTypes::JsonHandle handle);
-    const bool (*const HOST_API_CALL isBoolean)(const IJsonServiceTypes::JsonHandle handle);
-    const bool (*const HOST_API_CALL isInteger)(const IJsonServiceTypes::JsonHandle handle);
-    const bool (*const HOST_API_CALL isUnsigned)(const IJsonServiceTypes::JsonHandle handle);
-    const bool (*const HOST_API_CALL isFloat)(const IJsonServiceTypes::JsonHandle handle);
-    const bool (*const HOST_API_CALL isString)(const IJsonServiceTypes::JsonHandle handle);
-    const bool (*const HOST_API_CALL isArray)(const IJsonServiceTypes::JsonHandle handle);
-    const bool (*const HOST_API_CALL isObject)(const IJsonServiceTypes::JsonHandle handle);
+    const IJsonServiceTypes::JsonType(HOST_API_CALL* const getType)(const IJsonServiceTypes::JsonHandle handle);
+    const bool (HOST_API_CALL* const isNull)(const IJsonServiceTypes::JsonHandle handle);
+    const bool (HOST_API_CALL* const isBoolean)(const IJsonServiceTypes::JsonHandle handle);
+    const bool (HOST_API_CALL* const isInteger)(const IJsonServiceTypes::JsonHandle handle);
+    const bool (HOST_API_CALL* const isUnsigned)(const IJsonServiceTypes::JsonHandle handle);
+    const bool (HOST_API_CALL* const isFloat)(const IJsonServiceTypes::JsonHandle handle);
+    const bool (HOST_API_CALL* const isString)(const IJsonServiceTypes::JsonHandle handle);
+    const bool (HOST_API_CALL* const isArray)(const IJsonServiceTypes::JsonHandle handle);
+    const bool (HOST_API_CALL* const isObject)(const IJsonServiceTypes::JsonHandle handle);
 
-    const bool (*const HOST_API_CALL getAsBool)(const IJsonServiceTypes::JsonHandle handle);
-    const int (*const HOST_API_CALL getAsInteger)(const IJsonServiceTypes::JsonHandle handle);
-    const unsigned long long (*const HOST_API_CALL getAsUnsigned)(const IJsonServiceTypes::JsonHandle handle);
-    const double (*const HOST_API_CALL getAsFloat)(const IJsonServiceTypes::JsonHandle handle);
-    const char* const(*const HOST_API_CALL getAsString)(const IJsonServiceTypes::JsonHandle handle);
+    const bool (HOST_API_CALL* const getAsBool)(const IJsonServiceTypes::JsonHandle handle);
+    const int (HOST_API_CALL* const getAsInteger)(const IJsonServiceTypes::JsonHandle handle);
+    const unsigned long long (HOST_API_CALL* const getAsUnsigned)(const IJsonServiceTypes::JsonHandle handle);
+    const double (HOST_API_CALL* const getAsFloat)(const IJsonServiceTypes::JsonHandle handle);
+    const char* const(HOST_API_CALL* const getAsString)(const IJsonServiceTypes::JsonHandle handle);
 
-    const size_t (*const HOST_API_CALL getArraySize)(const IJsonServiceTypes::JsonHandle handle);
-    const IJsonServiceTypes::JsonHandle(*const HOST_API_CALL getArrayItem)(const IJsonServiceTypes::JsonHandle handle, const int index);
+    const size_t (HOST_API_CALL* const getArraySize)(const IJsonServiceTypes::JsonHandle handle);
+    const IJsonServiceTypes::JsonHandle(HOST_API_CALL* const getArrayItem)(const IJsonServiceTypes::JsonHandle handle, const int index);
 
-    void (*const HOST_API_CALL setToNull)(const IJsonServiceTypes::ModifiableJsonHandle handle);
-    void (*const HOST_API_CALL setToBool)(const IJsonServiceTypes::ModifiableJsonHandle handle, const bool value);
-    void (*const HOST_API_CALL setToInteger)(const IJsonServiceTypes::ModifiableJsonHandle handle, const int value);
-    void (*const HOST_API_CALL setToUnsigned)(const IJsonServiceTypes::ModifiableJsonHandle handle, const unsigned value);
-    void (*const HOST_API_CALL setToFloat)(const IJsonServiceTypes::ModifiableJsonHandle handle, const double value);
-    void (*const HOST_API_CALL setToString)(const IJsonServiceTypes::ModifiableJsonHandle handle, const char* const value);
-    void (*const HOST_API_CALL setToHandle)(const IJsonServiceTypes::ModifiableJsonHandle handle, const IJsonServiceTypes::JsonHandle source);
-    void (*const HOST_API_CALL setToArray)(const IJsonServiceTypes::ModifiableJsonHandle handle, const IJsonServiceTypes::JsonHandle source);
-    void (*const HOST_API_CALL setToObject)(const IJsonServiceTypes::ModifiableJsonHandle handle, const IJsonServiceTypes::JsonHandle source);
-    IJsonServiceTypes::ModifiableJsonHandle(*const HOST_API_CALL setToParseable)(
+    void (HOST_API_CALL* const setToNull)(const IJsonServiceTypes::ModifiableJsonHandle handle);
+    void (HOST_API_CALL* const setToBool)(const IJsonServiceTypes::ModifiableJsonHandle handle, const bool value);
+    void (HOST_API_CALL* const setToInteger)(const IJsonServiceTypes::ModifiableJsonHandle handle, const int value);
+    void (HOST_API_CALL* const setToUnsigned)(const IJsonServiceTypes::ModifiableJsonHandle handle, const unsigned value);
+    void (HOST_API_CALL* const setToFloat)(const IJsonServiceTypes::ModifiableJsonHandle handle, const double value);
+    void (HOST_API_CALL* const setToString)(const IJsonServiceTypes::ModifiableJsonHandle handle, const char* const value);
+    void (HOST_API_CALL* const setToHandle)(const IJsonServiceTypes::ModifiableJsonHandle handle, const IJsonServiceTypes::JsonHandle source);
+    void (HOST_API_CALL* const setToArray)(const IJsonServiceTypes::ModifiableJsonHandle handle, const IJsonServiceTypes::JsonHandle source);
+    void (HOST_API_CALL* const setToObject)(const IJsonServiceTypes::ModifiableJsonHandle handle, const IJsonServiceTypes::JsonHandle source);
+    IJsonServiceTypes::ModifiableJsonHandle(HOST_API_CALL* const setToParseable)(
         const IJsonServiceTypes::ModifiableJsonHandle handle,
         const char* const source
     );
 
-    IMemoryService::MemoryBlock(*const HOST_API_CALL dump)(const IJsonServiceTypes::JsonHandle handle, int indent);
+    IMemoryService::MemoryBlock(HOST_API_CALL* const dump)(const IJsonServiceTypes::JsonHandle handle, int indent);
 };
 
 #endif // IJSONSERVICE_ITEMACCESS_HPP

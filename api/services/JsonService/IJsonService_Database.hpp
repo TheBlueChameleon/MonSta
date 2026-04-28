@@ -7,25 +7,25 @@
 
 struct IJsonService_Database
 {
-    const IJsonServiceTypes::EntryState(*const HOST_API_CALL getState)(const IJsonServiceTypes::JsonTag tag);
-    const IJsonServiceTypes::JsonHandle(*const HOST_API_CALL get)(const IJsonServiceTypes::JsonTag tag);
-    const IJsonServiceTypes::JsonHandle(*const HOST_API_CALL getOrAdd)(
+    const IJsonServiceTypes::EntryState(HOST_API_CALL* const getState)(const IJsonServiceTypes::JsonTag tag);
+    const IJsonServiceTypes::JsonHandle(HOST_API_CALL* const get)(const IJsonServiceTypes::JsonTag tag);
+    const IJsonServiceTypes::JsonHandle(HOST_API_CALL* const getOrAdd)(
         const IJsonServiceTypes::JsonTag tag,
-        const void(*const HOST_API_CALL creator)(const IJsonServiceTypes::ModifiableJsonHandle)
+        const void(HOST_API_CALL* const creator)(const IJsonServiceTypes::ModifiableJsonHandle)
     );
-    const IJsonServiceTypes::JsonHandle(*const HOST_API_CALL getOrParse)(
+    const IJsonServiceTypes::JsonHandle(HOST_API_CALL* const getOrParse)(
         const IJsonServiceTypes::JsonTag tag,
         const char* const json
     );
-    const IJsonServiceTypes::ModifiableJsonHandle(*const HOST_API_CALL declare)(const IJsonServiceTypes::JsonTag tag);
-    const IJsonServiceTypes::JsonHandle(*const HOST_API_CALL commit)(const IJsonServiceTypes::JsonTag tag);
+    const IJsonServiceTypes::ModifiableJsonHandle(HOST_API_CALL* const declare)(const IJsonServiceTypes::JsonTag tag);
+    const IJsonServiceTypes::JsonHandle(HOST_API_CALL* const commit)(const IJsonServiceTypes::JsonTag tag);
 
-    const IJsonServiceTypes::JsonHandle(*const HOST_API_CALL parseValidatePatchAndAdd)(
+    const IJsonServiceTypes::JsonHandle(HOST_API_CALL* const parseValidatePatchAndAdd)(
         const IJsonServiceTypes::JsonTag    tag,
         const char* const                   json,
         const IJsonServiceTypes::JsonTag    validationSchemaTag
     );
-    const IJsonServiceTypes::JsonHandle(*const HOST_API_CALL readValidatePatchAndAdd)(
+    const IJsonServiceTypes::JsonHandle(HOST_API_CALL* const readValidatePatchAndAdd)(
         const IJsonServiceTypes::JsonTag    tag,
         const char* const                   file,
         const IJsonServiceTypes::JsonTag    validationSchemaTag
