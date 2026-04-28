@@ -111,6 +111,10 @@ namespace SchemaValidation
         .setDefault("327675");   // 5*65535
 
         builder
+        .addProperty(JKEY_MECHANICS_STATSTAGEABSMAX, JsonType::INTEGER)
+        .setDefault("6");
+
+        builder
         .addProperty(JKEY_MECHANICS_OBEDIENCE, JsonType::BOOLEAN)
         .setDefault("true");
 

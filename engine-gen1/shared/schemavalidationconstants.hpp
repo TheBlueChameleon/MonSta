@@ -82,6 +82,7 @@ namespace SchemaValidation
     const auto JKEY_MECHANICS_DVSUMCAP                  = "DvSumCap";
     const auto JKEY_MECHANICS_STATEXPCAP                = "StatExpCap";
     const auto JKEY_MECHANICS_STATEXPSUMCAP             = "StatExpSumCap";
+    const auto JKEY_MECHANICS_STATSTAGEABSMAX           = "StatStageMaxAbsolute";
 
     const auto JKEY_MECHANICS_OBEDIENCE                 = "obedience";
     const auto JKEY_MECHANICS_GEN1MISS                  = "gen1miss";

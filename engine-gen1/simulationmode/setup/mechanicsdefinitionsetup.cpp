@@ -40,9 +40,10 @@ namespace SimulationMode
             mechanicsDefinition.dvSumCap        = md.navigateTo(JKEY_MECHANICS_DVSUMCAP).getAsInteger();
             mechanicsDefinition.statExpCap      = md.navigateTo(JKEY_MECHANICS_STATEXPCAP).getAsInteger();
             mechanicsDefinition.statExpSumCap   = md.navigateTo(JKEY_MECHANICS_STATEXPSUMCAP).getAsInteger();
+            mechanicsDefinition.statStageAbsMax = md.navigateTo(JKEY_MECHANICS_STATSTAGEABSMAX).getAsInteger();
             mechanicsDefinition.obedience       = md.navigateTo(JKEY_MECHANICS_OBEDIENCE).getAsBool();
-            mechanicsDefinition.gen1miss        = md.navigateTo(JKEY_MECHANICS_GEN1MISS).getAsBool();
 
+            mechanicsDefinition.gen1miss                    = md.navigateTo(JKEY_MECHANICS_GEN1MISS).getAsBool();
             mechanicsDefinition.bideGlitch                  = md.navigateTo(JKEY_MECHANICS_BIDE_GLITCH).getAsBool();
             mechanicsDefinition.counterGlitch               = md.navigateTo(JKEY_MECHANICS_COUNTERGLITCH).getAsBool();
             mechanicsDefinition.critRateGlitch              = md.navigateTo(JKEY_MECHANICS_CRITRATEGLITCH).getAsBool();

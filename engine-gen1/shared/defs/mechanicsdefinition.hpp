@@ -13,6 +13,7 @@ namespace MetaDefinition
         int dvSumCap;
         int statExpCap;
         int statExpSumCap;
+        int statStageAbsMax;
 
         bool obedience;
         bool gen1miss;
