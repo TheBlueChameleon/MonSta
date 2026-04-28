@@ -4,6 +4,7 @@ using namespace std::string_literals;
 #include "errorservice/errors.hpp"
 
 #include "loggerservice.hpp"
+#include "loggerservice_dlx.hpp"
 
 namespace LoggerService
 {
@@ -12,12 +13,12 @@ namespace LoggerService
     ILoggerService exportService()
     {
         return ILoggerService(
-                   LoggerService::trace,
-                   LoggerService::debug,
-                   LoggerService::info,
-                   LoggerService::warn,
-                   LoggerService::error,
-                   LoggerService::critical
+                   LoggerService::trace_dlx,
+                   LoggerService::debug_dlx,
+                   LoggerService::info_dlx,
+                   LoggerService::warn_dlx,
+                   LoggerService::error_dlx,
+                   LoggerService::critical_dlx
                );
     }
 
@@ -51,34 +52,33 @@ namespace LoggerService
         instance.setLogFile(filename);
     }
 
-    void trace(const char* const msg)
+    void trace(const std::string_view msg)
     {
         instance.trace(msg);
     }
 
-    void debug(const char* const msg)
+    void debug(const std::string_view msg)
     {
         instance.debug(msg);
     }
 
-    void info(const char* const msg)
+    void info(const std::string_view msg)
     {
         instance.info(msg);
     }
 
-    void warn(const char* const msg)
+    void warn(const std::string_view msg)
     {
         instance.warn(msg);
     }
 
-    void error(const char* const msg)
+    void error(const std::string_view msg)
     {
         instance.error(msg);
     }
 
-    void critical(const char* const msg)
+    void critical(const std::string_view msg)
     {
         instance.critical(msg);
     }
-
 }

@@ -380,7 +380,7 @@ add_library(Engine-Gen1 SHARED
     engine-gen1/shared/registry/effects/stage.hpp                   engine-gen1/shared/registry/effects/stage.cpp
 
     engine-gen1/shared/registry/effects/params/hpamount.hpp         engine-gen1/shared/registry/effects/params/hpamount.cpp
-    engine-gen1/shared/registry/effects/params/intprobabilitylist.hpp engine-gen1/shared/registry/effects/params/intprobabilitylist.cpp
+    engine-gen1/shared/registry/effects/params/optionprobabilitylist.hpp engine-gen1/shared/registry/effects/params/optionprobabilitylist.cpp
     engine-gen1/shared/registry/effects/params/statstage.hpp        engine-gen1/shared/registry/effects/params/statstage.cpp
     engine-gen1/shared/registry/effects/params/target.hpp           engine-gen1/shared/registry/effects/params/target.cpp
 

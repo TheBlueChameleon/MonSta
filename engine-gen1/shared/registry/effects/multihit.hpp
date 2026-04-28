@@ -3,6 +3,8 @@
 
 #include <string_view>
 
+#include "params/optionprobabilitylist.hpp"
+
 #include "abstracteffecthandler.hpp"
 
 namespace MetaDefinition
@@ -15,9 +17,12 @@ namespace MetaDefinition
                 static constexpr auto EFFECT_NAME = "MultiHit";
 
             private:
+                EffectParams::OptionProbabilityList probabilities;
 
             public:
-                MultiHit();
+                MultiHit(EffectParams::OptionProbabilityList probabilities);
+
+                static MultiHit buildEffect(const std::string_view parameterDescriptor);
 
                 void execute(
                     SimulationMode::PokemonInstance& self,
