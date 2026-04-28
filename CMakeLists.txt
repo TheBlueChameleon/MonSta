@@ -46,6 +46,14 @@ FetchContent_Declare(
   SYSTEM
 )
 FetchContent_Declare(
+  pcg-cpp
+  GIT_REPOSITORY https://github.com/imneme/pcg-cpp
+  GIT_TAG "v0.98.1"
+  GIT_SHALLOW TRUE
+  GIT_PROGRESS ON
+  SYSTEM
+)
+FetchContent_Declare(
     spdlog
     GIT_REPOSITORY https://github.com/gabime/spdlog
     GIT_TAG        "v1.15.3"
@@ -63,6 +71,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(argparse)
 FetchContent_MakeAvailable(json)
 FetchContent_MakeAvailable(json-schema-validator)
+FetchContent_MakeAvailable(pcg-cpp)
 FetchContent_MakeAvailable(spdlog)
 FetchContent_MakeAvailable(googletest)
 
@@ -88,6 +97,7 @@ set(apiHeaders
     api/services/IJsonService.hpp
     api/services/ILoggerService.hpp
     api/services/IMemoryService.hpp
+    api/services/IRngService.hpp
     api/services/IVersionService.hpp
 
     api/services/JsonService/IJsonService_Database.hpp
@@ -212,6 +222,20 @@ target_include_directories(Host-MemoryService
 )
 
 # ............................................................................ #
+# RngService
+
+add_library(Host-RngService STATIC
+    host/rngservice/rngservice.hpp      host/rngservice/rngservice.cpp
+    host/rngservice/rngservice_dlx.hpp  host/rngservice/rngservice_dlx.cpp
+)
+
+target_include_directories(Host-RngService
+    PUBLIC host
+    PUBLIC api
+    PRIVATE ${pcg-cpp_SOURCE_DIR}/include
+)
+
+# ............................................................................ #
 # VersionService
 
 add_library(Host-VersionService STATIC
@@ -286,6 +310,7 @@ target_link_libraries(Host
     Host-JsonService
     Host-LoggerService
     Host-MemoryService
+    Host-RngService
     Host-VersionService
 )
 
@@ -317,6 +342,7 @@ add_library(Engine-Base STATIC
 )
 
 target_include_directories(Engine-Base
+    PRIVATE ${pcg-cpp_SOURCE_DIR}/include
     PUBLIC api
     PUBLIC engine-base
 )
@@ -348,9 +374,11 @@ add_library(Engine-Gen1 SHARED
     engine-gen1/shared/registry/effects/abstracteffecthandler.hpp   engine-gen1/shared/registry/effects/abstracteffecthandler.cpp
     engine-gen1/shared/registry/effects/drain.hpp                   engine-gen1/shared/registry/effects/drain.cpp
     engine-gen1/shared/registry/effects/effecthandlerdescriptor.hpp
+    engine-gen1/shared/registry/effects/multihit.hpp                engine-gen1/shared/registry/effects/multihit.cpp
     engine-gen1/shared/registry/effects/stage.hpp                   engine-gen1/shared/registry/effects/stage.cpp
 
     engine-gen1/shared/registry/effects/params/hpamount.hpp         engine-gen1/shared/registry/effects/params/hpamount.cpp
+    engine-gen1/shared/registry/effects/params/intprobabilitylist.hpp engine-gen1/shared/registry/effects/params/intprobabilitylist.cpp
     engine-gen1/shared/registry/effects/params/statstage.hpp        engine-gen1/shared/registry/effects/params/statstage.cpp
     engine-gen1/shared/registry/effects/params/target.hpp           engine-gen1/shared/registry/effects/params/target.cpp
 
@@ -412,6 +440,7 @@ target_include_directories(Test
     PRIVATE host
     PRIVATE test
     PRIVATE api
+    PRIVATE ${pcg-cpp_SOURCE_DIR}/include
 )
 
 if (TARGET GTest::gtest_main)
@@ -430,6 +459,7 @@ target_link_libraries(Test
     Host-JsonService
     Host-LoggerService
     Host-MemoryService
+    Host-RngService
     Host-VersionService
 )
 
