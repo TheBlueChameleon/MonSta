@@ -93,7 +93,6 @@ namespace SchemaValidation
     const auto JKEY_MECHANICS_HYPERBEAMFREEZEGLITCH     = "hyperbeamFreezeGlitch";
     const auto JKEY_MECHANICS_HYPERBEAMSLEEPGLITCH      = "hyperbeamSleepGlitch";
     const auto JKEY_MECHANICS_INVULNERABILITYGLITCH     = "invulnerabilityGlitch";
-    const auto JKEY_MECHANICS_JUMPKICKGLITCH            = "jumpKickGlitch";
     const auto JKEY_MECHANICS_MIMICLEVELUPGLITCH        = "mimicLevelUpGlitch";
     const auto JKEY_MECHANICS_STATMODGLITCH             = "statusModificationGlitch";
     const auto JKEY_MECHANICS_SUBSTITUTEHPDRAINGLITCH   = "substituteHpDrainGlitch";

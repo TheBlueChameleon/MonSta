@@ -51,7 +51,6 @@ namespace SimulationMode
             mechanicsDefinition.hyperbeamFreezeGlitch       = md.navigateTo(JKEY_MECHANICS_HYPERBEAMFREEZEGLITCH).getAsBool();
             mechanicsDefinition.hyperbeamSleepGlitch        = md.navigateTo(JKEY_MECHANICS_HYPERBEAMSLEEPGLITCH).getAsBool();
             mechanicsDefinition.invulnerabilityGlitch       = md.navigateTo(JKEY_MECHANICS_INVULNERABILITYGLITCH).getAsBool();
-            mechanicsDefinition.jumpKickGlitch              = md.navigateTo(JKEY_MECHANICS_JUMPKICKGLITCH).getAsBool();
             mechanicsDefinition.mimicLevelUpGlitch          = md.navigateTo(JKEY_MECHANICS_MIMICLEVELUPGLITCH).getAsBool();
             mechanicsDefinition.statusModificationGlitch    = md.navigateTo(JKEY_MECHANICS_STATMODGLITCH).getAsBool();
             mechanicsDefinition.substituteHpDrainGlitch     = md.navigateTo(JKEY_MECHANICS_SUBSTITUTEHPDRAINGLITCH).getAsBool();

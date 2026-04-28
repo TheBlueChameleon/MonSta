@@ -24,7 +24,6 @@ namespace MetaDefinition
         bool hyperbeamFreezeGlitch;
         bool hyperbeamSleepGlitch;
         bool invulnerabilityGlitch;
-        bool jumpKickGlitch;
         bool mimicLevelUpGlitch;
         bool statusModificationGlitch;
         bool substituteHpDrainGlitch;

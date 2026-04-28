@@ -61,7 +61,7 @@ Gust,Normal,35,40,100,0,,
 Harden,Normal,30,0,100,0,Stage=Target:Self|DEF:+1,100
 Haze,Ice,30,0,100,0,Haze;Target:Both,100
 Headbutt,Normal,15,70,100,0,Status=Target:Enemy|flinched,30
-Hi Jump Kick,Fighting,20,85,90,0,FailRecoil=1,100
+Hi Jump Kick,Fighting,20,85,90,0,FailRecoil=HP:1,100
 Horn Attack,Normal,25,65,100,0,,
 Horn Drill,Normal,5,0,30,0,RequireHigherStat=SPD; Damage=65535,100
 Hydro Pump,Water,5,120,80,0,,
@@ -70,7 +70,7 @@ Hyper Fang,Normal,15,80,90,0,Status=Target:Enemy|flinched,10
 Hypnosis,Psychic,20,0,60,0,Status=Target:Enemy|asleep,100
 Ice Beam,Ice,10,95,100,0,Immune=Ice;Status=Target:Enemy|frozen,10
 Ice Punch,Ice,15,75,100,0,Immune=Ice;Status=Target:Enemy|frozen,10
-Jump Kick,Fighting,20,70,95,0,FailRecoil=1,100
+Jump Kick,Fighting,20,70,95,0,FailRecoil=HP:1,100
 Karate Chop,Normal,25,55,100,0,IncreasedCritRate,100
 Kinesis,Psychic,15,0,80,0,Stage=Target:Enemy|Accuracy:-1,100
 Leech Life,Bug,15,20,100,0,Drain=Target:Self|HP%:50,100

@@ -151,10 +151,6 @@ namespace SchemaValidation
         .setDefault("true");
 
         builder
-        .addProperty(JKEY_MECHANICS_JUMPKICKGLITCH, JsonType::BOOLEAN)
-        .setDefault("true");
-
-        builder
         .addProperty(JKEY_MECHANICS_MIMICLEVELUPGLITCH, JsonType::BOOLEAN)
         .setDefault("true");
 
