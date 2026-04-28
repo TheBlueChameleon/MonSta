@@ -7,19 +7,19 @@
 #include <services/IJsonService.hpp>
 #include <services/ILoggerService.hpp>
 #include <services/IMemoryService.hpp>
-
-class HostApi;
+#include <services/IRngService.hpp>
+#include <services/IVersionService.hpp>
 
 namespace Services
 {
-    void rethrowHostError();
-
-    const ICsvService&    csvService();
-    const IErrorService&  errorService();
-    const IFileService&   fileService();
-    const IJsonService&   jsonService();
-    const ILoggerService& loggerService();
-    const IMemoryService& memoryService();
+    const ICsvService&      csvService();
+    const IErrorService&    errorService();
+    const IFileService&     fileService();
+    const IJsonService&     jsonService();
+    const ILoggerService&   loggerService();
+    const IMemoryService&   memoryService();
+    const IRngService&      rngService();
+    const IVersionService&  versionService();
 }
 
 #endif // SERVICES_HPP

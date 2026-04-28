@@ -9,6 +9,7 @@
 #include "services/IJsonService.hpp"
 #include "services/IMemoryService.hpp"
 #include "services/ILoggerService.hpp"
+#include "services/IRngService.hpp"
 #include "services/IVersionService.hpp"
 
 struct HostApi
@@ -21,6 +22,7 @@ struct HostApi
     const IJsonService      jsonService;
     const ILoggerService    loggerService;
     const IMemoryService    memoryService;
+    const IRngService       rngService;
     const IVersionService   versionService;
 };
 

@@ -1,8 +1,10 @@
+#include "services/errorservice.hpp"
 #include "services/services.hpp"
 
 #include "jsonservice_database.hpp"
 
 using namespace Services;
+using namespace ErrorService;
 
 namespace JsonService
 {

@@ -1,3 +1,8 @@
+#include "HostApi.hpp"
+
+#include "base/globals.hpp"
+#include "base/errors.hpp"
+
 #include "errorservice.hpp"
 #include "services.hpp"
 
@@ -28,5 +33,16 @@ namespace ErrorService
     void terminateAbnormally()
     {
         return errorService().terminateAbnormally();
+    }
+
+    void rethrowHostError()
+    {
+        const auto errCode = EngineBase::_hostApi->errorService.getErrorCode();
+        if (errCode != ApiStatusCode::SUCCESS)
+        {
+            std::string errorMessage = EngineBase::_hostApi->errorService.getErrorMessage();
+            EngineBase::_hostApi->errorService.clearError();
+            throw EngineError(errCode, errorMessage.data());
+        }
     }
 }

@@ -15,6 +15,7 @@ namespace ErrorService
     const std::string_view getErrorMessage();
 
     void terminateAbnormally();
+    void rethrowHostError();
 }
 
 #endif // ERRORSERVICE_HPP

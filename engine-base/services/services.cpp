@@ -45,14 +45,16 @@ namespace Services
         return EngineBase::_hostApi->memoryService;
     }
 
-    void rethrowHostError()
+    const IRngService& rngService()
     {
-        const auto errCode = EngineBase::_hostApi->errorService.getErrorCode();
-        if (errCode != ApiStatusCode::SUCCESS)
-        {
-            std::string errorMessage = EngineBase::_hostApi->errorService.getErrorMessage();
-            EngineBase::_hostApi->errorService.clearError();
-            throw EngineError(errCode, errorMessage.data());
-        }
+        EngineBase::_hostApi->errorService.clearError;
+        return EngineBase::_hostApi->rngService;
     }
+
+    const IVersionService& versionService()
+    {
+        EngineBase::_hostApi->errorService.clearError;
+        return EngineBase::_hostApi->versionService;
+    }
+
 }

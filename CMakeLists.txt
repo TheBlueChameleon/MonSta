@@ -338,6 +338,7 @@ add_library(Engine-Base STATIC
     engine-base/services/jsonservice/schemabuilder_wrapper.hpp      engine-base/services/jsonservice/schemabuilder_wrapper.cpp
     engine-base/services/loggerservice.hpp                          engine-base/services/loggerservice.cpp
     engine-base/services/memoryservice.hpp                          engine-base/services/memoryservice.cpp
+    engine-base/services/rngservice.hpp                             engine-base/services/rngservice.cpp
     engine-base/services/services.hpp                               engine-base/services/services.cpp
 )
 

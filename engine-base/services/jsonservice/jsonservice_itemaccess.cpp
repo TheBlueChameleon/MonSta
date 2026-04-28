@@ -1,7 +1,9 @@
+#include "services/errorservice.hpp"
 #include "services/services.hpp"
 
 #include "jsonservice_itemaccess.hpp"
 
+using namespace ErrorService;
 using namespace Services;
 
 namespace JsonService

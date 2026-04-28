@@ -1,7 +1,9 @@
+#include "errorservice.hpp"
 #include "csvservice.hpp"
 #include "services.hpp"
 
 using namespace Services;
+using namespace ErrorService;
 
 namespace CsvService
 {

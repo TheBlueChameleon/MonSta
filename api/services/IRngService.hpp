@@ -1,7 +1,7 @@
 #ifndef IRNGSERVICE_HPP
 #define IRNGSERVICE_HPP
 
-#include <stdint.h>
+#include <cinttypes>
 
 #include <CallingConventions.hpp>
 

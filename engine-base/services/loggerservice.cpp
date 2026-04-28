@@ -1,8 +1,10 @@
-#include <services/ILoggerService.hpp>
+#include "services/errorservice.hpp"
+#include "services/ILoggerService.hpp"
 
 #include "services.hpp"
 #include "loggerservice.hpp"
 
+using namespace ErrorService;
 using namespace Services;
 
 namespace LoggerService

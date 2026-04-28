@@ -13,6 +13,7 @@
 #include "jsonservice/jsonservice.hpp"
 #include "loggerservice/loggerservice.hpp"
 #include "memoryservice/memoryservice.hpp"
+#include "rngservice/rngservice.hpp"
 #include "versionservice/versionservice.hpp"
 
 #include "hostapiprovider.hpp"
@@ -31,6 +32,7 @@ namespace HostApiProvider
             JsonService::exportService(),
             LoggerService::exportService(),
             MemoryService::exportService(),
+            RngService::exportService(),
             VersionService::exportService()
         };
     }

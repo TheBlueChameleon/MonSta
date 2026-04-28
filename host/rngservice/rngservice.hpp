@@ -1,7 +1,7 @@
 #ifndef RNGSERVICE_HPP
 #define RNGSERVICE_HPP
 
-#include <stdint.h>
+#include <cinttypes>
 
 #include <services/IRngService.hpp>
 

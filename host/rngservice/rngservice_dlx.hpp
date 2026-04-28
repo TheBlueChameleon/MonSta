@@ -1,7 +1,7 @@
 #ifndef RNGSERVICE_DLX_HPP
 #define RNGSERVICE_DLX_HPP
 
-#include <stdint.h>
+#include <cinttypes>
 
 #include <CallingConventions.hpp>
 

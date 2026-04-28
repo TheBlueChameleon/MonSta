@@ -1,23 +1,30 @@
 #include "services.hpp"
+#include "errorservice.hpp"
 #include "memoryservice.hpp"
 
+using namespace ErrorService;
 using namespace Services;
 
 namespace MemoryService
 {
     IMemoryService::MemoryBlock allocate(const size_t size)
     {
-        return memoryService().allocate(size);
+        const auto result = memoryService().allocate(size);
+        rethrowHostError();
+        return result;
     }
 
     IMemoryService::MemoryBlock create(const char* const data, size_t size)
     {
-        return memoryService().create(data, size);
+        const auto result = memoryService().create(data, size);
+        rethrowHostError();
+        return result;
     }
 
     void free(IMemoryService::MemoryBlock* data)
     {
-        return memoryService().free(data);
+        memoryService().free(data);
+        rethrowHostError();
     }
 
     MemoryBlock::MemoryBlock(const size_t size) :
