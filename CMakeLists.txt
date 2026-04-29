@@ -381,6 +381,7 @@ add_library(Engine-Gen1 SHARED
 
     engine-gen1/shared/registry/effects/params/hpamount.hpp         engine-gen1/shared/registry/effects/params/hpamount.cpp
     engine-gen1/shared/registry/effects/params/optionprobabilitylist.hpp engine-gen1/shared/registry/effects/params/optionprobabilitylist.cpp
+
     engine-gen1/shared/registry/effects/params/statstage.hpp        engine-gen1/shared/registry/effects/params/statstage.cpp
     engine-gen1/shared/registry/effects/params/target.hpp           engine-gen1/shared/registry/effects/params/target.cpp
 
@@ -390,6 +391,7 @@ add_library(Engine-Gen1 SHARED
     engine-gen1/simulationmode/arena/pokemoninstance.hpp            engine-gen1/simulationmode/arena/pokemoninstance.cpp
     engine-gen1/simulationmode/arena/scene.hpp                      engine-gen1/simulationmode/arena/scene.cpp
     engine-gen1/simulationmode/arena/stat.hpp
+    engine-gen1/simulationmode/arena/statstage.hpp
 
     engine-gen1/simulationmode/setup/mechanicsdefinitionsetup.hpp   engine-gen1/simulationmode/setup/mechanicsdefinitionsetup.cpp
     engine-gen1/simulationmode/setup/pokemondefinitionsetup.hpp     engine-gen1/simulationmode/setup/pokemondefinitionsetup.cpp

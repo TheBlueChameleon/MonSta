@@ -2,9 +2,50 @@
 
 namespace SimulationMode
 {
-    void Scene::flip()
+    void Scene::damageSelf(const int amount)
     {
-        std::swap(self, enemy);
+        const auto actualDamage = self->takeDamage(amount);
+        lastDamageDone = actualDamage;
+    }
+
+    void Scene::damageEnemy(const int amount)
+    {
+        const auto actualDamage = enemy->takeDamage(amount);
+        lastDamageDone = actualDamage;
+    }
+
+    void Scene::healSelf(const int amount)
+    {
+        self->recoverHealth(amount);
+    }
+
+    void Scene::healEnemy(const int amount)
+    {
+        enemy->recoverHealth(amount);
+    }
+
+    void Scene::setTemporaryStatSelf(const Stat stat, const int value)
+    {
+        const int old = self->getStat(stat);
+        self->setStat(stat, value);
+        tempStatsSelf.push_back(std::make_pair(stat, old));
+    }
+
+    void Scene::setTemporaryStatEnemy(const Stat stat, const int value)
+    {
+        const int old = self->getStat(stat);
+        enemy->setStat(stat, value);
+        tempStatsEnemy.push_back(std::make_pair(stat, old));
+    }
+
+    int Scene::getLastDamageDone() const
+    {
+        return lastDamageDone;
+    }
+
+    void Scene::setLastDamageDone(int value)
+    {
+        lastDamageDone = value;
     }
 
     bool Scene::getStopProcessSecondaryEffects() const
@@ -17,14 +58,25 @@ namespace SimulationMode
         stopProcessSecondaryEffects = value;
     }
 
-    int Scene::getLastDamageDone() const
+    void Scene::resetTempState()
     {
-        return lastDamageDone;
+        stopProcessSecondaryEffects = false;
+
+        for (const auto tempStat : tempStatsSelf)
+        {
+            self->setStat(tempStat.first, tempStat.second);
+        }
+        tempStatsSelf.clear();
+        for (const auto tempStat : tempStatsEnemy)
+        {
+            enemy->setStat(tempStat.first, tempStat.second);
+        }
+        tempStatsEnemy.clear();
     }
 
-    void Scene::setLastDamageDone(int value)
+    void Scene::flip()
     {
-        lastDamageDone = value;
+        std::swap(self, enemy);
     }
 
 }

@@ -49,10 +49,10 @@ namespace MetaDefinition
             switch (target)
             {
                 case MetaDefinition::EffectParams::Target::Self:
-                    scene.getSelf().recoverHealth(recovered);
+                    scene.healSelf(recovered);
                     break;
                 case MetaDefinition::EffectParams::Target::Enemy:
-                    scene.getEnemy().recoverHealth(recovered);
+                    scene.healEnemy(recovered);
                     break;
                 case MetaDefinition::EffectParams::Target::Both:
                     scene.getSelf().recoverHealth(recovered);

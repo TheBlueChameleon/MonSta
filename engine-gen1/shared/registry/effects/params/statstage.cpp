@@ -26,20 +26,44 @@ namespace MetaDefinition
         {
             switch (statStage)
             {
-                case MetaDefinition::EffectParams::StatStage::ATK:
+                case StatStage::ATK:
                     return STATSTAGE_ATK;
-                case MetaDefinition::EffectParams::StatStage::DEF:
+                case StatStage::DEF:
                     return STATSTAGE_DEF;
-                case MetaDefinition::EffectParams::StatStage::SPC:
+                case StatStage::SPC:
                     return STATSTAGE_SPC;
-                case MetaDefinition::EffectParams::StatStage::SPD:
+                case StatStage::SPD:
                     return STATSTAGE_SPD;
-                case MetaDefinition::EffectParams::StatStage::Accuracy:
+                case StatStage::Accuracy:
                     return STATSTAGE_ACCURACY;
-                case MetaDefinition::EffectParams::StatStage::Evasion:
+                case StatStage::Evasion:
                     return STATSTAGE_EVASION;
-                case MetaDefinition::EffectParams::StatStage::CritRate:
+                case StatStage::CritRate:
                     return STATSTAGE_CRITRATE;
+            }
+            throw  IllegalArgumentError(
+                "Unknown StatStage ID: "s + std::to_string(static_cast<int>(statStage))
+            );
+        }
+
+        SimulationMode::StatStage getSimulationModeValue(const StatStage statStage)
+        {
+            switch (statStage)
+            {
+                case StatStage::ATK:
+                    return SimulationMode::StatStage::ATK;
+                case StatStage::DEF:
+                    return SimulationMode::StatStage::DEF;
+                case StatStage::SPC:
+                    return SimulationMode::StatStage::SPC;
+                case StatStage::SPD:
+                    return SimulationMode::StatStage::SPD;
+                case StatStage::Accuracy:
+                    return SimulationMode::StatStage::Accuracy;
+                case StatStage::Evasion:
+                    return SimulationMode::StatStage::Evasion;
+                case StatStage::CritRate:
+                    return SimulationMode::StatStage::CritRate;
             }
             throw  IllegalArgumentError(
                 "Unknown StatStage ID: "s + std::to_string(static_cast<int>(statStage))

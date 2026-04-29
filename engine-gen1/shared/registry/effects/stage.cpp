@@ -64,22 +64,23 @@ namespace MetaDefinition
 
         void Stage::execute(SimulationMode::Scene& scene)
         {
+            const auto arenaStat = getSimulationModeValue(stat);
             switch (target)
             {
-                case MetaDefinition::EffectParams::Target::Self:
-                    scene.getSelf().changeStatStage(stat, change);
+                case Target::Self:
+                    scene.getSelf().changeStatStage(arenaStat, change);
                     break;
-                case MetaDefinition::EffectParams::Target::Enemy:
-                    scene.getEnemy().changeStatStage(stat, change);
+                case Target::Enemy:
+                    scene.getEnemy().changeStatStage(arenaStat, change);
                     break;
-                case MetaDefinition::EffectParams::Target::Both:
-                    scene.getSelf().changeStatStage(stat, change);
-                    scene.getEnemy().changeStatStage(stat, change);
+                case Target::Both:
+                    scene.getSelf().changeStatStage(arenaStat, change);
+                    scene.getEnemy().changeStatStage(arenaStat, change);
                     break;
-                case MetaDefinition::EffectParams::Target::ChooseSelf:
-                case MetaDefinition::EffectParams::Target::ChooseEnemy:
-                case MetaDefinition::EffectParams::Target::RandomSelf:
-                case MetaDefinition::EffectParams::Target::RandomEnemy:
+                case Target::ChooseSelf:
+                case Target::ChooseEnemy:
+                case Target::RandomSelf:
+                case Target::RandomEnemy:
                     notImplementedTarget(EFFECT_NAME, target);
             }
         }
