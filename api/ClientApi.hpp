@@ -38,8 +38,12 @@ static void force_link()
 {
     volatile auto ptr0 = init;
     volatile auto ptr1 = hangUp;
-    volatile auto ptr2 = terminateAbnormally;
-    volatile auto ptr3 = hasFeature;
+    volatile auto ptr2 = hasFeature;
+    volatile auto ptr3 = terminateAbnormally;
+    volatile auto ptr4 = setFileServiceDefinition;
+    volatile auto ptr5 = startTemplatesMode;
+    volatile auto ptr6 = setupSimulationMode;
+
 }
 
 // ========================================================================== //
