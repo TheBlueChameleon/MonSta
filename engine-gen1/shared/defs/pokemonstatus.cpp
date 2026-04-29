@@ -23,7 +23,7 @@ namespace MetaDefinition
         else if (name == POKEMON_STATUS_FAINTED  ) {return MetaDefinition::PokemonStatus::FAINTED;}
         // *INDENT-ON*
 
-        throw EngineError("Unknown Status name: "s + name.data());
+        throw IllegalArgumentError("Unknown Status name: "s + name.data());
     }
 
     std::string_view getPokemonStatusName(const PokemonStatus status)
@@ -46,7 +46,7 @@ namespace MetaDefinition
                 return POKEMON_STATUS_FAINTED;
         }
 
-        throw EngineError("Unknown Status ID: "s + std::to_string(static_cast<int>(status)));
+        throw IllegalArgumentError("Unknown Status ID: "s + std::to_string(static_cast<int>(status)));
     }
 
 } // namespace SimulationMode

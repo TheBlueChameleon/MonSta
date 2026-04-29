@@ -18,7 +18,7 @@ namespace MetaDefinition
             else if (name == TARGET_CHOOSEENEMY)   { return Target::ChooseEnemy; }
             else if (name == TARGET_RANDOMSELF)    { return Target::RandomSelf;  }
             else if (name == TARGET_RANDOMENEMY)   { return Target::RandomEnemy; }
-            else { throw  EngineError(ApiStatusCode::ILLEGAL_CLIENT_STATE, "Unknown Target: '"s + name.data() + "'");}
+            else { throw  IllegalArgumentError("Unknown Target: '"s + name.data() + "'");}
             // *INDENT-ON*
         }
 
@@ -41,7 +41,7 @@ namespace MetaDefinition
                 case MetaDefinition::EffectParams::Target::RandomEnemy:
                     return TARGET_RANDOMENEMY;
             }
-            throw  EngineError(ApiStatusCode::ILLEGAL_CLIENT_STATE, "Unknown Target ID: "s + std::to_string(static_cast<int>(target)));
+            throw  IllegalArgumentError("Unknown Target ID: "s + std::to_string(static_cast<int>(target)));
         }
 
     }   // namespace EffectParams

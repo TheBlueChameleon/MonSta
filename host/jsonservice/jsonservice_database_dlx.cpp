@@ -45,7 +45,7 @@ namespace JsonService
             assertSaneTag(tag);
             if (creator == nullptr)
             {
-                ErrorService::setError(ApiStatusCode::INVALID_REQUEST_BY_CLIENT, "Client attempted getOrAdd with null creator");
+                ErrorService::setError(ApiStatusCode::INVALID_REQUEST, "Client attempted getOrAdd with null creator");
                 return IJsonServiceTypes::JsonHandle(nullptr);
             }
 

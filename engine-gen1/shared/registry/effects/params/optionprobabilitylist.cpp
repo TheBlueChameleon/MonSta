@@ -21,10 +21,7 @@ namespace MetaDefinition
 
             if (std::abs(1.0 - pSum) > (intToProbabilitySums.size() * 1E-10))
             {
-                throw EngineError(
-                    ApiStatusCode::ILLEGAL_CLIENT_STATE,
-                    "Probabilities do not sum up to 100%"
-                );
+                throw IllegalArgumentError("Probabilities do not sum up to 100%");
             }
         }
 
@@ -39,10 +36,7 @@ namespace MetaDefinition
                 }
             }
 
-            throw EngineError(
-                ApiStatusCode::ILLEGAL_CLIENT_STATE,
-                "Rolled on non-normalized probability list"
-            );
+            throw IllegalStateError("Rolled on non-normalized probability list");
         }
 
         // ================================================================== //
@@ -70,10 +64,7 @@ namespace MetaDefinition
 
             if (std::abs(1.0 - pSum) > (optionToProbability.size() * 1E-10))
             {
-                throw EngineError(
-                    ApiStatusCode::INVALID_USER_INPUT,
-                    "Probabilities do not sum up to 100%"
-                );
+                throw IllegalArgumentError("Probabilities do not sum up to 100%");
             }
 
             return OptionProbabilityList(intToSums);

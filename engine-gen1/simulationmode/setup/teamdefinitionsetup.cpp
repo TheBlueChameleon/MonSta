@@ -176,13 +176,13 @@ namespace SimulationMode
     {
         if (!listJson.isArray())
         {
-            abort("The object under '"s + JKEY_POKEMON + "' is not a list", ApiStatusCode::ILLEGAL_CLIENT_STATE);
+            abort("The object under '"s + JKEY_POKEMON + "' is not a list", ApiStatusCode::ILLEGAL_STATE);
         }
 
         const size_t listSize = listJson.getArraySize();
         if (listSize == 0)
         {
-            abort("The object under '"s + JKEY_POKEMON + "' is empty", ApiStatusCode::ILLEGAL_CLIENT_STATE);
+            abort("The object under '"s + JKEY_POKEMON + "' is empty", ApiStatusCode::ILLEGAL_STATE);
         }
         else if (listSize > Registry::mechanicsDefinition.teamSizeMax)
         {
@@ -227,7 +227,7 @@ namespace SimulationMode
         else
         {
             eb.append(
-                ApiStatusCode::ILLEGAL_CLIENT_STATE,
+                ApiStatusCode::ILLEGAL_STATE,
                 "Illegal syntax in definition of Item #"s + std::to_string(index)
             );
         }
@@ -241,7 +241,7 @@ namespace SimulationMode
     {
         if (!listJson.isArray())
         {
-            abort("The object under '"s + JKEY_PLAYER_ITEMS + "' is not a list", ApiStatusCode::ILLEGAL_CLIENT_STATE);
+            abort("The object under '"s + JKEY_PLAYER_ITEMS + "' is not a list", ApiStatusCode::ILLEGAL_STATE);
         }
 
         const size_t listSize = listJson.getArraySize();

@@ -13,7 +13,7 @@ namespace MetaDefinition
             // *INDENT-OFF*
             if      (name == HPAMOUNT_ABSOLUTE)   { return HPBasis::Absolute;  }
             else if (name == HPAMOUNT_PERCENTAGE) { return HPBasis::Percentage; }
-            else                         { throw  EngineError(ApiStatusCode::ILLEGAL_CLIENT_STATE, "Unknown NumberInterpretation: '"s + name.data() + "'");}
+            else { throw  IllegalArgumentError("Unknown NumberInterpretation: '"s + name.data() + "'");}
             // *INDENT-ON*
         }
 
@@ -27,9 +27,8 @@ namespace MetaDefinition
                     return HPAMOUNT_PERCENTAGE;
             }
 
-            throw  EngineError(
-                ApiStatusCode::ILLEGAL_CLIENT_STATE,
-                "Unknown integer interpretation code: "s + std::to_string(static_cast<int>(numberInterpretation))
+            throw  IllegalArgumentError(
+                "Unknown HP basis code: "s + std::to_string(static_cast<int>(numberInterpretation))
             );
         }
 

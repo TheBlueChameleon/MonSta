@@ -15,10 +15,7 @@ namespace MetaDefinition
         else if (name == SLOW       ) {return ExperienceGroup::SLOW;}
         // *INDENT-ON*
 
-        throw EngineError(
-            ApiStatusCode::INVALID_USER_INPUT,
-            "Unknown Experience Group name: "s + name.data()
-        );
+        throw IllegalArgumentError("Unknown Experience Group name: "s + name.data());
     }
 
     std::string_view getExperienceGroupName(const ExperienceGroup experienceGroup)
@@ -35,10 +32,7 @@ namespace MetaDefinition
                 break;
         }
 
-        throw EngineError(
-            ApiStatusCode::INVALID_USER_INPUT,
-            "Unknown Experience Group ID: "s + std::to_string(static_cast<int>(experienceGroup))
-        );
+        throw IllegalArgumentError("Unknown Experience Group ID: "s + std::to_string(static_cast<int>(experienceGroup)));
     }
 
 } // namespace SimulationMode

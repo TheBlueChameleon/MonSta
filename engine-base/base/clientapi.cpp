@@ -42,7 +42,7 @@ static bool allVersionServicesPresent(const IVersionService& vu)
 static bool abortInit(const HostApi* hostApi, const char* const msg)
 {
     hostApi->errorService.setError(
-        ApiStatusCode::CLIENT_INITIALIZATION_ERROR,
+        ApiStatusCode::INITIALIZATION_ERROR,
         msg
     );
     hostApi->loggerService.critical(msg);
@@ -63,7 +63,7 @@ HOST_API_EXPORT
         if (!allLoggerServicesPresent(hostApi->loggerService))
         {
             hostApi->errorService.setError(
-                ApiStatusCode::CLIENT_INITIALIZATION_ERROR,
+                ApiStatusCode::INITIALIZATION_ERROR,
                 "Logger was not initialized!"
             );
             std::cerr << hostApi->errorService.getErrorMessage() << std::endl;

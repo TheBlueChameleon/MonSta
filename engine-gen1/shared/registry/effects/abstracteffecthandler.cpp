@@ -15,8 +15,7 @@ namespace MetaDefinition
         const std::string_view paramName
     )
     {
-        throw EngineError(
-            ApiStatusCode::INVALID_USER_INPUT,
+        throw MissingParameterError(
             "Effect '"s + effectName.data() + "' needs a parameter '" + paramName.data() + "'"
         );
     }
@@ -34,16 +33,14 @@ namespace MetaDefinition
             namesList << (i < paramNames.size() ? ", " : "");
             ++i;
         }
-        throw EngineError(
-            ApiStatusCode::INVALID_USER_INPUT,
+        throw MissingParameterError(
             "Effect '"s + effectName.data() + "' needs one of the following parameters: " + namesList.str()
         );
     }
 
     void AbstractEffectHandler::notImplementedTarget(const std::string_view effectName, const EffectParams::Target target)
     {
-        throw EngineError(
-            ApiStatusCode::ILLEGAL_CLIENT_STATE,
+        throw NotImplementedError(
             "Not implemented: "s + effectName.data() + " with target "s + getTargetName(target).data()
         );
     }
@@ -60,7 +57,7 @@ namespace MetaDefinition
             if (!supportedParamKeys.contains(kvPair.first))
             {
                 eb.append(
-                    ApiStatusCode::INVALID_USER_INPUT,
+                    ApiStatusCode::ILLEGAL_ARGUMENT,
                     "Effect '"s + effectName.data() + "' does not support parameter '" + kvPair.first + "'"
                 );
             }
@@ -68,10 +65,7 @@ namespace MetaDefinition
 
         if (!eb.isClean())
         {
-            throw EngineError(
-                ApiStatusCode::INVALID_USER_INPUT,
-                eb.compileErrorMessage()
-            );
+            throw MultipleErrors(eb.compileErrorMessage());
         }
     }
 

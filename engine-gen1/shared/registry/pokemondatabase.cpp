@@ -17,8 +17,7 @@ namespace Registry
         const auto it = database.find(species.data());
         if (it == database.end())
         {
-            throw EngineError(
-                ApiStatusCode::ILLEGAL_CLIENT_STATE,
+            throw IllegalArgumentError(
                 "Unknown Species Name: "s + species.data()
             );
         }

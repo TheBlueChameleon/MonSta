@@ -8,21 +8,28 @@ namespace ApiStatusCode
     enum ApiStatusCodes
     {
         SUCCESS,
+
+        // low level errors
         CRITICAL_ABORT,
+        INITIALIZATION_ERROR,
+        ILLEGAL_STATE,
+        INVALID_REQUEST,
+        MULTIPLE_ERRORS,
 
-        INVALID_USER_INPUT,
-
-        HOST_INITIALIZATION_ERROR,
-        INVALID_REQUEST_BY_HOST,
-        ILLEGAL_HOST_STATE,
+        // service internal errors
         IO_ERROR,
         LOOKUP_ERROR,
         JSON_ERROR,
         CSV_ERROR,
 
-        CLIENT_INITIALIZATION_ERROR,
-        INVALID_REQUEST_BY_CLIENT,
-        ILLEGAL_CLIENT_STATE,
+        // invalid inputs
+        INVALID_USER_INPUT,         // error by user
+        ILLEGAL_ARGUMENT,           // error might be due to internal message passing
+        MISSING_PARAMETER,
+        NOT_IMPLEMENTED,
+
+        // use this as base value for own error code enums
+        USERDEFINED_ERROR = 1000
     };
 }
 

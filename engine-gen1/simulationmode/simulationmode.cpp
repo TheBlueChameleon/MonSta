@@ -27,7 +27,7 @@ namespace SimulationMode
 
         if (!eb.isClean())
         {
-            throw EngineError(eb.compileErrorMessage().data());
+            throw MultipleErrors(eb.compileErrorMessage());
         }
 
         LoggerService::infoF("### team 1 ({})", player1TeamDefinition.name);

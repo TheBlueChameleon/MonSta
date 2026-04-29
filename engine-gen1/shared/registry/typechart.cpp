@@ -34,10 +34,10 @@ namespace Registry
         const size_t row = getIndex(typeName);
         if (table.size() != effectiveness.size())
         {
-            throw EngineError("Mismatched input: expected "s +
-                              std::to_string(table.size()) + " columns but got " +
-                              std::to_string(effectiveness.size())
-                             );
+            throw IllegalArgumentError("Mismatched input: expected "s +
+                                       std::to_string(table.size()) + " columns but got " +
+                                       std::to_string(effectiveness.size())
+                                      );
         }
 
         std::vector<double>& targetRow = table[row];
@@ -60,7 +60,7 @@ namespace Registry
         const auto it = indices.find(typeName.data());
         if (it == indices.end())
         {
-            throw EngineError("Unknown type name: "s + typeName.data());
+            throw IllegalArgumentError("Unknown type name: "s + typeName.data());
         }
         else
         {
@@ -74,7 +74,7 @@ namespace Registry
         const auto it = moveCategories.find(type.data());
         if (it == moveCategories.end())
         {
-            throw EngineError("Unknown type: "s + type.data());
+            throw IllegalArgumentError("Unknown type: "s + type.data());
         }
         return it->second;
     }
@@ -83,11 +83,11 @@ namespace Registry
     {
         if (rowIndex >= table.size())
         {
-            throw EngineError("Invalid row index: "s + std::to_string(rowIndex));
+            throw IllegalArgumentError("Invalid row index: "s + std::to_string(rowIndex));
         }
         if (columnIndex >= table.size())        // this is a NxN table, so table.size() is valid here
         {
-            throw EngineError("Invalid column index: "s + std::to_string(columnIndex));
+            throw IllegalArgumentError("Invalid column index: "s + std::to_string(columnIndex));
         }
 
         return table[rowIndex][columnIndex];

@@ -80,7 +80,7 @@ HostInitializationError::HostInitializationError() :
 {}
 
 HostInitializationError::HostInitializationError(const std::string_view msg) :
-    HostSideError(ApiStatusCode::HOST_INITIALIZATION_ERROR, msg)
+    HostSideError(ApiStatusCode::INITIALIZATION_ERROR, msg)
 {}
 
 IllegalHostStateException::IllegalHostStateException() :
@@ -88,7 +88,7 @@ IllegalHostStateException::IllegalHostStateException() :
 {}
 
 IllegalHostStateException::IllegalHostStateException(const std::string_view msg) :
-    HostSideError(ApiStatusCode::ILLEGAL_HOST_STATE, msg)
+    HostSideError(ApiStatusCode::ILLEGAL_STATE, msg)
 {}
 
 IOError::IOError() :
@@ -131,7 +131,7 @@ ClientInitializationError::ClientInitializationError() :
 {}
 
 ClientInitializationError::ClientInitializationError(const std::string_view msg) :
-    ClientSideError(ApiStatusCode::CLIENT_INITIALIZATION_ERROR, msg)
+    ClientSideError(ApiStatusCode::INITIALIZATION_ERROR, msg)
 {}
 
 ClientRequestError::ClientRequestError() :
@@ -139,5 +139,5 @@ ClientRequestError::ClientRequestError() :
 {}
 
 ClientRequestError::ClientRequestError(const std::string_view msg) :
-    ClientSideError(ApiStatusCode::INVALID_REQUEST_BY_CLIENT, msg)
+    ClientSideError(ApiStatusCode::INVALID_REQUEST, msg)
 {}

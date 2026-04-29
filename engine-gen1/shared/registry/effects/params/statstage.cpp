@@ -18,7 +18,7 @@ namespace MetaDefinition
             else if (name == STATSTAGE_ACCURACY) { return StatStage::Accuracy; }
             else if (name == STATSTAGE_EVASION)  { return StatStage::Evasion;  }
             else if (name == STATSTAGE_CRITRATE) { return StatStage::CritRate; }
-            else { throw  EngineError(ApiStatusCode::ILLEGAL_CLIENT_STATE, "Unknown StatStage: '"s + name.data() + "'");}
+            else { throw  IllegalArgumentError("Unknown StatStage: '"s + name.data() + "'");}
             // *INDENT-ON*
         }
 
@@ -41,8 +41,7 @@ namespace MetaDefinition
                 case MetaDefinition::EffectParams::StatStage::CritRate:
                     return STATSTAGE_CRITRATE;
             }
-            throw  EngineError(
-                ApiStatusCode::ILLEGAL_CLIENT_STATE,
+            throw  IllegalArgumentError(
                 "Unknown StatStage ID: "s + std::to_string(static_cast<int>(statStage))
             );
         }

@@ -151,7 +151,7 @@ void ClientWrapper::initAndAssertCompatibility()
         const auto errCode = ErrorService::getErrorCode();
         if (errCode == ApiStatusCode::SUCCESS)
         {
-            throw ClientSideError(ApiStatusCode::CLIENT_INITIALIZATION_ERROR, ErrorService::getErrorMessage());
+            throw ClientSideError(ApiStatusCode::INITIALIZATION_ERROR, ErrorService::getErrorMessage());
         }
         else
         {

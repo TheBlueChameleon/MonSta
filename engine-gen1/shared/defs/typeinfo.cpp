@@ -14,7 +14,7 @@ namespace MetaDefinition
         else if (name == STATUS  ) {return MoveCategory::STATUS  ;}
         // *INDENT-ON*
 
-        throw EngineError("Unknown move category: "s + name.data());
+        throw IllegalArgumentError("Unknown move category: "s + name.data());
     }
 
     std::string_view getMoveCategoryName(const MoveCategory category)
@@ -29,7 +29,7 @@ namespace MetaDefinition
                 return STATUS;
         }
 
-        throw EngineError("Unknown move category id: "s + std::to_string(static_cast<int>(category)));
+        throw IllegalArgumentError("Unknown move category id: "s + std::to_string(static_cast<int>(category)));
     }
 
 } // namespace SimulationMode

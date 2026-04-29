@@ -275,7 +275,7 @@ namespace JsonService
             if (!base.is_array())
             {
                 ErrorService::setError(
-                    ApiStatusCode::INVALID_REQUEST_BY_CLIENT,
+                    ApiStatusCode::INVALID_REQUEST,
                     "Client attempted array operation on non-array Json element"
                 );
                 return IJsonServiceTypes::JsonHandle(nullptr);
@@ -283,7 +283,7 @@ namespace JsonService
             if (index < 0 ||index >= base.size())
             {
                 ErrorService::setError(
-                    ApiStatusCode::INVALID_REQUEST_BY_CLIENT,
+                    ApiStatusCode::INVALID_REQUEST,
                     "Client attempted array operation with out-of-bounds index "s +
                     std::to_string(index)
                 );
