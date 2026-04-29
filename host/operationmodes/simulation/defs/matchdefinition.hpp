@@ -1,5 +1,5 @@
-#ifndef MATCHDEFINITION_H
-#define MATCHDEFINITION_H
+#ifndef MATCHDEFINITION_HPP
+#define MATCHDEFINITION_HPP
 
 #include <filesystem>
 #include <string>
@@ -22,4 +22,4 @@ struct MatchDefinition
     const std::string args;
 };
 
-#endif // MATCHDEFINITION_H
+#endif // MATCHDEFINITION_HPP

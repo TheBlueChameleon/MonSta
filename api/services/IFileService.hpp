@@ -1,5 +1,5 @@
-#ifndef IFILESERVICE_H
-#define IFILESERVICE_H
+#ifndef IFILESERVICE_HPP
+#define IFILESERVICE_HPP
 
 #include <CallingConventions.hpp>
 
@@ -20,4 +20,4 @@ struct IFileService
     void (HOST_API_CALL* const writeBinary)(const char* const filename, const void* const data, size_t length);
 };
 
-#endif // IFILESERVICE_H
+#endif // IFILESERVICE_HPP

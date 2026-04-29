@@ -1,5 +1,5 @@
-#ifndef HELPMODEIMPLEMENTATION_H
-#define HELPMODEIMPLEMENTATION_H
+#ifndef HELPMODEIMPLEMENTATION_HPP
+#define HELPMODEIMPLEMENTATION_HPP
 
 namespace OperationModes
 {
@@ -8,4 +8,4 @@ namespace OperationModes
     void runHelpMode(const HelpModeDefinition& defs);
 }
 
-#endif // HELPMODEIMPLEMENTATION_H
+#endif // HELPMODEIMPLEMENTATION_HPP

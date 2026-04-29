@@ -1,5 +1,5 @@
-#ifndef TEMPLATESDEFINITION_H
-#define TEMPLATESDEFINITION_H
+#ifndef TEMPLATESDEFINITION_HPP
+#define TEMPLATESDEFINITION_HPP
 
 #include <string>
 #include <filesystem>
@@ -22,4 +22,4 @@ struct TemplatesDefinition
     const std::string args;
 };
 
-#endif // TEMPLATESDEFINITION_H
+#endif // TEMPLATESDEFINITION_HPP

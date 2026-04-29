@@ -1,5 +1,5 @@
-#ifndef EFFECTHANDLERDESCRIPTOR_H
-#define EFFECTHANDLERDESCRIPTOR_H
+#ifndef EFFECTHANDLERDESCRIPTOR_HPP
+#define EFFECTHANDLERDESCRIPTOR_HPP
 
 #include <functional>
 #include <string>
@@ -14,4 +14,4 @@ namespace MetaDefinition
         std::function<EffectHandler(const std::string_view)> effectBuilder;
     };
 }
-#endif // EFFECTHANDLERDESCRIPTOR_H
+#endif // EFFECTHANDLERDESCRIPTOR_HPP

@@ -1,5 +1,5 @@
-#ifndef CLIINPUT_H
-#define CLIINPUT_H
+#ifndef CLIINPUT_HPP
+#define CLIINPUT_HPP
 
 #include <string>
 
@@ -20,4 +20,4 @@ struct CliInput
     const bool                          dryMode;
 };
 
-#endif // CLIINPUT_H
+#endif // CLIINPUT_HPP

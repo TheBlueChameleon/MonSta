@@ -1,5 +1,5 @@
-#ifndef ILOGGERSERVICE_H
-#define ILOGGERSERVICE_H
+#ifndef ILOGGERSERVICE_HPP
+#define ILOGGERSERVICE_HPP
 
 #include <CallingConventions.hpp>
 
@@ -37,4 +37,4 @@ const auto DEFAULT_LOGGER_NAME = "MonStaLogger";
 const auto DEFAULT_LOGGER_PATTERN = "[%Y-%m-%d %H:%M:%S] [%l] %v";
 const auto DEFAULT_LOGGER_LEVEL = ILoggerService::LogLevel::TRACE;
 
-#endif // ILOGGERSERVICE_H
+#endif // ILOGGERSERVICE_HPP

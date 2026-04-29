@@ -21,6 +21,8 @@ namespace SimulationMode
 
 namespace MetaDefinition
 {
+    enum class EffectEvaluationTime {BeforeRegularDamage, AfterRegularDamage};
+
     class AbstractEffectHandler
     {
         public:
@@ -66,6 +68,7 @@ namespace MetaDefinition
 
         public:
             virtual void execute(SimulationMode::Scene& scene) = 0;
+            virtual constexpr EffectEvaluationTime getEvaluationTime();
     };
 
 } // namespace SimulationMode

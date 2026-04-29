@@ -1,5 +1,5 @@
-#ifndef PATHSDEFINITION_H
-#define PATHSDEFINITION_H
+#ifndef PATHSDEFINITION_HPP
+#define PATHSDEFINITION_HPP
 
 #include <filesystem>
 
@@ -13,4 +13,4 @@ namespace OperationModes
     };
 }
 
-#endif // PATHSDEFINITION_H
+#endif // PATHSDEFINITION_HPP

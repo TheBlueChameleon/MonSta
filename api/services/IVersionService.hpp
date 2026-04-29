@@ -1,5 +1,5 @@
-#ifndef IVERSIONSERVICE_H
-#define IVERSIONSERVICE_H
+#ifndef IVERSIONSERVICE_HPP
+#define IVERSIONSERVICE_HPP
 
 #include <CallingConventions.hpp>
 #include <Version.hpp>
@@ -18,4 +18,4 @@ struct IVersionService
     IMemoryService::MemoryBlock(HOST_API_CALL* const to_string)(const Version v);
 };
 
-#endif // IVERSIONSERVICE_H
+#endif // IVERSIONSERVICE_HPP

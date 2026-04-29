@@ -1,5 +1,5 @@
-#ifndef VERSIONSERVICE_H
-#define VERSIONSERVICE_H
+#ifndef VERSIONSERVICE_HPP
+#define VERSIONSERVICE_HPP
 
 #include <compare>
 #include <string>
@@ -21,4 +21,4 @@ bool operator!=(const Version& lhs, const Version& rhs);
 
 std::ostream& operator<<(std::ostream& os, const Version& v);
 
-#endif // VERSIONSERVICE_H
+#endif // VERSIONSERVICE_HPP

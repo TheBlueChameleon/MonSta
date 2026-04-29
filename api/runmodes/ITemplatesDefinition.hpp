@@ -1,5 +1,5 @@
-#ifndef ITEMPLATESDEFINITION_H
-#define ITEMPLATESDEFINITION_H
+#ifndef ITEMPLATESDEFINITION_HPP
+#define ITEMPLATESDEFINITION_HPP
 
 struct ITemplatesDefinition
 {
@@ -18,4 +18,4 @@ struct ITemplatesDefinition
     const char* const args;
 };
 
-#endif // ITEMPLATESDEFINITION_H
+#endif // ITEMPLATESDEFINITION_HPP

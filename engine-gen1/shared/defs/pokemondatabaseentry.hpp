@@ -1,5 +1,5 @@
-#ifndef POKEMONDATABASEENTRY_H
-#define POKEMONDATABASEENTRY_H
+#ifndef POKEMONDATABASEENTRY_HPP
+#define POKEMONDATABASEENTRY_HPP
 
 #include <string>
 
@@ -31,4 +31,4 @@ namespace MetaDefinition
 
 } // namespace SimulationMode
 
-#endif // POKEMONDATABASEENTRY_H
+#endif // POKEMONDATABASEENTRY_HPP

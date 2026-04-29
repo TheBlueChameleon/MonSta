@@ -1,5 +1,5 @@
-#ifndef POKEMONDEFINITIONSETUP_H
-#define POKEMONDEFINITIONSETUP_H
+#ifndef POKEMONDEFINITIONSETUP_HPP
+#define POKEMONDEFINITIONSETUP_HPP
 
 #include <filesystem>
 
@@ -17,4 +17,4 @@ namespace SimulationMode
 
 } // namespace SimulationMode
 
-#endif // POKEMONDEFINITIONSETUP_H
+#endif // POKEMONDEFINITIONSETUP_HPP

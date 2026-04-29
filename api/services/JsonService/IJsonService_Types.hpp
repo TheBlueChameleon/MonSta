@@ -1,5 +1,5 @@
-#ifndef IJSONSERVICE_TYPES_H
-#define IJSONSERVICE_TYPES_H
+#ifndef IJSONSERVICE_TYPES_HPP
+#define IJSONSERVICE_TYPES_HPP
 
 namespace IJsonServiceTypes
 {
@@ -44,4 +44,4 @@ namespace IJsonServiceTypes
     };
 }
 
-#endif // IJSONSERVICE_TYPES_H
+#endif // IJSONSERVICE_TYPES_HPP

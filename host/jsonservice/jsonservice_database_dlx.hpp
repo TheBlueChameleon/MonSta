@@ -1,5 +1,5 @@
-#ifndef JSONSERVICE_DATABASE_DLX_H
-#define JSONSERVICE_DATABASE_DLX_H
+#ifndef JSONSERVICE_DATABASE_DLX_HPP
+#define JSONSERVICE_DATABASE_DLX_HPP
 
 #include <CallingConventions.hpp>
 
@@ -42,4 +42,4 @@ namespace JsonService
     );
 }
 
-#endif // JSONSERVICE_DATABASE_DLX_H
+#endif // JSONSERVICE_DATABASE_DLX_HPP

@@ -1,5 +1,5 @@
-#ifndef FILESERVICEOPERATIONS_H
-#define FILESERVICEOPERATIONS_H
+#ifndef FILESERVICEOPERATIONS_HPP
+#define FILESERVICEOPERATIONS_HPP
 
 #include <filesystem>
 
@@ -29,4 +29,4 @@ namespace FileService
     size_t getFileSize(std::ifstream& stream);
 }
 
-#endif // FILESERVICEOPERATIONS_H
+#endif // FILESERVICEOPERATIONS_HPP

@@ -1,5 +1,5 @@
-#ifndef IMATCHDEFINITION_H
-#define IMATCHDEFINITION_H
+#ifndef IMATCHDEFINITION_HPP
+#define IMATCHDEFINITION_HPP
 
 struct IMatchDefinition
 {
@@ -15,4 +15,4 @@ struct IMatchDefinition
     const char* const args;
 };
 
-#endif // IMATCHDEFINITION_H
+#endif // IMATCHDEFINITION_HPP

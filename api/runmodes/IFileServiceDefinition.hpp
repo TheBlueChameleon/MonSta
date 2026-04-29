@@ -1,5 +1,5 @@
-#ifndef IFILESERVICEDEFINITION_H
-#define IFILESERVICEDEFINITION_H
+#ifndef IFILESERVICEDEFINITION_HPP
+#define IFILESERVICEDEFINITION_HPP
 
 struct IFileServiceDefinition
 {
@@ -12,4 +12,4 @@ struct IFileServiceDefinition
     const char* const engine;
 };
 
-#endif // IFILESERVICEDEFINITION_H
+#endif // IFILESERVICEDEFINITION_HPP

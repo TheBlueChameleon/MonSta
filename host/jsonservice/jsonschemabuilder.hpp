@@ -1,5 +1,5 @@
-#ifndef JSONSCHEMABUILDER_H
-#define JSONSCHEMABUILDER_H
+#ifndef JSONSCHEMABUILDER_HPP
+#define JSONSCHEMABUILDER_HPP
 
 #include <list>
 #include <string>
@@ -105,4 +105,4 @@ namespace JsonService
     };
 } // namespace JsonService
 
-#endif // JSONSCHEMABUILDER_H
+#endif // JSONSCHEMABUILDER_HPP

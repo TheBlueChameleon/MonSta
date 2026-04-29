@@ -1,5 +1,5 @@
-#ifndef STAGE_H
-#define STAGE_H
+#ifndef STAGE_HPP
+#define STAGE_HPP
 
 #include <string_view>
 
@@ -38,4 +38,4 @@ namespace MetaDefinition
     }   // namespace Effects
 }       // namespace MetaDefinition
 
-#endif // STAGE_H
+#endif // STAGE_HPP

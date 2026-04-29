@@ -1,5 +1,5 @@
-#ifndef BASEMODEDEFINITION_H
-#define BASEMODEDEFINITION_H
+#ifndef BASEMODEDEFINITION_HPP
+#define BASEMODEDEFINITION_HPP
 
 #include "cli/cliinput.hpp"
 
@@ -35,4 +35,4 @@ namespace OperationModes
     };
 }
 
-#endif // BASEMODEDEFINITION_H
+#endif // BASEMODEDEFINITION_HPP

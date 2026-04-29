@@ -1,5 +1,5 @@
-#ifndef MECHANICSDEFINITION_H
-#define MECHANICSDEFINITION_H
+#ifndef MECHANICSDEFINITION_HPP
+#define MECHANICSDEFINITION_HPP
 
 namespace MetaDefinition
 {
@@ -34,4 +34,4 @@ namespace MetaDefinition
     };
 }
 
-#endif // MECHANICSDEFINITION_H
+#endif // MECHANICSDEFINITION_HPP

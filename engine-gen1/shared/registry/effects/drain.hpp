@@ -1,5 +1,5 @@
-#ifndef DRAIN_H
-#define DRAIN_H
+#ifndef DRAIN_HPP
+#define DRAIN_HPP
 
 #include <string_view>
 
@@ -34,4 +34,4 @@ namespace MetaDefinition
     }   // namespace Effects
 }       // namespace MetaDefinition
 
-#endif // DRAIN_H
+#endif // DRAIN_HPP

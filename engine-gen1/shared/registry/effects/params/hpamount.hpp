@@ -1,5 +1,5 @@
-#ifndef HPAMOUNT_H
-#define HPAMOUNT_H
+#ifndef HPAMOUNT_HPP
+#define HPAMOUNT_HPP
 
 #include <string_view>
 
@@ -24,4 +24,4 @@ namespace MetaDefinition
     }   // namespace EffectParams
 }       // namespace MetaDefinition
 
-#endif // HPAMOUNT_H
+#endif // HPAMOUNT_HPP

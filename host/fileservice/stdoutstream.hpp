@@ -1,5 +1,5 @@
-#ifndef STDOUTSTREAM_H
-#define STDOUTSTREAM_H
+#ifndef STDOUTSTREAM_HPP
+#define STDOUTSTREAM_HPP
 
 #include <sstream>
 
@@ -18,4 +18,4 @@ namespace FileService
     };
 }
 
-#endif // STDOUTSTREAM_H
+#endif // STDOUTSTREAM_HPP

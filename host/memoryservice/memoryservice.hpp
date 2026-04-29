@@ -1,5 +1,5 @@
-#ifndef MEMORYSERVICE_H
-#define MEMORYSERVICE_H
+#ifndef MEMORYSERVICE_HPP
+#define MEMORYSERVICE_HPP
 
 #include <span>
 #include <string_view>
@@ -19,4 +19,4 @@ namespace MemoryService
     void free(IMemoryService::MemoryBlock* data);
 }
 
-#endif // MEMORYSERVICE_H
+#endif // MEMORYSERVICE_HPP

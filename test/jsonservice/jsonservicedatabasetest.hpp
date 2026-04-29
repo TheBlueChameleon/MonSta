@@ -1,5 +1,5 @@
-#ifndef JSONSERVICEDATABASETEST_H
-#define JSONSERVICEDATABASETEST_H
+#ifndef JSONSERVICEDATABASETEST_HPP
+#define JSONSERVICEDATABASETEST_HPP
 
 #include <gtest/gtest.h>
 
@@ -9,4 +9,4 @@ class JsonServiceTest : public testing::Test
         static void SetUpTestSuite();
 };
 
-#endif // JSONSERVICEDATABASETEST_H
+#endif // JSONSERVICEDATABASETEST_HPP

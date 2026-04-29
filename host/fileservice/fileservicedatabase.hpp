@@ -1,5 +1,5 @@
-#ifndef FILESERVICEDATABASE_H
-#define FILESERVICEDATABASE_H
+#ifndef FILESERVICEDATABASE_HPP
+#define FILESERVICEDATABASE_HPP
 
 #include <filesystem>
 #include <list>
@@ -53,4 +53,4 @@ namespace FileService
     };
 }
 
-#endif // FILESERVICEDATABASE_H
+#endif // FILESERVICEDATABASE_HPP

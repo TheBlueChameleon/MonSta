@@ -1,5 +1,5 @@
-#ifndef OPTIONPROBABILITYLIST_H
-#define OPTIONPROBABILITYLIST_H
+#ifndef OPTIONPROBABILITYLIST_HPP
+#define OPTIONPROBABILITYLIST_HPP
 
 #include <map>
 
@@ -39,4 +39,4 @@ namespace MetaDefinition
     }   // namespace EffectParams
 }       // namespace MetaDefinition
 
-#endif // OPTIONPROBABILITYLIST_H
+#endif // OPTIONPROBABILITYLIST_HPP

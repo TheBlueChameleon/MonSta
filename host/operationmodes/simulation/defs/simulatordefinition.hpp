@@ -1,5 +1,5 @@
-#ifndef SIMULATORDEFINITION_H
-#define SIMULATORDEFINITION_H
+#ifndef SIMULATORDEFINITION_HPP
+#define SIMULATORDEFINITION_HPP
 
 struct SimulatorDefinition
 {
@@ -8,4 +8,4 @@ struct SimulatorDefinition
     const int threadCount;
 };
 
-#endif // SIMULATORDEFINITION_H
+#endif // SIMULATORDEFINITION_HPP

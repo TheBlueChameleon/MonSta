@@ -1,5 +1,5 @@
-#ifndef UTILS_H
-#define UTILS_H
+#ifndef UTILS_HPP
+#define UTILS_HPP
 
 #include <filesystem>
 #include <memory>
@@ -27,4 +27,4 @@ namespace OperationModes
     void setupFileServiceOptions(ClientWrapper& cw, const BaseModeDefinition& runDefinition);
 }
 
-#endif // UTILS_H
+#endif // UTILS_HPP

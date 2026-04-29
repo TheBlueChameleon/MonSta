@@ -1,5 +1,5 @@
-#ifndef SIMULATIONMODEDEFINITION_H
-#define SIMULATIONMODEDEFINITION_H
+#ifndef SIMULATIONMODEDEFINITION_HPP
+#define SIMULATIONMODEDEFINITION_HPP
 
 #include "operationmodes/shared/basemodedefinition.hpp"
 
@@ -27,4 +27,4 @@ namespace OperationModes
     };
 }
 
-#endif // SIMULATIONMODEDEFINITION_H
+#endif // SIMULATIONMODEDEFINITION_HPP

@@ -1,5 +1,5 @@
-#ifndef FILESERVICE_H
-#define FILESERVICE_H
+#ifndef FILESERVICE_HPP
+#define FILESERVICE_HPP
 
 #include <filesystem>
 #include <list>
@@ -43,4 +43,4 @@ namespace FileService
     const std::list<CreatedFileInfo>& getCreatedFileInfo();
 }
 
-#endif // FILESERVICE_H
+#endif // FILESERVICE_HPP

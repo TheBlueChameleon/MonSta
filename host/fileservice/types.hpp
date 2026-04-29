@@ -1,5 +1,5 @@
-#ifndef TYPES_H
-#define TYPES_H
+#ifndef TYPES_HPP
+#define TYPES_HPP
 
 #include <filesystem>
 
@@ -12,4 +12,4 @@ namespace FileService
     };
 }
 
-#endif // TYPES_H
+#endif // TYPES_HPP

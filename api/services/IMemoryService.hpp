@@ -1,5 +1,5 @@
-#ifndef IMEMORYSERVICE_H
-#define IMEMORYSERVICE_H
+#ifndef IMEMORYSERVICE_HPP
+#define IMEMORYSERVICE_HPP
 
 #include <cstddef>
 
@@ -18,4 +18,4 @@ struct IMemoryService
     void (HOST_API_CALL* const free)(MemoryBlock* data);
 };
 
-#endif // IMEMORYSERVICE_H
+#endif // IMEMORYSERVICE_HPP
