@@ -6,7 +6,7 @@
 
 namespace ErrorService
 {
-    thread_local ApiStatusCode errorCode = ApiStatusCode::SUCCESS;
+    thread_local int errorCode = ApiStatusCode::SUCCESS;
     thread_local std::string errorMessage;
 
     const IErrorService exportService()
@@ -27,13 +27,13 @@ namespace ErrorService
         errorMessage.clear();
     }
 
-    void setError(const ApiStatusCode code, const std::string_view message)
+    void setError(const int code, const std::string_view message)
     {
         errorCode = code;
         errorMessage = message;
     }
 
-    ApiStatusCode getErrorCode()
+    int getErrorCode()
     {
         return errorCode;
     }

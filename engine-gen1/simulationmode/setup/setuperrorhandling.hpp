@@ -14,7 +14,7 @@ namespace SimulationMode
 {
     [[noreturn]] void abort(
         const std::string_view message,
-        const ApiStatusCode errorCode = ApiStatusCode::INVALID_USER_INPUT
+        const int errorCode = ApiStatusCode::INVALID_USER_INPUT
     );
 
     void report(

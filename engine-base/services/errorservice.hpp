@@ -9,9 +9,9 @@ namespace ErrorService
 {
     void clearError();
 
-    void setError(const ApiStatusCode code, const std::string_view message);
+    void setError(const int code, const std::string_view message);
 
-    ApiStatusCode getErrorCode();
+    int getErrorCode();
     const std::string_view getErrorMessage();
 
     void terminateAbnormally();

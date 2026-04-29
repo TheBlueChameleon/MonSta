@@ -6,13 +6,13 @@ using namespace std::string_literals;
 // ========================================================================== //
 // Base Errors
 
-AbstractError::AbstractError(const ApiStatusCode errorCode) :
+AbstractError::AbstractError(const int errorCode) :
     AbstractError(errorCode,
                   "Abort due to internal error. See the logs for possible reasons."
                  )
 {}
 
-AbstractError::AbstractError(const ApiStatusCode errorCode, std::string_view message) :
+AbstractError::AbstractError(const int errorCode, std::string_view message) :
     errorCode(errorCode),
     std::runtime_error("Error code "s +
                        std::to_string(static_cast<int>(errorCode)) + "\n" +
@@ -20,36 +20,36 @@ AbstractError::AbstractError(const ApiStatusCode errorCode, std::string_view mes
                        "See the logs for possible reasons.")
 {}
 
-ApiStatusCode AbstractError::getErrorCode() const
+int AbstractError::getErrorCode() const
 {
     return errorCode;
 }
 
 // -------------------------------------------------------------------------- //
 
-HostSideError::HostSideError(const ApiStatusCode errorCode) :
+HostSideError::HostSideError(const int errorCode) :
     HostSideError(errorCode, "Host side abort.")
 {}
 
-HostSideError::HostSideError(const ApiStatusCode errorCode, const std::string_view msg) :
+HostSideError::HostSideError(const int errorCode, const std::string_view msg) :
     AbstractError(ApiStatusCode::CRITICAL_ABORT, msg)
 {}
 
 // -------------------------------------------------------------------------- //
 
-ClientSideError::ClientSideError(const ApiStatusCode errorCode) :
+ClientSideError::ClientSideError(const int errorCode) :
     ClientSideError(errorCode, "Client side abort.")
 {}
 
-ClientSideError::ClientSideError(const ApiStatusCode errorCode, std::string_view message) :
+ClientSideError::ClientSideError(const int errorCode, std::string_view message) :
     AbstractError(errorCode, message)
 {}
 
-UserSideError::UserSideError(const ApiStatusCode errorCode) :
+UserSideError::UserSideError(const int errorCode) :
     UserSideError(errorCode, "Invalid user input.")
 {}
 
-UserSideError::UserSideError(const ApiStatusCode errorCode, std::string_view message) :
+UserSideError::UserSideError(const int errorCode, std::string_view message) :
     AbstractError(errorCode, message)
 {}
 

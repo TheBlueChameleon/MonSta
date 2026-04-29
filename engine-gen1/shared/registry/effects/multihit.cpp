@@ -51,7 +51,11 @@ namespace MetaDefinition
             return MultiHit(probabilities);
         }
 
-        void MultiHit::execute(SimulationMode::PokemonInstance& self, SimulationMode::PokemonInstance& enemy, SimulationMode::Scene& scene)
+        void MultiHit::execute(
+            SimulationMode::PokemonInstance& self,
+            SimulationMode::PokemonInstance& enemy,
+            SimulationMode::Scene& scene
+        )
         {
             const auto turns = probabilities.getRandomOption();
             for (int i = 0; i < turns-1; ++i)        // turns-1: first instance of damage has already been done.

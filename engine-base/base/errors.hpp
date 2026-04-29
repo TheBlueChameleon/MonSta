@@ -8,15 +8,15 @@
 class EngineError : public std::runtime_error
 {
     protected:
-        ApiStatusCode errorCode = ApiStatusCode::ILLEGAL_CLIENT_STATE;
+        int errorCode = ApiStatusCode::ILLEGAL_CLIENT_STATE;
 
     public:
         using std::runtime_error::runtime_error;
 
-        EngineError(const ApiStatusCode errorCode);
-        EngineError(const ApiStatusCode errorCode, std::string_view message);
+        EngineError(const int errorCode);
+        EngineError(const int errorCode, std::string_view message);
 
-        ApiStatusCode getErrorCode() const;
+        int getErrorCode() const;
 };
 
 namespace EngineBase

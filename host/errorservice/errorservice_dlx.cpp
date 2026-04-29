@@ -9,14 +9,14 @@ namespace ErrorService
     }
 
     void HOST_API_CALL setError_dlx(
-        const ApiStatusCode code,
+        const int code,
         const char* const message
     )
     {
         setError(code, message);
     }
 
-    ApiStatusCode HOST_API_CALL getErrorCode_dlx()
+    int HOST_API_CALL getErrorCode_dlx()
     {
         return getErrorCode();
     }

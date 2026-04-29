@@ -15,12 +15,12 @@ namespace ErrorService
         errorService().clearError();
     }
 
-    void setError(const ApiStatusCode code, const std::string_view message)
+    void setError(const int code, const std::string_view message)
     {
         errorService().setError(code, message.data());
     }
 
-    ApiStatusCode getErrorCode()
+    int getErrorCode()
     {
         return errorService().getErrorCode();
     }

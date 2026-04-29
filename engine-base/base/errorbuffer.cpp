@@ -8,7 +8,7 @@ namespace EngineBase
     // ====================================================================== //
     // ErrorData
 
-    ErrorBuffer::ErrorData::ErrorData(ApiStatusCode errorCode, std::string errorMessage) :
+    ErrorBuffer::ErrorData::ErrorData(int errorCode, std::string errorMessage) :
         errorCode(errorCode), errorMessage(errorMessage)
     {}
 
@@ -46,7 +46,7 @@ namespace EngineBase
         return buffer.str();
     }
 
-    void ErrorBuffer::append(ApiStatusCode errorCode, const std::string_view errorMessage)
+    void ErrorBuffer::append(int errorCode, const std::string_view errorMessage)
     {
         errors.emplace_back(errorCode, errorMessage.data());
     }

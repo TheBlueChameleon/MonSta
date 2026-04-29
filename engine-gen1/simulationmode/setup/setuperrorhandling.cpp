@@ -11,7 +11,7 @@ namespace SimulationMode
 {
     [[noreturn]] void abort(
         const std::string_view message,
-        const ApiStatusCode errorCode
+        const int errorCode
     )
     {
         throw EngineError(errorCode, message.data());

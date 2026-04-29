@@ -15,11 +15,11 @@ namespace EngineBase
         public:
             struct ErrorData
             {
-                ApiStatusCode errorCode;
+                int errorCode;
                 std::string   errorMessage;
 
                 ErrorData() = default;
-                ErrorData(ApiStatusCode errorCode, std::string errorMessage);
+                ErrorData(int errorCode, std::string errorMessage);
             };
 
         private:
@@ -32,7 +32,7 @@ namespace EngineBase
             bool isClean() const;
             std::string compileErrorMessage() const;
 
-            void append(ApiStatusCode errorCode, const std::string_view errorMessage);
+            void append(int errorCode, const std::string_view errorMessage);
             void append(const EngineError& error);
             void append(const std::exception& error);
 

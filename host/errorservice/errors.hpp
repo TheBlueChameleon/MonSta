@@ -13,15 +13,15 @@ using namespace std::string_literals;
 class AbstractError : public std::runtime_error
 {
     protected:
-        ApiStatusCode errorCode = ApiStatusCode::CRITICAL_ABORT;
+        int errorCode = ApiStatusCode::CRITICAL_ABORT;
 
     public:
         using std::runtime_error::runtime_error;
 
-        AbstractError(const ApiStatusCode errorCode);
-        AbstractError(const ApiStatusCode errorCode, std::string_view message);
+        AbstractError(const int errorCode);
+        AbstractError(const int errorCode, std::string_view message);
 
-        ApiStatusCode getErrorCode() const;
+        int getErrorCode() const;
 };
 
 // .......................................................................... //
@@ -31,8 +31,8 @@ class HostSideError : public AbstractError
     public:
         using AbstractError::AbstractError;
 
-        HostSideError(const ApiStatusCode errorCode);
-        HostSideError(const ApiStatusCode errorCode, const std::string_view msg);
+        HostSideError(const int errorCode);
+        HostSideError(const int errorCode, const std::string_view msg);
 };
 
 class ClientSideError : public AbstractError
@@ -40,8 +40,8 @@ class ClientSideError : public AbstractError
     public:
         using AbstractError::AbstractError;
 
-        ClientSideError(const ApiStatusCode errorCode);
-        ClientSideError(const ApiStatusCode errorCode, std::string_view message);
+        ClientSideError(const int errorCode);
+        ClientSideError(const int errorCode, std::string_view message);
 };
 
 class UserSideError : public AbstractError
@@ -49,8 +49,8 @@ class UserSideError : public AbstractError
     public:
         using AbstractError::AbstractError;
 
-        UserSideError(const ApiStatusCode errorCode);
-        UserSideError(const ApiStatusCode errorCode, std::string_view message);
+        UserSideError(const int errorCode);
+        UserSideError(const int errorCode, std::string_view message);
 };
 
 // ========================================================================== //

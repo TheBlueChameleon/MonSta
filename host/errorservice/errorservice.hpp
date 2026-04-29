@@ -10,8 +10,8 @@ namespace ErrorService
     const IErrorService exportService();
 
     void clearError();
-    void setError(const ApiStatusCode code, const std::string_view message);
-    ApiStatusCode getErrorCode();
+    void setError(const int code, const std::string_view message);
+    int getErrorCode();
     const std::string_view getErrorMessage();
 
     void terminateAbnormally();

@@ -8,8 +8,8 @@
 namespace ErrorService
 {
     void HOST_API_CALL clearError_dlx();
-    void HOST_API_CALL setError_dlx(const ApiStatusCode code, const char* const message);
-    ApiStatusCode HOST_API_CALL getErrorCode_dlx();
+    void HOST_API_CALL setError_dlx(const int code, const char* const message);
+    int HOST_API_CALL getErrorCode_dlx();
     const char* const HOST_API_CALL getErrorMessage_dlx();
 
     void HOST_API_CALL terminateAbnormally_dlx();
