@@ -127,4 +127,9 @@ namespace MetaDefinition
             "Parameters for effect Drain contain neither "s + HPAMOUNT_PERCENTAGE + " nor " + HPAMOUNT_ABSOLUTE
         );
     }
+
+    EffectEvaluationTime AbstractEffectHandler::getEvaluationTime()
+    {
+        return EffectEvaluationTime::AfterRegularDamage;
+    }
 }

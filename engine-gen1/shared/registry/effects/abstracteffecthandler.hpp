@@ -68,7 +68,7 @@ namespace MetaDefinition
 
         public:
             virtual void execute(SimulationMode::Scene& scene) = 0;
-            virtual constexpr EffectEvaluationTime getEvaluationTime();
+            virtual EffectEvaluationTime getEvaluationTime();
     };
 
 } // namespace SimulationMode
