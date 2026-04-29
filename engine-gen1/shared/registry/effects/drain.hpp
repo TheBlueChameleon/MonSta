@@ -28,11 +28,7 @@ namespace MetaDefinition
                 );
                 static Drain buildEffect(const std::string_view parameterDescriptor);
 
-                void execute(
-                    SimulationMode::PokemonInstance& self,
-                    SimulationMode::PokemonInstance& enemy,
-                    SimulationMode::Scene& scene
-                );
+                void execute(SimulationMode::Scene& scene);
         };
 
     }   // namespace Effects

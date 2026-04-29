@@ -33,34 +33,30 @@ namespace MetaDefinition
             return Drain(amount, target);
         }
 
-        void Drain::execute(
-            SimulationMode::PokemonInstance& self,
-            SimulationMode::PokemonInstance& enemy,
-            SimulationMode::Scene& scene
-        )
+        void Drain::execute(SimulationMode::Scene& scene)
         {
             int recovered;
             switch (amount.basis)
             {
                 case MetaDefinition::HPBasis::Absolute:
-                    recovered = amount.value < scene.lastDamageDone ? amount.value : scene.lastDamageDone;
+                    recovered = amount.value < scene.getLastDamageDone() ? amount.value : scene.getLastDamageDone();
                     break;
                 case MetaDefinition::HPBasis::Percentage:
-                    recovered = amount.value / 100.0 * scene.lastDamageDone;
+                    recovered = amount.value / 100.0 * scene.getLastDamageDone();
                     break;
             }
 
             switch (target)
             {
                 case MetaDefinition::EffectParams::Target::Self:
-                    self.recoverHealth(recovered);
+                    scene.getSelf().recoverHealth(recovered);
                     break;
                 case MetaDefinition::EffectParams::Target::Enemy:
-                    enemy.recoverHealth(recovered);
+                    scene.getEnemy().recoverHealth(recovered);
                     break;
                 case MetaDefinition::EffectParams::Target::Both:
-                    self.recoverHealth(recovered);
-                    enemy.recoverHealth(recovered);
+                    scene.getSelf().recoverHealth(recovered);
+                    scene.getEnemy().recoverHealth(recovered);
                     break;
                 case MetaDefinition::EffectParams::Target::ChooseSelf:
                 case MetaDefinition::EffectParams::Target::ChooseEnemy:

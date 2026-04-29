@@ -65,11 +65,7 @@ namespace MetaDefinition
             );
 
         public:
-            virtual void execute(
-                SimulationMode::PokemonInstance& self,
-                SimulationMode::PokemonInstance& enemy,
-                SimulationMode::Scene& scene
-            ) = 0;
+            virtual void execute(SimulationMode::Scene& scene) = 0;
     };
 
 } // namespace SimulationMode

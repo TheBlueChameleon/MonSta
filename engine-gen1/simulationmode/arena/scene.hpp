@@ -5,11 +5,26 @@
 
 namespace SimulationMode
 {
-    struct Scene
+    class Scene
     {
-        int lastDamageDone;
+        private:
+            PokemonInstance* self;
+            PokemonInstance* enemy;
 
-        bool stopProcessSecondaryEffects = false;
+            int lastDamageDone;
+            bool stopProcessSecondaryEffects = false;
+
+        public:
+            PokemonInstance& getSelf();
+            PokemonInstance& getEnemy();
+
+            int getLastDamageDone() const;
+            void setLastDamageDone(int value);
+
+            bool getStopProcessSecondaryEffects() const;
+            void setStopProcessSecondaryEffects(bool value);
+
+            void flip();
     };
 }
 

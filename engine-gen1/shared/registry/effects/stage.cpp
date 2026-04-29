@@ -62,23 +62,19 @@ namespace MetaDefinition
             return Stage(target, stat, change);
         }
 
-        void Stage::execute(
-            SimulationMode::PokemonInstance& self,
-            SimulationMode::PokemonInstance& enemy,
-            SimulationMode::Scene& scene
-        )
+        void Stage::execute(SimulationMode::Scene& scene)
         {
             switch (target)
             {
                 case MetaDefinition::EffectParams::Target::Self:
-                    self.changeStatStage(stat, change);
+                    scene.getSelf().changeStatStage(stat, change);
                     break;
                 case MetaDefinition::EffectParams::Target::Enemy:
-                    enemy.changeStatStage(stat, change);
+                    scene.getEnemy().changeStatStage(stat, change);
                     break;
                 case MetaDefinition::EffectParams::Target::Both:
-                    self.changeStatStage(stat, change);
-                    enemy.changeStatStage(stat, change);
+                    scene.getSelf().changeStatStage(stat, change);
+                    scene.getEnemy().changeStatStage(stat, change);
                     break;
                 case MetaDefinition::EffectParams::Target::ChooseSelf:
                 case MetaDefinition::EffectParams::Target::ChooseEnemy:
