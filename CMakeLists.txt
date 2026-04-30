@@ -117,6 +117,8 @@ set(apiHeaders
 # CsvService
 
 add_library(Host-CsvService STATIC
+    api/services/ICsvService.hpp
+
     host/csvservice/csvservice.hpp      host/csvservice/csvservice.cpp
     host/csvservice/csvservice_dlx.hpp  host/csvservice/csvservice_dlx.cpp
 )
@@ -135,6 +137,8 @@ target_link_libraries(Host-CsvService
 # ErrorService
 
 add_library(Host-ErrorService STATIC
+    api/services/IErrorService.hpp
+
     host/errorservice/catchmacros.hpp
     host/errorservice/errors.hpp            host/errorservice/errors.cpp
     host/errorservice/errorservice.hpp      host/errorservice/errorservice.cpp
@@ -150,6 +154,9 @@ target_include_directories(Host-ErrorService
 # FileService
 
 add_library(Host-FileService STATIC
+    api/services/IFileService.hpp
+    api/services/IMemoryService.hpp
+
     host/fileservice/debugstream.hpp
     host/fileservice/fileservice.hpp            host/fileservice/fileservice.cpp
     host/fileservice/fileservice_dlx.hpp        host/fileservice/fileservice_dlx.cpp
@@ -170,6 +177,9 @@ target_include_directories(Host-FileService
 # JsonService
 
 add_library(Host-JsonService STATIC
+    api/services/IJsonService.hpp
+    api/services/IMemoryService.hpp
+
     host/jsonservice/handleconverter.hpp                host/jsonservice/handleconverter.cpp
     host/jsonservice/jsonschemabuilder.hpp              host/jsonservice/jsonschemabuilder.cpp
     host/jsonservice/jsonservice.hpp                    host/jsonservice/jsonservice.cpp
@@ -195,6 +205,8 @@ target_link_libraries(Host-JsonService
 # LoggerService
 
 add_library(Host-LoggerService STATIC
+    api/services/ILoggerService.hpp
+
     host/loggerservice/logger.hpp               host/loggerservice/logger.cpp
     host/loggerservice/loggerservice.hpp        host/loggerservice/loggerservice.cpp
     host/loggerservice/loggerservice_dlx.hpp    host/loggerservice/loggerservice_dlx.cpp
@@ -213,6 +225,8 @@ target_link_libraries(Host-LoggerService
 # MemoryService
 
 add_library(Host-MemoryService STATIC
+    api/services/IMemoryService.hpp
+
     host/memoryservice/memoryservice.hpp        host/memoryservice/memoryservice.cpp
     host/memoryservice/memoryservice_dlx.hpp    host/memoryservice/memoryservice_dlx.cpp
 )
@@ -226,6 +240,8 @@ target_include_directories(Host-MemoryService
 # RngService
 
 add_library(Host-RngService STATIC
+    api/services/IRngService.hpp
+
     host/rngservice/rngservice.hpp      host/rngservice/rngservice.cpp
     host/rngservice/rngservice_dlx.hpp  host/rngservice/rngservice_dlx.cpp
 )
@@ -240,6 +256,9 @@ target_include_directories(Host-RngService
 # VersionService
 
 add_library(Host-VersionService STATIC
+    api/services/IMemoryService.hpp
+    api/services/IVersionService.hpp
+
     host/versionservice/versionservice.hpp     host/versionservice/versionservice.cpp
     host/versionservice/versionservice_dlx.hpp host/versionservice/versionservice_dlx.cpp
 )
@@ -355,8 +374,6 @@ set_target_properties(Engine-Base PROPERTIES POSITION_INDEPENDENT_CODE ON)
 # Gen 1 Engine
 
 add_library(Engine-Gen1 SHARED
-    ${apiHeaders}
-
     engine-gen1/clientapi.cpp
 
     engine-gen1/shared/schemavalidationconstants.hpp                engine-gen1/shared/schemavalidationconstants.cpp
