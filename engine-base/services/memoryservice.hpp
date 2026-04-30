@@ -27,6 +27,7 @@ namespace MemoryService
         public:
             String(const size_t size);
             String(const std::string_view string);
+            String(const IMemoryService::String string);
             ~String();
     };
 

@@ -73,6 +73,11 @@ namespace MemoryService
         std::string_view(data.data, data.size)
     {}
 
+    String::String(const IMemoryService::String string) :
+        data(string),
+        std::string_view(data.data, data.size)
+    {}
+
     String::~String()
     {
         freeString(data);

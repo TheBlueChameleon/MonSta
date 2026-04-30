@@ -14,7 +14,7 @@ namespace FileService
     const std::filesystem::path getInputBase();
     const std::filesystem::path getOutputBase();
 
-    MemoryService::MemoryBlock read(const std::filesystem::path& filename);
+    MemoryService::String read(const std::filesystem::path& filename);
 
     void write(const std::filesystem::path& filename, const std::string_view content);
     void writeBinary(const std::filesystem::path& filename, const std::span<const std::byte> data);

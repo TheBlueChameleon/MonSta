@@ -21,11 +21,9 @@ namespace FileService
         return result;
     }
 
-    MemoryService::MemoryBlock read(const std::filesystem::__cxx11::path& filename)
+    MemoryService::String read(const std::filesystem::path& filename)
     {
-        auto result = MemoryService::MemoryBlock(
-                          fileService().read(filename.c_str())
-                      );
+        auto result = fileService().read(filename.c_str());
         rethrowHostError();
         return result;
     }

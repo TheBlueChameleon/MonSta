@@ -31,7 +31,7 @@ namespace FileService
         setOutputBasePath(newBase);
     }
 
-    IMemoryService::MemoryBlock HOST_API_CALL read_dlx(const char* const filename)
+    IMemoryService::String read_dlx(const char* const filename)
     {
         try
         {
@@ -39,7 +39,7 @@ namespace FileService
             LoggerService::traceF("reading from {}", filename);
             const auto size = getFileSize(stream);
 
-            IMemoryService::MemoryBlock result = MemoryService::allocate(size);
+            IMemoryService::String result = MemoryService::allocateString(size + 1);
             stream.read(result.data, size);
 
             return result;
@@ -47,7 +47,7 @@ namespace FileService
         catch (const std::exception& e)
         {
             ErrorService::setError(ApiStatusCode::IO_ERROR, e.what());
-            return IMemoryService::MemoryBlock {nullptr, 0};
+            return IMemoryService::String {nullptr, 0};
         }
     }
 
