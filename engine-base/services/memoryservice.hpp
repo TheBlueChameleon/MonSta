@@ -30,13 +30,6 @@ namespace MemoryService
             String(const IMemoryService::String string);
             ~String();
     };
-
-    // ====================================================================== //
-    // legacy
-
-    IMemoryService::MemoryBlock allocate(const size_t size);
-    IMemoryService::MemoryBlock create(const char* const data, size_t size);
-    void free(IMemoryService::MemoryBlock* data);
 }
 
 #endif // MEMORYSERVICE_HPP

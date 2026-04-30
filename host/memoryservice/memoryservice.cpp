@@ -16,11 +16,7 @@ namespace MemoryService
             wrap_dlx,
             freeString_dlx,
             freeStringArray_dlx,
-            freeStringViewArray_dlx,
-
-            allocate_dlx,
-            create_dlx,
-            freeString_dlx
+            freeStringViewArray_dlx
         };
     }
 
@@ -120,42 +116,4 @@ namespace MemoryService
         data.data = nullptr;
         data.size = 0;
     }
-
-    // ====================================================================== //
-    // legacy
-
-    IMemoryService::MemoryBlock allocate(const size_t size)
-    {
-        return IMemoryService::MemoryBlock(
-                   new char[size],
-                   size
-               );
-    }
-
-
-    IMemoryService::MemoryBlock createFromView(const std::string_view view)
-    {
-        const auto size = view.size() + 1;
-        IMemoryService::MemoryBlock result = allocate(size);
-        std::strncpy(result.data, view.data(), size);
-
-        return result;
-    }
-
-    IMemoryService::MemoryBlock createFromView(const std::span<std::byte> view)
-    {
-        const auto size = view.size();
-        IMemoryService::MemoryBlock result = allocate(size);
-        std::memcpy(result.data, view.data(), size);
-
-        return result;
-    }
-
-    void free(IMemoryService::MemoryBlock* data)
-    {
-        delete data->data;
-        data->data = nullptr;
-        data->size = 0;
-    }
-
 }

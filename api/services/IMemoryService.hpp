@@ -41,19 +41,6 @@ struct IMemoryService
     void (HOST_API_CALL* const freeString)(IMemoryService::String* const data);
     void (HOST_API_CALL* const freeStringArray)(IMemoryService::StringArray* const data);
     void (HOST_API_CALL* const freeStringViewArray)(IMemoryService::StringViewArray* const data);
-
-    // ====================================================================== //
-    // legacy
-
-    struct MemoryBlock
-    {
-        char*  data;
-        size_t size;
-    };
-
-    MemoryBlock(HOST_API_CALL* const allocate)(const size_t size);
-    MemoryBlock(HOST_API_CALL* const create)(const char* const data, size_t size);
-    void (HOST_API_CALL* const free)(MemoryBlock* data);
 };
 
 #endif // IMEMORYSERVICE_HPP

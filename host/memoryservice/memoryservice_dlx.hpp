@@ -17,13 +17,6 @@ namespace MemoryService
     void HOST_API_CALL freeString_dlx(IMemoryService::String* const data);
     void HOST_API_CALL freeStringArray_dlx(IMemoryService::StringArray* const data);
     void HOST_API_CALL freeStringViewArray_dlx(IMemoryService::StringViewArray* const data);
-
-    // ====================================================================== //
-    // legacy
-
-    IMemoryService::MemoryBlock HOST_API_CALL allocate_dlx(const size_t size);
-    IMemoryService::MemoryBlock HOST_API_CALL create_dlx(const char* const data, const size_t size);
-    void HOST_API_CALL freeString_dlx(IMemoryService::MemoryBlock* data);
 }
 
 #endif // MEMORYSERVICE_DLX_HPP

@@ -82,27 +82,4 @@ namespace MemoryService
     {
         freeString(string);
     }
-
-    // ====================================================================== //
-    // legacy
-
-    IMemoryService::MemoryBlock allocate(const size_t size)
-    {
-        const auto result = memoryService().allocate(size);
-        rethrowHostError();
-        return result;
-    }
-
-    IMemoryService::MemoryBlock create(const char* const data, size_t size)
-    {
-        const auto result = memoryService().create(data, size);
-        rethrowHostError();
-        return result;
-    }
-
-    void free(IMemoryService::MemoryBlock* data)
-    {
-        memoryService().free(data);
-        rethrowHostError();
-    }
 }

@@ -24,17 +24,6 @@ namespace MemoryService
     void free(IMemoryService::String& data);
     void free(IMemoryService::StringArray& data);
     void free(IMemoryService::StringViewArray& data);
-
-    // ====================================================================== //
-    // legacy
-
-    IMemoryService::MemoryBlock allocate(const size_t size);
-
-    IMemoryService::MemoryBlock createFromView(const std::string_view view);
-
-    IMemoryService::MemoryBlock createFromView(const std::span<std::byte> view);
-
-    void free(IMemoryService::MemoryBlock* data);
 }
 
 #endif // MEMORYSERVICE_HPP
