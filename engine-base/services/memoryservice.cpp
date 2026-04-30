@@ -1,9 +1,12 @@
+#include "base/errors.hpp"
+
 #include "services.hpp"
 #include "errorservice.hpp"
 #include "memoryservice.hpp"
 
 using namespace ErrorService;
 using namespace Services;
+using namespace std::string_literals;
 
 namespace MemoryService
 {
@@ -32,6 +35,17 @@ namespace MemoryService
     {
         const auto result = memoryService().copy(string.data());
         rethrowHostError();
+        return result;
+    }
+
+
+    IMemoryService::StringArray copy(const std::span<std::string_view> array)
+    {
+        IMemoryService::StringArray result = allocateStringArray(array.size());
+        for (int i = 0; i < array.size(); ++i)
+        {
+            result.data[i] = copy(array[i]);
+        }
         return result;
     }
 
@@ -82,4 +96,40 @@ namespace MemoryService
     {
         freeString(string);
     }
+
+    // ====================================================================== //
+    // StringArray
+
+    StringArray::StringArray(const size_t size) :
+        m_array(allocateStringArray(size)),
+        std::span<IMemoryService::String>(m_array.data, m_array.data + size)
+    {}
+
+    StringArray::StringArray(const std::span<std::string_view> array) :
+        m_array(copy(array)),
+        std::span<IMemoryService::String>(m_array.data, m_array.data + array.size())
+    {}
+
+    StringArray::StringArray(const IMemoryService::StringArray array) :
+        m_array(array),
+        std::span<IMemoryService::String>(m_array.data, m_array.data + array.size)
+    {}
+
+    StringArray::~StringArray()
+    {
+        freeStringArray(m_array);
+    }
+
+    const std::string_view StringArray::get(const size_t index)
+    {
+        if (index > m_array.size)
+        {
+            throw LookupError("Invalid index: "s + std::to_string(index));
+        }
+
+        const IMemoryService::String element = m_array.data[index];
+        return std::string_view(element.data, element.size);
+    }
+
 }
+

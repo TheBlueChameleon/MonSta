@@ -13,6 +13,7 @@ namespace MemoryService
     IMemoryService::StringViewArray allocateStringViewArray(const size_t size);
 
     IMemoryService::String          copy(const std::string_view string);
+    IMemoryService::StringArray     copy(const std::span<std::string_view> array);
     IMemoryService::StringView      wrap(const std::string_view string);
 
     void freeString(IMemoryService::String& data);
@@ -29,6 +30,20 @@ namespace MemoryService
             String(const std::string_view string);
             String(const IMemoryService::String string);
             ~String();
+    };
+
+    class StringArray : std::span<IMemoryService::String>
+    {
+        private:
+            IMemoryService::StringArray m_array;
+
+        public:
+            StringArray(const size_t size);
+            StringArray(const std::span<std::string_view> array);
+            StringArray(const IMemoryService::StringArray array);
+            ~StringArray();
+
+            const std::string_view get(const size_t index);
     };
 }
 

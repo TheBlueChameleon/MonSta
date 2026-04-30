@@ -69,6 +69,14 @@ MultipleErrors::MultipleErrors(const std::string_view msg) :
     EngineError(ApiStatusCode::MULTIPLE_ERRORS, msg)
 {}
 
+LookupError::LookupError() :
+    LookupError("Lookup Error")
+{}
+
+LookupError::LookupError(const std::string_view msg) :
+    EngineError(ApiStatusCode::LOOKUP_ERROR, msg)
+{}
+
 // ========================================================================== //
 // Aux Functions
 
@@ -80,3 +88,5 @@ namespace EngineBase
         ErrorService::terminateAbnormally();
     }
 }
+
+

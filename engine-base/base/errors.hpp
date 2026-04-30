@@ -79,6 +79,15 @@ class MultipleErrors : EngineError
         MultipleErrors(const std::string_view msg);
 };
 
+class LookupError : EngineError
+{
+    public:
+        using EngineError::EngineError;
+
+        LookupError();
+        LookupError(const std::string_view msg);
+};
+
 // ========================================================================== //
 // Aux Functions
 
