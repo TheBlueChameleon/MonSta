@@ -102,7 +102,7 @@ namespace JsonService
         return JsonService::getArrayItem(handle, index);
     }
 
-    MemoryService::MemoryBlock JsonWrapper::dump(int indent) const
+    MemoryService::String JsonWrapper::dump(int indent) const
     {
         return JsonService::dump(handle, indent);
     }

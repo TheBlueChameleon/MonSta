@@ -41,7 +41,7 @@ namespace JsonService
             size_t getArraySize() const;
             JsonWrapper getArrayItem(const int index) const;
 
-            MemoryService::MemoryBlock dump(int indent = 2) const;
+            MemoryService::String dump(int indent = 2) const;
     };
 
 } // namespace JsonService
