@@ -35,9 +35,9 @@ namespace VersionService
         return lhs >= rhs;
     }
 
-    IMemoryService::MemoryBlock HOST_API_CALL to_string_dlx(const Version v)
+    IMemoryService::String HOST_API_CALL to_string_dlx(const Version v)
     {
         std::string foo = VersionService::to_string(v);
-        return MemoryService::createFromView(foo);
+        return MemoryService::copy(foo);
     }
 }

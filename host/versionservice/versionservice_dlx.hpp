@@ -15,7 +15,7 @@ namespace VersionService
     bool HOST_API_CALL greaterThan_dlx(const Version lhs, const Version rhs);
     bool HOST_API_CALL greaterOrEqual_dlx(const Version lhs, const Version rhs);
 
-    IMemoryService::MemoryBlock HOST_API_CALL to_string_dlx(const Version v);
+    IMemoryService::String HOST_API_CALL to_string_dlx(const Version v);
 }
 
 #endif // VERSIONSERVICE_DLX_HPP

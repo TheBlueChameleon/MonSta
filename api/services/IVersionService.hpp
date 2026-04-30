@@ -15,7 +15,7 @@ struct IVersionService
     bool (HOST_API_CALL* const greaterThan)(const Version lhs, const Version rhs);
     bool (HOST_API_CALL* const greaterOrEqual)(const Version lhs, const Version rhs);
 
-    IMemoryService::MemoryBlock(HOST_API_CALL* const to_string)(const Version v);
+    IMemoryService::String(HOST_API_CALL* const to_string)(const Version v);
 };
 
 #endif // IVERSIONSERVICE_HPP
