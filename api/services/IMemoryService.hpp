@@ -31,16 +31,16 @@ struct IMemoryService
         size_t      size;
     };
 
-    IMemoryService::String(HOST_API_CALL* const allocateString_dlx)(const size_t size);
-    IMemoryService::StringArray(HOST_API_CALL* const allocateStringArray_dlx)(const size_t size);
-    IMemoryService::StringViewArray(HOST_API_CALL* const allocateStringViewArray_dlx)(const size_t size);
+    IMemoryService::String(HOST_API_CALL* const allocateString)(const size_t size);
+    IMemoryService::StringArray(HOST_API_CALL* const allocateStringArray)(const size_t size);
+    IMemoryService::StringViewArray(HOST_API_CALL* const allocateStringViewArray)(const size_t size);
 
-    IMemoryService::String(HOST_API_CALL* const copy_dlx)(const char* const string);
-    IMemoryService::StringView(HOST_API_CALL* const wrap_dlx)(const char* const view);
+    IMemoryService::String(HOST_API_CALL* const copy)(const char* const string);
+    IMemoryService::StringView(HOST_API_CALL* const wrap)(const char* const view);
 
-    void (HOST_API_CALL* const freeString_dlx)(IMemoryService::String& data);
-    void (HOST_API_CALL* const freeStringArray_dlx)(IMemoryService::StringArray& data);
-    void (HOST_API_CALL* const freeStringViewArray_dlx)(IMemoryService::StringViewArray& data);
+    void (HOST_API_CALL* const freeString)(IMemoryService::String* const data);
+    void (HOST_API_CALL* const freeStringArray)(IMemoryService::StringArray* const data);
+    void (HOST_API_CALL* const freeStringViewArray)(IMemoryService::StringViewArray* const data);
 
     // ====================================================================== //
     // legacy

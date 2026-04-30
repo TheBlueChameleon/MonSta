@@ -14,9 +14,9 @@ namespace MemoryService
     IMemoryService::String          HOST_API_CALL copy_dlx(const char* const string);
     IMemoryService::StringView      HOST_API_CALL wrap_dlx(const char* const view);
 
-    void HOST_API_CALL freeString_dlx(IMemoryService::String& data);
-    void HOST_API_CALL freeStringArray_dlx(IMemoryService::StringArray& data);
-    void HOST_API_CALL freeStringViewArray_dlx(IMemoryService::StringViewArray& data);
+    void HOST_API_CALL freeString_dlx(IMemoryService::String* const data);
+    void HOST_API_CALL freeStringArray_dlx(IMemoryService::StringArray* const data);
+    void HOST_API_CALL freeStringViewArray_dlx(IMemoryService::StringViewArray* const data);
 
     // ====================================================================== //
     // legacy

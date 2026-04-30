@@ -29,19 +29,19 @@ namespace MemoryService
         return wrap(std::string_view(view));
     }
 
-    void HOST_API_CALL freeString_dlx(IMemoryService::String& data)
+    void HOST_API_CALL freeString_dlx(IMemoryService::String* const data)
     {
-        free(&data);
+        free(*data);
     }
 
-    void HOST_API_CALL freeStringArray_dlx(IMemoryService::StringArray& data)
+    void HOST_API_CALL freeStringArray_dlx(IMemoryService::StringArray* const data)
     {
-        free(&data);
+        free(*data);
     }
 
-    void HOST_API_CALL freeStringViewArray_dlx(IMemoryService::StringViewArray& data)
+    void HOST_API_CALL freeStringViewArray_dlx(IMemoryService::StringViewArray* const data)
     {
-        free(&data);
+        free(*data);
     }
 
     // ====================================================================== //
