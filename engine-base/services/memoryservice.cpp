@@ -64,23 +64,23 @@ namespace MemoryService
     // String
 
     String::String(const size_t size) :
-        data(allocateString(size)),
-        std::string_view(data.data, data.size)
+        string(allocateString(size)),
+        std::string_view(string.data, string.size)
     {}
 
     String::String(const std::string_view string) :
-        data(MemoryService::copy(string)),
-        std::string_view(data.data, data.size)
+        string(MemoryService::copy(string)),
+        std::string_view(string.data(), string.size())
     {}
 
     String::String(const IMemoryService::String string) :
-        data(string),
-        std::string_view(data.data, data.size)
+        string(string),
+        std::string_view(string.data, string.size)
     {}
 
     String::~String()
     {
-        freeString(data);
+        freeString(string);
     }
 
     // ====================================================================== //

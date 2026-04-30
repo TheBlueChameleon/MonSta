@@ -37,7 +37,7 @@ namespace TemplateMode
                             );
         auto memBlock = JsonService::dump(handle);
 
-        FileService::write(defaultName, memBlock.getAsStringView());
+        FileService::write(defaultName, memBlock);
 
         return defaultName;
     }
@@ -73,7 +73,7 @@ namespace TemplateMode
                             );
         auto memBlock = JsonService::dump(handle);
 
-        FileService::write(defaultName, memBlock.getAsStringView());
+        FileService::write(defaultName, memBlock);
 
         return defaultName;
     }
@@ -82,11 +82,11 @@ namespace TemplateMode
     {
         auto handleTeamDef = JsonService::get(SchemaValidation::JTAG_TEAMDEFINITION);
         auto contentTeamDef = JsonService::dump(handleTeamDef);
-        FileService::write(SchemaValidation::filename_teamDefinitionSchema, contentTeamDef.getAsStringView());
+        FileService::write(SchemaValidation::filename_teamDefinitionSchema, contentTeamDef);
 
         auto handleMechanicsDef = JsonService::get(SchemaValidation::JTAG_MECHANICSDEFINITION);
         auto contentMechanicsDef = JsonService::dump(handleMechanicsDef);
-        FileService::write(SchemaValidation::filename_mechanicsDefinitionSchema, contentMechanicsDef.getAsStringView());
+        FileService::write(SchemaValidation::filename_mechanicsDefinitionSchema, contentMechanicsDef);
     }
 
 } // namespace TemplateMode

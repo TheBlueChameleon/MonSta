@@ -47,7 +47,7 @@ namespace JsonService
         const std::string_view source
     );
 
-    MemoryService::MemoryBlock dump(const IJsonServiceTypes::JsonHandle handle, int indent = 2);
+    MemoryService::String dump(const IJsonServiceTypes::JsonHandle handle, int indent = 2);
 }
 
 #endif // JSONSERVICE_ITEMACCESS_HPP

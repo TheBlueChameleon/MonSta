@@ -45,7 +45,7 @@ namespace JsonService
         const char* const source
     );
 
-    IMemoryService::MemoryBlock HOST_API_CALL dump_dlx(const IJsonServiceTypes::JsonHandle handle, int indent);
+    IMemoryService::String HOST_API_CALL dump_dlx(const IJsonServiceTypes::JsonHandle handle, int indent);
 }
 
 #endif // JSONSERVICE_ITEMACCESS_DLX_HPP

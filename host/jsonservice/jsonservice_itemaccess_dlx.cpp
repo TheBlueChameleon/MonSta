@@ -419,15 +419,15 @@ namespace JsonService
         CATCH_EM_ALL(IJsonServiceTypes::ModifiableJsonHandle{nullptr})
     }
 
-    IMemoryService::MemoryBlock HOST_API_CALL dump_dlx(const IJsonServiceTypes::JsonHandle handle, int indent)
+    IMemoryService::String HOST_API_CALL dump_dlx(const IJsonServiceTypes::JsonHandle handle, int indent)
     {
-        const auto nullMem = IMemoryService::MemoryBlock{nullptr, 0};
+        const auto nullMem = IMemoryService::String{nullptr, 0};
         try
         {
             assertSaneHandle(handle);
             const ordered_json& base = toOrderedJson(handle);
             std::string text = base.dump(indent);
-            return MemoryService::createFromView(text);
+            return MemoryService::copy(text);
         }
         CATCH_EM_ALL(nullMem)
     }

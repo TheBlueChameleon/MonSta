@@ -207,7 +207,7 @@ namespace JsonService
         return result;
     }
 
-    MemoryService::MemoryBlock dump(const IJsonServiceTypes::JsonHandle handle, int indent)
+    MemoryService::String dump(const IJsonServiceTypes::JsonHandle handle, int indent)
     {
         auto result = jsonService().itemAccess.dump(handle, indent);
         rethrowHostError();

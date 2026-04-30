@@ -52,7 +52,7 @@ struct IJsonService_ItemAccess
         const char* const source
     );
 
-    IMemoryService::MemoryBlock(HOST_API_CALL* const dump)(const IJsonServiceTypes::JsonHandle handle, int indent);
+    IMemoryService::String(HOST_API_CALL* const dump)(const IJsonServiceTypes::JsonHandle handle, int indent);
 };
 
 #endif // IJSONSERVICE_ITEMACCESS_HPP
