@@ -62,7 +62,7 @@ TEST_F(CsvServiceTest, DlxInterface)
 
     EXPECT_EQ(3, getMaxWidth_dlx(csv));
 
-    freeColumnBuffer_dlx(&col);
+    MemoryService::freeStringArray_dlx(&col);
     MemoryService::freeStringViewArray_dlx(&row);
     freeCsvData_dlx(&csv);
 }

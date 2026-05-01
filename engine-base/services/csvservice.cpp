@@ -118,14 +118,14 @@ namespace CsvService
         rethrowHostError();
     }
 
-    ICsvService::ColumnData getColumn(const ICsvService::CsvHandle handle, const size_t columnIndex)
+    MemoryService::StringArray getColumn(const ICsvService::CsvHandle handle, const size_t columnIndex)
     {
         auto result = csvService().getColumn(handle, columnIndex);
         rethrowHostError();
         return result;
     }
 
-    ICsvService::ColumnData getColumnByName(const ICsvService::CsvHandle handle, const std::string_view columnName)
+    MemoryService::StringArray getColumnByName(const ICsvService::CsvHandle handle, const std::string_view columnName)
     {
         auto result = csvService().getColumnByName(handle, columnName.data());
         rethrowHostError();
@@ -138,21 +138,21 @@ namespace CsvService
         rethrowHostError();
     }
 
-    IMemoryService::StringView getCell(const ICsvService::CsvHandle handle, const size_t rowIndex, const size_t columnIndex)
+    std::string_view getCell(const ICsvService::CsvHandle handle, const size_t rowIndex, const size_t columnIndex)
     {
-        auto result = csvService().getCell(handle, rowIndex, columnIndex);
+        const IMemoryService::StringView result = csvService().getCell(handle, rowIndex, columnIndex);
         rethrowHostError();
-        return result;
+        return std::string_view(result.data, result.size - 1);
     }
 
-    IMemoryService::StringView getCellByName(
+    std::string_view getCellByName(
         const ICsvService::CsvHandle handle,
         const std::string_view rowName,
         const std::string_view columnName
     )
     {
-        auto result = csvService().getCellByName(handle, rowName.data(), columnName.data());
+        const IMemoryService::StringView result = csvService().getCellByName(handle, rowName.data(), columnName.data());
         rethrowHostError();
-        return result;
+        return std::string_view(result.data, result.size - 1);
     }
 }

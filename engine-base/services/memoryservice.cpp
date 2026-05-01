@@ -89,47 +89,60 @@ namespace MemoryService
     // String
 
     String::String(const size_t size) :
-        string(allocateString(size)),
-        std::string_view(string.data, string.size)
-    {}
+        m_string(allocateString(size)),
+        std::string_view(m_string.data, m_string.size)
+    {
+        *static_cast<std::string_view*>(this) =
+            std::string_view(m_string.data, m_string.data + m_string.size);
+    }
 
     String::String(const std::string_view string) :
-        string(MemoryService::copy(string)),
-        std::string_view(string.data(), string.size())
-    {}
+        m_string(MemoryService::copy(string))
+    {
+        *static_cast<std::string_view*>(this) =
+            std::string_view(m_string.data, m_string.data + m_string.size);
+    }
 
     String::String(const IMemoryService::String string) :
-        string(string),
-        std::string_view(string.data, string.size)
-    {}
+        m_string(string)
+    {
+        *static_cast<std::string_view*>(this) =
+            std::string_view(m_string.data, m_string.data + m_string.size);
+    }
 
     String::~String()
     {
-        freeString(string);
+        freeString(m_string);
     }
 
     IMemoryService::String& String::getRaw()
     {
-        return string;
+        return m_string;
     }
 
     // ====================================================================== //
     // StringArray
 
     StringArray::StringArray(const size_t size) :
-        m_array(allocateStringArray(size)),
-        std::span<IMemoryService::String>(m_array.data, m_array.data + size)
-    {}
+        m_array(allocateStringArray(size))
+    {
+        *static_cast<std::span<IMemoryService::String>*>(this) =
+            std::span<IMemoryService::String>(m_array.data, m_array.data + m_array.size);
+    }
 
     StringArray::StringArray(const std::span<std::string_view> array) :
-        m_array(copy(array)),
-        std::span<IMemoryService::String>(m_array.data, m_array.data + array.size())
-    {}
+        m_array(copy(array))
+    {
+        *static_cast<std::span<IMemoryService::String>*>(this) =
+            std::span<IMemoryService::String>(m_array.data, m_array.data + m_array.size);
+    }
 
     StringArray::StringArray(const IMemoryService::StringArray array) :
-        m_array(array),
-        std::span<IMemoryService::String>(m_array.data, m_array.data + array.size)
-    {}
+        m_array(array)
+    {
+        *static_cast<std::span<IMemoryService::String>*>(this) =
+            std::span<IMemoryService::String>(m_array.data, m_array.data + m_array.size);
+    }
 
     StringArray::~StringArray()
     {
@@ -153,22 +166,28 @@ namespace MemoryService
     }
 
     // ====================================================================== //
-    // StringArray
+    // StringViewArray
 
     StringViewArray::StringViewArray(const size_t size) :
-        m_array(allocateStringViewArray(size)),
-        std::span<IMemoryService::StringView>(m_array.data, m_array.data + size)
-    {}
+        m_array(allocateStringViewArray(size))
+    {
+        *static_cast<std::span<IMemoryService::StringView>*>(this) =
+            std::span<IMemoryService::StringView>(m_array.data, m_array.data + m_array.size);
+    }
 
     StringViewArray::StringViewArray(const std::span<std::string_view> array) :
-        m_array(wrap(array)),
-        std::span<IMemoryService::StringView>(m_array.data, m_array.data + array.size())
-    {}
+        m_array(wrap(array))
+    {
+        *static_cast<std::span<IMemoryService::StringView>*>(this) =
+            std::span<IMemoryService::StringView>(m_array.data, m_array.data + m_array.size);
+    }
 
     StringViewArray::StringViewArray(const IMemoryService::StringViewArray array) :
-        m_array(array),
-        std::span<IMemoryService::StringView>(m_array.data, m_array.data + array.size)
-    {}
+        m_array(array)
+    {
+        *static_cast<std::span<IMemoryService::StringView>*>(this) =
+            std::span<IMemoryService::StringView>(m_array.data, m_array.data + m_array.size);
+    }
 
     StringViewArray::~StringViewArray()
     {

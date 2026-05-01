@@ -70,10 +70,8 @@ namespace SimulationMode
         rememberColumn(TypeChart::ATTACKER);
         rememberColumn(TypeChart::CATEGORY);
 
-        ICsvService::ColumnData typeNames = CsvService::getColumnByName(handle, TypeChart::ATTACKER);
-        const auto typeNamesView = std::span(typeNames.data + 1, typeNames.data + typeNames.size);
-
-        for (const ICsvService::CellData type : typeNamesView)
+        MemoryService::StringArray typeNames = CsvService::getColumnByName(handle, TypeChart::ATTACKER);
+        for (const IMemoryService::String type : typeNames)
         {
             if (CsvService::hasColumn(handle, type.data))
             {
@@ -90,8 +88,6 @@ namespace SimulationMode
         {
             abort("Type chart is incomplete");
         }
-
-        CsvService::freeColumnBuffer(typeNames);
 
         return result;
     }

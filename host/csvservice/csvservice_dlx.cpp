@@ -69,35 +69,6 @@ namespace CsvService
                       );
     }
 
-    static ICsvService::ColumnData copyColumnToCData(const std::vector<std::string>& column)
-    {
-        ICsvService::ColumnData result;
-
-        const size_t size = column.size();
-        result.data = new ICsvService::CellData[size];
-        result.size = size;
-
-        const auto copyToCells = [](const std::string& cellString)
-        {
-            ICsvService::CellData cell;
-
-            const size_t size = cellString.size() + 1;
-            cell.data = new char[size];
-            cell.size = size;
-
-            std::strncpy(const_cast<char*>(cell.data), cellString.data(), size);
-
-            return cell;
-        };
-
-        std::transform(column.begin(), column.end(),
-                       result.data,
-                       copyToCells
-                      );
-
-        return result;
-    }
-
     // ====================================================================== //
     // exported methods
 
@@ -272,26 +243,26 @@ namespace CsvService
         CATCH_ALL_OWN()
     }
 
-    ICsvService::ColumnData HOST_API_CALL getColumn_dlx(const ICsvService::CsvHandle handle, const size_t columnIndex)
+    IMemoryService::StringArray HOST_API_CALL getColumn_dlx(const ICsvService::CsvHandle handle, const size_t columnIndex)
     {
-        ICsvService::ColumnData nullData {nullptr, 0};
+        IMemoryService::StringArray nullData {nullptr, 0};
         try
         {
             assertSaneHandle(handle);
             const std::vector<std::string> column = toCsvData(handle).getColumn(columnIndex);
-            return copyColumnToCData(column);
+            return MemoryService::copy(column);
         }
         CATCH_ALL_OWN(nullData)
     }
 
-    ICsvService::ColumnData HOST_API_CALL getColumnByName_dlx(const ICsvService::CsvHandle handle, const char* const columnName)
+    IMemoryService::StringArray HOST_API_CALL getColumnByName_dlx(const ICsvService::CsvHandle handle, const char* const columnName)
     {
-        ICsvService::ColumnData nullData {nullptr, 0};
+        IMemoryService::StringArray nullData {nullptr, 0};
         try
         {
             assertSaneHandle(handle);
             const std::vector<std::string> column = toCsvData(handle).getColumn(columnName);
-            return copyColumnToCData(column);
+            return MemoryService::copy(column);
         }
         CATCH_ALL_OWN(nullData)
     }

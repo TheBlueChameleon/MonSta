@@ -3,6 +3,7 @@
 
 #include <span>
 #include <string>
+#include <vector>
 
 #include <services/IMemoryService.hpp>
 
@@ -16,7 +17,7 @@ namespace MemoryService
 
     IMemoryService::String          copy(const std::string_view            view);
     IMemoryService::StringArray     copy(const std::span<std::string_view> view);
-    IMemoryService::StringArray     copy(const std::span<std::string>&     view);
+    IMemoryService::StringArray     copy(const std::vector<std::string>&   view);
     IMemoryService::StringView      wrap(const std::string_view            view);
     IMemoryService::StringViewArray wrap(const std::span<std::string_view> view);
     IMemoryService::StringViewArray wrap(const std::span<std::string>&     view);

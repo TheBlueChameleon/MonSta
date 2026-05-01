@@ -42,12 +42,12 @@ namespace CsvService
     void getRow(const ICsvService::CsvHandle handle, IMemoryService::StringViewArray buffer, const size_t rowIndex);
     void getRowByName(const ICsvService::CsvHandle handle, IMemoryService::StringViewArray buffer, const std::string_view rowName);
 
-    ICsvService::ColumnData getColumn(const ICsvService::CsvHandle handle, const size_t columnIndex);
-    ICsvService::ColumnData getColumnByName(const ICsvService::CsvHandle handle, const std::string_view columnName);
+    MemoryService::StringArray getColumn(const ICsvService::CsvHandle handle, const size_t columnIndex);
+    MemoryService::StringArray getColumnByName(const ICsvService::CsvHandle handle, const std::string_view columnName);
     void freeColumnBuffer(ICsvService::ColumnData& columnData);
 
-    IMemoryService::StringView getCell(const ICsvService::CsvHandle handle, const size_t rowIndex, const size_t columnIndex);
-    IMemoryService::StringView getCellByName(const ICsvService::CsvHandle handle, const std::string_view rowName, const std::string_view columnName);
+    std::string_view getCell(const ICsvService::CsvHandle handle, const size_t rowIndex, const size_t columnIndex);
+    std::string_view getCellByName(const ICsvService::CsvHandle handle, const std::string_view rowName, const std::string_view columnName);
 }
 
 #endif // CSVSERVICE_HPP

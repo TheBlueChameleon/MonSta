@@ -39,6 +39,7 @@ namespace MemoryService
     {
         IMemoryService::String result = allocateString(view.size() + 1);
         std::strncpy(result.data, view.data(), view.size());
+        result.data[view.size()] = 0;
         return result;
     }
 
@@ -54,7 +55,7 @@ namespace MemoryService
         return result;
     }
 
-    IMemoryService::StringArray copy(const std::span<std::string>& view)
+    IMemoryService::StringArray copy(const std::vector<std::string>& view)
     {
         IMemoryService::StringArray result = allocateStringArray(view.size());
         int i = 0;

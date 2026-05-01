@@ -24,7 +24,7 @@ namespace MemoryService
     class String : public std::string_view
     {
         private:
-            IMemoryService::String string;
+            IMemoryService::String m_string;
 
         public:
             String(const size_t size);
