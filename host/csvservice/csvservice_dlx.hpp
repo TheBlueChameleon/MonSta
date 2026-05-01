@@ -44,8 +44,8 @@ namespace CsvService
     ICsvService::ColumnData HOST_API_CALL getColumnByName_dlx(const ICsvService::CsvHandle handle, const char* const columnName);
     void HOST_API_CALL freeColumnBuffer_dlx(ICsvService::ColumnData* columnData);
 
-    ICsvService::CellData HOST_API_CALL getCell_dlx(const ICsvService::CsvHandle handle, const size_t rowIndex, const size_t columnIndex);
-    ICsvService::CellData HOST_API_CALL getCellByName_dlx(const ICsvService::CsvHandle handle, const char* const rowName, const char* const columnName);
+    IMemoryService::StringView HOST_API_CALL getCell_dlx(const ICsvService::CsvHandle handle, const size_t rowIndex, const size_t columnIndex);
+    IMemoryService::StringView HOST_API_CALL getCellByName_dlx(const ICsvService::CsvHandle handle, const char* const rowName, const char* const columnName);
 }
 
 #endif // CSVSERVICE_DLX_HPP

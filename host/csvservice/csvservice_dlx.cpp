@@ -3,6 +3,7 @@
 #include <string>
 
 #include "errorservice/catchmacros.hpp"
+#include "memoryservice/memoryservice.hpp"
 
 #include "csvservice.hpp"
 #include "csvservice_dlx.hpp"
@@ -332,26 +333,26 @@ namespace CsvService
         CATCH_ALL_OWN()
     }
 
-    ICsvService::CellData HOST_API_CALL getCell_dlx(const ICsvService::CsvHandle handle, const size_t rowIndex, const size_t columnIndex)
+    IMemoryService::StringView HOST_API_CALL getCell_dlx(const ICsvService::CsvHandle handle, const size_t rowIndex, const size_t columnIndex)
     {
-        const auto nullCell = ICsvService::CellData {nullptr, 0};
+        const auto nullCell = IMemoryService::StringView {nullptr, 0};
         try
         {
             assertSaneHandle(handle);
             const auto& cell = toCsvData(handle).getCell(rowIndex, columnIndex);
-            return ICsvService::CellData {cell.data(), cell.size() + 1};
+            return MemoryService::wrap(cell);
         }
         CATCH_ALL_OWN(nullCell)
     }
 
-    ICsvService::CellData HOST_API_CALL getCellByName_dlx(const ICsvService::CsvHandle handle, const char* const rowName, const char* const columnName)
+    IMemoryService::StringView HOST_API_CALL getCellByName_dlx(const ICsvService::CsvHandle handle, const char* const rowName, const char* const columnName)
     {
-        const auto nullCell = ICsvService::CellData {nullptr, 0};
+        const auto nullCell = IMemoryService::StringView {nullptr, 0};
         try
         {
             assertSaneHandle(handle);
             const auto& cell = toCsvData(handle).getCell(rowName, columnName);
-            return ICsvService::CellData {cell.data(), cell.size() + 1};
+            return MemoryService::wrap(cell);
         }
         CATCH_ALL_OWN(nullCell)
     }

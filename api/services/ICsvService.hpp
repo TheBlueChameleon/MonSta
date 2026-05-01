@@ -5,6 +5,8 @@
 
 #include <CallingConventions.hpp>
 
+#include <services/IMemoryService.hpp>
+
 struct ICsvService
 {
     struct CsvOptions
@@ -20,6 +22,9 @@ struct ICsvService
     {
         void* data;
     };
+
+    // ====================================================================== //
+    // legacy
 
     struct CellData
     {
@@ -38,6 +43,9 @@ struct ICsvService
         CellData* data;
         size_t    size;
     };
+
+    // EOF legacy
+    // ====================================================================== //
 
     ICsvService::CsvHandle(HOST_API_CALL* const readCsvData)(
         const char* const filename,
@@ -76,8 +84,8 @@ struct ICsvService
     ICsvService::ColumnData(HOST_API_CALL* const getColumnByName)(const ICsvService::CsvHandle handle, const char* const columnName);
     void (HOST_API_CALL* const freeColumnBuffer)(ICsvService::ColumnData* columnData);
 
-    ICsvService::CellData(HOST_API_CALL* const getCell)(const ICsvService::CsvHandle handle, const size_t rowIndex, const size_t columnIndex);
-    ICsvService::CellData(HOST_API_CALL* const getCellByName)(const ICsvService::CsvHandle handle, const char* const rowName, const char* const columnName);
+    IMemoryService::StringView(HOST_API_CALL* const getCell)(const ICsvService::CsvHandle handle, const size_t rowIndex, const size_t columnIndex);
+    IMemoryService::StringView(HOST_API_CALL* const getCellByName)(const ICsvService::CsvHandle handle, const char* const rowName, const char* const columnName);
 };
 
 #endif // ICSVSERVICE_HPP

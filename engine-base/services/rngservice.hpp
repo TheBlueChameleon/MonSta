@@ -5,6 +5,9 @@
 
 namespace RngService
 {
+    // TODO: get/set seed
+    // TODO: channel from host defined thread number
+
     class Generator
     {
         public:

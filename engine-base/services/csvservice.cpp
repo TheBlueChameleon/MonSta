@@ -144,14 +144,14 @@ namespace CsvService
         rethrowHostError();
     }
 
-    ICsvService::CellData getCell(const ICsvService::CsvHandle handle, const size_t rowIndex, const size_t columnIndex)
+    IMemoryService::StringView getCell(const ICsvService::CsvHandle handle, const size_t rowIndex, const size_t columnIndex)
     {
         auto result = csvService().getCell(handle, rowIndex, columnIndex);
         rethrowHostError();
         return result;
     }
 
-    ICsvService::CellData getCellByName(
+    IMemoryService::StringView getCellByName(
         const ICsvService::CsvHandle handle,
         const std::string_view rowName,
         const std::string_view columnName
