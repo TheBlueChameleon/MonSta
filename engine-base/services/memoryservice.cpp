@@ -56,6 +56,17 @@ namespace MemoryService
         return result;
     }
 
+    IMemoryService::StringViewArray wrap(const std::span<std::string_view> array)
+    {
+        const IMemoryService::StringViewArray result = memoryService().allocateStringViewArray(array.size());
+        rethrowHostError();
+        for (int i = 0; i < array.size(); ++i)
+        {
+            result.data[i] = wrap(array[i]);
+        }
+        return result;
+    }
+
     void freeString(IMemoryService::String& data)
     {
         memoryService().freeString(&data);
@@ -131,5 +142,40 @@ namespace MemoryService
         return std::string_view(element.data, element.size);
     }
 
+    // ====================================================================== //
+    // StringArray
+
+    StringViewArray::StringViewArray(const size_t size) :
+        m_array(allocateStringViewArray(size)),
+        std::span<IMemoryService::StringView>(m_array.data, m_array.data + size)
+    {}
+
+    StringViewArray::StringViewArray(const std::span<std::string_view> array) :
+        m_array(wrap(array)),
+        std::span<IMemoryService::StringView>(m_array.data, m_array.data + array.size())
+    {}
+
+    StringViewArray::StringViewArray(const IMemoryService::StringViewArray array) :
+        m_array(array),
+        std::span<IMemoryService::StringView>(m_array.data, m_array.data + array.size)
+    {}
+
+    StringViewArray::~StringViewArray()
+    {
+        freeStringViewArray(m_array);
+    }
+
+    const std::string_view StringViewArray::get(const size_t index)
+    {
+        if (index > m_array.size)
+        {
+            throw LookupError("Invalid index: "s + std::to_string(index));
+        }
+
+        const IMemoryService::StringView element = m_array.data[index];
+        return std::string_view(element.data, element.size);
+    }
+
 }
+
 
