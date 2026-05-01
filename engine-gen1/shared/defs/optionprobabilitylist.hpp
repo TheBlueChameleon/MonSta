@@ -5,38 +5,35 @@
 
 namespace MetaDefinition
 {
-    namespace EffectParams
+    class OptionProbabilityListBuilder;
+
+    class OptionProbabilityList
     {
-        class OptionProbabilityListBuilder;
+        private:
+            std::map<int, double> intToProbabilitySums;
 
-        class OptionProbabilityList
-        {
-            private:
-                std::map<int, double> intToProbabilitySums;
+            OptionProbabilityList(std::map<int, double>& optionToProbabilitySums);
 
-                OptionProbabilityList(std::map<int, double>& optionToProbabilitySums);
+        public:
+            int getRandomOption() const;
 
-            public:
-                int getRandomOption() const;
+            friend class OptionProbabilityListBuilder;
+    };
 
-                friend class OptionProbabilityListBuilder;
-        };
+    class OptionProbabilityListBuilder
+    {
+        private:
+            std::map<int, double> optionToProbability;
 
-        class OptionProbabilityListBuilder
-        {
-            private:
-                std::map<int, double> optionToProbability;
+        public:
+            OptionProbabilityListBuilder() = default;
 
-            public:
-                OptionProbabilityListBuilder() = default;
+            void addEntry(const std::pair<int, double> entry);
+            void addEntry(const int i, const double probability);
 
-                void addEntry(const std::pair<int, double> entry);
-                void addEntry(const int i, const double probability);
+            OptionProbabilityList build() const;
+    };
 
-                OptionProbabilityList build() const;
-        };
-
-    }   // namespace EffectParams
 }       // namespace MetaDefinition
 
 #endif // OPTIONPROBABILITYLIST_HPP

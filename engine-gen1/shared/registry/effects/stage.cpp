@@ -10,8 +10,6 @@ using namespace std::string_literals;
 
 namespace MetaDefinition
 {
-    using namespace EffectParams;
-
     namespace Effects
     {
         Stage::Stage(Target target, StatStage stat, int change) :

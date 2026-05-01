@@ -8,8 +8,6 @@ using namespace std::string_literals;
 
 namespace MetaDefinition
 {
-    using namespace EffectParams;
-
     void AbstractEffectHandler::missingParameter(
         const std::string_view effectName,
         const std::string_view paramName
@@ -38,7 +36,7 @@ namespace MetaDefinition
         );
     }
 
-    void AbstractEffectHandler::notImplementedTarget(const std::string_view effectName, const EffectParams::Target target)
+    void AbstractEffectHandler::notImplementedTarget(const std::string_view effectName, const Target target)
     {
         throw NotImplementedError(
             "Not implemented: "s + effectName.data() + " with target "s + getTargetName(target).data()
@@ -90,7 +88,7 @@ namespace MetaDefinition
     Target AbstractEffectHandler::extractTarget(
         const std::string_view effectName,
         const KeyValueMap& params,
-        const EffectParams::Target defaultValue
+        const Target defaultValue
     )
     {
         const auto it = params.find(TARGET);

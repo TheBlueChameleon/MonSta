@@ -41,7 +41,7 @@ namespace MetaDefinition
 
             [[noreturn]] static void notImplementedTarget(
                 const std::string_view effectName,
-                const EffectParams::Target target
+                const Target target
             );
 
         public:
@@ -51,17 +51,17 @@ namespace MetaDefinition
                 const KeyValueMap& actualParams
             );
 
-            static EffectParams::Target extractTarget(
+            static Target extractTarget(
                 const std::string_view effectName,
                 const KeyValueMap& params
             );
-            static EffectParams::Target extractTarget(
+            static Target extractTarget(
                 const std::string_view effectName,
                 const KeyValueMap& params,
-                const EffectParams::Target defaultValue
+                const Target defaultValue
             );
 
-            static EffectParams::HPAmount extractHPAmount(
+            static HPAmount extractHPAmount(
                 const std::string_view effectName,
                 const KeyValueMap& params
             );

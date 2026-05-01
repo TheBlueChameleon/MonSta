@@ -10,12 +10,10 @@ using namespace std::string_literals;
 
 namespace MetaDefinition
 {
-    using namespace EffectParams;
-
     namespace Effects
     {
         Drain::Drain(
-            const EffectParams::HPAmount amount,
+            const HPAmount amount,
             const Target target
         ) :
             amount(amount),
@@ -48,20 +46,20 @@ namespace MetaDefinition
 
             switch (target)
             {
-                case MetaDefinition::EffectParams::Target::Self:
+                case MetaDefinition::Target::Self:
                     scene.healSelf(recovered);
                     break;
-                case MetaDefinition::EffectParams::Target::Enemy:
+                case MetaDefinition::Target::Enemy:
                     scene.healEnemy(recovered);
                     break;
-                case MetaDefinition::EffectParams::Target::Both:
+                case MetaDefinition::Target::Both:
                     scene.getSelf().recoverHealth(recovered);
                     scene.getEnemy().recoverHealth(recovered);
                     break;
-                case MetaDefinition::EffectParams::Target::ChooseSelf:
-                case MetaDefinition::EffectParams::Target::ChooseEnemy:
-                case MetaDefinition::EffectParams::Target::RandomSelf:
-                case MetaDefinition::EffectParams::Target::RandomEnemy:
+                case MetaDefinition::Target::ChooseSelf:
+                case MetaDefinition::Target::ChooseEnemy:
+                case MetaDefinition::Target::RandomSelf:
+                case MetaDefinition::Target::RandomEnemy:
                     notImplementedTarget(EFFECT_NAME, target);
             }
         }

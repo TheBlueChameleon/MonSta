@@ -17,10 +17,10 @@ namespace MetaDefinition
                 static constexpr auto EFFECT_NAME = "MultiHit";
 
             private:
-                EffectParams::OptionProbabilityList probabilities;
+                OptionProbabilityList probabilities;
 
             public:
-                MultiHit(EffectParams::OptionProbabilityList probabilities);
+                MultiHit(OptionProbabilityList probabilities);
 
                 static MultiHit buildEffect(const std::string_view parameterDescriptor);
 

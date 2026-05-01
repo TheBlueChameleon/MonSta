@@ -18,13 +18,13 @@ namespace MetaDefinition
                 static constexpr auto EFFECT_NAME = "Drain";
 
             private:
-                const EffectParams::HPAmount amount;
-                const EffectParams::Target   target;
+                const HPAmount amount;
+                const Target   target;
 
             public:
                 Drain(
-                    const EffectParams::HPAmount amount,
-                    const EffectParams::Target   target
+                    const HPAmount amount,
+                    const Target   target
                 );
                 static Drain buildEffect(const std::string_view parameterDescriptor);
 

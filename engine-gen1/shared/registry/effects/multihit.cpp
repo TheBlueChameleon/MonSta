@@ -10,8 +10,6 @@ using namespace std::string_literals;
 
 namespace MetaDefinition
 {
-    using namespace EffectParams;
-
     namespace Effects
     {
         MultiHit::MultiHit(OptionProbabilityList probabilities) :
