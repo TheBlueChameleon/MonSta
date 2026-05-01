@@ -74,15 +74,19 @@ struct ICsvService
     void (HOST_API_CALL* const reIndexRows)(ICsvService::CsvHandle handle, const size_t columnIndex);
     void (HOST_API_CALL* const reIndexColumns)(ICsvService::CsvHandle handle, const size_t rowIndex);
 
-    ICsvService::RowData(HOST_API_CALL* const reserveRowBuffer)(const ICsvService::CsvHandle handle);
+    IMemoryService::StringViewArray(HOST_API_CALL* const reserveRowBuffer)(const ICsvService::CsvHandle handle);
+    // TODO: remove
     void (HOST_API_CALL* const freeRowBuffer)(ICsvService::RowData* buffer);
+    // EOF: remove
 
-    void (HOST_API_CALL* const getRow)(const ICsvService::CsvHandle handle, ICsvService::RowData buffer, const size_t rowIndex);
-    void (HOST_API_CALL* const getRowByName)(const ICsvService::CsvHandle handle, ICsvService::RowData buffer, const char* const rowName);
+    void (HOST_API_CALL* const getRow)(const ICsvService::CsvHandle handle, IMemoryService::StringViewArray buffer, const size_t rowIndex);
+    void (HOST_API_CALL* const getRowByName)(const ICsvService::CsvHandle handle, IMemoryService::StringViewArray buffer, const char* const rowName);
 
     ICsvService::ColumnData(HOST_API_CALL* const getColumn)(const ICsvService::CsvHandle handle, const size_t columnIndex);
     ICsvService::ColumnData(HOST_API_CALL* const getColumnByName)(const ICsvService::CsvHandle handle, const char* const columnName);
+    // TODO: remove
     void (HOST_API_CALL* const freeColumnBuffer)(ICsvService::ColumnData* columnData);
+    // EOF: remove
 
     IMemoryService::StringView(HOST_API_CALL* const getCell)(const ICsvService::CsvHandle handle, const size_t rowIndex, const size_t columnIndex);
     IMemoryService::StringView(HOST_API_CALL* const getCellByName)(const ICsvService::CsvHandle handle, const char* const rowName, const char* const columnName);

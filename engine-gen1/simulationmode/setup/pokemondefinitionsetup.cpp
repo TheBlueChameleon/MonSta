@@ -77,18 +77,18 @@ namespace SimulationMode
     )
     {
         const size_t rowCount = CsvService::getRowCount(handle);
-        ICsvService::RowData rowBuffer = CsvService::reserveRowBuffer(handle);
+        IMemoryService::StringViewArray rowBuffer = CsvService::reserveRowBuffer(handle);
         std::string_view field;
 
         const auto extractStringAndRememberField = [&field, &columnNames](
                                                        const std::string_view fieldName,
-                                                       const ICsvService::RowData rowBuffer
+                                                       const IMemoryService::StringViewArray rowBuffer
                                                    )
         {
             field = fieldName;
             const auto it = columnNames.find(fieldName.data());
             const size_t column = it->second;
-            const ICsvService::CellData cell = rowBuffer.data[column];
+            const IMemoryService::StringView cell = rowBuffer.data[column];
             return cell.data;
         };
 
@@ -141,10 +141,10 @@ namespace SimulationMode
             }
         }
 
-        CsvService::freeRowBuffer(rowBuffer);
+        // TODO: proper free @ CsvService::freeRowBuffer(rowBuffer);
     }
 
-    void loadAndRegisterPokemon(const std::filesystem::__cxx11::path& pokemonDefinitionFile, EngineBase::ErrorBuffer& eb)
+    void loadAndRegisterPokemon(const std::filesystem::path& pokemonDefinitionFile, EngineBase::ErrorBuffer& eb)
     {
         try
         {

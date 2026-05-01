@@ -35,11 +35,11 @@ namespace CsvService
     void reIndexRows(ICsvService::CsvHandle handle, const size_t columnIndex);
     void reIndexColumns(ICsvService::CsvHandle handle, const size_t rowIndex);
 
-    ICsvService::RowData reserveRowBuffer(const ICsvService::CsvHandle handle);
+    IMemoryService::StringViewArray reserveRowBuffer(const ICsvService::CsvHandle handle);
     void freeRowBuffer(ICsvService::RowData& buffer);
 
-    void getRow(const ICsvService::CsvHandle handle, ICsvService::RowData buffer, const size_t rowIndex);
-    void getRowByName(const ICsvService::CsvHandle handle, ICsvService::RowData buffer, const std::string_view rowName);
+    void getRow(const ICsvService::CsvHandle handle, IMemoryService::StringViewArray buffer, const size_t rowIndex);
+    void getRowByName(const ICsvService::CsvHandle handle, IMemoryService::StringViewArray buffer, const std::string_view rowName);
 
     ICsvService::ColumnData getColumn(const ICsvService::CsvHandle handle, const size_t columnIndex);
     ICsvService::ColumnData getColumnByName(const ICsvService::CsvHandle handle, const std::string_view columnName);

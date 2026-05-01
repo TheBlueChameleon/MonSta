@@ -51,14 +51,14 @@ namespace CsvService
 
     static void transformRowToCData(
         const std::vector<std::string>& row,
-        ICsvService::RowData buffer
+        IMemoryService::StringViewArray buffer
     )
     {
         const auto toCellData = [](const std::string& cell)
         {
-            return ICsvService::CellData
+            return IMemoryService::StringView
             {
-                cell.data(),
+                const_cast<char*>(cell.data()),
                 cell.length() + 1
             };
         };
@@ -238,17 +238,14 @@ namespace CsvService
         CATCH_ALL_OWN()
     }
 
-    ICsvService::RowData HOST_API_CALL reserveRowBuffer_dlx(const ICsvService::CsvHandle handle)
+    IMemoryService::StringViewArray HOST_API_CALL reserveRowBuffer_dlx(const ICsvService::CsvHandle handle)
     {
-        const auto nullRow = ICsvService::RowData {nullptr, 0};
+        const auto nullRow = IMemoryService::StringViewArray {nullptr, 0};
         try
         {
             assertSaneHandle(handle);
-            ICsvService::RowData result;
             const size_t width = toCsvData(handle).getMaxWidth();
-            result.data = new ICsvService::CellData[width];
-            result.size = width;
-            return result;
+            return MemoryService::allocateStringViewArray(width);
         }
         CATCH_ALL_OWN(nullRow)
     }
@@ -266,7 +263,7 @@ namespace CsvService
         CATCH_ALL_OWN()
     }
 
-    void HOST_API_CALL getRow_dlx(const ICsvService::CsvHandle handle, ICsvService::RowData buffer, const size_t rowIndex)
+    void HOST_API_CALL getRow_dlx(const ICsvService::CsvHandle handle, IMemoryService::StringViewArray buffer, const size_t rowIndex)
     {
         try
         {
@@ -277,7 +274,7 @@ namespace CsvService
         CATCH_ALL_OWN()
     }
 
-    void HOST_API_CALL getRowByName_dlx(const ICsvService::CsvHandle handle, ICsvService::RowData buffer, const char* const rowName)
+    void HOST_API_CALL getRowByName_dlx(const ICsvService::CsvHandle handle, IMemoryService::StringViewArray buffer, const char* const rowName)
     {
         try
         {

@@ -99,7 +99,7 @@ namespace CsvService
         rethrowHostError();
     }
 
-    ICsvService::RowData reserveRowBuffer(const ICsvService::CsvHandle handle)
+    IMemoryService::StringViewArray reserveRowBuffer(const ICsvService::CsvHandle handle)
     {
         auto result = csvService().reserveRowBuffer(handle);
         rethrowHostError();
@@ -112,13 +112,13 @@ namespace CsvService
         rethrowHostError();
     }
 
-    void getRow(const ICsvService::CsvHandle handle, ICsvService::RowData buffer, const size_t rowIndex)
+    void getRow(const ICsvService::CsvHandle handle, IMemoryService::StringViewArray buffer, const size_t rowIndex)
     {
         csvService().getRow(handle, buffer, rowIndex);
         rethrowHostError();
     }
 
-    void getRowByName(const ICsvService::CsvHandle handle, ICsvService::RowData buffer, const std::string_view rowName)
+    void getRowByName(const ICsvService::CsvHandle handle, IMemoryService::StringViewArray buffer, const std::string_view rowName)
     {
         csvService().getRowByName(handle, buffer, rowName.data());
         rethrowHostError();

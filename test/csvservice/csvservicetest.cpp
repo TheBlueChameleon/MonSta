@@ -61,6 +61,6 @@ TEST_F(CsvServiceTest, DlxInterface)
     EXPECT_EQ(3, getMaxWidth_dlx(csv));
 
     freeColumnBuffer_dlx(&col);
-    freeRowBuffer_dlx(&row);
+    // TODO: proper free @ freeRowBuffer_dlx(&row);
     freeCsvData_dlx(&csv);
 }

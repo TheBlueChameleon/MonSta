@@ -34,11 +34,11 @@ namespace CsvService
     void HOST_API_CALL reIndexRows_dlx(ICsvService::CsvHandle handle, const size_t columnIndex);
     void HOST_API_CALL reIndexColumns_dlx(ICsvService::CsvHandle handle, const size_t rowIndex);
 
-    ICsvService::RowData HOST_API_CALL reserveRowBuffer_dlx(const ICsvService::CsvHandle handle);
+    IMemoryService::StringViewArray HOST_API_CALL reserveRowBuffer_dlx(const ICsvService::CsvHandle handle);
     void HOST_API_CALL freeRowBuffer_dlx(ICsvService::RowData* buffer);
 
-    void HOST_API_CALL getRow_dlx(const ICsvService::CsvHandle handle, ICsvService::RowData buffer, const size_t rowIndex);
-    void HOST_API_CALL getRowByName_dlx(const ICsvService::CsvHandle handle, ICsvService::RowData buffer, const char* const rowName);
+    void HOST_API_CALL getRow_dlx(const ICsvService::CsvHandle handle, IMemoryService::StringViewArray buffer, const size_t rowIndex);
+    void HOST_API_CALL getRowByName_dlx(const ICsvService::CsvHandle handle, IMemoryService::StringViewArray buffer, const char* const rowName);
 
     ICsvService::ColumnData HOST_API_CALL getColumn_dlx(const ICsvService::CsvHandle handle, const size_t columnIndex);
     ICsvService::ColumnData HOST_API_CALL getColumnByName_dlx(const ICsvService::CsvHandle handle, const char* const columnName);

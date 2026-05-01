@@ -46,7 +46,7 @@ namespace SimulationMode
     }
 
     static const char* const getRowItem(
-        const ICsvService::RowData& rowBuffer,
+        const IMemoryService::StringViewArray rowBuffer,
         size_t index
     )
     {
@@ -109,7 +109,7 @@ namespace SimulationMode
         const std::unordered_map<std::string, size_t>& columnIndices
     )
     {
-        ICsvService::RowData rowBuffer = CsvService::reserveRowBuffer(handle);
+        IMemoryService::StringViewArray rowBuffer = CsvService::reserveRowBuffer(handle);
         CsvService::getRow(handle, rowBuffer, 0);
 
         auto typeDataView = std::vector<std::string_view>(rowBuffer.size - 2);  // do not observe ATTACKER, CATEGORY
@@ -151,7 +151,7 @@ namespace SimulationMode
             typeChart.setRow(typeName, category, typeDataView);
         }
 
-        CsvService::freeRowBuffer(rowBuffer);
+        // TODO: proper free @ CsvService::freeRowBuffer(rowBuffer);
     }
 
     void loadAndRegisterTypesDefinition(
