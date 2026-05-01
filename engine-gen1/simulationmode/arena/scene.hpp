@@ -3,8 +3,9 @@
 
 #include <list>
 
+#include "shared/defs/stat.hpp"
+
 #include "pokemoninstance.hpp"
-#include "stat.hpp"
 
 namespace SimulationMode
 {
@@ -17,8 +18,8 @@ namespace SimulationMode
             int  lastDamageDone;
             bool stopProcessSecondaryEffects = false;
 
-            std::list<std::pair<Stat, int>> tempStatsSelf;
-            std::list<std::pair<Stat, int>> tempStatsEnemy;
+            std::list<std::pair<MetaDefinition::Stat, int>> tempStatsSelf;
+            std::list<std::pair<MetaDefinition::Stat, int>> tempStatsEnemy;
 
         public:
             PokemonInstance& getSelf();
@@ -30,8 +31,8 @@ namespace SimulationMode
             void healSelf(const int amount);
             void healEnemy(const int amount);
 
-            void setTemporaryStatSelf(const  Stat stat, const int value);
-            void setTemporaryStatEnemy(const Stat stat, const int value);
+            void setTemporaryStatSelf(const  MetaDefinition::Stat stat, const int value);
+            void setTemporaryStatEnemy(const MetaDefinition::Stat stat, const int value);
 
             int  getLastDamageDone() const;
             void setLastDamageDone(int value);

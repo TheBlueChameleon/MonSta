@@ -24,14 +24,14 @@ namespace SimulationMode
         enemy->recoverHealth(amount);
     }
 
-    void Scene::setTemporaryStatSelf(const Stat stat, const int value)
+    void Scene::setTemporaryStatSelf(const MetaDefinition::Stat stat, const int value)
     {
         const int old = self->getStat(stat);
         self->setStat(stat, value);
         tempStatsSelf.push_back(std::make_pair(stat, old));
     }
 
-    void Scene::setTemporaryStatEnemy(const Stat stat, const int value)
+    void Scene::setTemporaryStatEnemy(const MetaDefinition::Stat stat, const int value)
     {
         const int old = self->getStat(stat);
         enemy->setStat(stat, value);

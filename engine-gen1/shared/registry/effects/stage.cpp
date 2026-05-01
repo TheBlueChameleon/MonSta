@@ -62,18 +62,17 @@ namespace MetaDefinition
 
         void Stage::execute(SimulationMode::Scene& scene)
         {
-            const auto arenaStat = getSimulationModeValue(stat);
             switch (target)
             {
                 case Target::Self:
-                    scene.getSelf().changeStatStage(arenaStat, change);
+                    scene.getSelf().changeStatStage(stat, change);
                     break;
                 case Target::Enemy:
-                    scene.getEnemy().changeStatStage(arenaStat, change);
+                    scene.getEnemy().changeStatStage(stat, change);
                     break;
                 case Target::Both:
-                    scene.getSelf().changeStatStage(arenaStat, change);
-                    scene.getEnemy().changeStatStage(arenaStat, change);
+                    scene.getSelf().changeStatStage(stat, change);
+                    scene.getEnemy().changeStatStage(stat, change);
                     break;
                 case Target::ChooseSelf:
                 case Target::ChooseEnemy:

@@ -14,27 +14,27 @@ namespace SimulationMode
         return 1;
     }
 
-    int PokemonInstance::getStat(const Stat stat) const
+    int PokemonInstance::getStat(const MetaDefinition::Stat stat) const
     {
         return 1;
     }
 
-    void PokemonInstance::setStat(const Stat stat, int value)
+    void PokemonInstance::setStat(const MetaDefinition::Stat stat, int value)
     {
 
     }
 
-    int PokemonInstance::getStatStage(const StatStage)
+    int PokemonInstance::getStatStage(const MetaDefinition::StatStage stat)
     {
         return 0;
     }
 
-    void PokemonInstance::setStatStage(const StatStage stat, int value)
+    void PokemonInstance::setStatStage(const MetaDefinition::StatStage stat, int value)
     {
 
     }
 
-    void PokemonInstance::changeStatStage(const StatStage stat, int amount)
+    void PokemonInstance::changeStatStage(const MetaDefinition::StatStage stat, int amount)
     {
 
     }

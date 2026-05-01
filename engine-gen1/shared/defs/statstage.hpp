@@ -1,9 +1,7 @@
-#ifndef PARAMS_STATSTAGE_HPP
-#define PARAMS_STATSTAGE_HPP
+#ifndef STATSTAGE_HPP
+#define STATSTAGE_HPP
 
 #include <string_view>
-
-#include "simulationmode/arena/statstage.hpp"
 
 namespace MetaDefinition
 {
@@ -22,8 +20,6 @@ namespace MetaDefinition
     StatStage getStatStageFromName(const std::string_view name);
     std::string_view getStatStageName(const StatStage statStage);
 
-    SimulationMode::StatStage getSimulationModeValue(const StatStage statStage);
-
 } // namespace MetaDefinition
 
-#endif // PARAMS_STATSTAGE_HPP
+#endif // STATSTAGE_HPP

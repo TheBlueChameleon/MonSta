@@ -44,28 +44,4 @@ namespace MetaDefinition
         );
     }
 
-    SimulationMode::StatStage getSimulationModeValue(const StatStage statStage)
-    {
-        switch (statStage)
-        {
-            case StatStage::ATK:
-                return SimulationMode::StatStage::ATK;
-            case StatStage::DEF:
-                return SimulationMode::StatStage::DEF;
-            case StatStage::SPC:
-                return SimulationMode::StatStage::SPC;
-            case StatStage::SPD:
-                return SimulationMode::StatStage::SPD;
-            case StatStage::Accuracy:
-                return SimulationMode::StatStage::Accuracy;
-            case StatStage::Evasion:
-                return SimulationMode::StatStage::Evasion;
-            case StatStage::CritRate:
-                return SimulationMode::StatStage::CritRate;
-        }
-        throw  IllegalArgumentError(
-            "Unknown StatStage ID: "s + std::to_string(static_cast<int>(statStage))
-        );
-    }
-
 } // namespace MetaDefinition

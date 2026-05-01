@@ -379,17 +379,17 @@ add_library(Engine-Gen1 SHARED
 
     engine-gen1/shared/schemavalidationconstants.hpp                engine-gen1/shared/schemavalidationconstants.cpp
 
+    engine-gen1/shared/defs/hpamount.hpp                            engine-gen1/shared/defs/hpamount.cpp
     engine-gen1/shared/defs/mechanicsdefinition.hpp
+    engine-gen1/shared/defs/optionprobabilitylist.hpp               engine-gen1/shared/defs/optionprobabilitylist.cpp
     engine-gen1/shared/defs/pokemondatabaseentry.hpp                engine-gen1/shared/defs/pokemondatabaseentry.cpp
     engine-gen1/shared/defs/pokemondefition.hpp
     engine-gen1/shared/defs/pokemonstatus.hpp                       engine-gen1/shared/defs/pokemonstatus.cpp
-    engine-gen1/shared/defs/teamdefinition.hpp
-    engine-gen1/shared/defs/typeinfo.hpp                            engine-gen1/shared/defs/typeinfo.cpp
-
-    engine-gen1/shared/defs/hpamount.hpp                            engine-gen1/shared/defs/hpamount.cpp
-    engine-gen1/shared/defs/optionprobabilitylist.hpp               engine-gen1/shared/defs/optionprobabilitylist.cpp
+    engine-gen1/shared/defs/stat.hpp                                engine-gen1/shared/defs/stat.cpp
     engine-gen1/shared/defs/statstage.hpp                           engine-gen1/shared/defs/statstage.cpp
     engine-gen1/shared/defs/target.hpp                              engine-gen1/shared/defs/target.cpp
+    engine-gen1/shared/defs/teamdefinition.hpp
+    engine-gen1/shared/defs/typeinfo.hpp                            engine-gen1/shared/defs/typeinfo.cpp
 
     engine-gen1/shared/registry/pokemondatabase.hpp                 engine-gen1/shared/registry/pokemondatabase.cpp
     engine-gen1/shared/registry/registry.hpp                        engine-gen1/shared/registry/registry.cpp
@@ -407,8 +407,6 @@ add_library(Engine-Gen1 SHARED
 
     engine-gen1/simulationmode/arena/pokemoninstance.hpp            engine-gen1/simulationmode/arena/pokemoninstance.cpp
     engine-gen1/simulationmode/arena/scene.hpp                      engine-gen1/simulationmode/arena/scene.cpp
-    engine-gen1/simulationmode/arena/stat.hpp
-    engine-gen1/simulationmode/arena/statstage.hpp
 
     engine-gen1/simulationmode/setup/mechanicsdefinitionsetup.hpp   engine-gen1/simulationmode/setup/mechanicsdefinitionsetup.cpp
     engine-gen1/simulationmode/setup/pokemondefinitionsetup.hpp     engine-gen1/simulationmode/setup/pokemondefinitionsetup.cpp
