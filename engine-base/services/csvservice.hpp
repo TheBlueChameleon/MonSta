@@ -44,7 +44,6 @@ namespace CsvService
 
     MemoryService::StringArray getColumn(const ICsvService::CsvHandle handle, const size_t columnIndex);
     MemoryService::StringArray getColumnByName(const ICsvService::CsvHandle handle, const std::string_view columnName);
-    void freeColumnBuffer(ICsvService::ColumnData& columnData);
 
     std::string_view getCell(const ICsvService::CsvHandle handle, const size_t rowIndex, const size_t columnIndex);
     std::string_view getCellByName(const ICsvService::CsvHandle handle, const std::string_view rowName, const std::string_view columnName);

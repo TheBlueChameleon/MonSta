@@ -26,28 +26,6 @@ using namespace SchemaValidation;
 
 namespace SimulationMode
 {
-    // ====================================================================== //
-    // helpers
-
-    static void fetchIntoStringView(
-        const std::span<ICsvService::CellData>& rowCellView,
-        std::vector<std::string_view>& rowStringView
-    )
-    {
-        const auto extract = [](const ICsvService::CellData& cell)
-        {
-            return cell.data;
-        };
-
-        std::transform(rowCellView.begin(), rowCellView.end(),
-                       rowStringView.begin(),
-                       extract
-                      );
-    }
-
-    // ====================================================================== //
-    // processors proper
-
     std::unordered_map<std::string, size_t> collectColumnIndices(
         ICsvService::CsvHandle handle,
         ErrorBuffer& eb,

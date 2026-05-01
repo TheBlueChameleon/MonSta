@@ -267,27 +267,6 @@ namespace CsvService
         CATCH_ALL_OWN(nullData)
     }
 
-    void HOST_API_CALL freeColumnBuffer_dlx(ICsvService::ColumnData* columnData)
-    {
-        try
-        {
-            assertSanePointer(columnData);
-            assertSanePointer(columnData->data);
-
-            for (int i = 0; i < columnData->size; ++i)
-            {
-                assertSanePointer(columnData->data[i].data);
-                delete columnData->data[i].data;
-                columnData->data[i].data = nullptr;
-                columnData->data[i].size = 0;
-            }
-            delete columnData->data;
-            columnData->data = nullptr;
-            columnData->size = 0;
-        }
-        CATCH_ALL_OWN()
-    }
-
     IMemoryService::StringView HOST_API_CALL getCell_dlx(const ICsvService::CsvHandle handle, const size_t rowIndex, const size_t columnIndex)
     {
         const auto nullCell = IMemoryService::StringView {nullptr, 0};

@@ -46,7 +46,6 @@ namespace CsvService
             getRowByName_dlx,
             getColumn_dlx,
             getColumnByName_dlx,
-            freeColumnBuffer_dlx,
             getCell_dlx,
             getCellByName_dlx
         };

@@ -23,24 +23,6 @@ struct ICsvService
         void* data;
     };
 
-    // ====================================================================== //
-    // legacy
-
-    struct CellData
-    {
-        const char* data;
-        size_t      size;
-    };
-
-    struct ColumnData
-    {
-        CellData* data;
-        size_t    size;
-    };
-
-    // EOF legacy
-    // ====================================================================== //
-
     ICsvService::CsvHandle(HOST_API_CALL* const readCsvData)(
         const char* const filename,
         const ICsvService::CsvOptions csvOptions
@@ -74,9 +56,6 @@ struct ICsvService
 
     IMemoryService::StringArray(HOST_API_CALL* const getColumn)(const ICsvService::CsvHandle handle, const size_t columnIndex);
     IMemoryService::StringArray(HOST_API_CALL* const getColumnByName)(const ICsvService::CsvHandle handle, const char* const columnName);
-    // TODO: remove
-    void (HOST_API_CALL* const freeColumnBuffer)(ICsvService::ColumnData* columnData);
-    // EOF: remove
 
     IMemoryService::StringView(HOST_API_CALL* const getCell)(const ICsvService::CsvHandle handle, const size_t rowIndex, const size_t columnIndex);
     IMemoryService::StringView(HOST_API_CALL* const getCellByName)(const ICsvService::CsvHandle handle, const char* const rowName, const char* const columnName);

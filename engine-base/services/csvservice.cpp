@@ -132,12 +132,6 @@ namespace CsvService
         return result;
     }
 
-    void freeColumnBuffer(ICsvService::ColumnData& columnData)
-    {
-        csvService().freeColumnBuffer(&columnData);
-        rethrowHostError();
-    }
-
     std::string_view getCell(const ICsvService::CsvHandle handle, const size_t rowIndex, const size_t columnIndex)
     {
         const IMemoryService::StringView result = csvService().getCell(handle, rowIndex, columnIndex);
