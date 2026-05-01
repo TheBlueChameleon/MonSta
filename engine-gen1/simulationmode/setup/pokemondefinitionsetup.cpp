@@ -95,7 +95,7 @@ namespace SimulationMode
         {
             try
             {
-                CsvService::getRow(handle, rowBuffer.getRaw(), row);
+                CsvService::getRow(handle, rowBuffer, row);
 
                 const std::string species = extractStringAndRememberField(PokemonDatabase::SPECIES, rowBuffer);
                 PokemonDatabaseEntry entry;

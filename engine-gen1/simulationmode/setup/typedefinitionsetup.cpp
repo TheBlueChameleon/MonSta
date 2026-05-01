@@ -76,7 +76,7 @@ namespace SimulationMode
     )
     {
         MemoryService::StringViewArray rowBuffer = CsvService::reserveRowBuffer(handle);
-        CsvService::getRow(handle, rowBuffer.getRaw(), 0);
+        CsvService::getRow(handle, rowBuffer, 0);
 
         auto typeDataView = std::vector<std::string_view>(rowBuffer.size() - 2);  // do not observe ATTACKER, CATEGORY
 
@@ -108,7 +108,7 @@ namespace SimulationMode
         const size_t rowCount = CsvService::getRowCount(handle);
         for (size_t i = 1; i < rowCount; ++i)
         {
-            CsvService::getRow(handle, rowBuffer.getRaw(), i);
+            CsvService::getRow(handle, rowBuffer, i);
             const auto typeName     = rowBuffer.get(typeNameColumn);
             const auto categoryName = rowBuffer.get(categoryColumn);
             const auto category = getMoveCategoryFromName(categoryName);

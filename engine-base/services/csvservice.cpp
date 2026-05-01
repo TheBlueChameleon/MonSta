@@ -112,10 +112,20 @@ namespace CsvService
         rethrowHostError();
     }
 
+    void getRow(const ICsvService::CsvHandle handle, MemoryService::StringViewArray& buffer, const size_t rowIndex)
+    {
+        return getRow(handle, buffer.getRaw(), rowIndex);
+    }
+
     void getRowByName(const ICsvService::CsvHandle handle, IMemoryService::StringViewArray buffer, const std::string_view rowName)
     {
         csvService().getRowByName(handle, buffer, rowName.data());
         rethrowHostError();
+    }
+
+    void getRowByName(const ICsvService::CsvHandle handle, MemoryService::StringViewArray& buffer, const std::string_view rowName)
+    {
+        return getRowByName(handle, buffer.getRaw(), rowName);
     }
 
     MemoryService::StringArray getColumn(const ICsvService::CsvHandle handle, const size_t columnIndex)

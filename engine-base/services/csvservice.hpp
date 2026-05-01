@@ -38,9 +38,10 @@ namespace CsvService
     void reIndexColumns(ICsvService::CsvHandle handle, const size_t rowIndex);
 
     MemoryService::StringViewArray reserveRowBuffer(const ICsvService::CsvHandle handle);
-    // TODO: add variants accepting locally wrapped buffer
     void getRow(const ICsvService::CsvHandle handle, IMemoryService::StringViewArray buffer, const size_t rowIndex);
+    void getRow(const ICsvService::CsvHandle handle, MemoryService::StringViewArray& buffer, const size_t rowIndex);
     void getRowByName(const ICsvService::CsvHandle handle, IMemoryService::StringViewArray buffer, const std::string_view rowName);
+    void getRowByName(const ICsvService::CsvHandle handle, MemoryService::StringViewArray& buffer, const std::string_view rowName);
 
     MemoryService::StringArray getColumn(const ICsvService::CsvHandle handle, const size_t columnIndex);
     MemoryService::StringArray getColumnByName(const ICsvService::CsvHandle handle, const std::string_view columnName);
