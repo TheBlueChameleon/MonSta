@@ -398,6 +398,7 @@ add_library(Engine-Gen1 SHARED
     engine-gen1/shared/registry/typechart.hpp                       engine-gen1/shared/registry/typechart.cpp
 
     engine-gen1/shared/registry/effects/abstracteffecthandler.hpp   engine-gen1/shared/registry/effects/abstracteffecthandler.cpp
+    engine-gen1/shared/registry/effects/accumulateandpayback.hpp        engine-gen1/shared/registry/effects/accumulateandpayback.cpp
     engine-gen1/shared/registry/effects/drain.hpp                   engine-gen1/shared/registry/effects/drain.cpp
     engine-gen1/shared/registry/effects/effecthandlerdescriptor.hpp
     engine-gen1/shared/registry/effects/multihit.hpp                engine-gen1/shared/registry/effects/multihit.cpp

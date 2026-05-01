@@ -163,6 +163,29 @@ namespace MetaDefinition
         return pBuilder.build();
     }
 
+    double AbstractEffectHandler::extractSimpleNumber(const std::string_view effectName, const KeyValueMap& params)
+    {
+
+        if (params.size() != 1)
+        {
+            throw InvalidUserInput(std::format("{} takes exactly one parameter", effectName));
+        }
+
+        const auto& param = params.begin()->first;
+        try
+        {
+            return std::stod(param);
+        }
+        catch (const std::invalid_argument&)
+        {
+            throw InvalidUserInput(std::format("Not a number: '{}'", param));
+        }
+        catch (const std::out_of_range&)
+        {
+            throw InvalidUserInput(std::format("Not a number: '{}'", param));
+        }
+    }
+
     EffectEvaluationTime AbstractEffectHandler::getEvaluationTime()
     {
         return EffectEvaluationTime::AfterRegularDamage;

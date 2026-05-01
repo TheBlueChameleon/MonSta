@@ -72,6 +72,11 @@ namespace MetaDefinition
                 const KeyValueMap& params
             );
 
+            static double extractSimpleNumber(
+                const std::string_view effectName,
+                const KeyValueMap& params
+            );
+
         public:
             virtual void execute(SimulationMode::Scene& scene) = 0;
             virtual EffectEvaluationTime getEvaluationTime();

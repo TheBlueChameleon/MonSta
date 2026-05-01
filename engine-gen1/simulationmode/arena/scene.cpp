@@ -4,14 +4,12 @@ namespace SimulationMode
 {
     void Scene::damageSelf(const int amount)
     {
-        const auto actualDamage = self->takeDamage(amount);
-        lastDamageDone = actualDamage;
+        self->takeDamage(amount);
     }
 
     void Scene::damageEnemy(const int amount)
     {
-        const auto actualDamage = enemy->takeDamage(amount);
-        lastDamageDone = actualDamage;
+        enemy->takeDamage(amount);
     }
 
     void Scene::healSelf(const int amount)
@@ -36,16 +34,6 @@ namespace SimulationMode
         const int old = self->getStat(stat);
         enemy->setStat(stat, value);
         tempStatsEnemy.push_back(std::make_pair(stat, old));
-    }
-
-    int Scene::getLastDamageDone() const
-    {
-        return lastDamageDone;
-    }
-
-    void Scene::setLastDamageDone(int value)
-    {
-        lastDamageDone = value;
     }
 
     bool Scene::getStopProcessSecondaryEffects() const

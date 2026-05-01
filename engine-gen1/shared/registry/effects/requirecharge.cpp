@@ -14,7 +14,7 @@ namespace MetaDefinition
 
         RequireCharge RequireCharge::buildEffect(const std::string_view parameterDescriptor)
         {
-            const AbstractEffectHandler::KeyValueMap params = EngineBase::splitArgs(parameterDescriptor);
+            const AbstractEffectHandler::KeyValueMap params = EngineBase::splitArgs(parameterDescriptor, '|', ':');
             const auto probabilities = extractOptionProbabilities(EFFECT_NAME, params);
             return RequireCharge(probabilities);
         }
@@ -29,7 +29,7 @@ namespace MetaDefinition
             auto& self = scene.getSelf();
             const int turns = chargeTurnsProbabilities.getRandomOption();
             self.setSkipTurnCount(turns);
-            self.lockMoveNext(self.getCurrentMove(), 1);
+            self.lockNextMove(self.getCurrentMove(), turns);
         }
 
     } // namespace Effects

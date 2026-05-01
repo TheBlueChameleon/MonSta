@@ -43,7 +43,7 @@ namespace MetaDefinition
 
         Stage Stage::buildEffect(const std::string_view parameterDescriptor)
         {
-            const AbstractEffectHandler::KeyValueMap params = EngineBase::splitArgs(parameterDescriptor);
+            const AbstractEffectHandler::KeyValueMap params = EngineBase::splitArgs(parameterDescriptor, '|', ':');
 
             assertOnlySupportedParams(EFFECT_NAME,
             {

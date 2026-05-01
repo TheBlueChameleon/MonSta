@@ -16,17 +16,23 @@ namespace MetaDefinition
 
         MultiHit MultiHit::buildEffect(const std::string_view parameterDescriptor)
         {
-            const AbstractEffectHandler::KeyValueMap params = EngineBase::splitArgs(parameterDescriptor);
+            const AbstractEffectHandler::KeyValueMap params = EngineBase::splitArgs(parameterDescriptor, '|', ':');
             const auto probabilities = extractOptionProbabilities(EFFECT_NAME, params);
             return MultiHit(probabilities);
         }
 
         void MultiHit::execute(SimulationMode::Scene& scene)
         {
+            auto& target = scene.getEnemy();
             const auto turns = hitCountProbabilities.getRandomOption();
             for (int i = 0; i < turns-1; ++i)        // turns-1: first instance of damage has already been done.
             {
-                scene.damageEnemy(scene.getLastDamageDone());
+                auto last = target.getLastDamageReceived();
+                if (last == SimulationMode::PokemonInstance::DELEGATE_BROKEN)
+                {
+                    break;
+                }
+                target.takeDamage(last);
             }
         }
 

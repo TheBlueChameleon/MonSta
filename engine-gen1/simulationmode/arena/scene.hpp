@@ -15,7 +15,6 @@ namespace SimulationMode
             PokemonInstance* self;
             PokemonInstance* enemy;
 
-            int  lastDamageDone;
             bool stopProcessSecondaryEffects = false;
 
             std::list<std::pair<MetaDefinition::Stat, int>> tempStatsSelf;
@@ -33,9 +32,6 @@ namespace SimulationMode
 
             void setTemporaryStatSelf(const  MetaDefinition::Stat stat, const int value);
             void setTemporaryStatEnemy(const MetaDefinition::Stat stat, const int value);
-
-            int  getLastDamageDone() const;
-            void setLastDamageDone(int value);
 
             bool getStopProcessSecondaryEffects() const;
             void setStopProcessSecondaryEffects(bool value);

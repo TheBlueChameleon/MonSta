@@ -6,7 +6,9 @@ namespace SimulationMode
 
     int PokemonInstance::takeDamage(const int amount)
     {
-        return 1;
+        const auto actualDamage = 1;
+        setLastDamageReceived(actualDamage);
+        return actualDamage;
     }
 
     int PokemonInstance::recoverHealth(const int amount)
@@ -39,12 +41,12 @@ namespace SimulationMode
 
     }
 
-    MetaDefinition::Move* PokemonInstance::getCurrentMove() const
+    int PokemonInstance::getLastDamageReceived() const
     {
-        return nullptr;
+        return 0;
     }
 
-    void PokemonInstance::lockMoveNext(const MetaDefinition::Move* const move, const int turns)
+    void PokemonInstance::setLastDamageReceived(const int amount)
     {
 
     }
@@ -59,9 +61,50 @@ namespace SimulationMode
 
     }
 
-    void PokemonInstance::setSkipTurnCount(int amount)
+    void PokemonInstance::setSkipTurnCount(const int amount)
     {
 
+    }
+
+    const MetaDefinition::Move* const PokemonInstance::getCurrentMove() const
+    {
+        return nullptr;
+    }
+
+    void PokemonInstance::lockNextMove(const MetaDefinition::Move* const move, const int turns)
+    {
+
+    }
+
+    void PokemonInstance::decreaseLockNextMoveCount()
+    {
+
+    }
+
+    int PokemonInstance::getAccumulatedDamage() const
+    {
+        return 0;
+    }
+
+    void PokemonInstance::addToAccumulatedDamage(const int amount)
+    {
+
+    }
+
+    void PokemonInstance::resetAccumulatedDamage()
+    {
+
+    }
+
+    void PokemonInstance::increaseRageCount()
+    {
+
+    }
+
+    void PokemonInstance::decreaseTurnCounts()
+    {
+        reduceSkipTurnCount();
+        decreaseLockNextMoveCount();
     }
 
 } // namespace SimulationMode
