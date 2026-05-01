@@ -405,6 +405,7 @@ add_library(Engine-Gen1 SHARED
     engine-gen1/shared/registry/effects/repeatmove.hpp              engine-gen1/shared/registry/effects/repeatmove.cpp
     engine-gen1/shared/registry/effects/requirecharge.hpp           engine-gen1/shared/registry/effects/requirecharge.cpp
     engine-gen1/shared/registry/effects/stage.hpp                   engine-gen1/shared/registry/effects/stage.cpp
+    engine-gen1/shared/registry/effects/trap.hpp                    engine-gen1/shared/registry/effects/trap.cpp
 
     engine-gen1/shared/registry/moves/move.hpp                      engine-gen1/shared/registry/moves/move.cpp
     engine-gen1/shared/registry/moves/secondaryeffect.hpp

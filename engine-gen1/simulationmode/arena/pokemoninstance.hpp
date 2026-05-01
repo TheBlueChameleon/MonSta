@@ -43,6 +43,9 @@ namespace SimulationMode
             void addToAccumulatedDamage(const int amount);
             void resetAccumulatedDamage();
 
+            bool isTrapped() const;
+            void setTrapped(bool value);
+
             void increaseRageCount();
 
             void decreaseTurnCounts();

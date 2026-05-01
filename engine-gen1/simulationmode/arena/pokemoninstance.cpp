@@ -96,6 +96,16 @@ namespace SimulationMode
 
     }
 
+    bool PokemonInstance::isTrapped() const
+    {
+        return false;
+    }
+
+    void PokemonInstance::setTrapped(bool value)
+    {
+
+    }
+
     void PokemonInstance::increaseRageCount()
     {
 
