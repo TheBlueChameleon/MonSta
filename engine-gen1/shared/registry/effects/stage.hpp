@@ -18,17 +18,17 @@ namespace MetaDefinition
                 static constexpr auto EFFECT_NAME = "Stage";
 
             private:
-                Target      target;
-                StatStage   stat;
-                int         change;
+                const Target    target;
+                const StatStage stat;
+                const int       change;
 
                 static std::pair<StatStage, int> extractStatStage(const AbstractEffectHandler::KeyValueMap& params);
 
             public:
                 Stage(
-                    Target      target,
-                    StatStage   stat,
-                    int         change
+                    const Target    target,
+                    const StatStage stat,
+                    const int       change
                 );
 
                 static Stage buildEffect(const std::string_view parameterDescriptor);

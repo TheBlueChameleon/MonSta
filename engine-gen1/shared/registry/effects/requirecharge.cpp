@@ -8,7 +8,7 @@ namespace MetaDefinition
 {
     namespace Effects
     {
-        RequireCharge::RequireCharge(OptionProbabilityList chargeTurnsProbabilities) :
+        RequireCharge::RequireCharge(const OptionProbabilityList& chargeTurnsProbabilities) :
             chargeTurnsProbabilities(chargeTurnsProbabilities)
         {}
 

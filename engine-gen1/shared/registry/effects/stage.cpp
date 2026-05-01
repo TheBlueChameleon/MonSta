@@ -11,7 +11,7 @@ namespace MetaDefinition
 {
     namespace Effects
     {
-        Stage::Stage(Target target, StatStage stat, int change) :
+        Stage::Stage(const Target target, const StatStage stat, const int change) :
             target(target), stat(stat), change(change)
         {}
 

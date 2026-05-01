@@ -45,7 +45,6 @@ namespace MetaDefinition
                 const Target target
             );
 
-        public:
             static void assertOnlySupportedParams(
                 const std::string_view effectName,
                 const KeySet& supportedParamKeys,

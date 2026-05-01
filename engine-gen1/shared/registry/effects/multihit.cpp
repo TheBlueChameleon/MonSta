@@ -4,13 +4,11 @@
 
 #include "multihit.hpp"
 
-using namespace std::string_literals;
-
 namespace MetaDefinition
 {
     namespace Effects
     {
-        MultiHit::MultiHit(OptionProbabilityList probabilities) :
+        MultiHit::MultiHit(const OptionProbabilityList& probabilities) :
             hitCountProbabilities(probabilities)
         {}
 

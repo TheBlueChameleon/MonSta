@@ -13,10 +13,10 @@ namespace MetaDefinition
                 static constexpr auto EFFECT_NAME = "RequireCharge";
 
             private:
-                OptionProbabilityList chargeTurnsProbabilities;
+                const OptionProbabilityList chargeTurnsProbabilities;
 
             public:
-                RequireCharge(OptionProbabilityList chargeTurnsProbabilities);
+                RequireCharge(const OptionProbabilityList& chargeTurnsProbabilities);
 
                 static RequireCharge buildEffect(const std::string_view parameterDescriptor);
 
