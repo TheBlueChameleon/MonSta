@@ -77,26 +77,25 @@ namespace SimulationMode
     )
     {
         const size_t rowCount = CsvService::getRowCount(handle);
-        IMemoryService::StringViewArray rowBuffer = CsvService::reserveRowBuffer(handle);
+        MemoryService::StringViewArray rowBuffer = CsvService::reserveRowBuffer(handle);
         std::string_view field;
 
         const auto extractStringAndRememberField = [&field, &columnNames](
                                                        const std::string_view fieldName,
-                                                       const IMemoryService::StringViewArray rowBuffer
+                                                       const MemoryService::StringViewArray& rowBuffer
                                                    )
         {
             field = fieldName;
             const auto it = columnNames.find(fieldName.data());
             const size_t column = it->second;
-            const IMemoryService::StringView cell = rowBuffer.data[column];
-            return cell.data;
+            return rowBuffer.get(column).data();
         };
 
         for (size_t row = 1; row < rowCount; ++row)
         {
             try
             {
-                CsvService::getRow(handle, rowBuffer, row);
+                CsvService::getRow(handle, rowBuffer.getRaw(), row);
 
                 const std::string species = extractStringAndRememberField(PokemonDatabase::SPECIES, rowBuffer);
                 PokemonDatabaseEntry entry;
@@ -110,7 +109,7 @@ namespace SimulationMode
                 entry.expGroup = getExperienceGroupFromName(extractStringAndRememberField(PokemonDatabase::EXPGROUP, rowBuffer));
 
                 entry.type.primary =  extractStringAndRememberField(PokemonDatabase::TYPE1, rowBuffer);
-                const std::string secondary = extractStringAndRememberField(PokemonDatabase::TYPE2, rowBuffer);
+                const std::string_view secondary = extractStringAndRememberField(PokemonDatabase::TYPE2, rowBuffer);
                 if (!secondary.empty())
                 {
                     entry.type.secondary = secondary;
@@ -140,8 +139,6 @@ namespace SimulationMode
                       );
             }
         }
-
-        // TODO: proper free @ CsvService::freeRowBuffer(rowBuffer);
     }
 
     void loadAndRegisterPokemon(const std::filesystem::path& pokemonDefinitionFile, EngineBase::ErrorBuffer& eb)

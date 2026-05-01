@@ -6,6 +6,8 @@
 
 #include <services/ICsvService.hpp>
 
+#include <services/memoryservice.hpp>
+
 namespace CsvService
 {
     ICsvService::CsvHandle readCsvData(
@@ -35,9 +37,8 @@ namespace CsvService
     void reIndexRows(ICsvService::CsvHandle handle, const size_t columnIndex);
     void reIndexColumns(ICsvService::CsvHandle handle, const size_t rowIndex);
 
-    IMemoryService::StringViewArray reserveRowBuffer(const ICsvService::CsvHandle handle);
-    void freeRowBuffer(ICsvService::RowData& buffer);
-
+    MemoryService::StringViewArray reserveRowBuffer(const ICsvService::CsvHandle handle);
+    // TODO: add variants accepting locally wrapped buffer
     void getRow(const ICsvService::CsvHandle handle, IMemoryService::StringViewArray buffer, const size_t rowIndex);
     void getRowByName(const ICsvService::CsvHandle handle, IMemoryService::StringViewArray buffer, const std::string_view rowName);
 

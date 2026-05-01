@@ -250,19 +250,6 @@ namespace CsvService
         CATCH_ALL_OWN(nullRow)
     }
 
-    void HOST_API_CALL freeRowBuffer_dlx(ICsvService::RowData* buffer)
-    {
-        try
-        {
-            assertSanePointer(buffer);
-            assertSanePointer(buffer->data);
-            delete buffer->data;
-            buffer->data = nullptr;
-            buffer->size = 0;
-        }
-        CATCH_ALL_OWN()
-    }
-
     void HOST_API_CALL getRow_dlx(const ICsvService::CsvHandle handle, IMemoryService::StringViewArray buffer, const size_t rowIndex)
     {
         try

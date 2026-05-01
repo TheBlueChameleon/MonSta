@@ -31,9 +31,11 @@ namespace MemoryService
             String(const std::string_view string);
             String(const IMemoryService::String string);
             ~String();
+
+            IMemoryService::String& getRaw();
     };
 
-    class StringArray : std::span<IMemoryService::String>
+    class StringArray : public std::span<IMemoryService::String>
     {
         private:
             IMemoryService::StringArray m_array;
@@ -44,10 +46,11 @@ namespace MemoryService
             StringArray(const IMemoryService::StringArray array);
             ~StringArray();
 
-            const std::string_view get(const size_t index);
+            const std::string_view get(const size_t index) const;
+            IMemoryService::StringArray& getRaw();
     };
 
-    class StringViewArray : std::span<IMemoryService::StringView>
+    class StringViewArray : public std::span<IMemoryService::StringView>
     {
         private:
             IMemoryService::StringViewArray m_array;
@@ -58,7 +61,8 @@ namespace MemoryService
             StringViewArray(const IMemoryService::StringViewArray array);
             ~StringViewArray();
 
-            const std::string_view get(const size_t index);
+            const std::string_view get(const size_t index) const;
+            IMemoryService::StringViewArray& getRaw();
     };
 }
 

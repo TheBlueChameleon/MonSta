@@ -45,14 +45,6 @@ namespace SimulationMode
                       );
     }
 
-    static const char* const getRowItem(
-        const IMemoryService::StringViewArray rowBuffer,
-        size_t index
-    )
-    {
-        return rowBuffer.data[index].data;
-    }
-
     // ====================================================================== //
     // processors proper
 
@@ -109,10 +101,10 @@ namespace SimulationMode
         const std::unordered_map<std::string, size_t>& columnIndices
     )
     {
-        IMemoryService::StringViewArray rowBuffer = CsvService::reserveRowBuffer(handle);
-        CsvService::getRow(handle, rowBuffer, 0);
+        MemoryService::StringViewArray rowBuffer = CsvService::reserveRowBuffer(handle);
+        CsvService::getRow(handle, rowBuffer.getRaw(), 0);
 
-        auto typeDataView = std::vector<std::string_view>(rowBuffer.size - 2);  // do not observe ATTACKER, CATEGORY
+        auto typeDataView = std::vector<std::string_view>(rowBuffer.size() - 2);  // do not observe ATTACKER, CATEGORY
 
         // lookups are guaranteed to have results, or collectColumnIndices would have called abort.
         const auto typeNameColumn = columnIndices.find(TypeChart::ATTACKER)->second;
@@ -130,7 +122,7 @@ namespace SimulationMode
                 }
 
                 const auto column = entry.second;
-                typeDataView[i] = getRowItem(rowBuffer, column);
+                typeDataView[i] = rowBuffer.get(column);
 
                 ++i;
             }
@@ -142,16 +134,14 @@ namespace SimulationMode
         const size_t rowCount = CsvService::getRowCount(handle);
         for (size_t i = 1; i < rowCount; ++i)
         {
-            CsvService::getRow(handle, rowBuffer, i);
-            const auto typeName     = getRowItem(rowBuffer, typeNameColumn);
-            const auto categoryName = getRowItem(rowBuffer, categoryColumn);
+            CsvService::getRow(handle, rowBuffer.getRaw(), i);
+            const auto typeName     = rowBuffer.get(typeNameColumn);
+            const auto categoryName = rowBuffer.get(categoryColumn);
             const auto category = getMoveCategoryFromName(categoryName);
 
             updateTypeDataView();
             typeChart.setRow(typeName, category, typeDataView);
         }
-
-        // TODO: proper free @ CsvService::freeRowBuffer(rowBuffer);
     }
 
     void loadAndRegisterTypesDefinition(

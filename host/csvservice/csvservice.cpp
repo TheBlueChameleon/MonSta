@@ -42,8 +42,6 @@ namespace CsvService
             reIndexColumns_dlx,
 
             reserveRowBuffer_dlx,
-            freeRowBuffer_dlx,
-
             getRow_dlx,
             getRowByName_dlx,
             getColumn_dlx,

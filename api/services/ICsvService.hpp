@@ -32,12 +32,6 @@ struct ICsvService
         size_t      size;
     };
 
-    struct RowData
-    {
-        CellData* data;
-        size_t    size;
-    };
-
     struct ColumnData
     {
         CellData* data;
@@ -75,10 +69,6 @@ struct ICsvService
     void (HOST_API_CALL* const reIndexColumns)(ICsvService::CsvHandle handle, const size_t rowIndex);
 
     IMemoryService::StringViewArray(HOST_API_CALL* const reserveRowBuffer)(const ICsvService::CsvHandle handle);
-    // TODO: remove
-    void (HOST_API_CALL* const freeRowBuffer)(ICsvService::RowData* buffer);
-    // EOF: remove
-
     void (HOST_API_CALL* const getRow)(const ICsvService::CsvHandle handle, IMemoryService::StringViewArray buffer, const size_t rowIndex);
     void (HOST_API_CALL* const getRowByName)(const ICsvService::CsvHandle handle, IMemoryService::StringViewArray buffer, const char* const rowName);
 

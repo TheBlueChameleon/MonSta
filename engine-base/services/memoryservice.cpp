@@ -108,6 +108,11 @@ namespace MemoryService
         freeString(string);
     }
 
+    IMemoryService::String& String::getRaw()
+    {
+        return string;
+    }
+
     // ====================================================================== //
     // StringArray
 
@@ -131,7 +136,7 @@ namespace MemoryService
         freeStringArray(m_array);
     }
 
-    const std::string_view StringArray::get(const size_t index)
+    const std::string_view StringArray::get(const size_t index) const
     {
         if (index > m_array.size)
         {
@@ -139,7 +144,12 @@ namespace MemoryService
         }
 
         const IMemoryService::String element = m_array.data[index];
-        return std::string_view(element.data, element.size);
+        return std::string_view(element.data, element.size - 1);
+    }
+
+    IMemoryService::StringArray& StringArray::getRaw()
+    {
+        return m_array;
     }
 
     // ====================================================================== //
@@ -165,7 +175,7 @@ namespace MemoryService
         freeStringViewArray(m_array);
     }
 
-    const std::string_view StringViewArray::get(const size_t index)
+    const std::string_view StringViewArray::get(const size_t index) const
     {
         if (index > m_array.size)
         {
@@ -173,7 +183,12 @@ namespace MemoryService
         }
 
         const IMemoryService::StringView element = m_array.data[index];
-        return std::string_view(element.data, element.size);
+        return std::string_view(element.data, element.size - 1);
+    }
+
+    IMemoryService::StringViewArray& StringViewArray::getRaw()
+    {
+        return m_array;
     }
 
 }

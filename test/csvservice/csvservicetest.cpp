@@ -1,6 +1,8 @@
 #include "csvservice/csvservice.hpp"
 #include "csvservice/csvservice_dlx.hpp"
 
+#include "memoryservice/memoryservice_dlx.hpp"
+
 #include "csvservicetest.hpp"
 
 TEST_F(CsvServiceTest, RegularData)
@@ -61,6 +63,6 @@ TEST_F(CsvServiceTest, DlxInterface)
     EXPECT_EQ(3, getMaxWidth_dlx(csv));
 
     freeColumnBuffer_dlx(&col);
-    // TODO: proper free @ freeRowBuffer_dlx(&row);
+    MemoryService::freeStringViewArray_dlx(&row);
     freeCsvData_dlx(&csv);
 }

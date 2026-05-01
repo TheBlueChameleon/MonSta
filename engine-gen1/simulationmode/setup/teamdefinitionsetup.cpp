@@ -62,7 +62,7 @@ namespace SimulationMode
         const std::filesystem::path& origin
     )
     {
-        if (statValue > Registry::mechanicsDefinition.dvCap)
+        if (statValue > statCap)
         {
             reportViolation(std::format(
                                 "In '{}':\n"

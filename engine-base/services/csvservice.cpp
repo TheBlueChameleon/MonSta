@@ -99,17 +99,11 @@ namespace CsvService
         rethrowHostError();
     }
 
-    IMemoryService::StringViewArray reserveRowBuffer(const ICsvService::CsvHandle handle)
+    MemoryService::StringViewArray reserveRowBuffer(const ICsvService::CsvHandle handle)
     {
         auto result = csvService().reserveRowBuffer(handle);
         rethrowHostError();
         return result;
-    }
-
-    void freeRowBuffer(ICsvService::RowData& buffer)
-    {
-        csvService().freeRowBuffer(&buffer);
-        rethrowHostError();
     }
 
     void getRow(const ICsvService::CsvHandle handle, IMemoryService::StringViewArray buffer, const size_t rowIndex)
