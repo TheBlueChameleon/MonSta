@@ -2,7 +2,6 @@
 #include <base/stringutils.hpp>
 
 #include "simulationmode/arena/scene.hpp"
-#include "simulationmode/arena/pokemoninstance.hpp"
 
 #include "stage.hpp"
 

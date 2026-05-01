@@ -39,4 +39,29 @@ namespace SimulationMode
 
     }
 
+    MetaDefinition::Move* PokemonInstance::getCurrentMove() const
+    {
+        return nullptr;
+    }
+
+    void PokemonInstance::lockMoveNext(const MetaDefinition::Move* const move, const int turns)
+    {
+
+    }
+
+    int PokemonInstance::getSkipTurnCount() const
+    {
+        return 0;
+    }
+
+    void PokemonInstance::reduceSkipTurnCount()
+    {
+
+    }
+
+    void PokemonInstance::setSkipTurnCount(int amount)
+    {
+
+    }
+
 } // namespace SimulationMode

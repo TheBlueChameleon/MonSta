@@ -1,8 +1,6 @@
-#include <base/errors.hpp>
 #include <base/stringutils.hpp>
 
 #include "simulationmode/arena/scene.hpp"
-#include "simulationmode/arena/pokemoninstance.hpp"
 
 #include "multihit.hpp"
 
@@ -13,7 +11,7 @@ namespace MetaDefinition
     namespace Effects
     {
         MultiHit::MultiHit(OptionProbabilityList probabilities) :
-            probabilities(probabilities)
+            hitCountProbabilities(probabilities)
         {}
 
         MultiHit MultiHit::buildEffect(const std::string_view parameterDescriptor)
@@ -25,7 +23,7 @@ namespace MetaDefinition
 
         void MultiHit::execute(SimulationMode::Scene& scene)
         {
-            const auto turns = probabilities.getRandomOption();
+            const auto turns = hitCountProbabilities.getRandomOption();
             for (int i = 0; i < turns-1; ++i)        // turns-1: first instance of damage has already been done.
             {
                 scene.damageEnemy(scene.getLastDamageDone());

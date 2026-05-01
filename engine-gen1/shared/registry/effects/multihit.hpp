@@ -17,7 +17,7 @@ namespace MetaDefinition
                 static constexpr auto EFFECT_NAME = "MultiHit";
 
             private:
-                OptionProbabilityList probabilities;
+                OptionProbabilityList hitCountProbabilities;
 
             public:
                 MultiHit(OptionProbabilityList probabilities);

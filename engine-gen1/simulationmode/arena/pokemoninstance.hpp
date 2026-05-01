@@ -4,6 +4,8 @@
 #include "shared/defs/stat.hpp"
 #include "shared/defs/statstage.hpp"
 
+#include "shared/registry/moves/move.hpp"
+
 namespace SimulationMode
 {
     class PokemonInstance
@@ -22,6 +24,14 @@ namespace SimulationMode
             int getStatStage(const     MetaDefinition::StatStage stat);
             void setStatStage(const    MetaDefinition::StatStage stat, int value);
             void changeStatStage(const MetaDefinition::StatStage stat, int amount);
+
+            int getSkipTurnCount() const;
+            void reduceSkipTurnCount();
+            void setSkipTurnCount(int amount);
+
+            MetaDefinition::Move* getCurrentMove() const;
+            void lockMoveNext(const MetaDefinition::Move* const move, const int turns);
+
     };
 
 } // namespace SimulationMode
