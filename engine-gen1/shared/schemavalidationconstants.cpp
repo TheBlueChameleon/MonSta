@@ -119,6 +119,35 @@ namespace SchemaValidation
         .setDefault("100");
 
         builder
+        .addProperty(JKEY_MECHANICS_SLEEPMINTURNS, JsonType::INTEGER)
+        .setDefault("2");
+
+        builder
+        .addProperty(JKEY_MECHANICS_SLEEPMAXTURNS, JsonType::INTEGER)
+        .setDefault("7");
+
+        builder
+        .addProperty(JKEY_MECHANICS_CONFUSIONMINTURNS, JsonType::INTEGER)
+        .setDefault("2");
+
+        builder
+        .addProperty(JKEY_MECHANICS_CONFUSIONMAXTURNS, JsonType::INTEGER)
+        .setDefault("5");
+
+        builder
+        .addProperty(JKEY_MECHANICS_CONFUSIONHITCHANCE, JsonType::INTEGER)
+        .setDefault("50");
+
+        builder
+        .addProperty(JKEY_MECHANICS_CONFUSIONHITSTRENGTH, JsonType::INTEGER)
+        .setDefault("40");
+
+        builder
+        .addProperty(JKEY_MECHANICS_BURNDAMAGEPERCENTAGE, JsonType::INTEGER)
+        .setDefault("6.25");
+
+        // glitch flags;
+        builder
         .addProperty(JKEY_MECHANICS_GEN1MISS, JsonType::BOOLEAN)
         .setDefault("true");
 
@@ -176,6 +205,10 @@ namespace SchemaValidation
 
         builder
         .addProperty(JKEY_MECHANICS_TOXICLEECHSEEDGLITCH, JsonType::BOOLEAN)
+        .setDefault("true");
+
+        builder
+        .addProperty(JKEY_MECHANICS_OPPONENTFAINTSKIPGLITCH, JsonType::BOOLEAN)
         .setDefault("true");
 
         builder.buildAndAdd(JTAG_MECHANICSDEFINITION);

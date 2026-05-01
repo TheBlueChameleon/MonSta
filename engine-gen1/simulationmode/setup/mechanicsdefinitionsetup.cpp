@@ -42,6 +42,13 @@ namespace SimulationMode
             mechanicsDefinition.statExpSumCap   = md.navigateTo(JKEY_MECHANICS_STATEXPSUMCAP).getAsInteger();
             mechanicsDefinition.statStageAbsMax = md.navigateTo(JKEY_MECHANICS_STATSTAGEABSMAX).getAsInteger();
             mechanicsDefinition.obedienceCap    = md.navigateTo(JKEY_MECHANICS_OBEDIENCECAP).getAsInteger();
+            mechanicsDefinition.sleepMinTurns           = md.navigateTo(JKEY_MECHANICS_SLEEPMINTURNS).getAsInteger();
+            mechanicsDefinition.sleepMaxTurns           = md.navigateTo(JKEY_MECHANICS_SLEEPMAXTURNS).getAsInteger();
+            mechanicsDefinition.confusionMinTurns       = md.navigateTo(JKEY_MECHANICS_CONFUSIONMINTURNS).getAsInteger();
+            mechanicsDefinition.confusionMaxTurns       = md.navigateTo(JKEY_MECHANICS_CONFUSIONMAXTURNS).getAsInteger();
+            mechanicsDefinition.confusionHitChance      = md.navigateTo(JKEY_MECHANICS_CONFUSIONHITCHANCE).getAsInteger();
+            mechanicsDefinition.confusionHitStrength    = md.navigateTo(JKEY_MECHANICS_CONFUSIONHITSTRENGTH).getAsInteger();
+            mechanicsDefinition.burnDamagePercentage    = md.navigateTo(JKEY_MECHANICS_BURNDAMAGEPERCENTAGE).getAsFloat();
 
             mechanicsDefinition.gen1miss                    = md.navigateTo(JKEY_MECHANICS_GEN1MISS).getAsBool();
             mechanicsDefinition.bideGlitch                  = md.navigateTo(JKEY_MECHANICS_BIDE_GLITCH).getAsBool();
@@ -58,6 +65,7 @@ namespace SimulationMode
             mechanicsDefinition.substituteSelfHurtGlitch    = md.navigateTo(JKEY_MECHANICS_SUBSTITUTESELFHURTGLITCH).getAsBool();
             mechanicsDefinition.toxicLeechSeedGlitch        = md.navigateTo(JKEY_MECHANICS_TOXICLEECHSEEDGLITCH).getAsBool();
             mechanicsDefinition.toxicRestGlitch             = md.navigateTo(JKEY_MECHANICS_TOXICRESTGLITCH).getAsBool();
+            mechanicsDefinition.opponentFaintSkipGlitch     = md.navigateTo(JKEY_MECHANICS_OPPONENTFAINTSKIPGLITCH).getAsBool();
         }
         catch (const EngineError& e)
         {

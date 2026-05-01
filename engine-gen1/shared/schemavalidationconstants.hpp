@@ -84,14 +84,14 @@ namespace SchemaValidation
     const auto JKEY_MECHANICS_STATEXPSUMCAP             = "StatExpSumCap";
     const auto JKEY_MECHANICS_STATSTAGEABSMAX           = "StatStageMaxAbsolute";
     const auto JKEY_MECHANICS_OBEDIENCECAP              = "obedienceCap";
-    // sleep turns min
-    // sleep turns max
-    // confused turns min
-    // confused turns max
-    // confused self hit chance
-    // confused hit strength
-    // confused damage type
-    // burn damage percentage
+
+    const auto JKEY_MECHANICS_SLEEPMINTURNS             = "sleepMinTurns";
+    const auto JKEY_MECHANICS_SLEEPMAXTURNS             = "sleepMaxTurns";
+    const auto JKEY_MECHANICS_CONFUSIONMINTURNS         = "confusionMinTurns";
+    const auto JKEY_MECHANICS_CONFUSIONMAXTURNS         = "confusionMaxTurns";
+    const auto JKEY_MECHANICS_CONFUSIONHITCHANCE        = "confusionHitChance";
+    const auto JKEY_MECHANICS_CONFUSIONHITSTRENGTH      = "confusionHitStrength";
+    const auto JKEY_MECHANICS_BURNDAMAGEPERCENTAGE      = "burnDamagePercentage";
 
     const auto JKEY_MECHANICS_GEN1MISS                  = "gen1miss";
     const auto JKEY_MECHANICS_BIDE_GLITCH               = "bideGlitch";
@@ -108,7 +108,7 @@ namespace SchemaValidation
     const auto JKEY_MECHANICS_SUBSTITUTESELFHURTGLITCH  = "substituteSelfHurtGlitch";
     const auto JKEY_MECHANICS_TOXICLEECHSEEDGLITCH      = "toxicLeechSeedGlitch";
     const auto JKEY_MECHANICS_TOXICRESTGLITCH           = "toxicRestGlitch";
-    // opponent faint skips effects
+    const auto JKEY_MECHANICS_OPPONENTFAINTSKIPGLITCH   = "opponentFaintSkipGlitch";
 
     void registerMechanicsDefinition();
     void registerSchemaTeamDefinition();

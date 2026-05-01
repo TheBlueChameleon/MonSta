@@ -15,6 +15,13 @@ namespace MetaDefinition
         int statExpSumCap;
         int statStageAbsMax;
         int obedienceCap;
+        int sleepMinTurns;
+        int sleepMaxTurns;
+        int confusionMinTurns;
+        int confusionMaxTurns;
+        int confusionHitChance;
+        int confusionHitStrength;
+        double burnDamagePercentage;
 
         bool gen1miss;
         bool bideGlitch;
@@ -31,6 +38,7 @@ namespace MetaDefinition
         bool substituteSelfHurtGlitch;
         bool toxicLeechSeedGlitch;
         bool toxicRestGlitch;
+        bool opponentFaintSkipGlitch;
     };
 }
 
