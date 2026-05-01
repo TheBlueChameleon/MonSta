@@ -360,6 +360,7 @@ add_library(Engine-Base STATIC
     engine-base/services/memoryservice.hpp                          engine-base/services/memoryservice.cpp
     engine-base/services/rngservice.hpp                             engine-base/services/rngservice.cpp
     engine-base/services/services.hpp                               engine-base/services/services.cpp
+    engine-base/services/versionservice.hpp                         engine-base/services/versionservice.cpp
 )
 
 target_include_directories(Engine-Base

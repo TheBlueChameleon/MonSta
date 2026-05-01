@@ -32,6 +32,9 @@ namespace MemoryService
             String(const IMemoryService::String string);
             ~String();
 
+            String(const String&) = delete;
+            String& operator=(const String&) = delete;
+
             IMemoryService::String& getRaw();
     };
 
@@ -45,6 +48,9 @@ namespace MemoryService
             StringArray(const std::span<std::string_view> array);
             StringArray(const IMemoryService::StringArray array);
             ~StringArray();
+
+            StringArray(const String&) = delete;
+            StringArray& operator=(const StringArray&) = delete;
 
             const std::string_view get(const size_t index) const;
             IMemoryService::StringArray& getRaw();
@@ -60,6 +66,9 @@ namespace MemoryService
             StringViewArray(const std::span<std::string_view> array);
             StringViewArray(const IMemoryService::StringViewArray array);
             ~StringViewArray();
+
+            StringViewArray(const String&) = delete;
+            StringViewArray& operator=(const StringViewArray&) = delete;
 
             const std::string_view get(const size_t index) const;
             IMemoryService::StringViewArray& getRaw();
