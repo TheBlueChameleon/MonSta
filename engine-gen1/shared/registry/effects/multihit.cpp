@@ -19,33 +19,7 @@ namespace MetaDefinition
         MultiHit MultiHit::buildEffect(const std::string_view parameterDescriptor)
         {
             const AbstractEffectHandler::KeyValueMap params = EngineBase::splitArgs(parameterDescriptor);
-            OptionProbabilityListBuilder pBuilder;
-
-            for (const auto& entry : params)
-            {
-                try
-                {
-                    const auto option     = std::stoi(entry.first);
-                    const auto percentage = std::stod(entry.second) / 100.0;
-                    pBuilder.addEntry(option, percentage);
-                }
-                catch (const std::invalid_argument& e)
-                {
-                    throw EngineError(
-                        ApiStatusCode::INVALID_USER_INPUT,
-                        "Not an integer: "s + entry.first
-                    );
-                }
-                catch (const std::out_of_range& e)
-                {
-                    throw EngineError(
-                        ApiStatusCode::INVALID_USER_INPUT,
-                        "Not an percentage: "s + entry.first
-                    );
-                }
-            }
-
-            const auto probabilities = pBuilder.build();
+            const auto probabilities = extractOptionProbabilities(EFFECT_NAME, params);
             return MultiHit(probabilities);
         }
 

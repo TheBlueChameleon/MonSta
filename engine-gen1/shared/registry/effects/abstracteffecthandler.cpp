@@ -1,3 +1,4 @@
+#include <format>
 #include <sstream>
 
 #include <base/errorbuffer.hpp>
@@ -120,10 +121,46 @@ namespace MetaDefinition
             return {HPBasis::Absolute, std::stod(it->second)};
         }
 
-        throw EngineError(
-            ApiStatusCode::INVALID_USER_INPUT,
+        throw InvalidUserInput(
             "Parameters for effect Drain contain neither "s + HPAMOUNT_PERCENTAGE + " nor " + HPAMOUNT_ABSOLUTE
         );
+    }
+
+    OptionProbabilityList AbstractEffectHandler::extractOptionProbabilities(const std::string_view effectName, const KeyValueMap& params)
+    {
+        EngineBase::ErrorBuffer eb;
+        OptionProbabilityListBuilder pBuilder;
+
+        for (const auto& entry : params)
+        {
+            try
+            {
+                const auto option     = std::stoi(entry.first);
+                const auto percentage = std::stod(entry.second) / 100.0;
+                pBuilder.addEntry(option, percentage);
+            }
+            catch (const std::invalid_argument&)
+            {
+                eb.append(
+                    ApiStatusCode::INVALID_USER_INPUT,
+                    std::format("Invalid option {} with value {}", entry.first, entry.second)
+                );
+            }
+            catch (const std::out_of_range&)
+            {
+                eb.append(
+                    ApiStatusCode::INVALID_USER_INPUT,
+                    std::format("Invalid option {} with value {}", entry.first, entry.second)
+                );
+            }
+        }
+
+        if (!eb.isClean())
+        {
+            throw MultipleErrors(eb.compileErrorMessage());
+        }
+
+        return pBuilder.build();
     }
 
     EffectEvaluationTime AbstractEffectHandler::getEvaluationTime()
