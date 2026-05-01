@@ -3,8 +3,8 @@
 
 #include <string_view>
 
-#include "params/hpamount.hpp"
-#include "params/target.hpp"
+#include "shared/defs/hpamount.hpp"
+#include "shared/defs/target.hpp"
 
 #include "abstracteffecthandler.hpp"
 

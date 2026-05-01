@@ -5,8 +5,8 @@
 #include <string>
 #include <unordered_map>
 
-#include "params/target.hpp"
-#include "params/hpamount.hpp"
+#include "shared/defs/target.hpp"
+#include "shared/defs/hpamount.hpp"
 
 namespace EngineBase
 {

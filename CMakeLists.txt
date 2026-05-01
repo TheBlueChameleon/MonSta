@@ -386,6 +386,11 @@ add_library(Engine-Gen1 SHARED
     engine-gen1/shared/defs/teamdefinition.hpp
     engine-gen1/shared/defs/typeinfo.hpp                            engine-gen1/shared/defs/typeinfo.cpp
 
+    engine-gen1/shared/defs/hpamount.hpp                            engine-gen1/shared/defs/hpamount.cpp
+    engine-gen1/shared/defs/optionprobabilitylist.hpp               engine-gen1/shared/defs/optionprobabilitylist.cpp
+    engine-gen1/shared/defs/statstage.hpp                           engine-gen1/shared/defs/statstage.cpp
+    engine-gen1/shared/defs/target.hpp                              engine-gen1/shared/defs/target.cpp
+
     engine-gen1/shared/registry/pokemondatabase.hpp                 engine-gen1/shared/registry/pokemondatabase.cpp
     engine-gen1/shared/registry/registry.hpp                        engine-gen1/shared/registry/registry.cpp
     engine-gen1/shared/registry/setup.hpp                           engine-gen1/shared/registry/setup.cpp
@@ -396,12 +401,6 @@ add_library(Engine-Gen1 SHARED
     engine-gen1/shared/registry/effects/effecthandlerdescriptor.hpp
     engine-gen1/shared/registry/effects/multihit.hpp                engine-gen1/shared/registry/effects/multihit.cpp
     engine-gen1/shared/registry/effects/stage.hpp                   engine-gen1/shared/registry/effects/stage.cpp
-
-    engine-gen1/shared/registry/effects/params/hpamount.hpp         engine-gen1/shared/registry/effects/params/hpamount.cpp
-    engine-gen1/shared/registry/effects/params/optionprobabilitylist.hpp engine-gen1/shared/registry/effects/params/optionprobabilitylist.cpp
-
-    engine-gen1/shared/registry/effects/params/statstage.hpp        engine-gen1/shared/registry/effects/params/statstage.cpp
-    engine-gen1/shared/registry/effects/params/target.hpp           engine-gen1/shared/registry/effects/params/target.cpp
 
     engine-gen1/shared/registry/moves/move.hpp                      engine-gen1/shared/registry/moves/move.cpp
     engine-gen1/shared/registry/moves/secondaryeffect.hpp

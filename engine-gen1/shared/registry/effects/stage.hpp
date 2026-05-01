@@ -3,8 +3,8 @@
 
 #include <string_view>
 
-#include "params/target.hpp"
-#include "params/statstage.hpp"
+#include "shared/defs/target.hpp"
+#include "shared/defs/statstage.hpp"
 
 #include "abstracteffecthandler.hpp"
 

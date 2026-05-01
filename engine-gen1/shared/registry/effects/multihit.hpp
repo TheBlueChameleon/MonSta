@@ -3,7 +3,7 @@
 
 #include <string_view>
 
-#include "params/optionprobabilitylist.hpp"
+#include "shared/defs/optionprobabilitylist.hpp"
 
 #include "abstracteffecthandler.hpp"
 
