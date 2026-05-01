@@ -16,6 +16,16 @@ namespace SimulationMode
         return 1;
     }
 
+    int PokemonInstance::getLastDamageReceived() const
+    {
+        return 0;
+    }
+
+    void PokemonInstance::setLastDamageReceived(const int amount)
+    {
+
+    }
+
     int PokemonInstance::getStat(const MetaDefinition::Stat stat) const
     {
         return 1;
@@ -41,12 +51,32 @@ namespace SimulationMode
 
     }
 
-    int PokemonInstance::getLastDamageReceived() const
+    double PokemonInstance::getHitChance()
     {
         return 0;
     }
 
-    void PokemonInstance::setLastDamageReceived(const int amount)
+    double PokemonInstance::getStrikeChance()
+    {
+        return 0;
+    }
+
+    bool PokemonInstance::isEscapePrevented() const
+    {
+        return false;
+    }
+
+    void PokemonInstance::setEscapePrevented(const bool value)
+    {
+
+    }
+
+    bool PokemonInstance::isSemiInvulnerable() const
+    {
+        return false;
+    }
+
+    void PokemonInstance::setSemiInvulnerable(const bool value)
     {
 
     }
@@ -56,12 +86,27 @@ namespace SimulationMode
         return 0;
     }
 
-    void PokemonInstance::reduceSkipTurnCount()
+    void PokemonInstance::setSkipTurnCount(const int amount)
     {
 
     }
 
-    void PokemonInstance::setSkipTurnCount(const int amount)
+    void PokemonInstance::decreaseSkipTurnCount()
+    {
+
+    }
+
+    int PokemonInstance::getSleepCount() const
+    {
+        return 0;
+    }
+
+    void PokemonInstance::setSleepCount(const int value)
+    {
+
+    }
+
+    void PokemonInstance::decreaseSleepCount()
     {
 
     }
@@ -69,6 +114,16 @@ namespace SimulationMode
     const MetaDefinition::Move* const PokemonInstance::getCurrentMove() const
     {
         return nullptr;
+    }
+
+    const MetaDefinition::Move* const PokemonInstance::getLockedInMove() const
+    {
+        return nullptr;
+    }
+
+    int PokemonInstance::getLockInCount() const
+    {
+        return 0;
     }
 
     void PokemonInstance::lockNextMove(const MetaDefinition::Move* const move, const int turns)
@@ -96,14 +151,19 @@ namespace SimulationMode
 
     }
 
-    bool PokemonInstance::isTrapped() const
+    int PokemonInstance::getBoundCount() const
     {
-        return false;
+        return 0;
     }
 
-    void PokemonInstance::setTrapped(bool value)
+    void PokemonInstance::setBoundCount(const int value)
     {
+        setEscapePrevented(true);
+    }
 
+    void PokemonInstance::decreaseBoundCount()
+    {
+        // release EscapePrevented on drop to 0
     }
 
     void PokemonInstance::increaseRageCount()
@@ -113,8 +173,9 @@ namespace SimulationMode
 
     void PokemonInstance::decreaseTurnCounts()
     {
-        reduceSkipTurnCount();
+        decreaseSkipTurnCount();
         decreaseLockNextMoveCount();
+        decreaseBoundCount();
     }
 
 } // namespace SimulationMode

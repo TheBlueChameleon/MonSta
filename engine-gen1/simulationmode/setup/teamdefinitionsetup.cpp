@@ -121,7 +121,7 @@ namespace SimulationMode
         PokemonDefinition result;
 
         result.species      =                          pkmnDef.navigateTo(JKEY_POKEMON_SPECIES).getAsString();
-        result.status       = getPokemonStatusFromName(pkmnDef.navigateTo(JKEY_POKEMON_STATUS).getAsString());
+        result.status       = getStatusConditionFromName(pkmnDef.navigateTo(JKEY_POKEMON_STATUS).getAsString());
         result.level        =                          pkmnDef.navigateTo(JKEY_POKEMON_LEVEL).getAsInteger();
         result.hp_current   =                          pkmnDef.navigateTo(JKEY_POKEMON_HPCURRENT).getAsInteger();
         result.experience   =                          pkmnDef.navigateTo(JKEY_POKEMON_EXP).getAsInteger();

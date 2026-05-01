@@ -11,7 +11,7 @@ namespace SimulationMode
     class PokemonInstance
     {
         public:
-            static constexpr auto DELEGATE_BROKEN = -1;
+            static constexpr auto KNOCKOUT = -1;
 
         private:
 
@@ -21,6 +21,9 @@ namespace SimulationMode
             int takeDamage(const int amount);
             int recoverHealth(const int amount);
 
+            int  getLastDamageReceived() const;
+            void setLastDamageReceived(const int amount);
+
             int  getStat(const MetaDefinition::Stat stat) const;
             void setStat(const MetaDefinition::Stat stat, int value);
 
@@ -28,23 +31,36 @@ namespace SimulationMode
             void setStatStage(const MetaDefinition::StatStage stat, int value);
             void changeStatStage(const MetaDefinition::StatStage stat, int amount);
 
-            int  getLastDamageReceived() const;
-            void setLastDamageReceived(const int amount);
+            double getHitChance();
+            double getStrikeChance();
+
+            bool isEscapePrevented() const;
+            void setEscapePrevented(const bool value);
+
+            bool isSemiInvulnerable() const;
+            void setSemiInvulnerable(const bool value);
 
             int  getSkipTurnCount() const;
             void setSkipTurnCount(const int amount);
-            void reduceSkipTurnCount();
+            void decreaseSkipTurnCount();
+
+            int  getSleepCount() const;
+            void setSleepCount(const int value);
+            void decreaseSleepCount();
+
+            int  getBoundCount() const;
+            void setBoundCount(const int value);
+            void decreaseBoundCount();
 
             const MetaDefinition::Move* const getCurrentMove() const;
+            const MetaDefinition::Move* const getLockedInMove() const;
+            int  getLockInCount() const;
             void lockNextMove(const MetaDefinition::Move* const move, const int turns);
             void decreaseLockNextMoveCount();
 
             int  getAccumulatedDamage() const;
             void addToAccumulatedDamage(const int amount);
             void resetAccumulatedDamage();
-
-            bool isTrapped() const;
-            void setTrapped(bool value);
 
             void increaseRageCount();
 

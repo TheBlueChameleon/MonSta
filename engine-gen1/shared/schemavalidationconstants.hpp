@@ -83,8 +83,16 @@ namespace SchemaValidation
     const auto JKEY_MECHANICS_STATEXPCAP                = "StatExpCap";
     const auto JKEY_MECHANICS_STATEXPSUMCAP             = "StatExpSumCap";
     const auto JKEY_MECHANICS_STATSTAGEABSMAX           = "StatStageMaxAbsolute";
+    const auto JKEY_MECHANICS_OBEDIENCECAP              = "obedienceCap";
+    // sleep turns min
+    // sleep turns max
+    // confused turns min
+    // confused turns max
+    // confused self hit chance
+    // confused hit strength
+    // confused damage type
+    // burn damage percentage
 
-    const auto JKEY_MECHANICS_OBEDIENCE                 = "obedience";
     const auto JKEY_MECHANICS_GEN1MISS                  = "gen1miss";
     const auto JKEY_MECHANICS_BIDE_GLITCH               = "bideGlitch";
     const auto JKEY_MECHANICS_COUNTERGLITCH             = "counterGlitch";
@@ -100,6 +108,7 @@ namespace SchemaValidation
     const auto JKEY_MECHANICS_SUBSTITUTESELFHURTGLITCH  = "substituteSelfHurtGlitch";
     const auto JKEY_MECHANICS_TOXICLEECHSEEDGLITCH      = "toxicLeechSeedGlitch";
     const auto JKEY_MECHANICS_TOXICRESTGLITCH           = "toxicRestGlitch";
+    // opponent faint skips effects
 
     void registerMechanicsDefinition();
     void registerSchemaTeamDefinition();

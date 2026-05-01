@@ -26,7 +26,7 @@ namespace MetaDefinition
             for (int i = 0; i < turns-1; ++i)        // turns-1: first instance of damage has already been done.
             {
                 auto last = target.getLastDamageReceived();
-                if (last == SimulationMode::PokemonInstance::DELEGATE_BROKEN)
+                if (last == SimulationMode::PokemonInstance::KNOCKOUT)
                 {
                     break;
                 }

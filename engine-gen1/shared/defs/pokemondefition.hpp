@@ -3,14 +3,14 @@
 
 #include <string>
 
-#include "pokemonstatus.hpp"
+#include "statuscondition.hpp"
 
 namespace MetaDefinition
 {
     struct PokemonDefinition
     {
         std::string species;
-        PokemonStatus status;
+        StatusCondition status;
         int level;
         int hp_current;
         int experience;

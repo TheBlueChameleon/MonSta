@@ -5,7 +5,7 @@
 #include "services/jsonservice.hpp"
 #include "services/memoryservice.hpp"
 
-#include "shared/defs/pokemonstatus.hpp"
+#include "shared/defs/statuscondition.hpp"
 
 #include "schemavalidationconstants.hpp"
 
@@ -115,8 +115,8 @@ namespace SchemaValidation
         .setDefault("6");
 
         builder
-        .addProperty(JKEY_MECHANICS_OBEDIENCE, JsonType::BOOLEAN)
-        .setDefault("true");
+        .addProperty(JKEY_MECHANICS_OBEDIENCECAP, JsonType::INTEGER)
+        .setDefault("100");
 
         builder
         .addProperty(JKEY_MECHANICS_GEN1MISS, JsonType::BOOLEAN)

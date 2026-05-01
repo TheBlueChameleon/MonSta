@@ -2,24 +2,14 @@
 
 namespace SimulationMode
 {
-    void Scene::damageSelf(const int amount)
+    PokemonInstance& Scene::getSelf()
     {
-        self->takeDamage(amount);
+        return *self;
     }
 
-    void Scene::damageEnemy(const int amount)
+    PokemonInstance& Scene::getEnemy()
     {
-        enemy->takeDamage(amount);
-    }
-
-    void Scene::healSelf(const int amount)
-    {
-        self->recoverHealth(amount);
-    }
-
-    void Scene::healEnemy(const int amount)
-    {
-        enemy->recoverHealth(amount);
+        return *enemy;
     }
 
     void Scene::setTemporaryStatSelf(const MetaDefinition::Stat stat, const int value)
@@ -65,6 +55,12 @@ namespace SimulationMode
     void Scene::flip()
     {
         std::swap(self, enemy);
+    }
+
+    void Scene::nextTurn()
+    {
+        resetTempState();
+        flip();
     }
 
 }

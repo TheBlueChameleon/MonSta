@@ -1,6 +1,8 @@
 #include <base/errors.hpp>
 #include <base/stringutils.hpp>
 
+#include "shared/registry/registry.hpp"
+
 #include "simulationmode/arena/scene.hpp"
 
 #include "accumulateandpayback.hpp"
@@ -25,14 +27,27 @@ namespace MetaDefinition
         void AccumulateAndPayBack::execute(SimulationMode::Scene& scene)
         {
             auto& self = scene.getSelf();
+            auto& enemy = scene.getEnemy();
 
             if (self.getSkipTurnCount() > 0)
             {
-
+                self.addToAccumulatedDamage(self.getLastDamageReceived());
             }
             else
             {
-                scene.damageEnemy(self.getAccumulatedDamage() * paybackMultiplyer);
+                const auto damage = self.getAccumulatedDamage() * paybackMultiplyer;
+                self.resetAccumulatedDamage();
+                if (enemy.isSemiInvulnerable())
+                {
+                    if (Registry::mechanicsDefinition.bideGlitch)
+                    {
+                        enemy.takeDamage(damage);
+                    }
+                }
+                else
+                {
+                    enemy.takeDamage(damage);
+                }
             }
         }
 

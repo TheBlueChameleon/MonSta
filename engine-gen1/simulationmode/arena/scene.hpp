@@ -24,12 +24,6 @@ namespace SimulationMode
             PokemonInstance& getSelf();
             PokemonInstance& getEnemy();
 
-            void damageSelf(const int amount);
-            void damageEnemy(const int amount);
-
-            void healSelf(const int amount);
-            void healEnemy(const int amount);
-
             void setTemporaryStatSelf(const  MetaDefinition::Stat stat, const int value);
             void setTemporaryStatEnemy(const MetaDefinition::Stat stat, const int value);
 
@@ -38,6 +32,7 @@ namespace SimulationMode
 
             void resetTempState();
             void flip();
+            void nextTurn();
     };
 }
 

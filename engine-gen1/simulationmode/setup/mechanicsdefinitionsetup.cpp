@@ -41,7 +41,7 @@ namespace SimulationMode
             mechanicsDefinition.statExpCap      = md.navigateTo(JKEY_MECHANICS_STATEXPCAP).getAsInteger();
             mechanicsDefinition.statExpSumCap   = md.navigateTo(JKEY_MECHANICS_STATEXPSUMCAP).getAsInteger();
             mechanicsDefinition.statStageAbsMax = md.navigateTo(JKEY_MECHANICS_STATSTAGEABSMAX).getAsInteger();
-            mechanicsDefinition.obedience       = md.navigateTo(JKEY_MECHANICS_OBEDIENCE).getAsBool();
+            mechanicsDefinition.obedienceCap    = md.navigateTo(JKEY_MECHANICS_OBEDIENCECAP).getAsInteger();
 
             mechanicsDefinition.gen1miss                    = md.navigateTo(JKEY_MECHANICS_GEN1MISS).getAsBool();
             mechanicsDefinition.bideGlitch                  = md.navigateTo(JKEY_MECHANICS_BIDE_GLITCH).getAsBool();

@@ -14,8 +14,8 @@ namespace MetaDefinition
         int statExpCap;
         int statExpSumCap;
         int statStageAbsMax;
+        int obedienceCap;
 
-        bool obedience;
         bool gen1miss;
         bool bideGlitch;
         bool counterGlitch;

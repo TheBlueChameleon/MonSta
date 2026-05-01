@@ -13,10 +13,10 @@ namespace MetaDefinition
                 static constexpr auto EFFECT_NAME = "Trap";
 
             private:
-                // none
+                const OptionProbabilityList hitCountProbabilities;
 
             public:
-                Trap() = default;
+                Trap(const OptionProbabilityList& hitCountProbabilities);
 
                 static Trap buildEffect(const std::string_view parameterDescriptor);
 

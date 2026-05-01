@@ -1,4 +1,7 @@
+#include <base/stringutils.hpp>
+
 #include "services/loggerservice.hpp"
+#include "services/rngservice.hpp"
 
 #include "simulationmode/arena/scene.hpp"
 
@@ -9,22 +12,22 @@ namespace MetaDefinition
     namespace Effects
     {
 
+        Trap::Trap(const OptionProbabilityList& hitCountProbabilities) :
+            hitCountProbabilities(hitCountProbabilities)
+        {}
+
         Trap Trap::buildEffect(const std::string_view parameterDescriptor)
         {
-            if (!parameterDescriptor.empty())
-            {
-                LoggerService::warnF(
-                    "Encountered definition of effect '{}' with parameters '{}'. This effect does not take any parameters.",
-                    EFFECT_NAME, parameterDescriptor
-                );
-            }
-
-            return Trap();
+            const AbstractEffectHandler::KeyValueMap params = EngineBase::splitArgs(parameterDescriptor, '|', ':');
+            const auto probabilities = extractOptionProbabilities(EFFECT_NAME, params);
+            return Trap(probabilities);
         }
 
         void Trap::execute(SimulationMode::Scene& scene)
         {
-            scene.getEnemy().setTrapped(true);
+            const int turns = hitCountProbabilities.getRandomOption();
+            scene.getEnemy().setBoundCount(turns);
+            scene.getSelf().lockNextMove(scene.getSelf().getCurrentMove(), turns);
         }
 
     } // namespace Effects
