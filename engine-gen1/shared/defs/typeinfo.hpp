@@ -6,9 +6,9 @@
 
 namespace MetaDefinition
 {
-    static constexpr auto PHYSICAL = "physical";
-    static constexpr auto SPECIAL  = "special";
-    static constexpr auto STATUS   = "status";
+    constexpr auto PHYSICAL = "physical";
+    constexpr auto SPECIAL  = "special";
+    constexpr auto STATUS   = "status";
 
     enum class MoveCategory {PHYSICAL, SPECIAL, STATUS};
 

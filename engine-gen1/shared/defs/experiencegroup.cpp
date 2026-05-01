@@ -1,6 +1,6 @@
 #include <base/errors.hpp>
 
-#include "pokemondatabaseentry.hpp"
+#include "experiencegroup.hpp"
 
 using namespace std::string_literals;
 
@@ -8,12 +8,12 @@ namespace MetaDefinition
 {
     ExperienceGroup getExperienceGroupFromName(const std::string_view name)
     {
-        // *INDENT-OFF*
-        if      (name == FAST       ) {return ExperienceGroup::FAST;}
-        else if (name == MEDIUM_FAST) {return ExperienceGroup::MEDIUM_FAST;}
-        else if (name == MEDIUM_SLOW) {return ExperienceGroup::MEDIUM_SLOW;}
-        else if (name == SLOW       ) {return ExperienceGroup::SLOW;}
-        // *INDENT-ON*
+    // *INDENT-OFF*
+    if      (name == FAST       ) {return ExperienceGroup::FAST;}
+    else if (name == MEDIUM_FAST) {return ExperienceGroup::MEDIUM_FAST;}
+    else if (name == MEDIUM_SLOW) {return ExperienceGroup::MEDIUM_SLOW;}
+    else if (name == SLOW       ) {return ExperienceGroup::SLOW;}
+    // *INDENT-ON*
 
         throw IllegalArgumentError("Unknown Experience Group name: "s + name.data());
     }
@@ -34,5 +34,4 @@ namespace MetaDefinition
 
         throw IllegalArgumentError("Unknown Experience Group ID: "s + std::to_string(static_cast<int>(experienceGroup)));
     }
-
-} // namespace SimulationMode
+} // namespace MetaDefinition

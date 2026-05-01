@@ -379,10 +379,11 @@ add_library(Engine-Gen1 SHARED
 
     engine-gen1/shared/schemavalidationconstants.hpp                engine-gen1/shared/schemavalidationconstants.cpp
 
+    engine-gen1/shared/defs/experiencegroup.hpp                     engine-gen1/shared/defs/experiencegroup.cpp
     engine-gen1/shared/defs/hpamount.hpp                            engine-gen1/shared/defs/hpamount.cpp
     engine-gen1/shared/defs/mechanicsdefinition.hpp
     engine-gen1/shared/defs/optionprobabilitylist.hpp               engine-gen1/shared/defs/optionprobabilitylist.cpp
-    engine-gen1/shared/defs/pokemondatabaseentry.hpp                engine-gen1/shared/defs/pokemondatabaseentry.cpp
+    engine-gen1/shared/defs/pokemondatabaseentry.hpp
     engine-gen1/shared/defs/pokemondefition.hpp
     engine-gen1/shared/defs/pokemonstatus.hpp                       engine-gen1/shared/defs/pokemonstatus.cpp
     engine-gen1/shared/defs/stat.hpp                                engine-gen1/shared/defs/stat.cpp
