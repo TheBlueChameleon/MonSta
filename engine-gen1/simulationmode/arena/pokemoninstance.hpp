@@ -78,6 +78,9 @@ namespace SimulationMode
             void decreaseSkipTurnCounter();
             void decreaseLockedMoveCounter();
 
+            void clearPersistentFlags();
+            void clearTemporaryFlags();
+
         public:
             PokemonInstance() = default;
 
@@ -139,8 +142,6 @@ namespace SimulationMode
             bool hasVolatileStatus(const MetaDefinition::VolatileStatusCondition status) const;
             void addVolatileStatus(const MetaDefinition::VolatileStatusCondition status, const int turns = USE_DEFAULT);
             void clearVolatileStatus(const MetaDefinition::VolatileStatusCondition status);
-
-            void clearTemporaryFlags();
     };
 
 } // namespace SimulationMode

@@ -194,6 +194,27 @@ namespace SimulationMode
         --lockedMoveCounter;
     }
 
+    void PokemonInstance::clearPersistentFlags()
+    {
+        volatileStatus.clear();
+        confusionCounter = 0;
+        boundCounter = 0;
+        toxicCounter = 0;
+        rageCounter = 0;
+        skipTurnCounter = 0;
+        useRageCounter = false;
+        protectCancelLockedMove = false;
+    }
+
+    void PokemonInstance::clearTemporaryFlags()
+    {
+        knockedOutSubstitute = false;
+        if (lockedMoveReleaseTurn)
+        {
+            semiInvulnerable = false;
+        }
+    }
+
     int PokemonInstance::takeDamage(const int amount)
     {
         if (substituteHP > 0)
@@ -234,20 +255,7 @@ namespace SimulationMode
                 return spd;
         }
 
-        throw IllegalStateError("Unknow Stat ID: "s + std::to_string(static_cast<int>(stat)));
-    }
-
-    static void assertStageBetween(
-        const int value, const int min, const int max,
-        const std::string_view stageName
-    )
-    {
-        constexpr auto messageTemplate = "Illegal {} Stage: {}";
-
-        if ((value < min) || (value > max))
-        {
-            throw IllegalStateError(std::format(messageTemplate, stageName, value));
-        }
+        throw IllegalStateError(std::format("Unknow Stat ID: {}", static_cast<int>(stat)));
     }
 
     void PokemonInstance::setStat(const Stat stat, int value)
@@ -271,7 +279,7 @@ namespace SimulationMode
                 break;
         }
 
-        throw IllegalStateError("Unknow Stat ID: "s + std::to_string(static_cast<int>(stat)));
+        throw IllegalStateError(std::format("Unknow Stat ID: {}", static_cast<int>(stat)));
     }
 
     int PokemonInstance::getStatStage(const StatStage stat)
@@ -293,12 +301,24 @@ namespace SimulationMode
             case MetaDefinition::StatStage::CritRate:
                 return stageCritRate;
         }
-        throw IllegalStateError("Unknow Stat Stage ID: "s + std::to_string(static_cast<int>(stat)));
+        throw IllegalStateError(std::format("Unknow Stat Stage ID: {}", static_cast<int>(stat)));
+    }
+
+    static void assertStageBetween(
+        const int value, const int min, const int max,
+        const std::string_view stageName
+    )
+    {
+        constexpr auto messageTemplate = "Illegal {} Stage: {}";
+
+        if ((value < min) || (value > max))
+        {
+            throw IllegalStateError(std::format(messageTemplate, stageName, value));
+        }
     }
 
     void PokemonInstance::setStatStage(const StatStage stat, int value)
     {
-
         switch (stat)
         {
             case MetaDefinition::StatStage::ATK:
@@ -337,7 +357,7 @@ namespace SimulationMode
                 recalculateStats();
                 break;
         }
-        throw IllegalStateError("Unknow Stat Stage ID: "s + std::to_string(static_cast<int>(stat)));
+        throw IllegalStateError(std::format("Unknow Stat Stage ID: {}", static_cast<int>(stat)));
     }
 
     void PokemonInstance::changeStatStage(const MetaDefinition::StatStage stat, int amount)
@@ -378,9 +398,15 @@ namespace SimulationMode
             case MetaDefinition::StatStage::Evasion:
                 return getStageMultiplier(-stageEvasion, STATSTAGE_EVASION);
             case MetaDefinition::StatStage::CritRate:
-                return getStageMultiplier(stageCritRate, STATSTAGE_CRITRATE);
+                // *INDENT-OFF*
+                if      (stageCritRate ==  0) { return 1.0;   }
+                else if (stageCritRate ==  1) { return 8.0;   }
+                else if (stageCritRate == -1) { return 0.125; }
+                // *INDENT-ON*
         }
-        throw IllegalStateError("Unknow Stat Stage ID: "s + std::to_string(static_cast<int>(stat)));
+        throw IllegalStateError(
+            std::format("Unknow Stat Stage ID: {}", static_cast<int>(stat))
+        );
     }
 
     bool PokemonInstance::isEscapePrevented() const
@@ -549,26 +575,12 @@ namespace SimulationMode
     void PokemonInstance::faint()
     {
         nvStatus = NonVolatileStatusCondition::FAINTED;
-        volatileStatus.clear();
-
-        sleepCounter = 0;
-        confusionCounter = 0;
-        boundCounter = 0;
-        toxicCounter = 0;
-        rageCounter = 0;
-        skipTurnCounter = 0;
-        useRageCounter = false;
+        clearPersistentFlags();
     }
 
     void PokemonInstance::bench()
     {
-        volatileStatus.clear();
-        confusionCounter = 0;
-        boundCounter = 0;
-        toxicCounter = 0;
-        rageCounter = 0;
-        skipTurnCounter = 0;
-        useRageCounter = false;
+        clearPersistentFlags();
     }
 
     const std::set<VolatileStatusCondition>& PokemonInstance::getVolatileStatusSet() const
@@ -623,15 +635,6 @@ namespace SimulationMode
     void PokemonInstance::clearVolatileStatus(const MetaDefinition::VolatileStatusCondition status)
     {
         volatileStatus.erase(status);
-    }
-
-    void PokemonInstance::clearTemporaryFlags()
-    {
-        knockedOutSubstitute = false;
-        if (lockedMoveReleaseTurn)
-        {
-            semiInvulnerable = false;
-        }
     }
 
 } // namespace SimulationMode
