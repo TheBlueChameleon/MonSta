@@ -30,6 +30,9 @@ namespace SimulationMode
             bool getStopProcessSecondaryEffects() const;
             void setStopProcessSecondaryEffects(bool value);
 
+            void handleSeeds();
+            void handleStatusDamage();
+
             void resetTempState();
             void flip();
             void nextTurn();

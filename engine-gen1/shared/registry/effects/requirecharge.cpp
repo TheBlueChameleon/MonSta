@@ -31,9 +31,9 @@ namespace MetaDefinition
             if (self.getSkipTurnCount() == 0)
             {
                 self.setSkipTurnCount(turns);
-                if (self.getLockedInMove() != nullptr)
+                if (self.getLockedMove() != nullptr)
                 {
-                    self.lockNextMove(self.getCurrentMove(), turns + 1);
+                    self.lockMove(self.getCurrentMove(), turns + 1);
                 }
             }
         }

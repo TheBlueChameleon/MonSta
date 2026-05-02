@@ -30,21 +30,28 @@ namespace MetaDefinition
             return Drain(amount, target);
         }
 
-        static void computeAndDealDamage(SimulationMode::PokemonInstance& targetMon, const HPAmount amount)
+        static void computeAndHealDamage(SimulationMode::PokemonInstance& targetMon, const HPAmount amount)
         {
+            // TODO: tie this to mechanics flag?
+            if (targetMon.getKnockedOutSubstitute())
+            {
+                return;
+            }
+
+            int recoveredHP;
             switch (amount.basis)
             {
                 case MetaDefinition::HPBasis::Absolute:
-                    targetMon.recoverHealth(
-                        amount.value < targetMon.getLastDamageReceived() ?
-                        amount.value :
-                        targetMon.getLastDamageReceived()
-                    );
+                    recoveredHP = amount.value < targetMon.getLastDamageReceived() ?
+                                  amount.value :
+                                  targetMon.getLastDamageReceived();
                     break;
                 case MetaDefinition::HPBasis::Percentage:
-                    targetMon.recoverHealth(amount.value / 100.0 * targetMon.getLastDamageReceived());
+                    recoveredHP = amount.value / 100.0 * targetMon.getLastDamageReceived();
                     break;
             }
+
+            targetMon.recoverHealth(std::min(1, recoveredHP));
         }
 
         void Drain::execute(SimulationMode::Scene& scene)
@@ -52,14 +59,14 @@ namespace MetaDefinition
             switch (target)
             {
                 case MetaDefinition::Target::Self:
-                    computeAndDealDamage(scene.getSelf(), amount);
+                    computeAndHealDamage(scene.getSelf(), amount);
                     break;
                 case MetaDefinition::Target::Enemy:
-                    computeAndDealDamage(scene.getEnemy(), amount);
+                    computeAndHealDamage(scene.getEnemy(), amount);
                     break;
                 case MetaDefinition::Target::Both:
-                    computeAndDealDamage(scene.getSelf(), amount);
-                    computeAndDealDamage(scene.getEnemy(), amount);
+                    computeAndHealDamage(scene.getSelf(), amount);
+                    computeAndHealDamage(scene.getEnemy(), amount);
                     break;
                 case MetaDefinition::Target::ChooseSelf:
                 case MetaDefinition::Target::ChooseEnemy:

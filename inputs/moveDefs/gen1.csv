@@ -155,7 +155,7 @@ Thunder Wave,Electric,20,0,100,0,Status=Target:Enemy|paralyzed,100
 Thunderbolt,Electric,15,95,100,0,Status=Target:Enemy|paralyzed,10
 Thunderpunch,Electric,15,75,100,0,Status=Target:Enemy|paralyzed,10
 Thundershock,Electric,30,40,100,0,Status=Target:Enemy|paralyzed,10
-Toxic,Poison,10,0,85,0,Status=Target:Enemy|badlyPoisoned,100
+Toxic,Poison,10,0,85,0,Immune=Poison;Status=Target:Enemy|badlyPoisoned,100
 Transform,Normal,10,0,100,0,Transform,100
 Tri Attack,Normal,10,80,100,0,,
 Twineedle,Bug,20,25,100,0,MultiHit=2:100;Status=Target:Enemy|poisoned,20

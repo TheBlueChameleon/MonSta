@@ -36,6 +36,16 @@ namespace SimulationMode
         stopProcessSecondaryEffects = value;
     }
 
+    void Scene::handleSeeds()
+    {
+
+    }
+
+    void Scene::handleStatusDamage()
+    {
+
+    }
+
     void Scene::resetTempState()
     {
         stopProcessSecondaryEffects = false;

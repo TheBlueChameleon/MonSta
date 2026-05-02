@@ -23,10 +23,10 @@ namespace MetaDefinition
         {
             auto& target = scene.getEnemy();
             const auto turns = hitCountProbabilities.getRandomOption();
+            const auto last = target.getLastDamageReceived();
             for (int i = 0; i < turns-1; ++i)        // turns-1: first instance of damage has already been done.
             {
-                auto last = target.getLastDamageReceived();
-                if (last == SimulationMode::PokemonInstance::KNOCKOUT)
+                if (target.getKnockedOutSubstitute())
                 {
                     break;
                 }

@@ -25,9 +25,12 @@ namespace MetaDefinition
 
         void Trap::execute(SimulationMode::Scene& scene)
         {
+            auto& self = scene.getSelf();
+            auto& enemy = scene.getEnemy();
+
             const int turns = hitCountProbabilities.getRandomOption();
-            scene.getEnemy().setBoundCount(turns);
-            scene.getSelf().lockNextMove(scene.getSelf().getCurrentMove(), turns);
+            enemy.addVolatileStatus(VolatileStatusCondition::BOUND, 1);
+            self.lockMove(self.getCurrentMove(), turns);
         }
 
     } // namespace Effects
