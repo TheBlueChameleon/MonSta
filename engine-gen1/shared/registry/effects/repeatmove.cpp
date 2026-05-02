@@ -23,7 +23,7 @@ namespace MetaDefinition
         {
             const auto turns = repeatProbabilities.getRandomOption();
             auto& self = scene.getSelf();
-            self.lockMove(self.getCurrentMove(), turns);
+            self.lockMove(self.getSelectedMove(), turns);
         }
 
     } // namespace Effects

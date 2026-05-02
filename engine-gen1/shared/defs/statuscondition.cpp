@@ -29,7 +29,7 @@ namespace MetaDefinition
         else if (name == POKEMON_STATUS_SEEDED   ) { return StatusCondition::SEEDED;    }
         // *INDENT-ON*
 
-        throw IllegalArgumentError("Unknown Status name: "s + name.data());
+        throw IllegalArgumentError(std::format("Unknown Status name: {}", name));
     }
 
     std::string_view getStatusConditionName(const StatusCondition status)
@@ -62,7 +62,10 @@ namespace MetaDefinition
                 return POKEMON_STATUS_SEEDED;
         }
 
-        throw IllegalArgumentError("Unknown Status ID: "s + std::to_string(static_cast<int>(status)));
+        throw IllegalArgumentError(
+            std::format("Unknown Status ID: {}",
+                        static_cast<int>(status))
+        );
     }
 
     NonVolatileStatusCondition toNonVolatileStatusCondition(const StatusCondition status)
@@ -94,7 +97,11 @@ namespace MetaDefinition
                                )
                 );
         }
-        throw IllegalArgumentError("Unknown Status ID: "s + std::to_string(static_cast<int>(status)));
+
+        throw IllegalArgumentError(
+            std::format("Unknown Status ID: {}",
+                        static_cast<int>(status))
+        );
     }
 
     VolatileStatusCondition toVolatileStatusCondition(const StatusCondition status)
@@ -109,9 +116,7 @@ namespace MetaDefinition
             case StatusCondition::FROZEN:
             case StatusCondition::FAINTED:
                 throw IllegalStateError(
-                    std::format("Not a volatile status condition: {}",
-                                getStatusConditionName(status)
-                               )
+                    std::format("Not a volatile status condition: {}", getStatusConditionName(status))
                 );
             case StatusCondition::FLINCHED:
                 return VolatileStatusCondition::FLINCHED;
@@ -124,6 +129,11 @@ namespace MetaDefinition
             case StatusCondition::SEEDED:
                 return VolatileStatusCondition::SEEDED;
         }
+
+        throw IllegalArgumentError(
+            std::format("Unknown Status ID: {}",
+                        static_cast<int>(status))
+        );
     }
 
 } // namespace SimulationMode

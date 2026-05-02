@@ -65,7 +65,7 @@ Hi Jump Kick,Fighting,20,85,90,0,FailRecoil=HP:1,100
 Horn Attack,Normal,25,65,100,0,,
 Horn Drill,Normal,5,0,30,0,RequireHigherStat=SPD; Damage=65535,100
 Hydro Pump,Water,5,120,80,0,,
-Hyper Beam,Normal,5,150,90,0,RequireRecharge=1,100
+Hyper Beam,Normal,5,150,90,0,RequireRecharge=1:100,100
 Hyper Fang,Normal,15,80,90,0,Status=Target:Enemy|flinched,10
 Hypnosis,Psychic,20,0,60,0,Status=Target:Enemy|asleep,100
 Ice Beam,Ice,10,95,100,0,Immune=Ice;Status=Target:Enemy|frozen,10

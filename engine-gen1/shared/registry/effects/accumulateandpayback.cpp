@@ -29,7 +29,7 @@ namespace MetaDefinition
             auto& self = scene.getSelf();
             auto& enemy = scene.getEnemy();
 
-            if (self.getSkipTurnCount() > 0)
+            if (self.getSkipTurnCounter() > 0)
             {
                 self.addToAccumulatedDamage(self.getLastDamageReceived());
             }

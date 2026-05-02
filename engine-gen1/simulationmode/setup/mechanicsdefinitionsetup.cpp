@@ -32,16 +32,15 @@ namespace SimulationMode
                                        );
             JsonService::JsonWrapper md = (JHND_MECHANICSDEFINITION);
 
-            mechanicsDefinition.levelCap        = md.navigateTo(JKEY_MECHANICS_LEVELCAP).getAsInteger();
-            mechanicsDefinition.statsMin        = md.navigateTo(JKEY_MECHANICS_STATSMIN).getAsInteger();
-            mechanicsDefinition.statsMax        = md.navigateTo(JKEY_MECHANICS_STATSMAX).getAsInteger();
-            mechanicsDefinition.teamSizeMax     = md.navigateTo(JKEY_MECHANICS_TEAMSIZEMAX).getAsInteger();
-            mechanicsDefinition.dvCap           = md.navigateTo(JKEY_MECHANICS_DVCAP).getAsInteger();
-            mechanicsDefinition.dvSumCap        = md.navigateTo(JKEY_MECHANICS_DVSUMCAP).getAsInteger();
-            mechanicsDefinition.statExpCap      = md.navigateTo(JKEY_MECHANICS_STATEXPCAP).getAsInteger();
-            mechanicsDefinition.statExpSumCap   = md.navigateTo(JKEY_MECHANICS_STATEXPSUMCAP).getAsInteger();
-            mechanicsDefinition.statStageAbsMax = md.navigateTo(JKEY_MECHANICS_STATSTAGEABSMAX).getAsInteger();
-            mechanicsDefinition.obedienceCap    = md.navigateTo(JKEY_MECHANICS_OBEDIENCECAP).getAsInteger();
+            mechanicsDefinition.levelCap                = md.navigateTo(JKEY_MECHANICS_LEVELCAP).getAsInteger();
+            mechanicsDefinition.statsMin                = md.navigateTo(JKEY_MECHANICS_STATSMIN).getAsInteger();
+            mechanicsDefinition.statsMax                = md.navigateTo(JKEY_MECHANICS_STATSMAX).getAsInteger();
+            mechanicsDefinition.teamSizeMax             = md.navigateTo(JKEY_MECHANICS_TEAMSIZEMAX).getAsInteger();
+            mechanicsDefinition.dvCap                   = md.navigateTo(JKEY_MECHANICS_DVCAP).getAsInteger();
+            mechanicsDefinition.dvSumCap                = md.navigateTo(JKEY_MECHANICS_DVSUMCAP).getAsInteger();
+            mechanicsDefinition.statExpCap              = md.navigateTo(JKEY_MECHANICS_STATEXPCAP).getAsInteger();
+            mechanicsDefinition.statExpSumCap           = md.navigateTo(JKEY_MECHANICS_STATEXPSUMCAP).getAsInteger();
+            mechanicsDefinition.obedienceCap            = md.navigateTo(JKEY_MECHANICS_OBEDIENCECAP).getAsInteger();
             mechanicsDefinition.sleepMinTurns           = md.navigateTo(JKEY_MECHANICS_SLEEPMINTURNS).getAsInteger();
             mechanicsDefinition.sleepMaxTurns           = md.navigateTo(JKEY_MECHANICS_SLEEPMAXTURNS).getAsInteger();
             mechanicsDefinition.confusionMinTurns       = md.navigateTo(JKEY_MECHANICS_CONFUSIONMINTURNS).getAsInteger();
@@ -51,6 +50,7 @@ namespace SimulationMode
             mechanicsDefinition.burnDamagePercentage    = md.navigateTo(JKEY_MECHANICS_BURNDAMAGEPERCENTAGE).getAsFloat();
 
             mechanicsDefinition.gen1miss                    = md.navigateTo(JKEY_MECHANICS_GEN1MISS).getAsBool();
+            mechanicsDefinition.badgeBoostGlitch            = md.navigateTo(JKEY_MECHANICS_BADGEBOOSTGLITCH).getAsBool();
             mechanicsDefinition.bideGlitch                  = md.navigateTo(JKEY_MECHANICS_BIDE_GLITCH).getAsBool();
             mechanicsDefinition.counterGlitch               = md.navigateTo(JKEY_MECHANICS_COUNTERGLITCH).getAsBool();
             mechanicsDefinition.critRateGlitch              = md.navigateTo(JKEY_MECHANICS_CRITRATEGLITCH).getAsBool();
@@ -60,7 +60,6 @@ namespace SimulationMode
             mechanicsDefinition.hyperbeamSleepGlitch        = md.navigateTo(JKEY_MECHANICS_HYPERBEAMSLEEPGLITCH).getAsBool();
             mechanicsDefinition.invulnerabilityGlitch       = md.navigateTo(JKEY_MECHANICS_INVULNERABILITYGLITCH).getAsBool();
             mechanicsDefinition.mimicLevelUpGlitch          = md.navigateTo(JKEY_MECHANICS_MIMICLEVELUPGLITCH).getAsBool();
-            mechanicsDefinition.statusModificationGlitch    = md.navigateTo(JKEY_MECHANICS_STATMODGLITCH).getAsBool();
             mechanicsDefinition.substituteHpDrainGlitch     = md.navigateTo(JKEY_MECHANICS_SUBSTITUTEHPDRAINGLITCH).getAsBool();
             mechanicsDefinition.substituteSelfHurtGlitch    = md.navigateTo(JKEY_MECHANICS_SUBSTITUTESELFHURTGLITCH).getAsBool();
             mechanicsDefinition.toxicLeechSeedGlitch        = md.navigateTo(JKEY_MECHANICS_TOXICLEECHSEEDGLITCH).getAsBool();

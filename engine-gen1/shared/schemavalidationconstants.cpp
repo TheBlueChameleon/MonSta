@@ -111,10 +111,6 @@ namespace SchemaValidation
         .setDefault("327675");   // 5*65535
 
         builder
-        .addProperty(JKEY_MECHANICS_STATSTAGEABSMAX, JsonType::INTEGER)
-        .setDefault("6");
-
-        builder
         .addProperty(JKEY_MECHANICS_OBEDIENCECAP, JsonType::INTEGER)
         .setDefault("100");
 
@@ -144,6 +140,10 @@ namespace SchemaValidation
 
         builder
         .addProperty(JKEY_MECHANICS_BURNDAMAGEPERCENTAGE, JsonType::INTEGER)
+        .setDefault("6.25");
+
+        builder
+        .addProperty(JKEY_MECHANICS_LEECHSEEDPERCENTAGE, JsonType::INTEGER)
         .setDefault("6.25");
 
         // glitch flags;
@@ -188,7 +188,7 @@ namespace SchemaValidation
         .setDefault("true");
 
         builder
-        .addProperty(JKEY_MECHANICS_STATMODGLITCH, JsonType::BOOLEAN)
+        .addProperty(JKEY_MECHANICS_BADGEBOOSTGLITCH, JsonType::BOOLEAN)
         .setDefault("true");
 
         builder

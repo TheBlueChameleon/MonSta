@@ -30,7 +30,7 @@ namespace MetaDefinition
 
             const int turns = hitCountProbabilities.getRandomOption();
             enemy.addVolatileStatus(VolatileStatusCondition::BOUND, 1);
-            self.lockMove(self.getCurrentMove(), turns);
+            self.lockMove(self.getSelectedMove(), turns);
         }
 
     } // namespace Effects

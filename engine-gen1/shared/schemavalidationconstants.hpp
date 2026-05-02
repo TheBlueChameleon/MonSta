@@ -82,9 +82,7 @@ namespace SchemaValidation
     const auto JKEY_MECHANICS_DVSUMCAP                  = "DvSumCap";
     const auto JKEY_MECHANICS_STATEXPCAP                = "StatExpCap";
     const auto JKEY_MECHANICS_STATEXPSUMCAP             = "StatExpSumCap";
-    const auto JKEY_MECHANICS_STATSTAGEABSMAX           = "StatStageMaxAbsolute";
     const auto JKEY_MECHANICS_OBEDIENCECAP              = "obedienceCap";
-
     const auto JKEY_MECHANICS_SLEEPMINTURNS             = "sleepMinTurns";
     const auto JKEY_MECHANICS_SLEEPMAXTURNS             = "sleepMaxTurns";
     const auto JKEY_MECHANICS_CONFUSIONMINTURNS         = "confusionMinTurns";
@@ -92,9 +90,11 @@ namespace SchemaValidation
     const auto JKEY_MECHANICS_CONFUSIONHITCHANCE        = "confusionHitChance";
     const auto JKEY_MECHANICS_CONFUSIONHITSTRENGTH      = "confusionHitStrength";
     const auto JKEY_MECHANICS_BURNDAMAGEPERCENTAGE      = "burnDamagePercentage";
+    const auto JKEY_MECHANICS_LEECHSEEDPERCENTAGE       = "leechSeedPercentage";
 
     const auto JKEY_MECHANICS_GEN1MISS                  = "gen1miss";
-    const auto JKEY_MECHANICS_BIDE_GLITCH               = "bideGlitch";
+    const auto JKEY_MECHANICS_BADGEBOOSTGLITCH          = "badgeBoostGlitch";
+    const auto JKEY_MECHANICS_BIDE_GLITCH               = "bideGlitch";                     // implemented
     const auto JKEY_MECHANICS_COUNTERGLITCH             = "counterGlitch";
     const auto JKEY_MECHANICS_CRITRATEGLITCH            = "critRateGlitch";
     const auto JKEY_MECHANICS_EXPUNDERFLOWGLITCH        = "experienceUnderflowGlitch";
@@ -103,7 +103,6 @@ namespace SchemaValidation
     const auto JKEY_MECHANICS_HYPERBEAMSLEEPGLITCH      = "hyperbeamSleepGlitch";
     const auto JKEY_MECHANICS_INVULNERABILITYGLITCH     = "invulnerabilityGlitch";
     const auto JKEY_MECHANICS_MIMICLEVELUPGLITCH        = "mimicLevelUpGlitch";
-    const auto JKEY_MECHANICS_STATMODGLITCH             = "statusModificationGlitch";
     const auto JKEY_MECHANICS_SUBSTITUTEHPDRAINGLITCH   = "substituteHpDrainGlitch";
     const auto JKEY_MECHANICS_SUBSTITUTESELFHURTGLITCH  = "substituteSelfHurtGlitch";
     const auto JKEY_MECHANICS_TOXICLEECHSEEDGLITCH      = "toxicLeechSeedGlitch";

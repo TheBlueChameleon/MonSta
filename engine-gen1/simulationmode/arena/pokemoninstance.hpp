@@ -20,6 +20,11 @@ namespace SimulationMode
         private:
             int hp;
             int hpMax;
+            int  substituteHP;
+            bool knockedOutSubstitute;
+            int  lastDamageReceived;
+            int  accumulatedDamage;
+
             int atk;
             int def;
             int spc;
@@ -36,18 +41,13 @@ namespace SimulationMode
             MetaDefinition::NonVolatileStatusCondition nvStatus;
             std::set<MetaDefinition::VolatileStatusCondition> volatileStatus;
 
-            int  lastDamageReceived;
-            int  substituteHP;
-            bool knockedOutSubstitute;
-
+            int  skipTurnCounter;
             int  sleepCounter;
             int  confusionCounter;
             int  boundCounter;
             int  toxicCounter;
             int  rageCounter;
-            int  skipTurnCounter;
             bool useRageCounter;
-            bool seeded;
 
             bool protectCancelLockedMove;
             bool lockedMoveReleaseTurn;
@@ -55,22 +55,28 @@ namespace SimulationMode
             const MetaDefinition::Move* lockedMove;
             const MetaDefinition::Move* selectedMove;
 
+            bool preventEscape;
+            bool semiInvulnerable;
+
         private:
             int  takeDirectDamage(const int amount);
             int  takeSubstituteDamage(const int amount);
             void setLastDamageReceived(const int amount);
-            void faint();
+
+            void   recalculateStats();
+            double getStageMultiplier(const int stage, const std::string_view stageName) const;
+
+            void setSubstituteHP(const int value);
+            void setKnockedOutSubstitute(bool value);
 
             void setSleepCounter(int value);
             void decreaseSleepCounter();
-
             void setConfusionCounter(const int turns);
             void decreseConfusionCounter();
-
             void setBoundCounter(const int turns);
             void decreaseBoundCounter();
-
-            void decreaseLockNextMoveCounter();
+            void decreaseSkipTurnCounter();
+            void decreaseLockedMoveCounter();
 
         public:
             PokemonInstance() = default;
@@ -86,8 +92,7 @@ namespace SimulationMode
             void setStatStage(const MetaDefinition::StatStage stat, int value);
             void changeStatStage(const MetaDefinition::StatStage stat, int amount);
 
-            double getHitChance();
-            double getStrikeChance(const MetaDefinition::Move& move);
+            double getStageMultiplier(const MetaDefinition::StatStage stat) const;
 
             bool isEscapePrevented() const;
             void setEscapePrevented(const bool value);
@@ -96,23 +101,21 @@ namespace SimulationMode
             void setSemiInvulnerable(const bool value);
 
             int  getSubstituteHP() const;
-            void setSubstituteHP(int value);
             bool getKnockedOutSubstitute() const;
-            void setKnockedOutSubstitute(bool value);
+            void installSubstitute(const int substituteHp);
 
-            int  getSkipTurnCount() const;
-            void setSkipTurnCount(const int amount);
-            void decreaseSkipTurnCount();
+            int  getSkipTurnCounter() const;
+            void setSkipTurnCounter(const int turns);
 
             int getSleepCounter() const;
             int getBoundCounter() const;
             int getConfusionCounter() const;
 
-            const MetaDefinition::Move* const getCurrentMove() const;
+            const MetaDefinition::Move* const getSelectedMove() const;
             const MetaDefinition::Move* const getLockedMove() const;
             bool getProtectCancelLockedMove() const;
             int  getLockedMoveCounter() const;
-            bool getLockedMoveReleaseTurn() const;
+            bool isLockedMoveReleaseTurn() const;
             void lockMove(const MetaDefinition::Move* const move, const int turns, const bool protectCancel = false);
             void cancelLockedMove();
             bool canChooseMove() const;
@@ -129,6 +132,8 @@ namespace SimulationMode
                 int turns = USE_DEFAULT,
                 const bool force = false
             );
+            void faint();
+            void bench();
 
             const std::set<MetaDefinition::VolatileStatusCondition>& getVolatileStatusSet() const;
             bool hasVolatileStatus(const MetaDefinition::VolatileStatusCondition status) const;

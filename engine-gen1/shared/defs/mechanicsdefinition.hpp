@@ -13,7 +13,6 @@ namespace MetaDefinition
         int dvSumCap;
         int statExpCap;
         int statExpSumCap;
-        int statStageAbsMax;
         int obedienceCap;
         int sleepMinTurns;
         int sleepMaxTurns;
@@ -33,7 +32,7 @@ namespace MetaDefinition
         bool hyperbeamSleepGlitch;
         bool invulnerabilityGlitch;
         bool mimicLevelUpGlitch;
-        bool statusModificationGlitch;
+        bool badgeBoostGlitch;
         bool substituteHpDrainGlitch;
         bool substituteSelfHurtGlitch;
         bool toxicLeechSeedGlitch;

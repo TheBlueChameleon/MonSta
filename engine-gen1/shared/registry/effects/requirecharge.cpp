@@ -26,16 +26,10 @@ namespace MetaDefinition
 
         void RequireCharge::execute(SimulationMode::Scene& scene)
         {
-            const int turns = chargeTurnsProbabilities.getRandomOption();
             auto& self = scene.getSelf();
-            if (self.getSkipTurnCount() == 0)
-            {
-                self.setSkipTurnCount(turns);
-                if (self.getLockedMove() != nullptr)
-                {
-                    self.lockMove(self.getCurrentMove(), turns + 1);
-                }
-            }
+            const int turns = chargeTurnsProbabilities.getRandomOption();
+            self.setSkipTurnCounter(turns);
+            self.lockMove(self.getSelectedMove(), turns + 1);
         }
 
     } // namespace Effects

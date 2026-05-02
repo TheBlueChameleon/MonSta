@@ -1,6 +1,8 @@
 #include <base/errors.hpp>
 #include <base/stringutils.hpp>
 
+#include "shared/registry/registry.hpp"
+
 #include "simulationmode/arena/scene.hpp"
 
 #include "drain.hpp"
@@ -32,8 +34,11 @@ namespace MetaDefinition
 
         static void computeAndHealDamage(SimulationMode::PokemonInstance& targetMon, const HPAmount amount)
         {
-            // TODO: tie this to mechanics flag?
             if (targetMon.getKnockedOutSubstitute())
+            {
+                return;
+            }
+            if (!Registry::mechanicsDefinition.substituteHpDrainGlitch && targetMon.getSubstituteHP() > 0)
             {
                 return;
             }
