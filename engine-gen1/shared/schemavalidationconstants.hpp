@@ -85,11 +85,14 @@ namespace SchemaValidation
     const auto JKEY_MECHANICS_OBEDIENCECAP              = "obedienceCap";
     const auto JKEY_MECHANICS_SLEEPMINTURNS             = "sleepMinTurns";
     const auto JKEY_MECHANICS_SLEEPMAXTURNS             = "sleepMaxTurns";
+    const auto JKEY_MECHANICS_FULLPARALYSISCHANCE       = "fullParalysisChance";
     const auto JKEY_MECHANICS_CONFUSIONMINTURNS         = "confusionMinTurns";
     const auto JKEY_MECHANICS_CONFUSIONMAXTURNS         = "confusionMaxTurns";
     const auto JKEY_MECHANICS_CONFUSIONHITCHANCE        = "confusionHitChance";
     const auto JKEY_MECHANICS_CONFUSIONHITSTRENGTH      = "confusionHitStrength";
     const auto JKEY_MECHANICS_BURNDAMAGEPERCENTAGE      = "burnDamagePercentage";
+    const auto JKEY_MECHANICS_POISONDAMAGEPERCENTAGE    = "poisonDamagePercentage";
+    const auto JKEY_MECHANICS_TOXICCOUNTERMAX           = "toxicCounterMax";
     const auto JKEY_MECHANICS_LEECHSEEDPERCENTAGE       = "leechSeedPercentage";
 
     const auto JKEY_MECHANICS_GEN1MISS                  = "gen1miss";
@@ -103,11 +106,11 @@ namespace SchemaValidation
     const auto JKEY_MECHANICS_HYPERBEAMSLEEPGLITCH      = "hyperbeamSleepGlitch";
     const auto JKEY_MECHANICS_INVULNERABILITYGLITCH     = "invulnerabilityGlitch";
     const auto JKEY_MECHANICS_MIMICLEVELUPGLITCH        = "mimicLevelUpGlitch";
+    const auto JKEY_MECHANICS_OPPONENTFAINTSKIPGLITCH   = "opponentFaintSkipGlitch";
     const auto JKEY_MECHANICS_SUBSTITUTEHPDRAINGLITCH   = "substituteHpDrainGlitch";
     const auto JKEY_MECHANICS_SUBSTITUTESELFHURTGLITCH  = "substituteSelfHurtGlitch";
     const auto JKEY_MECHANICS_TOXICLEECHSEEDGLITCH      = "toxicLeechSeedGlitch";
     const auto JKEY_MECHANICS_TOXICRESTGLITCH           = "toxicRestGlitch";
-    const auto JKEY_MECHANICS_OPPONENTFAINTSKIPGLITCH   = "opponentFaintSkipGlitch";
 
     void registerMechanicsDefinition();
     void registerSchemaTeamDefinition();

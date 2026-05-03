@@ -43,11 +43,15 @@ namespace SimulationMode
             mechanicsDefinition.obedienceCap            = md.navigateTo(JKEY_MECHANICS_OBEDIENCECAP).getAsInteger();
             mechanicsDefinition.sleepMinTurns           = md.navigateTo(JKEY_MECHANICS_SLEEPMINTURNS).getAsInteger();
             mechanicsDefinition.sleepMaxTurns           = md.navigateTo(JKEY_MECHANICS_SLEEPMAXTURNS).getAsInteger();
+            mechanicsDefinition.fullParalysisChance     = md.navigateTo(JKEY_MECHANICS_FULLPARALYSISCHANCE).getAsFloat() / 100.0;
             mechanicsDefinition.confusionMinTurns       = md.navigateTo(JKEY_MECHANICS_CONFUSIONMINTURNS).getAsInteger();
             mechanicsDefinition.confusionMaxTurns       = md.navigateTo(JKEY_MECHANICS_CONFUSIONMAXTURNS).getAsInteger();
-            mechanicsDefinition.confusionHitChance      = md.navigateTo(JKEY_MECHANICS_CONFUSIONHITCHANCE).getAsInteger();
+            mechanicsDefinition.confusionHitChance      = md.navigateTo(JKEY_MECHANICS_CONFUSIONHITCHANCE).getAsFloat() / 100.0;
             mechanicsDefinition.confusionHitStrength    = md.navigateTo(JKEY_MECHANICS_CONFUSIONHITSTRENGTH).getAsInteger();
-            mechanicsDefinition.burnDamagePercentage    = md.navigateTo(JKEY_MECHANICS_BURNDAMAGEPERCENTAGE).getAsFloat();
+            mechanicsDefinition.burnDamagePercentage    = md.navigateTo(JKEY_MECHANICS_BURNDAMAGEPERCENTAGE).getAsFloat() / 100.0;
+            mechanicsDefinition.poisonDamagePercentage  = md.navigateTo(JKEY_MECHANICS_POISONDAMAGEPERCENTAGE).getAsFloat() / 100.0;
+            mechanicsDefinition.toxicCounterMax         = md.navigateTo(JKEY_MECHANICS_TOXICCOUNTERMAX).getAsInteger();
+            mechanicsDefinition.leechSeedPercentage     = md.navigateTo(JKEY_MECHANICS_LEECHSEEDPERCENTAGE).getAsFloat() / 100.0;
 
             mechanicsDefinition.gen1miss                    = md.navigateTo(JKEY_MECHANICS_GEN1MISS).getAsBool();
             mechanicsDefinition.badgeBoostGlitch            = md.navigateTo(JKEY_MECHANICS_BADGEBOOSTGLITCH).getAsBool();
@@ -60,11 +64,11 @@ namespace SimulationMode
             mechanicsDefinition.hyperbeamSleepGlitch        = md.navigateTo(JKEY_MECHANICS_HYPERBEAMSLEEPGLITCH).getAsBool();
             mechanicsDefinition.invulnerabilityGlitch       = md.navigateTo(JKEY_MECHANICS_INVULNERABILITYGLITCH).getAsBool();
             mechanicsDefinition.mimicLevelUpGlitch          = md.navigateTo(JKEY_MECHANICS_MIMICLEVELUPGLITCH).getAsBool();
+            mechanicsDefinition.opponentFaintSkipGlitch     = md.navigateTo(JKEY_MECHANICS_OPPONENTFAINTSKIPGLITCH).getAsBool();
             mechanicsDefinition.substituteHpDrainGlitch     = md.navigateTo(JKEY_MECHANICS_SUBSTITUTEHPDRAINGLITCH).getAsBool();
             mechanicsDefinition.substituteSelfHurtGlitch    = md.navigateTo(JKEY_MECHANICS_SUBSTITUTESELFHURTGLITCH).getAsBool();
             mechanicsDefinition.toxicLeechSeedGlitch        = md.navigateTo(JKEY_MECHANICS_TOXICLEECHSEEDGLITCH).getAsBool();
             mechanicsDefinition.toxicRestGlitch             = md.navigateTo(JKEY_MECHANICS_TOXICRESTGLITCH).getAsBool();
-            mechanicsDefinition.opponentFaintSkipGlitch     = md.navigateTo(JKEY_MECHANICS_OPPONENTFAINTSKIPGLITCH).getAsBool();
         }
         catch (const EngineError& e)
         {

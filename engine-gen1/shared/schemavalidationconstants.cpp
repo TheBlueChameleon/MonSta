@@ -123,6 +123,10 @@ namespace SchemaValidation
         .setDefault("7");
 
         builder
+        .addProperty(JKEY_MECHANICS_FULLPARALYSISCHANCE, JsonType::FLOAT)
+        .setDefault("25");
+
+        builder
         .addProperty(JKEY_MECHANICS_CONFUSIONMINTURNS, JsonType::INTEGER)
         .setDefault("2");
 
@@ -131,7 +135,7 @@ namespace SchemaValidation
         .setDefault("5");
 
         builder
-        .addProperty(JKEY_MECHANICS_CONFUSIONHITCHANCE, JsonType::INTEGER)
+        .addProperty(JKEY_MECHANICS_CONFUSIONHITCHANCE, JsonType::FLOAT)
         .setDefault("50");
 
         builder
@@ -139,14 +143,24 @@ namespace SchemaValidation
         .setDefault("40");
 
         builder
-        .addProperty(JKEY_MECHANICS_BURNDAMAGEPERCENTAGE, JsonType::INTEGER)
+        .addProperty(JKEY_MECHANICS_BURNDAMAGEPERCENTAGE, JsonType::FLOAT)
         .setDefault("6.25");
 
         builder
-        .addProperty(JKEY_MECHANICS_LEECHSEEDPERCENTAGE, JsonType::INTEGER)
+        .addProperty(JKEY_MECHANICS_POISONDAMAGEPERCENTAGE, JsonType::FLOAT)
         .setDefault("6.25");
 
+        builder
+        .addProperty(JKEY_MECHANICS_TOXICCOUNTERMAX, JsonType::INTEGER)
+        .setDefault("15");
+
+        builder
+        .addProperty(JKEY_MECHANICS_LEECHSEEDPERCENTAGE, JsonType::FLOAT)
+        .setDefault("6.25");
+
+        // .................................................................. //
         // glitch flags;
+
         builder
         .addProperty(JKEY_MECHANICS_GEN1MISS, JsonType::BOOLEAN)
         .setDefault("true");

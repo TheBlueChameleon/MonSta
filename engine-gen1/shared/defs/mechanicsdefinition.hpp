@@ -16,11 +16,15 @@ namespace MetaDefinition
         int obedienceCap;
         int sleepMinTurns;
         int sleepMaxTurns;
+        double fullParalysisChance;
         int confusionMinTurns;
         int confusionMaxTurns;
         int confusionHitChance;
         int confusionHitStrength;
         double burnDamagePercentage;
+        double poisonDamagePercentage;
+        int    toxicCounterMax;
+        double leechSeedPercentage;
 
         bool gen1miss;
         bool bideGlitch;

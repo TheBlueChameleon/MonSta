@@ -20,6 +20,8 @@ namespace SimulationMode
             std::list<std::pair<MetaDefinition::Stat, int>> tempStatsSelf;
             std::list<std::pair<MetaDefinition::Stat, int>> tempStatsEnemy;
 
+        private:
+
         public:
             PokemonInstance& getSelf();
             PokemonInstance& getEnemy();
@@ -30,9 +32,7 @@ namespace SimulationMode
             bool getStopProcessSecondaryEffects() const;
             void setStopProcessSecondaryEffects(bool value);
 
-            void handleSeeds();
             void handleStatusDamage();
-
             void resetTempState();
             void flip();
             void nextTurn();

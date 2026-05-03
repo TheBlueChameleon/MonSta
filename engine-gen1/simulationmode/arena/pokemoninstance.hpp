@@ -3,6 +3,7 @@
 
 #include <set>
 
+#include "shared/defs/pokemondefition.hpp"
 #include "shared/defs/stat.hpp"
 #include "shared/defs/statstage.hpp"
 #include "shared/defs/statuscondition.hpp"
@@ -15,11 +16,14 @@ namespace SimulationMode
     {
         public:
             static constexpr auto USE_DEFAULT = -1;
-            // static constexpr auto FOREVER = -2? int_max?
+            // TODO: static constexpr auto FOREVER = -2? int_max?
 
         private:
-            int hp;
-            int hpMax;
+            MetaDefinition::PokemonDefinition speciesData;
+            int  level;
+
+            int  hp;
+            int  hpMax;
             int  substituteHP;
             bool knockedOutSubstitute;
             int  lastDamageReceived;
@@ -41,13 +45,14 @@ namespace SimulationMode
             MetaDefinition::NonVolatileStatusCondition nvStatus;
             std::set<MetaDefinition::VolatileStatusCondition> volatileStatus;
 
+            bool preventEscape;
+            bool semiInvulnerable;
+            bool useRageCounter;
             int  skipTurnCounter;
             int  sleepCounter;
             int  confusionCounter;
             int  boundCounter;
             int  toxicCounter;
-            int  rageCounter;
-            bool useRageCounter;
 
             bool protectCancelLockedMove;
             bool lockedMoveReleaseTurn;
@@ -55,13 +60,13 @@ namespace SimulationMode
             const MetaDefinition::Move* lockedMove;
             const MetaDefinition::Move* selectedMove;
 
-            bool preventEscape;
-            bool semiInvulnerable;
-
         private:
-            int  takeDirectDamage(const int amount);
-            int  takeSubstituteDamage(const int amount);
-            void setLastDamageReceived(const int amount);
+            int  takeDirectDamage(const int amount, const bool rageEnabled, const bool fromAttack);
+            int  takeSubstituteDamage(const int amount, const bool fromAttack);
+            int  takeConfusionDamage();
+            int  takePoisonDamage();
+            int  takeBadPoisonDamage();
+            int  takeBurnDamage();
 
             void   recalculateStats();
             double getStageMultiplier(const int stage, const std::string_view stageName) const;
@@ -77,6 +82,7 @@ namespace SimulationMode
             void decreaseBoundCounter();
             void decreaseSkipTurnCounter();
             void decreaseLockedMoveCounter();
+            void increaseToxicCounter();
 
             void clearPersistentFlags();
             void clearTemporaryFlags();
@@ -84,9 +90,23 @@ namespace SimulationMode
         public:
             PokemonInstance() = default;
 
-            int takeDamage(const int amount);
+            // .............................................................. //
+            // HP related
+
+            int takeDamage(const int amount, const bool applyRage = true, const bool fromAttack = true);
             int recoverHealth(const int amount);
             int getLastDamageReceived() const;
+
+            int  getAccumulatedDamage() const;
+            void addToAccumulatedDamage(const int amount);
+            void resetAccumulatedDamage();
+
+            int  getSubstituteHP() const;
+            bool getKnockedOutSubstitute() const;
+            void installSubstitute(const int substituteHp);
+
+            // .............................................................. //
+            // stat and stage related
 
             int  getStat(const MetaDefinition::Stat stat) const;
             void setStat(const MetaDefinition::Stat stat, int value);
@@ -97,15 +117,31 @@ namespace SimulationMode
 
             double getStageMultiplier(const MetaDefinition::StatStage stat) const;
 
+            MetaDefinition::NonVolatileStatusCondition getNvStatus() const;
+            MetaDefinition::NonVolatileStatusCondition setNvStatus(
+                MetaDefinition::NonVolatileStatusCondition status,
+                int turns = USE_DEFAULT,
+                const bool force = false
+            );
+
+            // .............................................................. //
+            // status related
+
+            const std::set<MetaDefinition::VolatileStatusCondition>& getVolatileStatusSet() const;
+            bool hasVolatileStatus(const MetaDefinition::VolatileStatusCondition status) const;
+            void addVolatileStatus(const MetaDefinition::VolatileStatusCondition status, const int turns = USE_DEFAULT);
+            void clearVolatileStatus(const MetaDefinition::VolatileStatusCondition status);
+
+            bool handleStatus();
+
+            // .............................................................. //
+            // flag and counter related
+
             bool isEscapePrevented() const;
             void setEscapePrevented(const bool value);
 
             bool isSemiInvulnerable() const;
             void setSemiInvulnerable(const bool value);
-
-            int  getSubstituteHP() const;
-            bool getKnockedOutSubstitute() const;
-            void installSubstitute(const int substituteHp);
 
             int  getSkipTurnCounter() const;
             void setSkipTurnCounter(const int turns);
@@ -113,6 +149,9 @@ namespace SimulationMode
             int getSleepCounter() const;
             int getBoundCounter() const;
             int getConfusionCounter() const;
+
+            // .............................................................. //
+            // multi-turn moves related
 
             const MetaDefinition::Move* const getSelectedMove() const;
             const MetaDefinition::Move* const getLockedMove() const;
@@ -123,25 +162,13 @@ namespace SimulationMode
             void cancelLockedMove();
             bool canChooseMove() const;
 
-            int  getAccumulatedDamage() const;
-            void addToAccumulatedDamage(const int amount);
-            void resetAccumulatedDamage();
+            // .............................................................. //
+            // inter turn related
 
-            void decreaseTurnCounts();
-
-            MetaDefinition::NonVolatileStatusCondition getNvStatus() const;
-            MetaDefinition::NonVolatileStatusCondition setNvStatus(
-                MetaDefinition::NonVolatileStatusCondition status,
-                int turns = USE_DEFAULT,
-                const bool force = false
-            );
             void faint();
             void bench();
 
-            const std::set<MetaDefinition::VolatileStatusCondition>& getVolatileStatusSet() const;
-            bool hasVolatileStatus(const MetaDefinition::VolatileStatusCondition status) const;
-            void addVolatileStatus(const MetaDefinition::VolatileStatusCondition status, const int turns = USE_DEFAULT);
-            void clearVolatileStatus(const MetaDefinition::VolatileStatusCondition status);
+            void decreaseTurnCounts();
     };
 
 } // namespace SimulationMode

@@ -36,11 +36,6 @@ namespace SimulationMode
         stopProcessSecondaryEffects = value;
     }
 
-    void Scene::handleSeeds()
-    {
-
-    }
-
     void Scene::handleStatusDamage()
     {
 
@@ -69,6 +64,7 @@ namespace SimulationMode
 
     void Scene::nextTurn()
     {
+        handleStatusDamage();
         resetTempState();
         flip();
     }
