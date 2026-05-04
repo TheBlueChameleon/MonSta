@@ -10,7 +10,7 @@ Amnesia,Psychic,20,0,100,0,Stage=Target:Self|SPC:+2,100
 Aurora Beam,Ice,20,65,100,0,Stage=Target:Enemy|ATK:-1,33
 Barrage,Normal,20,15,85,0,MultiHit=2:37.5|3:37.5|4:12.5|5:12.5,100
 Barrier,Psychic,30,0,100,0,Stage=Target:Self|DEF:+2,100
-Bide,Normal,10,0,100,0,RequireCharge=2:50|3:50; AccumulateAndPayBack=2,100
+Bide,Normal,10,0,100,0,AccumulateAndPayBack=2:50|3:50,100
 Bind,Normal,20,15,75,0,Trap=2:37.5|3:37.5|4:12.5|5:12.5,100
 Bite,Normal,25,60,100,0,Status=Target:Enemy|flinched,10
 Blizzard,Ice,5,120,90,0,Immune=Ice;Status=Target:Enemy|frozen,10

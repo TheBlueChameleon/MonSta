@@ -14,12 +14,13 @@ namespace MetaDefinition
 
             private:
                 static constexpr double paybackMultiplyer = 2.0;
+                const OptionProbabilityList chargeTurnsProbabilities;
 
             private:
                 void dealDamage(SimulationMode::PokemonInstance& self, SimulationMode::PokemonInstance& enemy);
 
             public:
-                AccumulateAndPayBack();
+                AccumulateAndPayBack(const OptionProbabilityList& chargeTurnsProbabilities);
 
                 static AccumulateAndPayBack buildEffect(const std::string_view parameterDescriptor);
 

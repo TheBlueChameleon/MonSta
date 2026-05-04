@@ -31,14 +31,15 @@ namespace MetaDefinition
             }
         }
 
-        AccumulateAndPayBack::AccumulateAndPayBack()
+        AccumulateAndPayBack::AccumulateAndPayBack(const OptionProbabilityList& chargeTurnsProbabilities) :
+            chargeTurnsProbabilities(chargeTurnsProbabilities)
         {}
 
         AccumulateAndPayBack AccumulateAndPayBack::buildEffect(const std::string_view parameterDescriptor)
         {
             const AbstractEffectHandler::KeyValueMap params = EngineBase::splitArgs(parameterDescriptor, '|', ':');
-            //const double multiplier = extractSimpleNumber(EFFECT_NAME, params);
-            return AccumulateAndPayBack();
+            const auto chargeTurnsProbabilities = extractOptionProbabilities(EFFECT_NAME, params);
+            return AccumulateAndPayBack(chargeTurnsProbabilities);
         }
 
         void AccumulateAndPayBack::execute(SimulationMode::Scene& scene)
@@ -48,14 +49,19 @@ namespace MetaDefinition
 
             if (self.getSkipTurnCounter() == 0)
             {
+                const int turns = chargeTurnsProbabilities.getRandomOption();
+                self.setSkipTurnCounter(turns);
+            }
+            else
+            {
                 if (self.isLockedMoveReleaseTurn())
                 {
                     dealDamage(self, enemy);
                 }
-            }
-            else
-            {
-                self.addToAccumulatedDamage(self.getLastDamageReceived());
+                else
+                {
+                    self.addToAccumulatedDamage(self.getLastDamageReceived());
+                }
             }
         }
 
