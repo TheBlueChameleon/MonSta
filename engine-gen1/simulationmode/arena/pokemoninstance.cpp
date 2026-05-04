@@ -295,19 +295,6 @@ namespace SimulationMode
         return substituteHP;
     }
 
-    static void assertStageBetween(
-        const int value, const int min, const int max,
-        const std::string_view stageName
-    )
-    {
-        constexpr auto messageTemplate = "Illegal {} Stage: {}";
-
-        if ((value < min) || (value > max))
-        {
-            throw IllegalStateError(std::format(messageTemplate, stageName, value));
-        }
-    }
-
     void PokemonInstance::setSubstituteHP(const int value)
     {
         substituteHP = std::min(value, 1);
@@ -383,42 +370,58 @@ namespace SimulationMode
         throw IllegalStateError(std::format("Unknow Stat Stage ID: {}", static_cast<int>(stat)));
     }
 
+    static void assertStageBetween(
+        const int value, const int min, const int max,
+        const std::string_view stageName
+    )
+    {
+        constexpr auto messageTemplate = "Illegal {} Stage: {}";
+
+        if ((value < min) || (value > max))
+        {
+            throw IllegalStateError(std::format(messageTemplate, stageName, value));
+        }
+    }
+
     void PokemonInstance::setStatStage(const StatStage stat, int value)
     {
+        const auto stageMin = -mechanicsDefinition.statStageAbsMax;
+        const auto stageMax = +mechanicsDefinition.statStageAbsMax;
+
         switch (stat)
         {
             case MetaDefinition::StatStage::ATK:
-                assertStageBetween(value, -6, 6, STATSTAGE_ATK);
+                assertStageBetween(value, stageMin, stageMax, STATSTAGE_ATK);
                 stageAtk = value;
                 recalculateStats();
                 break;
             case MetaDefinition::StatStage::DEF:
-                assertStageBetween(value, -6, 6, STATSTAGE_DEF);
+                assertStageBetween(value, stageMin, stageMax, STATSTAGE_DEF);
                 stageDef = value;
                 recalculateStats();
                 break;
             case MetaDefinition::StatStage::SPC:
-                assertStageBetween(value, -6, 6, STATSTAGE_SPC);
+                assertStageBetween(value, stageMin, stageMax, STATSTAGE_SPC);
                 stageSpc = value;
                 recalculateStats();
                 break;
             case MetaDefinition::StatStage::SPD:
-                assertStageBetween(value, -6, 6, STATSTAGE_SPD);
+                assertStageBetween(value, stageMin, stageMax, STATSTAGE_SPD);
                 stageSpd = value;
                 recalculateStats();
                 break;
             case MetaDefinition::StatStage::Accuracy:
-                assertStageBetween(value, -6, 6, STATSTAGE_ACCURACY);
+                assertStageBetween(value, stageMin, stageMax, STATSTAGE_ACCURACY);
                 stageAccuracy = value;
                 recalculateStats();
                 break;
             case MetaDefinition::StatStage::Evasion:
-                assertStageBetween(value, -6, 6, STATSTAGE_EVASION);
+                assertStageBetween(value, stageMin, stageMax, STATSTAGE_EVASION);
                 stageEvasion = value;
                 recalculateStats();
                 break;
             case MetaDefinition::StatStage::CritRate:
-                assertStageBetween(value, -1, 1, STATSTAGE_CRITRATE);
+                assertStageBetween(value, -1, 1, STATSTAGE_CRITRATE);           // sic: only +/- 1 for CritRate
                 stageCritRate = value;
                 recalculateStats();
                 break;
@@ -440,8 +443,8 @@ namespace SimulationMode
         else
         {
             // *INDENT-OFF*
-            if (stage < -6) {stage = -6;}
-            if (stage > +6) {stage = +6;}
+            if (stage < -mechanicsDefinition.statStageAbsMax) {stage = -mechanicsDefinition.statStageAbsMax;}
+            if (stage > +mechanicsDefinition.statStageAbsMax) {stage = +mechanicsDefinition.statStageAbsMax;}
             // *INDENT-ON*
         }
         setStatStage(stat, stage);

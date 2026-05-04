@@ -83,6 +83,7 @@ namespace SchemaValidation
     const auto JKEY_MECHANICS_STATEXPCAP                = "statExpCap";
     const auto JKEY_MECHANICS_STATEXPSUMCAP             = "statExpSumCap";
     const auto JKEY_MECHANICS_OBEDIENCECAP              = "obedienceCap";
+    const auto JKEY_MECHANICS_STATSTAGEABSMAX           = "statStageMaxAbsolute";
     const auto JKEY_MECHANICS_SLEEPMINTURNS             = "sleepMinTurns";
     const auto JKEY_MECHANICS_SLEEPMAXTURNS             = "sleepMaxTurns";
     const auto JKEY_MECHANICS_FULLPARALYSISCHANCE       = "fullParalysisChance";

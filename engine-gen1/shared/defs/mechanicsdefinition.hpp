@@ -14,6 +14,7 @@ namespace MetaDefinition
         int statExpCap;
         int statExpSumCap;
         int obedienceCap;
+        int statStageAbsMax;
         int sleepMinTurns;
         int sleepMaxTurns;
         double fullParalysisChance;
