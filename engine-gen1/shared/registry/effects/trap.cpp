@@ -29,7 +29,7 @@ namespace MetaDefinition
             auto& enemy = scene.getEnemy();
 
             const int turns = hitCountProbabilities.getRandomOption();
-            enemy.addVolatileStatus(VolatileStatusCondition::BOUND, 1);
+            enemy.addVolatileStatus(VolatileStatusCondition::BOUND, turns);
             self.lockMove(self.getSelectedMove(), turns);
         }
 

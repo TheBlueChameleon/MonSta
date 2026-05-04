@@ -14,20 +14,10 @@ using namespace std::string_literals;
 
 namespace SimulationMode
 {
-    int PokemonInstance::takeDirectDamage(const int amount, const bool rageEnabled, const bool fromAttack)
+    int PokemonInstance::takeDirectDamage(const int amount, const DamageKind damageKind)
     {
-        const auto actualDamage = std::min(hp, amount);
+        const auto actualDamage = takeDamageShared(amount, damageKind, hp);
 
-        if (fromAttack)
-        {
-            if (useRageCounter && rageEnabled && actualDamage > 0)
-            {
-                changeStatStage(StatStage::ATK, +1);
-            }
-            lastDamageReceived = amount;
-        }
-
-        hp -= actualDamage;
         if (hp == 0)
         {
             faint();
@@ -36,16 +26,10 @@ namespace SimulationMode
         return actualDamage;
     }
 
-    int PokemonInstance::takeSubstituteDamage(const int amount, const bool fromAttack)
+    int PokemonInstance::takeSubstituteDamage(const int amount, const DamageKind damageKind)
     {
-        const auto actualDamage = std::min(substituteHP, amount);
+        const auto actualDamage = takeDamageShared(amount, damageKind, substituteHP);
 
-        if (fromAttack)
-        {
-            lastDamageReceived = amount;
-        }
-
-        substituteHP -= actualDamage;
         if (substituteHP == 0)
         {
             knockedOutSubstitute = true;
@@ -54,28 +38,71 @@ namespace SimulationMode
         return actualDamage;
     }
 
+    int PokemonInstance::takeDamageShared(const int amount, const DamageKind damageKind, int& counter)
+    {
+        const auto actualDamage = std::min(counter, amount);
+
+        bool enableRage = false;
+        bool rememberDamage = false;
+        switch (damageKind)
+        {
+            case SimulationMode::PokemonInstance::DamageKind::DIRECT_ATTACK:
+            case SimulationMode::PokemonInstance::DamageKind::CONFUSION:
+                enableRage = true;
+                rememberDamage = true;
+                break;
+            case SimulationMode::PokemonInstance::DamageKind::LEECH_SEED:
+                rememberDamage = true;
+                break;
+            case SimulationMode::PokemonInstance::DamageKind::SELF_INFLICTED:
+                enableRage = true;
+                break;
+            case SimulationMode::PokemonInstance::DamageKind::RESIDUAL:
+                break;
+        }
+
+        // *INDENT-OFF*
+        if (rememberDamage) { lastDamageReceived += actualDamage; }
+        if (enableRage)     { changeStatStage(StatStage::ATK, actualDamage > 0); }
+        // *INDENT-ON*
+
+        counter -= actualDamage;
+        return actualDamage;
+    }
+
     int PokemonInstance::takeConfusionDamage()
     {
         const int damage = 0;       // TODO: full damage formula...
-        return takeDamage(std::min(1, damage), false);
+        return takeDamage(std::min(1, damage), DamageKind::CONFUSION);      // sic: min 1... review after impl full dmg formula
     }
 
     int PokemonInstance::takePoisonDamage()
     {
         const int damage = hpMax * mechanicsDefinition.poisonDamagePercentage;
-        return takeDamage(std::min(1, damage), false);
+        return takeDamage(damage, DamageKind::RESIDUAL);
     }
 
     int PokemonInstance::takeBadPoisonDamage()
     {
         const int damage = hpMax * mechanicsDefinition.poisonDamagePercentage * toxicCounter;
-        return takeDamage(std::min(1, damage), false);
+        return takeDamage(damage, DamageKind::RESIDUAL);
     }
 
     int PokemonInstance::takeBurnDamage()
     {
         const int damage = hpMax * mechanicsDefinition.burnDamagePercentage;
-        return takeDamage(std::min(1, damage), false);
+        return takeDamage(damage, DamageKind::RESIDUAL);
+    }
+
+    int PokemonInstance::takeSeedDamage()
+    {
+        const int damage = hpMax * mechanicsDefinition.leechSeedPercentage;
+        return takeDamage(damage, DamageKind::LEECH_SEED);
+    }
+
+    void PokemonInstance::setKnockedOutSubstitute(bool value)
+    {
+        knockedOutSubstitute = value;
     }
 
     void PokemonInstance::recalculateStats()
@@ -85,40 +112,29 @@ namespace SimulationMode
 
     double PokemonInstance::getStageMultiplier(const int stage, const std::string_view stageName) const
     {
-        const std::unordered_map<int, double> multipliers =
-        {
-            {-1, 0.66}, {-2, 0.50}, {-3, 0.40}, {-4, 0.33}, {-5, 0.28}, {-6, 0.25},
-            { 0, 1.00},
-            { 1, 1.50}, { 2, 2.00}, { 3, 2.50}, { 4, 3.00}, { 5, 3.50}, { 6, 4.00},
-        };
-
-        const auto it = multipliers.find(stage);
         // *INDENT-OFF*
-        if (it == multipliers.end()) { throw IllegalStateError(std::format("Illegal {} stage: {}", stageName, stage)); }
-        else                         { return it->second; }
+        if (stage >= 0) { return (2.0 + stage) / 2.0; }
+        else            { return 2.0 / (2.0 - stage); }
         // *INDENT-ON*
-    }
-
-    void PokemonInstance::setSubstituteHP(const int value)
-    {
-        substituteHP = std::min(value, 1);
-    }
-
-    void PokemonInstance::setKnockedOutSubstitute(bool value)
-    {
-        knockedOutSubstitute = value;
     }
 
     void PokemonInstance::setSleepCounter(int value)
     {
-        if (value == USE_DEFAULT)
+        if (sleepCounter == 0)
         {
-            value = RngService::getIntBetween(
-                        mechanicsDefinition.sleepMinTurns,
-                        mechanicsDefinition.sleepMaxTurns
-                    );
+            if (value == USE_DEFAULT)
+            {
+                value = RngService::getIntBetween(
+                            mechanicsDefinition.sleepMinTurns,
+                            mechanicsDefinition.sleepMaxTurns
+                        );
+            }
+            else if (value < 0)
+            {
+                throw IllegalArgumentError("Cannot set sleep counter to a negative value");
+            }
+            sleepCounter = value;
         }
-        sleepCounter = value;
     }
 
     void PokemonInstance::decreaseSleepCounter()
@@ -135,14 +151,21 @@ namespace SimulationMode
 
     void PokemonInstance::setConfusionCounter(int turns)
     {
-        if (turns == USE_DEFAULT)
+        if (confusionCounter == 0)
         {
-            turns = RngService::getIntBetween(
-                        mechanicsDefinition.confusionMinTurns,
-                        mechanicsDefinition.confusionMaxTurns
-                    );
+            if (turns == USE_DEFAULT)
+            {
+                turns = RngService::getIntBetween(
+                            mechanicsDefinition.confusionMinTurns,
+                            mechanicsDefinition.confusionMaxTurns
+                        );
+            }
+            else if (turns < 0)
+            {
+                throw IllegalArgumentError("Cannot set confusion counter to a negative value");
+            }
+            confusionCounter = turns;
         }
-        confusionCounter = turns;
     }
 
     void PokemonInstance::decreseConfusionCounter()
@@ -152,14 +175,16 @@ namespace SimulationMode
 
     void PokemonInstance::setBoundCounter(const int turns)
     {
-        if (turns == USE_DEFAULT)
+        if (boundCounter == 0)
         {
-            throw IllegalStateError("Cannot set bound counter to DEFAULT");
-        }
+            if (turns < 0)
+            {
+                throw IllegalArgumentError("Cannot set bound counter to a negative value");
+            }
 
-        setEscapePrevented(true);
-        setSkipTurnCounter(turns);
-        boundCounter = turns;
+            setEscapePrevented(true);
+            boundCounter = turns;
+        }
     }
 
     void PokemonInstance::decreaseBoundCounter()
@@ -169,6 +194,7 @@ namespace SimulationMode
             --boundCounter;
             if (boundCounter == 0)
             {
+                clearVolatileStatus(VolatileStatusCondition::BOUND);
                 setEscapePrevented(false);
             }
         }
@@ -181,19 +207,19 @@ namespace SimulationMode
 
     void PokemonInstance::decreaseLockedMoveCounter()
     {
+        if (lockedMoveReleaseTurn)
+        {
+            lockedMoveReleaseTurn = false;
+            return;
+        }
+
         if (lockedMoveCounter == 0)
         {
             if (lockedMove != nullptr)
             {
                 lockedMoveReleaseTurn = true;
+                lockedMove = nullptr;
             }
-            return;
-        }
-
-        if (lockedMoveReleaseTurn)
-        {
-            lockedMove = nullptr;
-            lockedMoveReleaseTurn = false;
             return;
         }
 
@@ -225,15 +251,15 @@ namespace SimulationMode
         }
     }
 
-    int PokemonInstance::takeDamage(const int amount, const bool applyRage, const bool fromAttack)
+    int PokemonInstance::takeDamage(const int amount, const DamageKind damageKind)
     {
         if (substituteHP > 0)
         {
-            return takeSubstituteDamage(amount, fromAttack);
+            return takeSubstituteDamage(amount, damageKind);
         }
         else
         {
-            return takeDirectDamage(amount, applyRage, fromAttack);
+            return takeDirectDamage(amount, damageKind);
         }
     }
 
@@ -264,6 +290,11 @@ namespace SimulationMode
         accumulatedDamage = 0;
     }
 
+    int PokemonInstance::getSubstituteHP() const
+    {
+        return substituteHP;
+    }
+
     static void assertStageBetween(
         const int value, const int min, const int max,
         const std::string_view stageName
@@ -277,25 +308,14 @@ namespace SimulationMode
         }
     }
 
-    int PokemonInstance::getSubstituteHP() const
+    void PokemonInstance::setSubstituteHP(const int value)
     {
-        return substituteHP;
+        substituteHP = std::min(value, 1);
     }
 
     bool PokemonInstance::getKnockedOutSubstitute() const
     {
         return knockedOutSubstitute;
-    }
-
-    void PokemonInstance::installSubstitute(const int substituteHp)
-    {
-        if (substituteHp > hp)
-        {
-            return;
-        }
-
-        hp -= substituteHp;
-        setSubstituteHP(substituteHp);
     }
 
     int PokemonInstance::getStat(const Stat stat) const
@@ -491,7 +511,7 @@ namespace SimulationMode
         {
             switch (status)
             {
-                case MetaDefinition::VolatileStatusCondition::FLINCHED:
+                case VolatileStatusCondition::FLINCHED:
                     if (!getProtectCancelLockedMove())
                     {
                         selectedMove = nullptr;
@@ -528,11 +548,8 @@ namespace SimulationMode
         volatileStatus.erase(status);
     }
 
-    bool PokemonInstance::handleStatus()
+    bool PokemonInstance::handleStatusPreMove()
     {
-        bool mayAttackAfter = true;
-        bool badToxicHandled = false;
-
         switch (nvStatus)
         {
             case MetaDefinition::NonVolatileStatusCondition::NORMAL:
@@ -548,6 +565,53 @@ namespace SimulationMode
             case MetaDefinition::NonVolatileStatusCondition::ASLEEP:
                 return false;
             case MetaDefinition::NonVolatileStatusCondition::BURNT:
+                break;
+            case MetaDefinition::NonVolatileStatusCondition::FROZEN:
+                return false;
+            case MetaDefinition::NonVolatileStatusCondition::FAINTED:
+                break;
+        }
+
+        if (hasVolatileStatus(VolatileStatusCondition::FLINCHED))
+        {
+            return false;
+        }
+
+        if (hasVolatileStatus(VolatileStatusCondition::CONFUSED))
+        {
+            takeConfusionDamage();
+            return false;
+        }
+
+        if (hasVolatileStatus(VolatileStatusCondition::BOUND))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    void PokemonInstance::handleStatusPostMove()
+    {
+        bool badToxicHandled = false;
+
+
+
+        switch (nvStatus)
+        {
+            case MetaDefinition::NonVolatileStatusCondition::NORMAL:
+                break;
+            case MetaDefinition::NonVolatileStatusCondition::PARALYZED:
+                break;
+            case MetaDefinition::NonVolatileStatusCondition::POISONED:
+                if (!badToxicHandled)
+                {
+                    takePoisonDamage();
+                }
+                break;
+            case MetaDefinition::NonVolatileStatusCondition::ASLEEP:
+                break;
+            case MetaDefinition::NonVolatileStatusCondition::BURNT:
                 takeBurnDamage();
                 break;
             case MetaDefinition::NonVolatileStatusCondition::FROZEN:
@@ -556,8 +620,6 @@ namespace SimulationMode
                 faint();
                 break;
         }
-
-        return mayAttackAfter;
     }
 
     bool PokemonInstance::isEscapePrevented() const
@@ -639,7 +701,7 @@ namespace SimulationMode
         const bool protectCancel
     )
     {
-        if (getLockedMoveCounter() == 0 && !isLockedMoveReleaseTurn())
+        if (getLockedMoveCounter() == 0)
         {
             lockedMove = move;
             lockedMoveCounter = turns;
@@ -661,7 +723,9 @@ namespace SimulationMode
 
     bool PokemonInstance::canChooseMove() const
     {
-        return !((isLockedMoveReleaseTurn()) || (getLockedMoveCounter() > 0));
+        return (getLockedMoveCounter() == 0) &&
+               (getSkipTurnCounter() == 0) &&
+               (getBoundCounter() == 0);
     }
 
     void PokemonInstance::faint()
@@ -691,6 +755,24 @@ namespace SimulationMode
         decreaseBoundCounter();
         decreaseSkipTurnCounter();
         decreaseLockedMoveCounter();
+    }
+
+    void PokemonInstance::endTurnHook()
+    {
+        handleStatusPostMove();
+        decreaseTurnCounts();
+    }
+
+    bool PokemonInstance::newTurnHook()
+    {
+        lastDamageReceived = 0;
+        bool canMoveAfter = true;
+
+        canMoveAfter &= handleStatusPreMove();
+        canMoveAfter &= (skipTurnCounter == 0);
+        canMoveAfter &= (boundCounter == 0);
+
+        return canMoveAfter;
     }
 
 } // namespace SimulationMode

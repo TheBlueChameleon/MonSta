@@ -18,6 +18,8 @@ namespace SimulationMode
             static constexpr auto USE_DEFAULT = -1;
             // TODO: static constexpr auto FOREVER = -2? int_max?
 
+            enum class DamageKind { DIRECT_ATTACK, RESIDUAL, LEECH_SEED, CONFUSION, SELF_INFLICTED };
+
         private:
             MetaDefinition::PokemonDefinition speciesData;
             int  level;
@@ -27,6 +29,7 @@ namespace SimulationMode
             int  substituteHP;
             bool knockedOutSubstitute;
             int  lastDamageReceived;
+            int  lastSeedDamage;
             int  accumulatedDamage;
 
             int atk;
@@ -61,18 +64,18 @@ namespace SimulationMode
             const MetaDefinition::Move* selectedMove;
 
         private:
-            int  takeDirectDamage(const int amount, const bool rageEnabled, const bool fromAttack);
-            int  takeSubstituteDamage(const int amount, const bool fromAttack);
+            int  takeDirectDamage(const int amount, const DamageKind damageKind);
+            int  takeSubstituteDamage(const int amount, const DamageKind damageKind);
+            int  takeDamageShared(const int amount, const DamageKind damageKind, int& counter);
             int  takeConfusionDamage();
             int  takePoisonDamage();
             int  takeBadPoisonDamage();
             int  takeBurnDamage();
+            int  takeSeedDamage();
+            void setKnockedOutSubstitute(bool value);
 
             void   recalculateStats();
             double getStageMultiplier(const int stage, const std::string_view stageName) const;
-
-            void setSubstituteHP(const int value);
-            void setKnockedOutSubstitute(bool value);
 
             void setSleepCounter(int value);
             void decreaseSleepCounter();
@@ -93,7 +96,7 @@ namespace SimulationMode
             // .............................................................. //
             // HP related
 
-            int takeDamage(const int amount, const bool applyRage = true, const bool fromAttack = true);
+            int takeDamage(const int amount, const DamageKind damageKind = DamageKind::DIRECT_ATTACK);
             int recoverHealth(const int amount);
             int getLastDamageReceived() const;
 
@@ -102,8 +105,8 @@ namespace SimulationMode
             void resetAccumulatedDamage();
 
             int  getSubstituteHP() const;
+            void setSubstituteHP(const int value);
             bool getKnockedOutSubstitute() const;
-            void installSubstitute(const int substituteHp);
 
             // .............................................................. //
             // stat and stage related
@@ -132,7 +135,8 @@ namespace SimulationMode
             void addVolatileStatus(const MetaDefinition::VolatileStatusCondition status, const int turns = USE_DEFAULT);
             void clearVolatileStatus(const MetaDefinition::VolatileStatusCondition status);
 
-            bool handleStatus();
+            bool handleStatusPreMove();
+            void handleStatusPostMove();
 
             // .............................................................. //
             // flag and counter related
@@ -169,6 +173,8 @@ namespace SimulationMode
             void bench();
 
             void decreaseTurnCounts();
+            bool newTurnHook();
+            void endTurnHook();
     };
 
 } // namespace SimulationMode

@@ -30,7 +30,7 @@ namespace MetaDefinition
                 {
                     break;
                 }
-                target.takeDamage(last, false);
+                target.takeDamage(last);
             }
         }
 
