@@ -31,6 +31,7 @@ namespace MetaDefinition
         bool bideGlitch;
         bool counterGlitch;
         bool critRateGlitch;
+        bool damageUnderflowGlitch;
         bool experienceUnderflowGlitch;
         bool hpRecoveryGlitch;
         bool hyperbeamFreezeGlitch;

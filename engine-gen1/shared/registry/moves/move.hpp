@@ -1,6 +1,10 @@
 #ifndef MOVE_HPP
 #define MOVE_HPP
 
+#include <string_view>
+
+#include "shared/defs/typeinfo.hpp"
+
 namespace MetaDefinition
 {
     class Move
@@ -17,6 +21,10 @@ namespace MetaDefinition
 
         public:
             Move();
+
+            int getPower() const;
+            std::string_view getType() const;
+            MoveCategory getCategory() const;
     };
 
 } // namespace SimulationMode

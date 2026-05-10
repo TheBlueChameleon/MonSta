@@ -101,6 +101,7 @@ namespace SchemaValidation
     const auto JKEY_MECHANICS_BIDE_GLITCH               = "bideGlitch";                     // implemented
     const auto JKEY_MECHANICS_COUNTERGLITCH             = "counterGlitch";
     const auto JKEY_MECHANICS_CRITRATEGLITCH            = "critRateGlitch";
+    const auto JKEY_MECHANICS_DAMAGEUNDERFLOWGLITCH     = "damageUnderflowGlitch";          // implemented
     const auto JKEY_MECHANICS_EXPUNDERFLOWGLITCH        = "experienceUnderflowGlitch";
     const auto JKEY_MECHANICS_HPRECOVERYGLITCH          = "hpRecoveryGlitch";
     const auto JKEY_MECHANICS_HYPERBEAMFREEZEGLITCH     = "hyperbeamFreezeGlitch";
@@ -110,7 +111,7 @@ namespace SchemaValidation
     const auto JKEY_MECHANICS_OPPONENTFAINTSKIPGLITCH   = "opponentFaintSkipGlitch";
     const auto JKEY_MECHANICS_SUBSTITUTEHPDRAINGLITCH   = "substituteHpDrainGlitch";
     const auto JKEY_MECHANICS_SUBSTITUTESELFHURTGLITCH  = "substituteSelfHurtGlitch";
-    const auto JKEY_MECHANICS_TOXICLEECHSEEDGLITCH      = "toxicLeechSeedGlitch";
+    const auto JKEY_MECHANICS_TOXICLEECHSEEDGLITCH      = "toxicLeechSeedGlitch";           // implemented
     const auto JKEY_MECHANICS_TOXICRESTGLITCH           = "toxicRestGlitch";
 
     void registerMechanicsDefinition();

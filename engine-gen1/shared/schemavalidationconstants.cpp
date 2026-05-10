@@ -182,6 +182,10 @@ namespace SchemaValidation
         .setDefault("true");
 
         builder
+        .addProperty(JKEY_MECHANICS_DAMAGEUNDERFLOWGLITCH, JsonType::BOOLEAN)
+        .setDefault("true");
+
+        builder
         .addProperty(JKEY_MECHANICS_EXPUNDERFLOWGLITCH, JsonType::BOOLEAN)
         .setDefault("true");
 

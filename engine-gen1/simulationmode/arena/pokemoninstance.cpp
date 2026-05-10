@@ -6,6 +6,7 @@
 
 #include "shared/registry/registry.hpp"
 
+#include "damagecalculator.hpp"
 #include "pokemoninstance.hpp"
 
 using namespace MetaDefinition;
@@ -72,7 +73,16 @@ namespace SimulationMode
 
     int PokemonInstance::takeConfusionDamage()
     {
-        const int damage = 0;       // TODO: full damage formula...
+        DamageInfo di;
+        di.level = level;
+        di.power = mechanicsDefinition.confusionHitStrength;
+        di.offense = atk;
+        di.defense = def;
+        di.criticalHit = 1;
+        di.stab = 1;
+        di.typeMultiplier = 1;
+
+        const int damage = getDamageRoll(di);
         return takeDamage(std::min(1, damage), DamageKind::CONFUSION);      // sic: min 1... review after impl full dmg formula
     }
 
@@ -96,8 +106,13 @@ namespace SimulationMode
 
     int PokemonInstance::takeSeedDamage()
     {
-        const int damage = hpMax * mechanicsDefinition.leechSeedPercentage;
-        return takeDamage(damage, DamageKind::LEECH_SEED);
+        int damage = hpMax * mechanicsDefinition.leechSeedPercentage;
+        if (mechanicsDefinition.toxicLeechSeedGlitch)
+        {
+            damage *= std::min(1, toxicCounter);
+        }
+        lastSeedDamage = takeDamage(damage, DamageKind::LEECH_SEED);
+        return lastSeedDamage;
     }
 
     void PokemonInstance::setKnockedOutSubstitute(bool value)
@@ -244,6 +259,7 @@ namespace SimulationMode
 
     void PokemonInstance::clearTemporaryFlags()
     {
+        highCritrateMove = false;
         knockedOutSubstitute = false;
         if (lockedMoveReleaseTurn)
         {
@@ -305,6 +321,16 @@ namespace SimulationMode
         return knockedOutSubstitute;
     }
 
+    const PokemonDefinition& PokemonInstance::getSpeciesData() const
+    {
+        return speciesData;
+    }
+
+    int PokemonInstance::getLevel() const
+    {
+        return level;
+    }
+
     int PokemonInstance::getStat(const Stat stat) const
     {
         switch (stat)
@@ -319,6 +345,25 @@ namespace SimulationMode
                 return spc;
             case MetaDefinition::Stat::SPD:
                 return spd;
+        }
+
+        throw IllegalStateError(std::format("Unknow Stat ID: {}", static_cast<int>(stat)));
+    }
+
+    int PokemonInstance::getInitStat(const MetaDefinition::Stat stat) const
+    {
+        switch (stat)
+        {
+            case MetaDefinition::Stat::HP:
+                return hp;
+            case MetaDefinition::Stat::ATK:
+                return initAtk;
+            case MetaDefinition::Stat::DEF:
+                return initDef;
+            case MetaDefinition::Stat::SPC:
+                return initSpc;
+            case MetaDefinition::Stat::SPD:
+                return initSpd;
         }
 
         throw IllegalStateError(std::format("Unknow Stat ID: {}", static_cast<int>(stat)));
@@ -368,19 +413,6 @@ namespace SimulationMode
                 return stageCritRate;
         }
         throw IllegalStateError(std::format("Unknow Stat Stage ID: {}", static_cast<int>(stat)));
-    }
-
-    static void assertStageBetween(
-        const int value, const int min, const int max,
-        const std::string_view stageName
-    )
-    {
-        constexpr auto messageTemplate = "Illegal {} Stage: {}";
-
-        if ((value < min) || (value > max))
-        {
-            throw IllegalStateError(std::format(messageTemplate, stageName, value));
-        }
     }
 
     void PokemonInstance::setStatStage(const StatStage stat, int value)
@@ -467,15 +499,36 @@ namespace SimulationMode
             case MetaDefinition::StatStage::Evasion:
                 return getStageMultiplier(-stageEvasion, STATSTAGE_EVASION);
             case MetaDefinition::StatStage::CritRate:
-                // *INDENT-OFF*
-                if      (stageCritRate ==  0) { return 1.00; }
-                else if (stageCritRate ==  1) { return 4.00; }
-                else if (stageCritRate == -1) { return 0.25; }
-                // *INDENT-ON*
+                throw IllegalStateError("Attempt to get stage multiplier for critRate");
         }
         throw IllegalStateError(
             std::format("Unknow Stat Stage ID: {}", static_cast<int>(stat))
         );
+    }
+
+    static void assertStageBetween(
+        const int value, const int min, const int max,
+        const std::string_view stageName
+    )
+    {
+        constexpr auto messageTemplate = "Illegal {} Stage: {}";
+
+        if ((value < min) || (value > max))
+        {
+            throw IllegalStateError(std::format(messageTemplate, stageName, value));
+        }
+    }
+
+    uint8_t PokemonInstance::getCritRollThreshold() const
+    {
+        if (mechanicsDefinition.critRateGlitch)
+        {
+            return getCritrollThresholdOriginal(initSpd, highCritrateMove, stageCritRate);
+        }
+        else
+        {
+            return getCritrollThresholdGlitchLess(initSpd, highCritrateMove, stageCritRate);
+        }
     }
 
     NonVolatileStatusCondition PokemonInstance::getNvStatus() const
@@ -497,7 +550,59 @@ namespace SimulationMode
         return nvStatus;
     }
 
-    const std::set<VolatileStatusCondition>& PokemonInstance::getVolatileStatusSet() const
+    static uint8_t getCritrollThresholdOriginal(const uint8_t baseSpeed, const bool highCritrateMove, const int stageCritRate)
+    {
+        if (highCritrateMove)
+        {
+            if (stageCritRate > 0)
+            {
+                result = std::min(8 * (baseSpeed >> 1), 255);
+            }
+            else
+            {
+                result = 4 * (baseSpeed >> 2);
+            }
+        }
+        else
+        {
+            if (stageCritRate > 0)
+            {
+                return baseSpeed >> 3;
+            }
+            else
+            {
+                return result >> 1;
+            }
+        }
+    }
+
+    static uint8_t getCritrollThresholdGlitchLess(const uint8_t baseSpeed, const bool highCritrateMove, const int stageCritRate)
+    {
+        if (highCritrateMove)
+        {
+            if (stageCritRate > 0)
+            {
+                result = std::min(8 * (baseSpeed >> 1), 255);
+            }
+            else
+            {
+                result = std::min(32 * (baseSpeed >> 1), 255);
+            }
+        }
+        else
+        {
+            if (stageCritRate > 0)
+            {
+                return 4 * (baseSpeed >> 1);
+            }
+            else
+            {
+                return result >> 1;
+            }
+        }
+    }
+
+    const std::unordered_set<VolatileStatusCondition>& PokemonInstance::getVolatileStatusSet() const
     {
         return volatileStatus;
     }
@@ -515,15 +620,8 @@ namespace SimulationMode
             switch (status)
             {
                 case VolatileStatusCondition::FLINCHED:
-                    if (!getProtectCancelLockedMove())
-                    {
-                        selectedMove = nullptr;
-                        cancelLockedMove();
-                    }
-                    if (getSkipTurnCounter() == 0)
-                    {
-                        setSkipTurnCounter(turns);
-                    }
+                    cancelLockedMove();
+                    setSkipTurnCounter(turns);
                     break;
 
                 case MetaDefinition::VolatileStatusCondition::CONFUSED:
@@ -598,7 +696,16 @@ namespace SimulationMode
     {
         bool badToxicHandled = false;
 
+        if (hasVolatileStatus(VolatileStatusCondition::BADLY_POISONED))
+        {
+            takeBadPoisonDamage();
+            badToxicHandled = true;
+        }
 
+        if (hasVolatileStatus(VolatileStatusCondition::SEEDED))
+        {
+            takeSeedDamage();
+        }
 
         switch (nvStatus)
         {
@@ -673,6 +780,31 @@ namespace SimulationMode
         return confusionCounter;
     }
 
+    bool PokemonInstance::getHighCritrateMove() const
+    {
+        return highCritrateMove;
+    }
+
+    void PokemonInstance::setHighCritrateMove(bool value)
+    {
+        highCritrateMove = value;
+    }
+
+    std::optional<MetaDefinition::MoveCategory> PokemonInstance::getScreen() const
+    {
+        return screen;
+    }
+
+    void PokemonInstance::setScreen(MetaDefinition::MoveCategory newScreen)
+    {
+        screen = newScreen;
+    }
+
+    void PokemonInstance::clearScreen()
+    {
+        screen.reset();
+    }
+
     const Move* const PokemonInstance::getSelectedMove() const
     {
         return selectedMove;
@@ -717,6 +849,7 @@ namespace SimulationMode
     {
         if (!protectCancelLockedMove)
         {
+            selectedMove = nullptr;
             lockedMove = nullptr;
             lockedMoveCounter = 0;
             lockedMoveReleaseTurn = false;
@@ -744,10 +877,12 @@ namespace SimulationMode
         stageCritRate = 0;
         nvStatus = NonVolatileStatusCondition::FAINTED;
         clearPersistentFlags();
+        recalculateStats();
     }
 
     void PokemonInstance::bench()
     {
+        clearTemporaryFlags();
         clearPersistentFlags();
     }
 
@@ -760,12 +895,6 @@ namespace SimulationMode
         decreaseLockedMoveCounter();
     }
 
-    void PokemonInstance::endTurnHook()
-    {
-        handleStatusPostMove();
-        decreaseTurnCounts();
-    }
-
     bool PokemonInstance::newTurnHook()
     {
         lastDamageReceived = 0;
@@ -776,6 +905,13 @@ namespace SimulationMode
         canMoveAfter &= (boundCounter == 0);
 
         return canMoveAfter;
+    }
+
+    void PokemonInstance::endTurnHook()
+    {
+        clearTemporaryFlags();
+        handleStatusPostMove();
+        decreaseTurnCounts();
     }
 
 } // namespace SimulationMode

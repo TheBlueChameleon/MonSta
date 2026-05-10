@@ -410,6 +410,7 @@ add_library(Engine-Gen1 SHARED
     engine-gen1/shared/registry/moves/move.hpp                      engine-gen1/shared/registry/moves/move.cpp
     engine-gen1/shared/registry/moves/secondaryeffect.hpp
 
+    engine-gen1/simulationmode/arena/damagecalculator.hpp           engine-gen1/simulationmode/arena/damagecalculator.cpp
     engine-gen1/simulationmode/arena/pokemoninstance.hpp            engine-gen1/simulationmode/arena/pokemoninstance.cpp
     engine-gen1/simulationmode/arena/scene.hpp                      engine-gen1/simulationmode/arena/scene.cpp
 

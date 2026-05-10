@@ -1,12 +1,15 @@
 #ifndef POKEMONINSTANCE_HPP
 #define POKEMONINSTANCE_HPP
 
-#include <set>
+#include <cinttypes>
+#include <optional>
+#include <unordered_set>
 
 #include "shared/defs/pokemondefition.hpp"
 #include "shared/defs/stat.hpp"
 #include "shared/defs/statstage.hpp"
 #include "shared/defs/statuscondition.hpp"
+#include "shared/defs/typeinfo.hpp"
 
 #include "shared/registry/moves/move.hpp"
 
@@ -37,6 +40,11 @@ namespace SimulationMode
             int spc;
             int spd;
 
+            int initAtk;
+            int initDef;
+            int initSpc;
+            int initSpd;
+
             int stageAtk;
             int stageDef;
             int stageSpc;
@@ -46,8 +54,9 @@ namespace SimulationMode
             int stageCritRate;
 
             MetaDefinition::NonVolatileStatusCondition nvStatus;
-            std::set<MetaDefinition::VolatileStatusCondition> volatileStatus;
+            std::unordered_set<MetaDefinition::VolatileStatusCondition> volatileStatus;
 
+            bool highCritrateMove;
             bool preventEscape;
             bool semiInvulnerable;
             bool useRageCounter;
@@ -56,6 +65,7 @@ namespace SimulationMode
             int  confusionCounter;
             int  boundCounter;
             int  toxicCounter;
+            std::optional<MetaDefinition::MoveCategory> screen;
 
             bool protectCancelLockedMove;
             bool lockedMoveReleaseTurn;
@@ -111,7 +121,11 @@ namespace SimulationMode
             // .............................................................. //
             // stat and stage related
 
+            const MetaDefinition::PokemonDefinition& getSpeciesData() const;
+            int getLevel() const;
+
             int  getStat(const MetaDefinition::Stat stat) const;
+            int  getInitStat(const MetaDefinition::Stat stat) const;
             void setStat(const MetaDefinition::Stat stat, int value);
 
             int  getStatStage(const MetaDefinition::StatStage stat);
@@ -119,6 +133,7 @@ namespace SimulationMode
             void changeStatStage(const MetaDefinition::StatStage stat, int amount);
 
             double getStageMultiplier(const MetaDefinition::StatStage stat) const;
+            uint8_t getCritRollThreshold() const;
 
             MetaDefinition::NonVolatileStatusCondition getNvStatus() const;
             MetaDefinition::NonVolatileStatusCondition setNvStatus(
@@ -130,7 +145,7 @@ namespace SimulationMode
             // .............................................................. //
             // status related
 
-            const std::set<MetaDefinition::VolatileStatusCondition>& getVolatileStatusSet() const;
+            const std::unordered_set<MetaDefinition::VolatileStatusCondition>& getVolatileStatusSet() const;
             bool hasVolatileStatus(const MetaDefinition::VolatileStatusCondition status) const;
             void addVolatileStatus(const MetaDefinition::VolatileStatusCondition status, const int turns = USE_DEFAULT);
             void clearVolatileStatus(const MetaDefinition::VolatileStatusCondition status);
@@ -153,6 +168,13 @@ namespace SimulationMode
             int getSleepCounter() const;
             int getBoundCounter() const;
             int getConfusionCounter() const;
+
+            bool getHighCritrateMove() const;
+            void setHighCritrateMove(bool value);
+
+            std::optional<MetaDefinition::MoveCategory> getScreen() const;
+            void setScreen(MetaDefinition::MoveCategory value);
+            void clearScreen();
 
             // .............................................................. //
             // multi-turn moves related

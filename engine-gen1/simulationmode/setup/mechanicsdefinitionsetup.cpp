@@ -58,6 +58,7 @@ namespace SimulationMode
             mechanicsDefinition.bideGlitch                  = md.navigateTo(JKEY_MECHANICS_BIDE_GLITCH).getAsBool();
             mechanicsDefinition.counterGlitch               = md.navigateTo(JKEY_MECHANICS_COUNTERGLITCH).getAsBool();
             mechanicsDefinition.critRateGlitch              = md.navigateTo(JKEY_MECHANICS_CRITRATEGLITCH).getAsBool();
+            mechanicsDefinition.damageUnderflowGlitch      = md.navigateTo(JKEY_MECHANICS_DAMAGEUNDERFLOWGLITCH).getAsBool();
             mechanicsDefinition.experienceUnderflowGlitch   = md.navigateTo(JKEY_MECHANICS_EXPUNDERFLOWGLITCH).getAsBool();
             mechanicsDefinition.hpRecoveryGlitch            = md.navigateTo(JKEY_MECHANICS_HPRECOVERYGLITCH).getAsBool();
             mechanicsDefinition.hyperbeamFreezeGlitch       = md.navigateTo(JKEY_MECHANICS_HYPERBEAMFREEZEGLITCH).getAsBool();
