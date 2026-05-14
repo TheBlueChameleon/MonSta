@@ -12,13 +12,16 @@ namespace Registry
     void TypeChart::setupTypes(const std::vector<std::string_view>& columnNames)
     {
         indices.clear();
-        moveCategories.clear();
+
+        moveCategories = std::vector<MoveCategory>(columnNames.size());
+        names          = std::vector<std::string> (columnNames.size());
 
         size_t i = 0;
         for (const auto typeName : columnNames)
         {
             indices[typeName.data()] = i;
-            moveCategories[typeName.data()] = MoveCategory::PHYSICAL;
+            names[i] = typeName;
+            moveCategories[i] = MoveCategory::PHYSICAL;
             ++i;
         }
 
@@ -31,7 +34,7 @@ namespace Registry
         const std::vector<std::string_view>& effectiveness
     )
     {
-        const size_t row = getIndex(typeName);
+        const size_t typeID = getIndex(typeName);
         if (table.size() != effectiveness.size())
         {
             throw IllegalArgumentError("Mismatched input: expected "s +
@@ -40,7 +43,7 @@ namespace Registry
                                       );
         }
 
-        std::vector<double>& targetRow = table[row];
+        std::vector<double>& targetRow = table[typeID];
         const auto converter = [](const auto cell)
         {
             return std::stod(cell.data());
@@ -50,9 +53,16 @@ namespace Registry
                        converter
                       );
 
-        // find returns iterator: pair<key, value>
-        // this iterator is guaranteed not to be end() because getIndex() succeded before
-        moveCategories.find(typeName.data())->second = category;
+        moveCategories[typeID] = category;
+    }
+
+    const std::string& TypeChart::getTypeName(const size_t index) const
+    {
+        if (index >= names.size())
+        {
+            throw IllegalArgumentError("Unknown type ID: "s + std::to_string(index));
+        }
+        return names[index];
     }
 
     size_t TypeChart::getIndex(const std::string_view typeName) const
@@ -71,46 +81,55 @@ namespace Registry
 
     const MoveCategory TypeChart::getMoveCategoryForType(const std::string_view type)
     {
-        const auto it = moveCategories.find(type.data());
-        if (it == moveCategories.end())
-        {
-            throw IllegalArgumentError("Unknown type: "s + type.data());
-        }
-        return it->second;
+        const auto typeID = getIndex(type);
+        return moveCategories[typeID];
     }
 
-    double TypeChart::getMultiplyer(const size_t rowIndex, const size_t columnIndex) const
+    const MoveCategory TypeChart::getMoveCategoryForTypeID(const size_t typeID)
     {
-        if (rowIndex >= table.size())
+        if (typeID >= moveCategories.size())
         {
-            throw IllegalArgumentError("Invalid row index: "s + std::to_string(rowIndex));
+            throw IllegalArgumentError("Unknown TypeID: "s + std::to_string(typeID));
         }
-        if (columnIndex >= table.size())        // this is a NxN table, so table.size() is valid here
-        {
-            throw IllegalArgumentError("Invalid column index: "s + std::to_string(columnIndex));
-        }
-
-        return table[rowIndex][columnIndex];
+        return moveCategories[typeID];
     }
 
-    double TypeChart::getMultiplyer(const std::string_view attackerTypeName, const std::string_view defenderTypeName) const
+    double TypeChart::getMultiplier(const size_t attackerTypeID, const size_t defenderTypeID) const
     {
-        const auto rowIndex = getIndex(attackerTypeName);
-        const auto columnIndex = getIndex(defenderTypeName);
-        return table[rowIndex][columnIndex];
+        const auto N = table.size();
+        if (attackerTypeID >= N)
+        {
+            throw IllegalArgumentError("Invalid row index: "s + std::to_string(attackerTypeID));
+        }
+        if (defenderTypeID >= N)        // this is a NxN table, so table.size() is valid here
+        {
+            throw IllegalArgumentError("Invalid column index: "s + std::to_string(defenderTypeID));
+        }
+
+        return table[attackerTypeID][defenderTypeID];
     }
 
-    double TypeChart::getMultiplyer(const std::string_view attackerTypeName, const PokemonType& defenderType) const
+    double TypeChart::getMultiplier(const std::string_view attackerTypeName, const std::string_view defenderTypeName) const
     {
-        const auto rowIndex = getIndex(attackerTypeName);
-        const auto columnIndex1 = getIndex(defenderType.primary);
-        const auto& targetRow = table[rowIndex];
+        const auto atkIndex = getIndex(attackerTypeName);
+        const auto defIndex = getIndex(defenderTypeName);
+        return table[atkIndex][defIndex];
+    }
 
-        double result = targetRow[columnIndex1];
-        if (defenderType.secondary.has_value())
+    double TypeChart::getMultiplier(const std::string_view attackerTypeName, const PokemonType& defenderType) const
+    {
+        const auto attackerIndex = getIndex(attackerTypeName);
+        return getMultiplier(attackerIndex, defenderType.toTypeID());
+    }
+
+    double TypeChart::getMultiplier(const size_t attackerTypeID, const MetaDefinition::PokemonTypeID defenderTypeId) const
+    {
+        const auto& targetRow = table[attackerTypeID];
+
+        double result = targetRow[defenderTypeId.primary];
+        if (defenderTypeId.secondary.has_value())
         {
-            const auto columnIndex2 = getIndex(defenderType.secondary.value());
-            result *= targetRow[columnIndex2];
+            result *= targetRow[defenderTypeId.secondary.value()];
         }
 
         return result;

@@ -385,7 +385,7 @@ add_library(Engine-Gen1 SHARED
     engine-gen1/shared/defs/optionprobabilitylist.hpp               engine-gen1/shared/defs/optionprobabilitylist.cpp
     engine-gen1/shared/defs/pokemondatabaseentry.hpp
     engine-gen1/shared/defs/pokemondefition.hpp
-    engine-gen1/shared/defs/statuscondition.hpp                       engine-gen1/shared/defs/statuscondition.cpp
+    engine-gen1/shared/defs/statuscondition.hpp                     engine-gen1/shared/defs/statuscondition.cpp
     engine-gen1/shared/defs/stat.hpp                                engine-gen1/shared/defs/stat.cpp
     engine-gen1/shared/defs/statstage.hpp                           engine-gen1/shared/defs/statstage.cpp
     engine-gen1/shared/defs/target.hpp                              engine-gen1/shared/defs/target.cpp

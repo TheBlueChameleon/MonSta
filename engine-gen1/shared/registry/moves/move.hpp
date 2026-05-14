@@ -24,6 +24,7 @@ namespace MetaDefinition
 
             int getPower() const;
             std::string_view getType() const;
+            size_t getTypeID() const;
             MoveCategory getCategory() const;
     };
 

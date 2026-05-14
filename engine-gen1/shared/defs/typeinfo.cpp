@@ -1,5 +1,7 @@
 #include <base/errors.hpp>
 
+#include "shared/registry/registry.hpp"
+
 #include "typeinfo.hpp"
 
 using namespace std::string_literals;
@@ -48,6 +50,48 @@ namespace MetaDefinition
         }
 
         return false;
+    }
+
+    PokemonTypeID PokemonType::toTypeID() const
+    {
+        const size_t primaryID = Registry::typeChart.getIndex(primary);
+        std::optional<size_t> secondaryID;
+        if (secondary.has_value())
+        {
+            secondaryID = Registry::typeChart.getIndex(secondary.value());
+        }
+
+        return PokemonTypeID {primaryID, secondaryID};
+    }
+
+    bool PokemonTypeID::matches(const size_t other) const
+    {
+        if (primary == other)
+        {
+            return true;
+        }
+
+        if (secondary.has_value())
+        {
+            if (secondary.value() == other)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    PokemonType PokemonTypeID::toType() const
+    {
+        const std::string primaryID = Registry::typeChart.getTypeName(primary);
+        std::optional<std::string> secondaryID;
+        if (secondary.has_value())
+        {
+            secondaryID = Registry::typeChart.getTypeName(secondary.value());
+        }
+
+        return PokemonType {primaryID, secondaryID};
     }
 
 } // namespace SimulationMode

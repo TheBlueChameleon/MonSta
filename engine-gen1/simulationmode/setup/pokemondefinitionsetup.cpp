@@ -114,6 +114,7 @@ namespace SimulationMode
                 {
                     entry.type.secondary = secondary;
                 }
+                entry.typeID = entry.type.toTypeID();
 
                 pokemonDatabase.addSpecies(species, entry);
             }

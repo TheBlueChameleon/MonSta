@@ -16,6 +16,11 @@ namespace MetaDefinition
         return "Normal";
     }
 
+    size_t Move::getTypeID() const
+    {
+        return 0;
+    }
+
     MoveCategory Move::getCategory() const
     {
         return Registry::typeChart.getMoveCategoryForType(getType());

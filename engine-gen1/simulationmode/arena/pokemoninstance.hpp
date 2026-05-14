@@ -27,7 +27,7 @@ namespace SimulationMode
 
         private:
             MetaDefinition::PokemonDefinition speciesData;
-            MetaDefinition::PokemonType       effectiveType;
+            MetaDefinition::PokemonTypeID     effectiveType;
             int  level;
 
             int  hp;
@@ -90,7 +90,7 @@ namespace SimulationMode
 
             void   recalculateStats();
             double getStageMultiplier(const int stage, const std::string_view stageName) const;
-            MetaDefinition::PokemonType getTypeFromSpecies() const;
+            MetaDefinition::PokemonTypeID getTypeFromSpecies() const;
 
             void setSleepCounter(int value);
             void decreaseSleepCounter();
@@ -184,8 +184,8 @@ namespace SimulationMode
             void setScreen(MetaDefinition::MoveCategory value);
             void clearScreen();
 
-            MetaDefinition::PokemonType getEffectiveType() const;
-            void setEffectiveType(const MetaDefinition::PokemonType& value);
+            MetaDefinition::PokemonTypeID getEffectiveTypeID() const;
+            void setEffectiveTypeID(const MetaDefinition::PokemonTypeID& value);
 
             // .............................................................. //
             // multi-turn moves related

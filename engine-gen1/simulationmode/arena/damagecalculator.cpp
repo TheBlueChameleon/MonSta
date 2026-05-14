@@ -53,8 +53,6 @@ namespace SimulationMode
                              (roll <  critThreshold) :
                              (roll <= critThreshold);
 
-        // TODO: stab
-
         if (attacker.getIgnoreMoveType())
         {
             result.typeMultiplier = 1.0;
@@ -62,10 +60,10 @@ namespace SimulationMode
         }
         else
         {
-            const auto typeMove = move.getType();
-            const auto typeDefender = defender.getEffectiveType();
-            const auto typeAttacker = attacker.getEffectiveType();
-            result.typeMultiplier = Registry::typeChart.getMultiplyer(typeMove, typeDefender);
+            const auto typeMove = move.getTypeID();
+            const auto typeDefender = defender.getEffectiveTypeID();
+            const auto typeAttacker = attacker.getEffectiveTypeID();
+            result.typeMultiplier = Registry::typeChart.getMultiplier(typeMove, typeDefender);
             result.stab = 1.0 + (typeAttacker.matches(typeMove) * 0.5);
         }
 

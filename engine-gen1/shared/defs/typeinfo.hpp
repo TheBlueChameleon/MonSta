@@ -15,12 +15,24 @@ namespace MetaDefinition
     MoveCategory getMoveCategoryFromName(const std::string_view name);
     std::string_view getMoveCategoryName(const MoveCategory category);
 
+    struct PokemonTypeID;
+
     struct PokemonType
     {
         std::string                 primary;
         std::optional<std::string>  secondary;
 
         bool matches(const std::string_view other) const;
+        PokemonTypeID toTypeID() const;
+    };
+
+    struct PokemonTypeID
+    {
+        size_t primary;
+        std::optional<size_t> secondary;
+
+        bool matches(const size_t other) const;
+        PokemonType toType() const;
     };
 
 } // namespace SimulationMode

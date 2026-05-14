@@ -14,6 +14,7 @@ namespace MetaDefinition
         int             SPC;
         int             SPD;
         PokemonType     type;
+        PokemonTypeID   typeID;
         int             expYield;
         ExperienceGroup expGroup;
     };

@@ -25,7 +25,7 @@ class EngineError : public std::runtime_error
 // ========================================================================== //
 // Pre-Coded errors
 
-class InvalidUserInput : EngineError
+class InvalidUserInput : public EngineError
 {
     public:
         using EngineError::EngineError;
@@ -34,7 +34,7 @@ class InvalidUserInput : EngineError
         InvalidUserInput(const std::string_view msg);
 };
 
-class IllegalStateError : EngineError
+class IllegalStateError : public EngineError
 {
     public:
         using EngineError::EngineError;
@@ -52,7 +52,7 @@ class IllegalArgumentError : EngineError
         IllegalArgumentError(const std::string_view msg);
 };
 
-class MissingParameterError : EngineError
+class MissingParameterError : public EngineError
 {
     public:
         using EngineError::EngineError;
@@ -61,7 +61,7 @@ class MissingParameterError : EngineError
         MissingParameterError(const std::string_view msg);
 };
 
-class NotImplementedError : EngineError
+class NotImplementedError : public EngineError
 {
     public:
         using EngineError::EngineError;
@@ -70,7 +70,7 @@ class NotImplementedError : EngineError
         NotImplementedError(const std::string_view msg);
 };
 
-class MultipleErrors : EngineError
+class MultipleErrors : public EngineError
 {
     public:
         using EngineError::EngineError;
@@ -79,7 +79,7 @@ class MultipleErrors : EngineError
         MultipleErrors(const std::string_view msg);
 };
 
-class LookupError : EngineError
+class LookupError : public EngineError
 {
     public:
         using EngineError::EngineError;

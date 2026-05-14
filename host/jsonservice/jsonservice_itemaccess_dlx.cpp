@@ -230,7 +230,7 @@ namespace JsonService
         {
             assertSaneHandle(handle);
             const ordered_json& base = toOrderedJson(handle);
-            if (!base.is_number_float())
+            if (!base.is_number())
             {
                 throw ClientRequestError("Client attempted to read non-float Json object as float");
             }

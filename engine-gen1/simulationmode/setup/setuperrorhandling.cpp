@@ -25,7 +25,7 @@ namespace SimulationMode
     {
         eb.append(
             ApiStatusCode::INVALID_USER_INPUT,
-            "In team definition file '"s + origin.c_str() + "' " + message.data()
+            "In file '"s + origin.c_str() + "' " + message.data()
         );
     }
 } // namespace SimulationMode

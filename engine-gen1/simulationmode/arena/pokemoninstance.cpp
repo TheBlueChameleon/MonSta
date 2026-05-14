@@ -199,9 +199,9 @@ namespace SimulationMode
         // *INDENT-ON*
     }
 
-    PokemonType PokemonInstance::getTypeFromSpecies() const
+    PokemonTypeID PokemonInstance::getTypeFromSpecies() const
     {
-        return pokemonDatabase.getEntry(speciesData.species).type;
+        return pokemonDatabase.getEntry(speciesData.species).typeID;
     }
 
     void PokemonInstance::setSleepCounter(int value)
@@ -823,12 +823,12 @@ namespace SimulationMode
         screen.reset();
     }
 
-    MetaDefinition::PokemonType PokemonInstance::getEffectiveType() const
+    MetaDefinition::PokemonTypeID PokemonInstance::getEffectiveTypeID() const
     {
         return effectiveType;
     }
 
-    void PokemonInstance::setEffectiveType(const MetaDefinition::PokemonType& value)
+    void PokemonInstance::setEffectiveTypeID(const PokemonTypeID &value)
     {
         effectiveType = value;
     }
