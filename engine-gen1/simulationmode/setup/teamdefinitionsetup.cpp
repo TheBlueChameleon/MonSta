@@ -120,12 +120,12 @@ namespace SimulationMode
     {
         PokemonDefinition result;
 
-        result.species      =                          pkmnDef.navigateTo(JKEY_POKEMON_SPECIES).getAsString();
+        result.species      =                            pkmnDef.navigateTo(JKEY_POKEMON_SPECIES).getAsString();
         result.status       = getStatusConditionFromName(pkmnDef.navigateTo(JKEY_POKEMON_STATUS).getAsString());
-        result.level        =                          pkmnDef.navigateTo(JKEY_POKEMON_LEVEL).getAsInteger();
-        result.hp_current   =                          pkmnDef.navigateTo(JKEY_POKEMON_HPCURRENT).getAsInteger();
-        result.experience   =                          pkmnDef.navigateTo(JKEY_POKEMON_EXP).getAsInteger();
-        result.foreign      =                          pkmnDef.navigateTo(JKEY_POKEMON_FOREIGN).getAsBool();
+        result.level        =                            pkmnDef.navigateTo(JKEY_POKEMON_LEVEL).getAsInteger();
+        result.hp_current   =                            pkmnDef.navigateTo(JKEY_POKEMON_HPCURRENT).getAsInteger();
+        result.experience   =                            pkmnDef.navigateTo(JKEY_POKEMON_EXP).getAsInteger();
+        result.foreign      =                            pkmnDef.navigateTo(JKEY_POKEMON_FOREIGN).getAsBool();
 
         result.dv_HP        = pkmnDef.navigateTo(JKEY_POKEMON_DVHP). getAsInteger();
         result.dv_ATK       = pkmnDef.navigateTo(JKEY_POKEMON_DVATK).getAsInteger();

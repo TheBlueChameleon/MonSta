@@ -115,7 +115,7 @@ Rolling Kick,Fighting,15,60,85,0,Status=Target:Enemy|flinched,30
 Sand-Attack,Normal,15,0,100,0,Stage=Target:Enemy|Accuracy:-1,100
 Scratch,Normal,35,40,100,0,,
 Screech,Normal,10,0,85,0,Stage=Target:Enemy|DEF:-2,100
-Seismic Toss,Fighting,20,0,100,0,Damage=Level,100
+Seismic Toss,Fighting,20,0,100,0,TypelessDamage;Damage=Level,100
 Selfdestruct,Normal,5,130,100,0,HP=Target:Self|0; TempStat=Target:Enemy|DEF%:50,100
 Sharpen,Normal,30,0,100,0,Stage=Target:Self|ATK:+1,100
 Sing,Normal,15,0,55,0,Status=Target:Enemy|asleep,100
@@ -129,7 +129,7 @@ Smog,Poison,20,20,100,0,Status=Target:Enemy|poisoned,30
 Smokescreen,Normal,20,0,100,0,Stage=Target:Enemy|Accuracy:-1,100
 Softboiled,Normal,10,0,100,0,Heal=Target:Self|HP%:50,100
 Solarbeam,Grass,10,120,100,0,RequireCharge=1:100,100
-Sonicboom,Normal,20,0,90,0,Damage=20,100
+Sonicboom,Normal,20,0,90,0,TypelessDamage;Damage=20,100
 Spike Cannon,Normal,15,20,100,0,MultiHit=2:37.5|3:37.5|4:12.5|5:12.5,100
 Splash,Normal,40,0,100,0,,
 Spore,Grass,15,0,100,0,Status=Target:Enemy|asleep,100
@@ -140,7 +140,7 @@ Struggle,Normal,1,50,100,0,NoPP; Recoil=HP%:25,100
 Stun Spore,Grass,30,0,75,0,Status=Target:Enemy|paralyzed,100
 Submission,Fighting,20,80,80,0,Recoil=HP%:25,100
 Substitute,Normal,10,0,100,0,Substitute=25,100
-Super Fang,Normal,10,0,90,0,Damage=HP%:50,100
+Super Fang,Normal,10,0,90,0,TypelessDamage;Damage=HP%:50,100
 Supersonic,Normal,20,0,55,0,Status=Target:Enemy|confused,100
 Surf,Water,15,95,100,0,,
 Swift,Normal,20,60,100,0,BypassAccuracyChecks=Target:Self|Duration:1,100

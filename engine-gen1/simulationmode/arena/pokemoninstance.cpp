@@ -15,6 +15,72 @@ using namespace std::string_literals;
 
 namespace SimulationMode
 {
+    static void assertStageBetween(
+        const int value, const int min, const int max,
+        const std::string_view stageName
+    )
+    {
+        constexpr auto messageTemplate = "Illegal {} Stage: {}";
+
+        if ((value < min) || (value > max))
+        {
+            throw IllegalStateError(std::format(messageTemplate, stageName, value));
+        }
+    }
+
+    static uint8_t getCritrollThresholdOriginal(const uint8_t baseSpeed, const bool highCritrateMove, const int stageCritRate)
+    {
+        if (highCritrateMove)
+        {
+            if (stageCritRate > 0)
+            {
+                return std::min(8 * (baseSpeed >> 1), 255);
+            }
+            else
+            {
+                return 4 * (baseSpeed >> 2);
+            }
+        }
+        else
+        {
+            if (stageCritRate > 0)
+            {
+                return baseSpeed >> 3;
+            }
+            else
+            {
+                return baseSpeed >> 1;
+            }
+        }
+    }
+
+    static uint8_t getCritrollThresholdGlitchLess(const uint8_t baseSpeed, const bool highCritrateMove, const int stageCritRate)
+    {
+        if (highCritrateMove)
+        {
+            if (stageCritRate > 0)
+            {
+                return std::min(8 * (baseSpeed >> 1), 255);
+            }
+            else
+            {
+                return std::min(32 * (baseSpeed >> 1), 255);
+            }
+        }
+        else
+        {
+            if (stageCritRate > 0)
+            {
+                return 4 * (baseSpeed >> 1);
+            }
+            else
+            {
+                return baseSpeed >> 1;
+            }
+        }
+    }
+
+
     int PokemonInstance::takeDirectDamage(const int amount, const DamageKind damageKind)
     {
         const auto actualDamage = takeDamageShared(amount, damageKind, hp);
@@ -131,6 +197,11 @@ namespace SimulationMode
         if (stage >= 0) { return (2.0 + stage) / 2.0; }
         else            { return 2.0 / (2.0 - stage); }
         // *INDENT-ON*
+    }
+
+    PokemonType PokemonInstance::getTypeFromSpecies() const
+    {
+        return pokemonDatabase.getEntry(speciesData.species).type;
     }
 
     void PokemonInstance::setSleepCounter(int value)
@@ -255,10 +326,12 @@ namespace SimulationMode
         skipTurnCounter         = 0;
         useRageCounter          = false;
         protectCancelLockedMove = false;
+        effectiveType           = getTypeFromSpecies();
     }
 
     void PokemonInstance::clearTemporaryFlags()
     {
+        ignoreMoveType = false;
         highCritrateMove = false;
         knockedOutSubstitute = false;
         if (lockedMoveReleaseTurn)
@@ -506,19 +579,6 @@ namespace SimulationMode
         );
     }
 
-    static void assertStageBetween(
-        const int value, const int min, const int max,
-        const std::string_view stageName
-    )
-    {
-        constexpr auto messageTemplate = "Illegal {} Stage: {}";
-
-        if ((value < min) || (value > max))
-        {
-            throw IllegalStateError(std::format(messageTemplate, stageName, value));
-        }
-    }
-
     uint8_t PokemonInstance::getCritRollThreshold() const
     {
         if (mechanicsDefinition.critRateGlitch)
@@ -548,58 +608,6 @@ namespace SimulationMode
         }
 
         return nvStatus;
-    }
-
-    static uint8_t getCritrollThresholdOriginal(const uint8_t baseSpeed, const bool highCritrateMove, const int stageCritRate)
-    {
-        if (highCritrateMove)
-        {
-            if (stageCritRate > 0)
-            {
-                result = std::min(8 * (baseSpeed >> 1), 255);
-            }
-            else
-            {
-                result = 4 * (baseSpeed >> 2);
-            }
-        }
-        else
-        {
-            if (stageCritRate > 0)
-            {
-                return baseSpeed >> 3;
-            }
-            else
-            {
-                return result >> 1;
-            }
-        }
-    }
-
-    static uint8_t getCritrollThresholdGlitchLess(const uint8_t baseSpeed, const bool highCritrateMove, const int stageCritRate)
-    {
-        if (highCritrateMove)
-        {
-            if (stageCritRate > 0)
-            {
-                result = std::min(8 * (baseSpeed >> 1), 255);
-            }
-            else
-            {
-                result = std::min(32 * (baseSpeed >> 1), 255);
-            }
-        }
-        else
-        {
-            if (stageCritRate > 0)
-            {
-                return 4 * (baseSpeed >> 1);
-            }
-            else
-            {
-                return result >> 1;
-            }
-        }
     }
 
     const std::unordered_set<VolatileStatusCondition>& PokemonInstance::getVolatileStatusSet() const
@@ -765,6 +773,16 @@ namespace SimulationMode
         }
     }
 
+    bool PokemonInstance::getIgnoreMoveType() const
+    {
+        return ignoreMoveType;
+    }
+
+    void PokemonInstance::setIgnoreMoveType(bool value)
+    {
+        ignoreMoveType = value;
+    }
+
     int PokemonInstance::getSleepCounter() const
     {
         return sleepCounter;
@@ -803,6 +821,16 @@ namespace SimulationMode
     void PokemonInstance::clearScreen()
     {
         screen.reset();
+    }
+
+    MetaDefinition::PokemonType PokemonInstance::getEffectiveType() const
+    {
+        return effectiveType;
+    }
+
+    void PokemonInstance::setEffectiveType(const MetaDefinition::PokemonType& value)
+    {
+        effectiveType = value;
     }
 
     const Move* const PokemonInstance::getSelectedMove() const

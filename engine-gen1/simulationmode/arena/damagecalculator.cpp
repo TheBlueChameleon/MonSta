@@ -18,19 +18,19 @@ namespace SimulationMode
         const Move& move
     )
     {
-        DamageInfo result;
+        DamageInfo result = {};
 
         result.level = attacker.getLevel();
         result.power = move.getPower();
 
-        if (move.isPhysical())
+        if (move.getCategory() == MoveCategory::PHYSICAL)
         {
             result.offense = attacker.getStat(Stat::ATK);
             result.defense = defender.getStat(Stat::DEF);
             result.initOffense = attacker.getInitStat(Stat::ATK);
             result.initDefense = defender.getInitStat(Stat::DEF);
         }
-        else
+        else if (move.getCategory() == MoveCategory::SPECIAL)
         {
             result.offense = attacker.getStat(Stat::SPC);
             result.defense = defender.getStat(Stat::SPC);
@@ -54,7 +54,20 @@ namespace SimulationMode
                              (roll <= critThreshold);
 
         // TODO: stab
-        // TODO: typeMultiplier
+
+        if (attacker.getIgnoreMoveType())
+        {
+            result.typeMultiplier = 1.0;
+            result.stab = 1.0;
+        }
+        else
+        {
+            const auto typeMove = move.getType();
+            const auto typeDefender = defender.getEffectiveType();
+            const auto typeAttacker = attacker.getEffectiveType();
+            result.typeMultiplier = Registry::typeChart.getMultiplyer(typeMove, typeDefender);
+            result.stab = 1.0 + (typeAttacker.matches(typeMove) * 0.5);
+        }
 
         return result;
     }

@@ -2,6 +2,7 @@
 #define POKEMONINSTANCE_HPP
 
 #include <cinttypes>
+#include <limits>
 #include <optional>
 #include <unordered_set>
 
@@ -12,6 +13,7 @@
 #include "shared/defs/typeinfo.hpp"
 
 #include "shared/registry/moves/move.hpp"
+#include "shared/registry/typechart.hpp"
 
 namespace SimulationMode
 {
@@ -19,12 +21,13 @@ namespace SimulationMode
     {
         public:
             static constexpr auto USE_DEFAULT = -1;
-            // TODO: static constexpr auto FOREVER = -2? int_max?
+            static constexpr auto FOREVER = std::numeric_limits<int>::max();
 
             enum class DamageKind { DIRECT_ATTACK, RESIDUAL, LEECH_SEED, CONFUSION, SELF_INFLICTED };
 
         private:
             MetaDefinition::PokemonDefinition speciesData;
+            MetaDefinition::PokemonType       effectiveType;
             int  level;
 
             int  hp;
@@ -67,6 +70,7 @@ namespace SimulationMode
             int  toxicCounter;
             std::optional<MetaDefinition::MoveCategory> screen;
 
+            bool ignoreMoveType;
             bool protectCancelLockedMove;
             bool lockedMoveReleaseTurn;
             int  lockedMoveCounter;
@@ -86,6 +90,7 @@ namespace SimulationMode
 
             void   recalculateStats();
             double getStageMultiplier(const int stage, const std::string_view stageName) const;
+            MetaDefinition::PokemonType getTypeFromSpecies() const;
 
             void setSleepCounter(int value);
             void decreaseSleepCounter();
@@ -165,6 +170,9 @@ namespace SimulationMode
             int  getSkipTurnCounter() const;
             void setSkipTurnCounter(const int turns);
 
+            bool getIgnoreMoveType() const;
+            void setIgnoreMoveType(bool value);
+
             int getSleepCounter() const;
             int getBoundCounter() const;
             int getConfusionCounter() const;
@@ -175,6 +183,9 @@ namespace SimulationMode
             std::optional<MetaDefinition::MoveCategory> getScreen() const;
             void setScreen(MetaDefinition::MoveCategory value);
             void clearScreen();
+
+            MetaDefinition::PokemonType getEffectiveType() const;
+            void setEffectiveType(const MetaDefinition::PokemonType& value);
 
             // .............................................................. //
             // multi-turn moves related

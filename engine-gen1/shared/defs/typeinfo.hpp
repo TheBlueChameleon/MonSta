@@ -19,6 +19,8 @@ namespace MetaDefinition
     {
         std::string                 primary;
         std::optional<std::string>  secondary;
+
+        bool matches(const std::string_view other) const;
     };
 
 } // namespace SimulationMode

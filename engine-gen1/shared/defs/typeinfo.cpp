@@ -32,4 +32,22 @@ namespace MetaDefinition
         throw IllegalArgumentError("Unknown move category id: "s + std::to_string(static_cast<int>(category)));
     }
 
+    bool PokemonType::matches(const std::string_view other) const
+    {
+        if (primary == other)
+        {
+            return true;
+        }
+
+        if (secondary.has_value())
+        {
+            if (secondary.value() == other)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 } // namespace SimulationMode
