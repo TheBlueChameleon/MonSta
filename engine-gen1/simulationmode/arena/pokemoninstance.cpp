@@ -80,7 +80,6 @@ namespace SimulationMode
         }
     }
 
-
     int PokemonInstance::takeDirectDamage(const int amount, const DamageKind damageKind)
     {
         const auto actualDamage = takeDamageShared(amount, damageKind, hp);
@@ -144,12 +143,16 @@ namespace SimulationMode
         di.power = mechanicsDefinition.confusionHitStrength;
         di.offense = atk;
         di.defense = def;
-        di.criticalHit = 1;
-        di.stab = 1;
-        di.typeMultiplier = 1;
+        // unboosted offense/defense irrelevant because no crits possible
+        di.criticalHit = false;
+        di.stabMultiplier = 1.0;
+        di.typeMultiplier = 1.0;
+
+        // TODO: opponent's reflect will act like a screen here...
+        di.screen = false;
 
         const int damage = getDamageRoll(di);
-        return takeDamage(std::min(1, damage), DamageKind::CONFUSION);      // sic: min 1... review after impl full dmg formula
+        return takeDamage(damage, DamageKind::CONFUSION);
     }
 
     int PokemonInstance::takePoisonDamage()
@@ -423,20 +426,20 @@ namespace SimulationMode
         throw IllegalStateError(std::format("Unknow Stat ID: {}", static_cast<int>(stat)));
     }
 
-    int PokemonInstance::getInitStat(const MetaDefinition::Stat stat) const
+    int PokemonInstance::getInitialStat(const MetaDefinition::Stat stat) const
     {
         switch (stat)
         {
             case MetaDefinition::Stat::HP:
-                return hp;
+                return hpMax;
             case MetaDefinition::Stat::ATK:
-                return initAtk;
+                return initialAtk;
             case MetaDefinition::Stat::DEF:
-                return initDef;
+                return initialDef;
             case MetaDefinition::Stat::SPC:
-                return initSpc;
+                return initialSpc;
             case MetaDefinition::Stat::SPD:
-                return initSpd;
+                return initialSpd;
         }
 
         throw IllegalStateError(std::format("Unknow Stat ID: {}", static_cast<int>(stat)));
@@ -583,11 +586,11 @@ namespace SimulationMode
     {
         if (mechanicsDefinition.critRateGlitch)
         {
-            return getCritrollThresholdOriginal(initSpd, highCritrateMove, stageCritRate);
+            return getCritrollThresholdOriginal(initialSpd, highCritrateMove, stageCritRate);
         }
         else
         {
-            return getCritrollThresholdGlitchLess(initSpd, highCritrateMove, stageCritRate);
+            return getCritrollThresholdGlitchLess(initialSpd, highCritrateMove, stageCritRate);
         }
     }
 
@@ -637,9 +640,13 @@ namespace SimulationMode
                     break;
 
                 case VolatileStatusCondition::BADLY_POISONED:
-                    if (setNvStatus(NonVolatileStatusCondition::POISONED, turns) != NonVolatileStatusCondition::POISONED)
+                    if (getNvStatus() == NonVolatileStatusCondition::POISONED)
                     {
                         clearVolatileStatus(VolatileStatusCondition::BADLY_POISONED);
+                    }
+                    else
+                    {
+                        setNvStatus(NonVolatileStatusCondition::POISONED, turns);
                     }
                     break;
 
@@ -828,7 +835,7 @@ namespace SimulationMode
         return effectiveType;
     }
 
-    void PokemonInstance::setEffectiveTypeID(const PokemonTypeID &value)
+    void PokemonInstance::setEffectiveTypeID(const PokemonTypeID& value)
     {
         effectiveType = value;
     }

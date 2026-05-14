@@ -43,10 +43,10 @@ namespace SimulationMode
             int spc;
             int spd;
 
-            int initAtk;
-            int initDef;
-            int initSpc;
-            int initSpd;
+            int initialAtk;
+            int initialDef;
+            int initialSpc;
+            int initialSpd;
 
             int stageAtk;
             int stageDef;
@@ -130,7 +130,7 @@ namespace SimulationMode
             int getLevel() const;
 
             int  getStat(const MetaDefinition::Stat stat) const;
-            int  getInitStat(const MetaDefinition::Stat stat) const;
+            int  getInitialStat(const MetaDefinition::Stat stat) const;
             void setStat(const MetaDefinition::Stat stat, int value);
 
             int  getStatStage(const MetaDefinition::StatStage stat);
@@ -140,15 +140,15 @@ namespace SimulationMode
             double getStageMultiplier(const MetaDefinition::StatStage stat) const;
             uint8_t getCritRollThreshold() const;
 
+            // .............................................................. //
+            // status related
+
             MetaDefinition::NonVolatileStatusCondition getNvStatus() const;
             MetaDefinition::NonVolatileStatusCondition setNvStatus(
                 MetaDefinition::NonVolatileStatusCondition status,
                 int turns = USE_DEFAULT,
                 const bool force = false
             );
-
-            // .............................................................. //
-            // status related
 
             const std::unordered_set<MetaDefinition::VolatileStatusCondition>& getVolatileStatusSet() const;
             bool hasVolatileStatus(const MetaDefinition::VolatileStatusCondition status) const;

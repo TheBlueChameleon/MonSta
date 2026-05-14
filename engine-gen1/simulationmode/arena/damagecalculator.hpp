@@ -16,11 +16,11 @@ namespace SimulationMode
         int power;
         int offense;
         int defense;
-        int initOffense;
-        int initDefense;
+        int unboostedOffense;
+        int unboostedDefense;
         bool screen;
         bool criticalHit;
-        double stab;
+        double stabMultiplier;
         double typeMultiplier;
 
         static constexpr int UNDERFLOW = -1;
