@@ -85,3 +85,7 @@ CMakeLists.txt.user*
 *.zip
 logfile.txt
 outputs/**
+CMakeFiles/**
+CPackConfig.cmake
+CPackSourceConfig.cmake
+_deps/**

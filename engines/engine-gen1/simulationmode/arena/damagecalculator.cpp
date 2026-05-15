@@ -128,7 +128,7 @@ namespace SimulationMode
         const double d2 = d1 / defense;
         const double d3 = (d2 / 50.0) + 2.0;
         const double d4 = d3 * damageInfo.stabMultiplier * damageInfo.typeMultiplier;
-        return std::max(1, d4);
+        return std::max(1.0, d4);
     }
 
     int getDamageMax(const DamageInfo& damageInfo)

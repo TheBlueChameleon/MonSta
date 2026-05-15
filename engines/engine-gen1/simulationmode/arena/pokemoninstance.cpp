@@ -640,13 +640,13 @@ namespace SimulationMode
                     break;
 
                 case VolatileStatusCondition::BADLY_POISONED:
-                    if (getNvStatus() == NonVolatileStatusCondition::POISONED)
+                    if (getNvStatus() != NonVolatileStatusCondition::POISONED)
                     {
-                        clearVolatileStatus(VolatileStatusCondition::BADLY_POISONED);
+                        setNvStatus(NonVolatileStatusCondition::POISONED, turns);
                     }
                     else
                     {
-                        setNvStatus(NonVolatileStatusCondition::POISONED, turns);
+                        clearVolatileStatus(VolatileStatusCondition::BADLY_POISONED);
                     }
                     break;
 

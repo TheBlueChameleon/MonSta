@@ -1,0 +1,6 @@
+#ifndef DLXINITIALIZATION_HPP
+#define DLXINITIALIZATION_HPP
+
+void initServices();
+
+#endif // DLXINITIALIZATION_HPP
