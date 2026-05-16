@@ -54,6 +54,12 @@ HOST_API_EXPORT
 {
     bool HOST_API_CALL init(HostApi* hostApi)
     {
+        if (hostApi == nullptr)
+        {
+            std::cerr << "No API information received!" << std::endl;
+            return false;
+        }
+
         if (!allErrorServicesPresent(hostApi->errorService))
         {
             std::cerr << "ErrorService was not initialized!" << std::endl;

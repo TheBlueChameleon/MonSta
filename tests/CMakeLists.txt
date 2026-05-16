@@ -28,27 +28,80 @@ enable_testing()
 # source file definitions
 
 # ---------------------------------------------------------------------------- #
+# Utils
+
+# ............................................................................ #
+# Utils-Generic
+
+# TODO: extract captureCerr from ClientApiTest
+
+# ............................................................................ #
+# Utils-Host
+
+add_library(Test-Utils-Host
+    host/serviceadapters/loggerserviceadapter.hpp   host/serviceadapters/loggerserviceadapter.cpp
+)
+
+target_include_directories(Test-Utils-Host
+    PRIVATE ${CMAKE_SOURCE_DIR}/host
+    PRIVATE ${CMAKE_SOURCE_DIR}/api
+    PRIVATE ${CMAKE_SOURCE_DIR}/tests
+)
+
+target_link_libraries(Test-Utils-Host
+    spdlog
+    Api-Headers
+)
+
+# ............................................................................ #
+# Utils-Engine
+
+add_library(Test-Utils-Engine
+    engines/util/dlxinitialization.hpp      engines/util/dlxinitialization.cpp
+)
+
+target_include_directories(Test-Utils-Engine
+    PRIVATE ${CMAKE_SOURCE_DIR}/host
+    PRIVATE ${CMAKE_SOURCE_DIR}/api
+    PRIVATE ${CMAKE_SOURCE_DIR}/tests
+    PRIVATE ${CMAKE_SOURCE_DIR}/engines
+    PRIVATE ${json_SOURCE_DIR}/include
+)
+
+target_link_libraries(Test-Utils-Host
+    nlohmann_json::nlohmann_json
+    Host-CsvService
+    Host-ErrorService
+    Host-FileService
+    Host-JsonService
+    Host-LoggerService
+    Host-MemoryService
+    Host-RngService
+    Host-VersionService
+)
+
+# ---------------------------------------------------------------------------- #
 # Host
 
 add_executable(Test-Host
-    main-host.cpp
-    csvservice/csvservicetest.hpp               csvservice/csvservicetest.cpp
-    fileservice/fileservicetest.hpp             fileservice/fileservicetest.cpp
-    fileservice/fileservicedatabasetest.hpp     fileservice/fileservicedatabasetest.cpp
-    jsonservice/jsonservicedatabasetest.hpp     jsonservice/jsonservicedatabasetest.cpp
-    jsonservice/jsonschemabuildertest.hpp       jsonservice/jsonschemabuildertest.cpp
-    versionservice/versionservicetest.hpp       versionservice/versionservicetest.cpp
-    serviceadapters/loggerserviceadapter.hpp    serviceadapters/loggerserviceadapter.cpp
+    host/main.cpp
+    host/csvservice/csvservicetest.hpp              host/csvservice/csvservicetest.cpp
+    host/fileservice/fileservicetest.hpp            host/fileservice/fileservicetest.cpp
+    host/fileservice/fileservicedatabasetest.hpp    host/fileservice/fileservicedatabasetest.cpp
+    host/jsonservice/jsonservicedatabasetest.hpp    host/jsonservice/jsonservicedatabasetest.cpp
+    host/jsonservice/jsonschemabuildertest.hpp      host/jsonservice/jsonschemabuildertest.cpp
+    host/versionservice/versionservicetest.hpp      host/versionservice/versionservicetest.cpp
 )
 
 target_include_directories(Test-Host
     PRIVATE ${CMAKE_SOURCE_DIR}/host
     PRIVATE ${CMAKE_SOURCE_DIR}/api
-    PRIVATE ${CMAKE_SOURCE_DIR}/tests
+    PRIVATE ${CMAKE_SOURCE_DIR}/tests/host
 )
 
 target_link_libraries(Test-Host
     GTest::gtest_main
+    Api-Headers
     Host-CsvService
     Host-ErrorService
     Host-FileService
@@ -57,27 +110,29 @@ target_link_libraries(Test-Host
     Host-MemoryService
     Host-RngService
     Host-VersionService
+    Test-Utils-Host
 )
 
 gtest_discover_tests(Test-Host)
 
 # ---------------------------------------------------------------------------- #
-# Gen1
+# Engine-Base
 
-add_executable(Test-Gen1
-    main-gen1.cpp
-    serviceadapters/loggerserviceadapter.hpp    serviceadapters/loggerserviceadapter.cpp
-    engine-gen1/host/dlxinitialization.hpp      engine-gen1/host/dlxinitialization.cpp
+add_executable(Test-Base
+    engines/base/main.cpp
+    engines/base/clientapitest.hpp   engines/base/clientapitest.cpp
 )
 
-target_include_directories(Test-Gen1
-    PRIVATE ${CMAKE_SOURCE_DIR}/host
+target_include_directories(Test-Base
     PRIVATE ${CMAKE_SOURCE_DIR}/api
-    PRIVATE ${CMAKE_SOURCE_DIR}/tests
+    PRIVATE ${CMAKE_SOURCE_DIR}/host
+    PRIVATE ${CMAKE_SOURCE_DIR}/engines
+    PRIVATE ${CMAKE_SOURCE_DIR}/tests/engines
 )
 
-target_link_libraries(Test-Gen1
+target_link_libraries(Test-Base
     GTest::gtest_main
+    Api-Headers
     Host-CsvService
     Host-ErrorService
     Host-FileService
@@ -86,6 +141,41 @@ target_link_libraries(Test-Gen1
     Host-MemoryService
     Host-RngService
     Host-VersionService
+    Engine-Base
+    Test-Utils-Host
+    Test-Utils-Engine
+)
+
+gtest_discover_tests(Test-Base)
+
+# ---------------------------------------------------------------------------- #
+# Gen1
+
+add_executable(Test-Gen1
+    engines/gen1/main.cpp
+)
+
+target_include_directories(Test-Gen1
+    PRIVATE ${CMAKE_SOURCE_DIR}/api
+    PRIVATE ${CMAKE_SOURCE_DIR}/host
+    PRIVATE ${CMAKE_SOURCE_DIR}/engines
+    PRIVATE ${CMAKE_SOURCE_DIR}/tests/engines
+)
+
+target_link_libraries(Test-Gen1
+    GTest::gtest_main
+    Api-Headers
+    Host-CsvService
+    Host-ErrorService
+    Host-FileService
+    Host-JsonService
+    Host-LoggerService
+    Host-MemoryService
+    Host-RngService
+    Host-VersionService
+    Engine-Base
+    Test-Utils-Host
+    Test-Utils-Engine
 )
 
 gtest_discover_tests(Test-Host)

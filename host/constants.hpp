@@ -5,9 +5,9 @@
 
 #include <Version.hpp>
 
+extern const Version HOST_VERSION;
+
 extern const std::string APP_NAME;
 extern const std::string APP_VERSION;
-
-extern const Version HOST_VERSION;
 
 #endif // CONSTANTS_HPP
