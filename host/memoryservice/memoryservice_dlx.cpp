@@ -4,6 +4,8 @@
 #include "memoryservice.hpp"
 #include "memoryservice_dlx.hpp"
 
+using namespace std::string_literals;
+
 namespace MemoryService
 {
     static void assertSanePtr(const void* const data)

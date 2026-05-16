@@ -14,8 +14,6 @@
 #include <runmodes/IMatchDefinition.hpp>
 #include <runmodes/ITemplatesDefinition.hpp>
 
-#include "hostapiprovider.hpp"
-
 class ClientWrapper
 {
     private:
@@ -83,7 +81,7 @@ class ClientWrapper
     public:
         ClientWrapper(
             const std::filesystem::path& enginePath,
-            const HostApi&               hostApi = HostApiProvider::createHostApi()
+            const HostApi&               hostApi
         );
         ~ClientWrapper();
 

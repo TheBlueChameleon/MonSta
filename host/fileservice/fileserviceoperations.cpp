@@ -48,7 +48,7 @@ namespace FileService
         return OutputStreamType::REGULAR;
     }
 
-    std::pair<OutputStreamType, std::filesystem::__cxx11::path> getOutputStreamTypeAndResidualFilename(const std::filesystem::__cxx11::path& path)
+    std::pair<OutputStreamType, std::filesystem::path> getOutputStreamTypeAndResidualFilename(const std::filesystem::path& path)
     {
         if (path.empty())
         {
@@ -118,7 +118,7 @@ namespace FileService
     }
 
     static std::pair<std::unique_ptr<std::ostream>, bool> createRegularStream(
-        const std::filesystem::__cxx11::path& path,
+        const std::filesystem::path& path,
         const bool createDirectories,
         const bool overwrite
     )
@@ -154,7 +154,7 @@ namespace FileService
     }
 
     std::pair<std::unique_ptr<std::ostream>, bool> createStream(
-        const std::filesystem::__cxx11::path& path,
+        const std::filesystem::path& path,
         const bool createDirectories,
         const bool overwrite
     )

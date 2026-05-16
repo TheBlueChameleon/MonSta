@@ -40,6 +40,7 @@ enable_testing()
 
 add_library(Test-Utils-Host
     host/serviceadapters/loggerserviceadapter.hpp   host/serviceadapters/loggerserviceadapter.cpp
+    host/serviceadapters/fileserviceadapter.hpp     host/serviceadapters/fileserviceadapter.cpp
 )
 
 target_include_directories(Test-Utils-Host
@@ -49,8 +50,17 @@ target_include_directories(Test-Utils-Host
 )
 
 target_link_libraries(Test-Utils-Host
+    nlohmann_json::nlohmann_json
     spdlog
     Api-Headers
+    Host-CsvService
+    Host-ErrorService
+    Host-FileService
+    Host-JsonService
+    Host-LoggerService
+    Host-MemoryService
+    Host-RngService
+    Host-VersionService
 )
 
 # ............................................................................ #
@@ -68,17 +78,12 @@ target_include_directories(Test-Utils-Engine
     PRIVATE ${json_SOURCE_DIR}/include
 )
 
-target_link_libraries(Test-Utils-Host
-    nlohmann_json::nlohmann_json
-    Host-CsvService
-    Host-ErrorService
-    Host-FileService
-    Host-JsonService
-    Host-LoggerService
-    Host-MemoryService
-    Host-RngService
-    Host-VersionService
+target_link_libraries(Test-Utils-Engine
+    Api-Headers
+    Host-DlxService
 )
+
+set_target_properties(Test-Utils-Engine PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 # ---------------------------------------------------------------------------- #
 # Host
@@ -158,6 +163,7 @@ add_executable(Test-Gen1
 
 target_include_directories(Test-Gen1
     PRIVATE ${CMAKE_SOURCE_DIR}/api
+    PRIVATE ${CMAKE_SOURCE_DIR}/host
     PRIVATE ${CMAKE_SOURCE_DIR}/engines/engine-base
     PRIVATE ${CMAKE_SOURCE_DIR}/engines/engine-gen1
     PRIVATE ${CMAKE_SOURCE_DIR}/tests/engines

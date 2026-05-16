@@ -15,6 +15,8 @@
 
 #include "clientwrapper.hpp"
 
+using namespace std::string_literals;
+
 #define FETCH(symbol) fetchCheckAndTransfer(&ClientWrapper::_##symbol, #symbol)
 
 template<typename T>
@@ -57,7 +59,7 @@ void* ClientWrapper::findSymbol(const char* const symbolName)
     return symbol;
 }
 
-void ClientWrapper::loadEngine(const std::filesystem::__cxx11::path& enginePath)
+void ClientWrapper::loadEngine(const std::filesystem::path& enginePath)
 {
     LoggerService::traceF("LOADING ENGINE FROM {}", enginePath.c_str());
 

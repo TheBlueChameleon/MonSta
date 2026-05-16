@@ -1,3 +1,5 @@
+#include <format>
+
 #include "errorservice/errors.hpp"
 
 #include "synchronizedostream.hpp"
@@ -13,7 +15,7 @@ namespace FileService
     {
         if (!hasStream())
         {
-            throw CriticalAbort("Attempting to write to invalid stream!");
+            throw IOError(std::format("Attempting to write to invalid stream for file '{}'!", path.c_str()));
         }
     }
 

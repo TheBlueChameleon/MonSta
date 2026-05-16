@@ -18,7 +18,7 @@ namespace FileService
     {}
 
     static void addCreatedFile_internal(std::list<FileService::CreatedFileInfo>& createdFileInfo,
-                                        const std::filesystem::__cxx11::path&
+                                        const std::filesystem::path&
                                         filename, const bool overwritten);
 
     bool FileServiceDatabase::getOverwrite() const
@@ -57,7 +57,7 @@ namespace FileService
         dryMode = newDryMode;
     }
 
-    const std::filesystem::__cxx11::path& FileServiceDatabase::getInputBasePath() const
+    const std::filesystem::path& FileServiceDatabase::getInputBasePath() const
     {
         auto lock = std::lock_guard(mutex);
         return inputBasePath;
@@ -69,19 +69,19 @@ namespace FileService
         inputBasePath = newInputBasePath;
     }
 
-    const std::filesystem::__cxx11::path& FileServiceDatabase::getOutputBasePath() const
+    const std::filesystem::path& FileServiceDatabase::getOutputBasePath() const
     {
         auto lock = std::lock_guard(mutex);
         return outputBasePath;
     }
 
-    void FileServiceDatabase::setOutputBasePath(const std::filesystem::__cxx11::path& newBase)
+    void FileServiceDatabase::setOutputBasePath(const std::filesystem::path& newBase)
     {
         auto lock = std::lock_guard(mutex);
         outputBasePath = newBase;
     }
 
-    SynchronizedOStream& FileServiceDatabase::getOrCreateWriteStream(const std::filesystem::__cxx11::path& filename)
+    SynchronizedOStream& FileServiceDatabase::getOrCreateWriteStream(const std::filesystem::path& filename)
     {
         auto lock = std::lock_guard(mutex);
 
@@ -99,7 +99,7 @@ namespace FileService
 
             auto [iterator, newlyCreated] = oStreams.emplace(
                                                 filename,
-                                                new SynchronizedOStream(std::move(simpleStreamPtr))
+                                                new SynchronizedOStream(std::move(simpleStreamPtr), filename)
                                             );
             if (!newlyCreated)
             {
@@ -114,7 +114,7 @@ namespace FileService
         }
     }
 
-    std::ifstream FileServiceDatabase::createReadStream(const std::filesystem::__cxx11::path& filename)
+    std::ifstream FileServiceDatabase::createReadStream(const std::filesystem::path& filename)
     {
         auto lock = std::lock_guard(mutex);
 
@@ -140,7 +140,7 @@ namespace FileService
         return createdFileInfo;
     }
 
-    void FileServiceDatabase::addCreatedFile(const std::filesystem::__cxx11::path& filename, const bool overwritten)
+    void FileServiceDatabase::addCreatedFile(const std::filesystem::path& filename, const bool overwritten)
     {
         auto lock = std::lock_guard(mutex);
         createdFileInfo.emplace_back(filename, overwritten);

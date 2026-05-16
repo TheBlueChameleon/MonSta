@@ -11,6 +11,8 @@
 #include "fileserviceoperations.hpp"
 #include "synchronizedostream.hpp"
 
+using namespace std::string_literals;
+
 namespace FileService
 {
     static FileServiceDatabase database;
@@ -83,17 +85,17 @@ namespace FileService
         database.setDryMode(newDryMode);
     }
 
-    std::filesystem::__cxx11::path getInputBasePath()
+    std::filesystem::path getInputBasePath()
     {
         return database.getInputBasePath();
     }
 
-    std::filesystem::__cxx11::path getOutputBasePath()
+    std::filesystem::path getOutputBasePath()
     {
         return database.getOutputBasePath();
     }
 
-    void setInputBasePath(const std::filesystem::__cxx11::path& newBase)
+    void setInputBasePath(const std::filesystem::path& newBase)
     {
         if (std::filesystem::exists(newBase))
         {
@@ -108,12 +110,12 @@ namespace FileService
         }
     }
 
-    void setOutputBasePath(const std::filesystem::__cxx11::path& newBase)
+    void setOutputBasePath(const std::filesystem::path& newBase)
     {
         if (makeDirectoriesOrLog(newBase, getCreateDirectories()))
         {
-            LoggerService::traceF("output directory set to {}", newBase.c_str());
             database.setOutputBasePath(newBase);
+            LoggerService::traceF("output directory set to {}", newBase.c_str());
         }
         else
         {
@@ -123,12 +125,12 @@ namespace FileService
         }
     }
 
-    std::ifstream getInputStream(const std::filesystem::__cxx11::path& filename)
+    std::ifstream getInputStream(const std::filesystem::path& filename)
     {
         return database.createReadStream(filename);
     }
 
-    std::string read(const std::filesystem::__cxx11::path& filename)
+    std::string read(const std::filesystem::path& filename)
     {
         auto stream = database.createReadStream(filename);
         LoggerService::traceF("reading from {}", filename.c_str());
@@ -140,14 +142,14 @@ namespace FileService
         return result;
     }
 
-    void write(const std::filesystem::__cxx11::path& filename, const std::string_view content)
+    void write(const std::filesystem::path& filename, const std::string_view content)
     {
         auto& stream = database.getOrCreateWriteStream(filename);
         LoggerService::traceF("writing into {}", filename.c_str());
         stream << content;
     }
 
-    void writeBinary(const std::filesystem::__cxx11::path& filename, const std::span<const std::byte> data)
+    void writeBinary(const std::filesystem::path& filename, const std::span<const std::byte> data)
     {
         auto& stream = database.getOrCreateWriteStream(filename);
         LoggerService::traceF("writing into {}", filename.c_str());

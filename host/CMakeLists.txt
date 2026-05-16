@@ -35,6 +35,18 @@ target_link_libraries(Host-CsvService
 )
 
 # ............................................................................ #
+# DlxService
+
+add_library(Host-DlxService STATIC
+    dlxservice/clientwrapper.hpp        dlxservice/clientwrapper.cpp
+)
+
+target_include_directories(Host-DlxService
+    PRIVATE ${CMAKE_SOURCE_DIR}/host
+    PRIVATE ${CMAKE_SOURCE_DIR}/api
+)
+
+# ............................................................................ #
 # ErrorService
 
 add_library(Host-ErrorService STATIC
@@ -174,11 +186,10 @@ target_include_directories(Host-VersionService
 # main app
 
 add_executable(Host
-    api/clientwrapper.hpp                                          api/clientwrapper.cpp
-    api/hostapiprovider.hpp                                        api/hostapiprovider.cpp
-
     cli/clihandler.hpp                                             cli/clihandler.cpp
     cli/cliinput.hpp
+
+    dlxservice/hostapiprovider.hpp                                 dlxservice/hostapiprovider.cpp
 
     operationmodes/entrypoint.hpp                                  operationmodes/entrypoint.cpp
     operationmodes/operationmode.hpp                               operationmodes/operationmode.cpp
@@ -224,6 +235,7 @@ target_include_directories(Host
 target_link_libraries(Host
     Api-Headers
     Host-CsvService
+    Host-DlxService
     Host-ErrorService
     Host-FileService
     Host-JsonService

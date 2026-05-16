@@ -4,16 +4,15 @@ using namespace std::literals::chrono_literals;
 
 #include "errorservice/errors.hpp"
 
-#include "fileservice/debugstream.hpp"
 #include "fileservice/fileservice.hpp"
-#include "fileservice/fileservicedatabase.hpp"
 #include "fileservice/fileserviceoperations.hpp"
-#include "fileservice/synchronizedostream.hpp"
-#include "fileservicetest.hpp"
 
 #include "loggerservice/loggerservice.hpp"
 
+#include "serviceadapters/fileserviceadapter.hpp"
 #include "serviceadapters/loggerserviceadapter.hpp"
+
+#include "fileservicetest.hpp"
 
 using namespace FileService;
 
@@ -151,10 +150,7 @@ TEST_F(FileServiceTest, OutputOrdering)
     t1.join();
     t2.join();
 
-    auto& synchronizedResultStream = FileService::getDatabase().getOrCreateWriteStream(":debug:");
-    auto* innerResultStream = dynamic_cast<FileService::DebugStream*>(synchronizedResultStream.expose());
-    auto result = innerResultStream->str();
-
+    std::string result = FileServiceAdapter::getDebugStreamContent();
     std::string expected = "2;1;0;";
 
     EXPECT_EQ(result, expected);

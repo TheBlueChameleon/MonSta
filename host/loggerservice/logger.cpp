@@ -45,12 +45,12 @@ void Logger::setPattern(const std::string_view pattern)
     }
 }
 
-std::optional<std::filesystem::__cxx11::path> Logger::getLogFile() const
+std::optional<std::filesystem::path> Logger::getLogFile() const
 {
     return this->logfile;
 }
 
-void Logger::setLogFile(const std::filesystem::__cxx11::path filename)
+void Logger::setLogFile(const std::filesystem::path filename)
 {
     std::shared_ptr<spdlog::sinks::sink> fileSink;
     try

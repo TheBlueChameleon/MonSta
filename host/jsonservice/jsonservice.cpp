@@ -17,6 +17,7 @@
 
 using namespace nlohmann;
 using namespace nlohmann::json_schema;
+using namespace std::string_literals;
 
 namespace JsonService
 {

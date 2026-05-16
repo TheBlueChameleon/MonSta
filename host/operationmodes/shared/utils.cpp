@@ -1,11 +1,8 @@
 #include <string>
 
+#include "dlxservice/clientwrapper.hpp"
 #include "errorservice/errors.hpp"
-
 #include "fileservice/fileservice.hpp"
-
-#include "api/clientwrapper.hpp"
-
 #include "loggerservice/loggerservice.hpp"
 
 #include "operationmodes/help/helpmodedefinition.hpp"

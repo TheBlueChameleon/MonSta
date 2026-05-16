@@ -27,9 +27,9 @@ using namespace std::string_literals;
 namespace SimulationMode
 {
     static std::unordered_map<std::string, size_t> collectColumnIndices(
-        ICsvService::CsvHandle                handle,
-        const std::filesystem::__cxx11::path& pokemonDefinitionFile,
-        EngineBase::ErrorBuffer&              eb
+        ICsvService::CsvHandle          handle,
+        const std::filesystem::path&    pokemonDefinitionFile,
+        EngineBase::ErrorBuffer&        eb
     )
     {
         bool resultValid = true;
@@ -72,7 +72,7 @@ namespace SimulationMode
     static void transferToPokemonDatabase(
         ICsvService::CsvHandle                          handle,
         const std::unordered_map<std::string, size_t>&  columnNames,
-        const std::filesystem::__cxx11::path&           pokemonDefinitionFile,
+        const std::filesystem::path&                    pokemonDefinitionFile,
         EngineBase::ErrorBuffer&                        eb
     )
     {

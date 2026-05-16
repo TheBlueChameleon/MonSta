@@ -7,14 +7,14 @@ using namespace ErrorService;
 
 namespace FileService
 {
-    const std::filesystem::__cxx11::path getInputBase()
+    const std::filesystem::path getInputBase()
     {
         auto result = fileService().getInputBase();
         rethrowHostError();
         return result;
     }
 
-    const std::filesystem::__cxx11::path getOutputBase()
+    const std::filesystem::path getOutputBase()
     {
         auto result = fileService().getOutputBase();
         rethrowHostError();
@@ -28,13 +28,13 @@ namespace FileService
         return result;
     }
 
-    void write(const std::filesystem::__cxx11::path& filename, const std::string_view content)
+    void write(const std::filesystem::path& filename, const std::string_view content)
     {
         fileService().write(filename.c_str(), content.data());
         rethrowHostError();
     }
 
-    void writeBinary(const std::filesystem::__cxx11::path& filename, const std::span<const std::byte> data)
+    void writeBinary(const std::filesystem::path& filename, const std::span<const std::byte> data)
     {
         fileService().writeBinary(filename.c_str(), data.data(), data.size());
         rethrowHostError();

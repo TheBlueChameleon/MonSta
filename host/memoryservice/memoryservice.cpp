@@ -94,7 +94,7 @@ namespace MemoryService
 
     void free(IMemoryService::String& data)
     {
-        delete data.data;
+        delete[] data.data;
         data.data = nullptr;
         data.size = 0;
     }
@@ -106,14 +106,14 @@ namespace MemoryService
             free(data.data[i]);
         }
 
-        delete data.data;
+        delete[] data.data;
         data.data = nullptr;
         data.size = 0;
     }
 
     void free(IMemoryService::StringViewArray& data)
     {
-        delete data.data;
+        delete[] data.data;
         data.data = nullptr;
         data.size = 0;
     }

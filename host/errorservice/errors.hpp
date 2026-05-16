@@ -3,7 +3,6 @@
 
 #include <stdexcept>
 #include <string>
-using namespace std::string_literals;
 
 #include <ApiStatusCode.hpp>
 

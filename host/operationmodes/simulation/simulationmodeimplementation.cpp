@@ -1,5 +1,5 @@
-#include "api/clientwrapper.hpp"
-
+#include "dlxservice/clientwrapper.hpp"
+#include "dlxservice/hostapiprovider.hpp"
 #include "errorservice/errors.hpp"
 #include "fileservice/fileservice.hpp"
 #include "loggerservice/loggerservice.hpp"
@@ -8,6 +8,7 @@
 
 #include "simulationmodeimplementation.hpp"
 #include "simulationmodedefinition.hpp"
+
 
 namespace OperationModes
 {
@@ -18,7 +19,7 @@ namespace OperationModes
 
         const auto enginePath = defs.paths.inputDirectory / defs.paths.engine;
 
-        auto cw = ClientWrapper(enginePath);
+        auto cw = ClientWrapper(enginePath, HostApiProvider::createHostApi());
         setupFileServiceOptions(cw, defs);
 
         cw.setupSimulationMode(

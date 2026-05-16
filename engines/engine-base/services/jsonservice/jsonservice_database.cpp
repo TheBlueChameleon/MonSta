@@ -66,7 +66,7 @@ namespace JsonService
 
     const IJsonServiceTypes::JsonHandle readValidatePatchAndAdd(
         const IJsonServiceTypes::JsonTag tag,
-        const std::filesystem::__cxx11::path& file,
+        const std::filesystem::path& file,
         const IJsonServiceTypes::JsonTag validationSchemaTag
     )
     {

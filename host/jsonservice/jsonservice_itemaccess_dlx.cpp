@@ -12,6 +12,7 @@
 #include "jsonservice_itemaccess_dlx.hpp"
 
 using namespace nlohmann;
+using namespace std::string_literals;
 
 namespace JsonService
 {

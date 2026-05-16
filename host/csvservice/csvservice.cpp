@@ -166,7 +166,7 @@ namespace CsvService
 
         maxWidth = insertBuffer.maxWidth;
 
-        delete readBuffer;
+        delete[] readBuffer;
         csv_free(&parser);
     }
 
@@ -234,7 +234,7 @@ namespace CsvService
     }
 
     IndexedCsvData::IndexedCsvData(
-        const std::filesystem::__cxx11::path& source,
+        const std::filesystem::path& source,
         const ICsvService::CsvOptions csvOptions
     ) : origin(source)
     {

@@ -2,8 +2,8 @@
 
 #include <runmodes/ITemplatesDefinition.hpp>
 
-#include "api/clientwrapper.hpp"
-
+#include "dlxservice/clientwrapper.hpp"
+#include "dlxservice/hostapiprovider.hpp"
 #include "fileservice/fileservice.hpp"
 #include "jsonservice/jsonservice.hpp"
 #include "loggerservice/loggerservice.hpp"
@@ -61,7 +61,7 @@ namespace OperationModes
 
         const auto enginePath = defs.paths.inputDirectory / defs.paths.engine;
 
-        auto cw = ClientWrapper(enginePath);
+        auto cw = ClientWrapper(enginePath, HostApiProvider::createHostApi());
         setupFileServiceOptions(cw, defs);
 
         auto clientDefinitions = cw.startTemplatesMode(

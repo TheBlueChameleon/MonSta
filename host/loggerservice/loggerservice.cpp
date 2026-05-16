@@ -47,7 +47,7 @@ namespace LoggerService
         instance.setLogLevel(level);
     }
 
-    void setLogFile(const std::filesystem::__cxx11::path filename)
+    void setLogFile(const std::filesystem::path filename)
     {
         instance.setLogFile(filename);
     }

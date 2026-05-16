@@ -1,3 +1,7 @@
+#include <format>
+
+#include <gtest/gtest.h>
+
 #include <HostApi.hpp>
 #include <Version.hpp>
 
@@ -47,6 +51,22 @@ namespace DlxInitialization
     void initServices()
     {
         static HostApi api = getServices();
-        EngineBase::_hostApi = &api;
+        init(&api);
     }
+
+    ClientWrapper initEngine(const std::filesystem::path& enginePath)
+    {
+        if (enginePath.empty())
+        {
+            throw std::runtime_error("no engine to load");
+        }
+
+        if (!std::filesystem::exists(enginePath))
+        {
+            throw std::runtime_error(std::format("'{}' does not exist", enginePath.c_str()));
+        }
+
+        return ClientWrapper(enginePath, getServices());
+    }
+
 }

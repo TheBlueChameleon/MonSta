@@ -2,6 +2,7 @@
 #define SYNCHRONIZEDOSTREAM_HPP
 
 #include <concepts>
+#include <filesystem>
 #include <memory>
 #include <mutex>
 
@@ -14,11 +15,12 @@ namespace FileService
         private:
             std::mutex mutable            mutex;
             std::unique_ptr<std::ostream> stream;
+            std::filesystem::path         path;
 
         public:
             template <std::derived_from<std::ostream> T>
-            SynchronizedOStream(std::unique_ptr<T>&& stream) :
-                stream(stream.release())
+            SynchronizedOStream(std::unique_ptr<T>&& stream, const std::filesystem::path& path) :
+                stream(stream.release()), path(path)
             {}
 
             bool hasStream() const;

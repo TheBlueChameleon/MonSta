@@ -7,7 +7,7 @@ using namespace ErrorService;
 
 namespace CsvService
 {
-    ICsvService::CsvHandle readCsvData(const std::filesystem::__cxx11::path& filename, const ICsvService::CsvOptions csvOptions)
+    ICsvService::CsvHandle readCsvData(const std::filesystem::path& filename, const ICsvService::CsvOptions csvOptions)
     {
         auto result = csvService().readCsvData(filename.c_str(), csvOptions);
         rethrowHostError();
