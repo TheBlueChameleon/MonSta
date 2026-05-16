@@ -33,7 +33,7 @@ enable_testing()
 # ............................................................................ #
 # Utils-Generic
 
-# TODO: extract captureCerr from ClientApiTest
+# TODO: extract runWithCapturedStdErr from ClientApiTest
 
 # ............................................................................ #
 # Utils-Host
@@ -153,13 +153,15 @@ gtest_discover_tests(Test-Base)
 
 add_executable(Test-Gen1
     engines/gen1/main.cpp
+    engines/gen1/templatesmodetest.hpp  engines/gen1/templatesmodetest.cpp
 )
 
 target_include_directories(Test-Gen1
     PRIVATE ${CMAKE_SOURCE_DIR}/api
-    PRIVATE ${CMAKE_SOURCE_DIR}/host
-    PRIVATE ${CMAKE_SOURCE_DIR}/engines
+    PRIVATE ${CMAKE_SOURCE_DIR}/engines/engine-base
+    PRIVATE ${CMAKE_SOURCE_DIR}/engines/engine-gen1
     PRIVATE ${CMAKE_SOURCE_DIR}/tests/engines
+    PRIVATE ${CMAKE_SOURCE_DIR}/tests/host
 )
 
 target_link_libraries(Test-Gen1
@@ -173,7 +175,7 @@ target_link_libraries(Test-Gen1
     Host-MemoryService
     Host-RngService
     Host-VersionService
-    Engine-Base
+    Engine-Gen1
     Test-Utils-Host
     Test-Utils-Engine
 )

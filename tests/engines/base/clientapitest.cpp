@@ -1,3 +1,4 @@
+#include <functional>
 #include <iostream>
 
 #include <HostApi.hpp>
@@ -6,6 +7,8 @@
 #include "ClientApi.hpp"
 
 #include "clientapitest.hpp"
+
+using namespace DlxInitialization;
 
 // ========================================================================== //
 // Stubs
@@ -29,27 +32,51 @@ bool init_engine()
 }
 
 // ========================================================================== //
+// Tools
+
+std::string runWithCapturedStdErr(std::function<void()> codeUnderTest)
+{
+    std::stringstream buffer;
+    auto* old = std::cerr.rdbuf(buffer.rdbuf());
+
+    codeUnderTest();
+
+    std::cerr.rdbuf(old);
+    return buffer.str();
+}
+
+// ========================================================================== //
 // Test
 
 TEST_F(ClientApiTest, InitTest_Success)
 {
     init_engine_result = true;
-    static HostApi api = getServices();
+    HostApi api = getServices();
     ASSERT_TRUE(init(&api));
 }
 
-TEST_F(ClientApiTest, InitTest_FailNoApi)
+TEST_F(ClientApiTest, InitTest_Fail_NoApi)
 {
-    std::stringstream buffer;
-    auto* old = std::cerr.rdbuf(buffer.rdbuf());
-
-    ASSERT_FALSE(init(nullptr));
-    EXPECT_EQ("No API information received!\n", buffer.str());
-
-    std::cerr.rdbuf(old);
+    const std::string log = runWithCapturedStdErr([]
+    {
+        ASSERT_FALSE(init(nullptr));
+    });
+    EXPECT_EQ("No API information received!\n", log);
 }
 
-TEST_F(ClientApiTest, InitTest_FailInitEngine)
+TEST_F(ClientApiTest, InitTest_Fail_NoLoggerService)
+{
+    init_engine_result = true;
+    auto api = HostApi {};
+
+    const std::string log = runWithCapturedStdErr([&api]
+    {
+        ASSERT_FALSE(init(&api));
+    });
+    EXPECT_EQ("ErrorService was not initialized!\n", log);
+}
+
+TEST_F(ClientApiTest, InitTest_Fail_InitEngine)
 {
     init_engine_result = false;
     static HostApi api = getServices();

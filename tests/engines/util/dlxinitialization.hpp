@@ -3,7 +3,10 @@
 
 struct HostApi;
 
-HostApi getServices();
-void initServices();
+namespace DlxInitialization
+{
+    HostApi getServices();
+    void initServices();
+}
 
 #endif // DLXINITIALIZATION_HPP

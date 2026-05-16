@@ -43,7 +43,6 @@ static void force_link()
     volatile auto ptr4 = setFileServiceDefinition;
     volatile auto ptr5 = startTemplatesMode;
     volatile auto ptr6 = setupSimulationMode;
-
 }
 
 // ========================================================================== //

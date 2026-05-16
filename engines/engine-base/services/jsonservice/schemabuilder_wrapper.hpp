@@ -7,75 +7,75 @@
 
 namespace JsonService
 {
-    class JsonSchemaElementBuilder
+    class JsonSchemaElementBuilderWrapper
     {
         private:
             IJsonServiceTypes::JsonSchemaElementBuilderHandle handle;
             const bool selfManaged;
 
         public:
-            JsonSchemaElementBuilder(const std::string_view name);
-            JsonSchemaElementBuilder(const IJsonServiceTypes::JsonSchemaElementBuilderHandle handle);
-            ~JsonSchemaElementBuilder();
+            JsonSchemaElementBuilderWrapper(const std::string_view name);
+            JsonSchemaElementBuilderWrapper(const IJsonServiceTypes::JsonSchemaElementBuilderHandle handle);
+            ~JsonSchemaElementBuilderWrapper();
 
             const std::string_view getName() const;
             const IJsonServiceTypes::JsonHandle getJson() const;
-            JsonSchemaElementBuilder& setJson(const IJsonServiceTypes::JsonHandle sourceHandle);
-            JsonSchemaElementBuilder& setJson(const std::string_view rawJson);
+            JsonSchemaElementBuilderWrapper& setJson(const IJsonServiceTypes::JsonHandle sourceHandle);
+            JsonSchemaElementBuilderWrapper& setJson(const std::string_view rawJson);
 
-            JsonSchemaElementBuilder& setProperty(const std::string_view key, const std::string_view rawJson);
-            JsonSchemaElementBuilder& setType(const IJsonServiceTypes::JsonType type);
-            JsonSchemaElementBuilder& setEnum(const std::string_view rawJson);
-            JsonSchemaElementBuilder& setTypedArray(const IJsonServiceTypes::JsonType type);
-            JsonSchemaElementBuilder& setEnumArray(const std::string_view rawJson);
-            JsonSchemaElementBuilder& setDefault(const std::string_view rawJson);
-            JsonSchemaElementBuilder& setMinimum(const std::string_view rawJson);
-            JsonSchemaElementBuilder& setMaximum(const std::string_view rawJson);
-            JsonSchemaElementBuilder& setDescription(const std::string_view value);
-            JsonSchemaElementBuilder& setTitle(const std::string_view value);
-            JsonSchemaElementBuilder& setReference(const std::string_view value);
+            JsonSchemaElementBuilderWrapper& setProperty(const std::string_view key, const std::string_view rawJson);
+            JsonSchemaElementBuilderWrapper& setType(const IJsonServiceTypes::JsonType type);
+            JsonSchemaElementBuilderWrapper& setEnum(const std::string_view rawJson);
+            JsonSchemaElementBuilderWrapper& setTypedArray(const IJsonServiceTypes::JsonType type);
+            JsonSchemaElementBuilderWrapper& setEnumArray(const std::string_view rawJson);
+            JsonSchemaElementBuilderWrapper& setDefault(const std::string_view rawJson);
+            JsonSchemaElementBuilderWrapper& setMinimum(const std::string_view rawJson);
+            JsonSchemaElementBuilderWrapper& setMaximum(const std::string_view rawJson);
+            JsonSchemaElementBuilderWrapper& setDescription(const std::string_view value);
+            JsonSchemaElementBuilderWrapper& setTitle(const std::string_view value);
+            JsonSchemaElementBuilderWrapper& setReference(const std::string_view value);
     };
 
-    class JsonSchemaBuilder
+    class JsonSchemaBuilderWrapper
     {
         private:
             IJsonServiceTypes::JsonSchemaBuilderHandle handle;
             const bool selfManaged;
 
         public:
-            JsonSchemaBuilder(const std::string_view name);
-            JsonSchemaBuilder(const IJsonServiceTypes::JsonSchemaBuilderHandle handle);
-            ~JsonSchemaBuilder();
+            JsonSchemaBuilderWrapper(const std::string_view name);
+            JsonSchemaBuilderWrapper(const IJsonServiceTypes::JsonSchemaBuilderHandle handle);
+            ~JsonSchemaBuilderWrapper();
 
-            JsonSchemaBuilder& setAdditionalProperties(const std::string_view rawJson);
+            JsonSchemaBuilderWrapper& setAdditionalProperties(const std::string_view rawJson);
 
-            JsonSchemaBuilder& addRequired(const std::string_view requiredPropertyName);
-            JsonSchemaBuilder& addAllOfRequirement(const std::string_view rawJson);
-            JsonSchemaBuilder& addAnyOfRequirement(const std::string_view rawJson);
-            JsonSchemaBuilder& addOneOfRequirement(const std::string_view rawJson);
-            JsonSchemaBuilder& addNoneOfRequirement(const std::string_view rawJson);
+            JsonSchemaBuilderWrapper& addRequired(const std::string_view requiredPropertyName);
+            JsonSchemaBuilderWrapper& addAllOfRequirement(const std::string_view rawJson);
+            JsonSchemaBuilderWrapper& addAnyOfRequirement(const std::string_view rawJson);
+            JsonSchemaBuilderWrapper& addOneOfRequirement(const std::string_view rawJson);
+            JsonSchemaBuilderWrapper& addNoneOfRequirement(const std::string_view rawJson);
 
             IJsonServiceTypes::ModifiableJsonHandle addElement(const std::string_view name);
-            JsonSchemaBuilder& addElement(const std::string_view name, const std::string rawJson);
+            JsonSchemaBuilderWrapper& addElement(const std::string_view name, const std::string rawJson);
 
-            JsonSchemaBuilder&          addReference(
+            JsonSchemaBuilderWrapper& addReference(
                 const std::string_view propertyName,
                 const std::string_view schemaName,
                 const IJsonServiceTypes::JsonType type = IJsonServiceTypes::JsonType::OBJECT,
                 bool setDefaults = true
             );
-            JsonSchemaBuilder&          addReference(
+            JsonSchemaBuilderWrapper& addReference(
                 const std::string_view propertyName,
-                const JsonSchemaBuilder& subSchema,
+                const JsonSchemaBuilderWrapper& subSchema,
                 const IJsonServiceTypes::JsonType type = IJsonServiceTypes::JsonType::OBJECT,
                 bool setDefaults = true
             );
 
-            JsonSchemaBuilder           addSubSchema(const std::string_view name);
-            JsonSchemaBuilder&          addSubSchema(const JsonSchemaBuilder& subSchema);
+            JsonSchemaBuilderWrapper    addSubSchema(const std::string_view name);
+            JsonSchemaBuilderWrapper&   addSubSchema(const JsonSchemaBuilderWrapper& subSchema);
 
-            JsonSchemaElementBuilder    addProperty(const std::string_view name);
-            JsonSchemaElementBuilder    addProperty(const std::string_view name, IJsonServiceTypes::JsonType type);
+            JsonSchemaElementBuilderWrapper    addProperty(const std::string_view name);
+            JsonSchemaElementBuilderWrapper    addProperty(const std::string_view name, IJsonServiceTypes::JsonType type);
 
             IJsonServiceTypes::JsonHandle buildAndAdd(const IJsonServiceTypes::JsonTag tag) const;
     };

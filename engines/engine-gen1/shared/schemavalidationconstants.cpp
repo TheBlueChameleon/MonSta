@@ -76,7 +76,7 @@ namespace SchemaValidation
 
     void registerMechanicsDefinition()
     {
-        auto builder = JsonService::JsonSchemaBuilder("<root>");
+        auto builder = JsonSchemaBuilderWrapper("<root>");
 
         builder
         .addProperty(JKEY_MECHANICS_LEVELCAP, JsonType::INTEGER)
@@ -239,7 +239,7 @@ namespace SchemaValidation
     // ====================================================================== //
     // Team Definition
 
-    static void addBasicOptions(JsonSchemaBuilder& result)
+    static void addBasicOptions(JsonSchemaBuilderWrapper& result)
     {
         result.addProperty(JKEY_PLAYER_NAME, JsonType::STRING);
         result.addProperty(JKEY_PLAYER_ITEMS, JsonType::ARRAY)
@@ -248,7 +248,7 @@ namespace SchemaValidation
     }
 
     static void addBadgeOptions(
-        JsonSchemaBuilder& result,
+        JsonSchemaBuilderWrapper& result,
         const bool hasBoostAtk,
         const bool hasBoostDef,
         const bool hasBoostSpc,
@@ -277,7 +277,7 @@ namespace SchemaValidation
     }
 
     static void addMechanicsOptions(
-        JsonSchemaBuilder& result,
+        JsonSchemaBuilderWrapper& result,
         const bool hasStatusMoveDebuf,
         const bool doesUsePP
     )
@@ -295,9 +295,9 @@ namespace SchemaValidation
         .setDefault("false");
     }
 
-    static const JsonSchemaBuilder makeHumanSubSchema()
+    static const JsonSchemaBuilderWrapper makeHumanSubSchema()
     {
-        JsonSchemaBuilder result(JKEY_HUMAN);
+        JsonSchemaBuilderWrapper result(JKEY_HUMAN);
         result.addRequired(JKEY_PLAYER_NAME);
 
         addBasicOptions(result);
@@ -307,9 +307,9 @@ namespace SchemaValidation
         return result;
     }
 
-    static const JsonSchemaBuilder makeComputerSubSchema()
+    static const JsonSchemaBuilderWrapper makeComputerSubSchema()
     {
-        JsonSchemaBuilder result(JKEY_COMPUTER);
+        JsonSchemaBuilderWrapper result(JKEY_COMPUTER);
         result.addRequired(JKEY_PLAYER_NAME);
 
         addBasicOptions(result);
@@ -319,9 +319,9 @@ namespace SchemaValidation
         return result;
     }
 
-    static const JsonSchemaBuilder makePokemonSubSchema()
+    static const JsonSchemaBuilderWrapper makePokemonSubSchema()
     {
-        JsonSchemaBuilder result(JKEY_POKEMON);
+        JsonSchemaBuilderWrapper result(JKEY_POKEMON);
 
         result.addRequired(JKEY_POKEMON_SPECIES);
         result.addRequired(JKEY_POKEMON_LEVEL);
@@ -418,9 +418,9 @@ namespace SchemaValidation
         return result;
     }
 
-    static const JsonSchemaBuilder makeItemsSchema()
+    static const JsonSchemaBuilderWrapper makeItemsSchema()
     {
-        JsonSchemaBuilder result(JKEY_PLAYER_ITEMS);
+        JsonSchemaBuilderWrapper result(JKEY_PLAYER_ITEMS);
 
         result.addAnyOfRequirement(makeArrayItemsBlock("type", "string"));
         result.addAnyOfRequirement(makeArrayItemsBlock("$ref", "#/$defs/"s + JKEY_ITEM));
@@ -428,9 +428,9 @@ namespace SchemaValidation
         return result;
     }
 
-    static const JsonSchemaBuilder makeItemSchema()
+    static const JsonSchemaBuilderWrapper makeItemSchema()
     {
-        JsonSchemaBuilder result(JKEY_ITEM);
+        JsonSchemaBuilderWrapper result(JKEY_ITEM);
         result.addRequired(JKEY_PLAYER_ITEMS_NAME);
         result.addRequired(JKEY_PLAYER_ITEMS_QUANTITY);
 
@@ -443,7 +443,7 @@ namespace SchemaValidation
 
     void registerSchemaTeamDefinition()
     {
-        auto builder = JsonService::JsonSchemaBuilder("<root>");
+        auto builder = JsonSchemaBuilderWrapper("<root>");
 
         builder.addOneOfRequirement(makeRequiredBlock({JKEY_HUMAN}));
         builder.addOneOfRequirement(makeRequiredBlock({JKEY_COMPUTER}));

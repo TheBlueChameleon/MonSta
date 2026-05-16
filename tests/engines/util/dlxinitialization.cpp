@@ -1,8 +1,4 @@
 #include <HostApi.hpp>
-
-#include <services/IFileService.hpp>
-#include <services/IJsonService.hpp>
-#include <services/IVersionService.hpp>
 #include <Version.hpp>
 
 #include "constants.hpp"
@@ -24,25 +20,33 @@ const Version HOST_VERSION = Version(1,0,0,0);
 const std::string APP_NAME = "TEST";
 const std::string APP_VERSION = VersionService::to_string(HOST_VERSION);
 
-HostApi getServices()
+HOST_API_EXPORT
 {
-    return
-    {
-        HOST_VERSION,
-
-        CsvService::exportService(),
-        ErrorService::exportService(),
-        FileService::exportService(),
-        JsonService::exportService(),
-        LoggerService::exportService(),
-        MemoryService::exportService(),
-        RngService::exportService(),
-        VersionService::exportService()
-    };
+    bool HOST_API_CALL init(HostApi* hostApi);
 }
 
-void initServices()
+namespace DlxInitialization
 {
-    static HostApi api = getServices();
-    EngineBase::_hostApi = &api;
+    HostApi getServices()
+    {
+        return
+        {
+            HOST_VERSION,
+
+            CsvService::exportService(),
+            ErrorService::exportService(),
+            FileService::exportService(),
+            JsonService::exportService(),
+            LoggerService::exportService(),
+            MemoryService::exportService(),
+            RngService::exportService(),
+            VersionService::exportService()
+        };
+    }
+
+    void initServices()
+    {
+        static HostApi api = getServices();
+        EngineBase::_hostApi = &api;
+    }
 }
